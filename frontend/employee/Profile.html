@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Employee Profile - AVIMS</title>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display transition-colors duration-200">
+    <div class="flex min-h-screen">
+        <!-- Employee Sidebar -->
+        <div id="sidebar-container"></div>
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto pt-8">
+            <div class="max-w-5xl mx-auto px-8 py-10">
+                <!-- Page Heading -->
+                <div class="mb-8">
+                    <h1 class="text-[#0d141b] dark:text-white text-4xl font-black tracking-tight mb-2">My Profile</h1>
+                    <p class="text-[#4c739a] dark:text-slate-400 text-base">Manage your professional and personal
+                        information.</p>
+                </div>
+                <!-- Profile Overview Header -->
+                <div
+                    class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 shadow-sm">
+                    <div class="relative group">
+                        <div class="size-32 rounded-full border-4 border-primary/20 bg-center bg-no-repeat bg-cover"
+                            data-alt="Employee profile headshot portrait"
+                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGYGH3OGXLuSPMoNxpKA9rkzsolScvuSqcxtM3zwcIkUSJmuuXIMbXUJ-U_PyyuOxV7Qrhd_IeAqI0IIhxoM2NqaDEFIWrVHg7lm1p5AXiYN0IeB_U4mKW_qy2UUuhYLRXqrXyd3lJZCyaS0WvF4Pbv1y57hQXaxCbWY2493SW56cqaet04N5MxQsy7dcLjT199hjFi04O1kuL58Z21K5Fut155UsZ6zAZjL1nV3_oqccZ2yz4S_66xmRgY49bvIZzGoXU8BYkOcx_");'>
+                        </div>
+                        <button
+                            class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-slate-900 hover:scale-105 transition-transform shadow-md">
+                            <span class="material-symbols-outlined text-[16px]">edit</span>
+                        </button>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 mb-1">
+                            <h2 class="text-[#0d141b] dark:text-white text-2xl font-bold">Johnathan Anderson</h2>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 w-fit self-center md:self-auto">
+                                Active Staff
+                            </span>
+                        </div>
+                        <p class="text-primary font-semibold text-lg">Senior Specialist</p>
+                        <p class="text-[#4c739a] dark:text-slate-400">Underwriting / Claims Adjustment • North East
+                            District</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button
+                            class="px-5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            View Public Bio
+                        </button>
+                    </div>
+                </div>
+                <!-- Grid Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Professional Details & Personal Info (Left Column) -->
+                    <div class="lg:col-span-2 flex flex-col gap-8">
+                        <!-- Professional Details Section -->
+                        <section
+                            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                            <div
+                                class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/20">
+                                <h3 class="text-[#0d141b] dark:text-white text-lg font-bold flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">work</span>
+                                    Professional Details
+                                </h3>
+                                <span class="text-xs text-slate-500 uppercase tracking-wider font-bold">Read Only</span>
+                            </div>
+                            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
+                                    <p
+                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
+                                        Staff ID</p>
+                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">EMP-2023-9941</p>
+                                </div>
+                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
+                                    <p
+                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
+                                        Department</p>
+                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">Underwriting / Claims
+                                        Adjustment</p>
+                                </div>
+                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
+                                    <p
+                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
+                                        Position</p>
+                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">Senior Specialist</p>
+                                </div>
+                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
+                                    <p
+                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
+                                        Performance Rating</p>
+                                    <div class="flex items-center gap-2">
+                                        <p class="text-[#0d141b] dark:text-white text-sm font-bold">4.8/5.0</p>
+                                        <div class="flex text-amber-400">
+                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
+                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
+                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
+                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
+                                            <span class="material-symbols-outlined text-[16px]">star_half</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
+                                    <p
+                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
+                                        Assigned Region</p>
+                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">North East District
+                                    </p>
+                                </div>
+                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
+                                    <p
+                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
+                                        Hire Date</p>
+                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">March 12, 2023</p>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Personal Info Section -->
+                        <section
+                            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                            <div
+                                class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/20">
+                                <h3 class="text-[#0d141b] dark:text-white text-lg font-bold flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">person</span>
+                                    Personal Information
+                                </h3>
+                                <button class="text-primary text-sm font-bold hover:underline">Edit Info</button>
+                            </div>
+                            <div class="p-6">
+                                <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex flex-col gap-2">
+                                        <label
+                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Email
+                                            Address</label>
+                                        <input
+                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            type="email" value="j.anderson@avims-corp.com" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label
+                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Phone
+                                            Number</label>
+                                        <input
+                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            type="tel" value="+1 (555) 123-4567" />
+                                    </div>
+                                    <div class="flex flex-col gap-2 md:col-span-2">
+                                        <label
+                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Primary
+                                            Address</label>
+                                        <input
+                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            type="text" value="742 Evergreen Terrace, Springfield, OR 97403" />
+                                    </div>
+                                    <div class="flex justify-end md:col-span-2 gap-3 pt-2">
+                                        <button
+                                            class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                                            type="button">Cancel</button>
+                                        <button
+                                            class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors"
+                                            type="submit">Save Updates</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- Account Security (Right Column) -->
+                    <div class="flex flex-col gap-8">
+                        <!-- Security Card -->
+                        <section
+                            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                            <div
+                                class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
+                                <h3 class="text-[#0d141b] dark:text-white text-lg font-bold flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">security</span>
+                                    Account Security
+                                </h3>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-[#4c739a] dark:text-slate-400 text-sm mb-6">Update your password to keep
+                                    your employee account secure.</p>
+                                <form class="flex flex-col gap-5">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label
+                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Current
+                                            Password</label>
+                                        <input
+                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            placeholder="••••••••" type="password" />
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label
+                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">New
+                                            Password</label>
+                                        <input
+                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            placeholder="Min. 8 characters" type="password" />
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label
+                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Confirm
+                                            New Password</label>
+                                        <input
+                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            placeholder="Re-type password" type="password" />
+                                    </div>
+                                    <div class="pt-4">
+                                        <button
+                                            class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white py-2.5 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                            type="submit">
+                                            Change Password
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                        <!-- Quick Stats/Info Card -->
+                        <div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6">
+                            <h4 class="text-primary font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">info</span>
+                                Employee Resources
+                            </h4>
+                            <ul class="flex flex-col gap-3">
+                                <li>
+                                    <a class="text-sm text-[#0d141b] dark:text-slate-200 hover:text-primary flex items-center justify-between group"
+                                        href="#">
+                                        <span>Employee Handbook</span>
+                                        <span
+                                            class="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-sm text-[#0d141b] dark:text-slate-200 hover:text-primary flex items-center justify-between group"
+                                        href="#">
+                                        <span>Benefit Enrollment</span>
+                                        <span
+                                            class="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-sm text-[#0d141b] dark:text-slate-200 hover:text-primary flex items-center justify-between group"
+                                        href="#">
+                                        <span>IT Support Desk</span>
+                                        <span
+                                            class="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Load employee sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const aside = doc.querySelector('aside');
+                if (aside) {
+                    container.appendChild(aside);
+                }
+            });
+    </script>
+</body>
+
+</html>

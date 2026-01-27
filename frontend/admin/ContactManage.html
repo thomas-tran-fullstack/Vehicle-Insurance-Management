@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Contact Management Admin - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e67b8",
+                        "background-light": "#ffffff",
+                        "background-dark": "#1a1c20",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Public Sans", sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-nav {
+            background-color: #2e67b8;
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#101419] dark:text-gray-100 antialiased">
+    <div class="flex min-h-screen">
+        <!-- SideNavBar -->
+    <div id="sidebar-container"></div>
+<!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- PageHeading -->
+<div class="p-8 flex flex-col gap-8 max-w-[1200px] mx-auto w-full">
+                <!-- Global Support Section -->
+                <section class="flex flex-col gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">language</span>
+                        <h3 class="text-[#101419] dark:text-white text-xl font-bold tracking-tight">Global Support
+                            Settings</h3>
+                    </div>
+                    <!-- Card Component Mixed with Description List -->
+                    <div
+                        class="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-start">
+                            <div class="flex flex-col gap-1">
+                                <p class="text-lg font-bold text-primary">Corporate Communication</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Primary contact points for the
+                                    entire organization across all regions.</p>
+                            </div>
+                            <button
+                                class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary text-sm font-bold hover:bg-primary/20 transition-colors">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                                Update Global Settings
+                            </button>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-gray-800">
+                            <div class="p-6 flex flex-col gap-1">
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Global Support
+                                    Email</p>
+                                <p
+                                    class="text-base font-semibold text-[#101419] dark:text-gray-100 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-gray-400">mail</span>
+                                    support@avims-insurance.com
+                                </p>
+                            </div>
+                            <div class="p-6 flex flex-col gap-1">
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Hotline Number</p>
+                                <p
+                                    class="text-base font-semibold text-[#101419] dark:text-gray-100 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-gray-400">call</span>
+                                    +1 (800) 123-4567
+                                </p>
+                            </div>
+                            <div class="p-6 flex flex-col gap-1">
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Emergency Claims
+                                    Line</p>
+                                <p
+                                    class="text-base font-semibold text-[#101419] dark:text-gray-100 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-gray-400">emergency</span>
+                                    +1 (800) 911-AVIMS
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Branch Table Section -->
+                <section class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">location_on</span>
+                            <h3 class="text-[#101419] dark:text-white text-xl font-bold tracking-tight">Active Branches
+                            </h3>
+                        </div>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+                            <input
+                                class="pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all w-64"
+                                placeholder="Filter branches..." type="text" />
+                        </div>
+                    </div>
+                    <div
+                        class="overflow-x-auto bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+                        <table class="w-full border-collapse text-left">
+                            <thead>
+                                <tr
+                                    class="bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800">
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Branch Name</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Address</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Manager</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Contact Details</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                                <!-- Branch Row 1 -->
+                                <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary font-bold">
+                                                NY</div>
+                                            <span class="font-bold text-[#101419] dark:text-white">New York
+                                                Flagship</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300 max-w-[200px]">
+                                        250 Park Avenue South, New York, NY 10003
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-medium text-[#101419] dark:text-white">
+                                        Sarah Jenkins
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-sm font-semibold">+1 (212) 555-0198</span>
+                                            <span class="text-xs text-gray-500">nyc@avims.com</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Branch Row 2 -->
+                                <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+                                                CH</div>
+                                            <span class="font-bold text-[#101419] dark:text-white">Chicago
+                                                Regional</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300 max-w-[200px]">
+                                        333 W Wacker Dr, Chicago, IL 60606
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-medium text-[#101419] dark:text-white">
+                                        Michael Vance
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-sm font-semibold">+1 (312) 555-0421</span>
+                                            <span class="text-xs text-gray-500">chi@avims.com</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Branch Row 3 -->
+                                <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-teal-600 dark:text-teal-400 font-bold">
+                                                LA</div>
+                                            <span class="font-bold text-[#101419] dark:text-white">Los Angeles
+                                                Office</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300 max-w-[200px]">
+                                        10100 Santa Monica Blvd, LA, CA 90067
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-medium text-[#101419] dark:text-white">
+                                        Elena Rodriguez
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-sm font-semibold">+1 (213) 555-0982</span>
+                                            <span class="text-xs text-gray-500">la@avims.com</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div
+                            class="p-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                            <p class="text-xs text-gray-500 font-medium uppercase tracking-widest">Displaying 3 of 12
+                                Branches</p>
+                            <div class="flex gap-2">
+                                <button
+                                    class="size-8 flex items-center justify-center rounded border border-gray-200 dark:border-gray-700 text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">chevron_left</span>
+                                </button>
+                                <button
+                                    class="size-8 flex items-center justify-center rounded border border-gray-200 dark:border-gray-700 text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Footer Info -->
+</main>
+    </div>
+    <script>
+        // Load admin sidebar dynamically
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                if (container) {
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+
+</html>

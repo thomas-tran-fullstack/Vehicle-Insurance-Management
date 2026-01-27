@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Global Policy Administration | AVIMS Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+    <div id="sidebar-container"></div>
+<!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto flex flex-col">
+            <!-- Header Section -->
+            <div class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+                <!-- Breadcrumbs -->
+                <div class="px-8 pt-6 flex items-center gap-2 text-sm">
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#">Admin Module</a>
+                    <span class="text-slate-400">/</span>
+                    <span class="text-slate-900 dark:text-white font-medium">Global Policy Administration</span>
+                </div>
+                <!-- Page Heading -->
+                <div class="px-8 py-6 flex flex-wrap items-center justify-between gap-4">
+                    <div class="max-w-2xl">
+                        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Global Policy
+                            Administration</h2>
+                        <p class="mt-1 text-slate-500 dark:text-slate-400 text-base">Comprehensive oversight and audit
+                            of vehicle insurance policies across the system.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">download</span>
+                            Export CSV
+                        </button>
+                        <button
+                            class="bg-primary text-white px-5 py-2 rounded-lg font-bold text-sm shadow-md shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">add_circle</span>
+                            Manual Policy Entry
+                        </button>
+                    </div>
+                </div>
+                <!-- Tabs -->
+                <div class="px-8 flex border-b border-slate-200 dark:border-slate-800">
+                    <a class="px-4 py-3 border-b-2 border-primary text-primary text-sm font-bold flex items-center gap-2"
+                        href="#">
+                        All Policies <span class="bg-primary/10 px-2 py-0.5 rounded text-[10px]">12,482</span>
+                    </a>
+                    <a class="px-4 py-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-sm font-semibold transition-all"
+                        href="#">
+                        Active
+                    </a>
+                    <a class="px-4 py-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-sm font-semibold transition-all"
+                        href="#">
+                        Pending Audit
+                    </a>
+                    <a class="px-4 py-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-sm font-semibold transition-all"
+                        href="#">
+                        Expired/Cancelled
+                    </a>
+                </div>
+            </div>
+            <div class="p-8 space-y-8 max-w-[1400px] mx-auto w-full">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Active Policies</p>
+                            <span
+                                class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg text-lg">shield</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">12,482</p>
+                        <div class="mt-2 flex items-center gap-1.5">
+                            <span class="text-emerald-500 font-bold text-xs flex items-center">
+                                <span class="material-symbols-outlined text-sm">trending_up</span> +2.4%
+                            </span>
+                            <span class="text-slate-400 text-[10px] font-medium uppercase tracking-tight">vs last
+                                month</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Expiring (30 Days)</p>
+                            <span
+                                class="material-symbols-outlined text-amber-500 bg-amber-500/10 p-1.5 rounded-lg text-lg">event_busy</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">458</p>
+                        <div class="mt-2 flex items-center gap-1.5">
+                            <span class="text-rose-500 font-bold text-xs flex items-center">
+                                <span class="material-symbols-outlined text-sm">trending_up</span> +0.8%
+                            </span>
+                            <span class="text-slate-400 text-[10px] font-medium uppercase tracking-tight">high
+                                alert</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pending Audits</p>
+                            <span
+                                class="material-symbols-outlined text-indigo-500 bg-indigo-500/10 p-1.5 rounded-lg text-lg">search_check</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">12</p>
+                        <div class="mt-2 flex items-center gap-1.5">
+                            <span class="text-emerald-500 font-bold text-xs flex items-center">
+                                <span class="material-symbols-outlined text-sm">trending_down</span> -15%
+                            </span>
+                            <span class="text-slate-400 text-[10px] font-medium uppercase tracking-tight">backlog
+                                clearing</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Premium Volume</p>
+                            <span
+                                class="material-symbols-outlined text-emerald-500 bg-emerald-500/10 p-1.5 rounded-lg text-lg">payments</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white">€4.2M</p>
+                        <div class="mt-2 flex items-center gap-1.5">
+                            <span class="text-emerald-500 font-bold text-xs flex items-center">
+                                <span class="material-symbols-outlined text-sm">trending_up</span> +1.2%
+                            </span>
+                            <span class="text-slate-400 text-[10px] font-medium uppercase tracking-tight">YTD
+                                growth</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Filters and Search -->
+                <div
+                    class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="relative flex-1 w-full md:max-w-md">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                        <input
+                            class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/30 transition-shadow"
+                            placeholder="Search Policy ID, Holder Name, or VIN..." type="text" />
+                    </div>
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <select
+                            class="bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm px-4 py-2 focus:ring-2 focus:ring-primary/30 min-w-[140px]">
+                            <option>Status: All</option>
+                            <option>Active</option>
+                            <option>Pending</option>
+                            <option>Expired</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <select
+                            class="bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm px-4 py-2 focus:ring-2 focus:ring-primary/30 min-w-[140px]">
+                            <option>Region: All</option>
+                            <option>North</option>
+                            <option>South</option>
+                            <option>Central</option>
+                        </select>
+                        <button
+                            class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+                <!-- Table Section -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                    <th class="px-6 py-4">
+                                        <input class="rounded border-slate-300 text-primary focus:ring-primary/30"
+                                            type="checkbox" />
+                                    </th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                        Policy Details</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                        Policyholder</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                        Vehicle</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                        Status</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                        Premium</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <!-- Row 1 -->
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <input class="rounded border-slate-300 text-primary focus:ring-primary/30"
+                                            type="checkbox" />
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-900 dark:text-white">#POL-88291</p>
+                                        <p class="text-xs text-slate-500">Exp: Dec 12, 2024</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                                                JD</div>
+                                            <div>
+                                                <p class="text-sm font-semibold">Julianna DeWitt</p>
+                                                <p class="text-xs text-slate-500">Premium Plus Tier</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm">2023 Tesla Model Y</p>
+                                        <p class="text-xs text-slate-400 font-mono tracking-tighter">VIN: 5YJ3E1EAXP...
+                                        </p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold">€1,420.00</p>
+                                        <p class="text-[10px] text-slate-500">Paid Annually</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors"
+                                                title="Audit">
+                                                <span class="material-symbols-outlined text-xl">analytics</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors"
+                                                title="Edit">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"
+                                                title="Cancel">
+                                                <span class="material-symbols-outlined text-xl">cancel</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <input class="rounded border-slate-300 text-primary focus:ring-primary/30"
+                                            type="checkbox" />
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-900 dark:text-white">#POL-88102</p>
+                                        <p class="text-xs text-slate-500">Exp: Oct 05, 2024</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                                                AS</div>
+                                            <div>
+                                                <p class="text-sm font-semibold">Arthur Shelby</p>
+                                                <p class="text-xs text-slate-500">Standard Tier</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm">2021 BMW X5</p>
+                                        <p class="text-xs text-slate-400 font-mono tracking-tighter">VIN: WBA13EU03L...
+                                        </p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Expiring
+                                            Soon</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold">€2,105.50</p>
+                                        <p class="text-[10px] text-slate-500">Monthly Billing</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-xl">analytics</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-rose-500 transition-colors">
+                                                <span class="material-symbols-outlined text-xl">cancel</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <input class="rounded border-slate-300 text-primary focus:ring-primary/30"
+                                            type="checkbox" />
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-900 dark:text-white">#POL-87994</p>
+                                        <p class="text-xs text-slate-500">Exp: -- --</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                                                ML</div>
+                                            <div>
+                                                <p class="text-sm font-semibold">Maria Lopez</p>
+                                                <p class="text-xs text-slate-500">Corporate Fleet</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm">2022 Ford F-150</p>
+                                        <p class="text-xs text-slate-400 font-mono tracking-tighter">VIN: 1FTFW1ED8M...
+                                        </p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400">Cancelled</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-400 line-through">€940.00</p>
+                                        <p class="text-[10px] text-rose-500 font-semibold uppercase">Refund Issued</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button class="p-1.5 text-primary hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-xl"
+                                                    style="font-variation-settings: 'FILL' 1;">history</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-300 cursor-not-allowed" disabled="">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-300 cursor-not-allowed" disabled="">
+                                                <span class="material-symbols-outlined text-xl">block</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <input class="rounded border-slate-300 text-primary focus:ring-primary/30"
+                                            type="checkbox" />
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-900 dark:text-white">#POL-88450</p>
+                                        <p class="text-xs text-slate-500">Reviewing Docs</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                                                TK</div>
+                                            <div>
+                                                <p class="text-sm font-semibold">Thomas Kovic</p>
+                                                <p class="text-xs text-slate-500">First Time Policy</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm">2024 Audi RS6</p>
+                                        <p class="text-xs text-slate-400 font-mono tracking-tighter">VIN: WA1VFAF20P...
+                                        </p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400">Audit
+                                            Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-400">TBD</p>
+                                        <p class="text-[10px] text-slate-500">Wait for Audit</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <button
+                                                class="bg-indigo-500 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-indigo-600 transition-colors">
+                                                Review Now
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div
+                        class="px-6 py-4 bg-slate-50 dark:bg-slate-800/30 flex items-center justify-between border-t border-slate-200 dark:border-slate-800">
+                        <p class="text-xs text-slate-500 font-medium">Showing 1 to 4 of 12,482 policies</p>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="size-8 flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 text-slate-500 hover:bg-white dark:hover:bg-slate-800 transition-colors">
+                                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                            </button>
+                            <button
+                                class="size-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold">1</button>
+                            <button
+                                class="size-8 flex items-center justify-center rounded-lg text-slate-500 text-xs font-bold hover:bg-white dark:hover:bg-slate-800 transition-colors">2</button>
+                            <button
+                                class="size-8 flex items-center justify-center rounded-lg text-slate-500 text-xs font-bold hover:bg-white dark:hover:bg-slate-800 transition-colors">3</button>
+                            <span class="text-slate-400 text-xs">...</span>
+                            <button
+                                class="size-8 flex items-center justify-center rounded-lg text-slate-500 text-xs font-bold hover:bg-white dark:hover:bg-slate-800 transition-colors">120</button>
+                            <button
+                                class="size-8 flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 text-slate-500 hover:bg-white dark:hover:bg-slate-800 transition-colors">
+                                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Administrative Footer Context -->
+                <div class="flex items-start gap-4 p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                    <span class="material-symbols-outlined text-primary">info</span>
+                    <div>
+                        <p class="text-sm font-bold text-slate-900 dark:text-white">Admin Oversight Protocols Active</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">Every administrative action
+                            (cancellation, edit, audit approval) is logged against your user ID for compliance.
+                            Unauthorized changes are flagged to the chief auditor.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Background Task Simulation (Visual Indicator) -->
+    <div
+        class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700 z-50">
+        <div class="size-2 bg-emerald-500 rounded-full animate-pulse"></div>
+        <p class="text-xs font-bold">Audit Synchronization Complete</p>
+        <button class="text-slate-400 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-base">close</span>
+        </button>
+    </div>
+    <script>
+        // Load admin sidebar dynamically
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                if (container) {
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+
+</html>

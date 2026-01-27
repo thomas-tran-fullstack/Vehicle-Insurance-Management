@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Billing Management - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-200">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Employee Sidebar -->
+        <div id="sidebar-container"></div>
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <div class="p-8 space-y-6 pt-12">
+                <!-- Stats Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-white dark:bg-background-dark p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-700 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-[#4c739a] text-sm font-medium">Total Pending</p>
+                            <span class="material-symbols-outlined text-amber-500">pending_actions</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <h3 class="text-2xl font-bold dark:text-white">$42,500.00</h3>
+                            <span class="text-[#078838] text-xs font-bold">+5.2%</span>
+                        </div>
+                        <p class="text-xs text-[#4c739a] mt-1">From 24 active invoices</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-background-dark p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-700 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-[#4c739a] text-sm font-medium">Collected This Month</p>
+                            <span class="material-symbols-outlined text-green-500">account_balance_wallet</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <h3 class="text-2xl font-bold dark:text-white">$128,400.00</h3>
+                            <span class="text-[#078838] text-xs font-bold">+12.8%</span>
+                        </div>
+                        <p class="text-xs text-[#4c739a] mt-1">Target: $150,000.00</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-background-dark p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-700 shadow-sm border-l-4 border-l-red-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-[#4c739a] text-sm font-medium">Overdue Invoices</p>
+                            <span class="material-symbols-outlined text-red-500">error</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <h3 class="text-2xl font-bold dark:text-white">14</h3>
+                            <span class="text-red-500 text-xs font-bold">-2.1%</span>
+                        </div>
+                        <p class="text-xs text-[#4c739a] mt-1">Requires urgent follow-up</p>
+                    </div>
+                </div>
+                <!-- Section Header & Filters -->
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold dark:text-white">Invoices Overview</h2>
+                    <div class="flex gap-2">
+                        <button
+                            class="flex items-center gap-2 px-3 py-1.5 border border-[#cfdbe7] dark:border-slate-700 rounded-lg text-sm font-medium text-[#4c739a] hover:bg-white transition-colors bg-background-light dark:bg-slate-800">
+                            <span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filter
+                        </button>
+                        <button
+                            class="flex items-center gap-2 px-3 py-1.5 border border-[#cfdbe7] dark:border-slate-700 rounded-lg text-sm font-medium text-[#4c739a] hover:bg-white transition-colors bg-background-light dark:bg-slate-800">
+                            <span class="material-symbols-outlined text-sm">calendar_today</span>
+                            This Month
+                        </button>
+                    </div>
+                </div>
+                <!-- Table Container -->
+                <div
+                    class="bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-700 overflow-hidden shadow-sm">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="bg-[#f8fafc] dark:bg-slate-800/50 border-b border-[#cfdbe7] dark:border-slate-700">
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">Invoice
+                                    ID</th>
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">
+                                    Policyholder</th>
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">Plan
+                                    Type</th>
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">Amount
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">Due Date
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">Status
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase tracking-wider">Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#cfdbe7] dark:divide-slate-700">
+                            <!-- Row 1: Overdue -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8821</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
+                                            JD</div>
+                                        <div class="text-sm font-medium dark:text-slate-300">Johnathan Doe</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Premium Comprehensive</td>
+                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$1,450.00</td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 12, 2023</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">OVERDUE</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex gap-2">
+                                        <button
+                                            class="p-1.5 text-primary hover:bg-primary/10 rounded-md transition-colors"
+                                            title="Confirm Payment">
+                                            <span class="material-symbols-outlined text-lg">check_circle</span>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors"
+                                            title="View PDF">
+                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 2: Pending (Manual Bank Transfer) -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8904</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
+                                            AM</div>
+                                        <div class="text-sm font-medium dark:text-slate-300">Alice Miller</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Third Party Only</td>
+                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$450.00</td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 28, 2023</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400 uppercase tracking-wide">Pending
+                                        Transfer</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex gap-2">
+                                        <button
+                                            class="bg-primary text-white px-3 py-1 rounded text-xs font-bold hover:bg-primary/90 transition-all flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">verified</span>
+                                            Confirm Payment
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors">
+                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 3: Paid -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8912</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
+                                            RK</div>
+                                        <div class="text-sm font-medium dark:text-slate-300">Robert King</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Standard Auto</td>
+                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$890.00</td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 25, 2023</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">PAID</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex gap-2">
+                                        <span
+                                            class="text-xs text-green-600 font-medium px-2 py-1 italic">Confirmed</span>
+                                        <button
+                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors">
+                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 4: Pending -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8915</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
+                                            SC</div>
+                                        <div class="text-sm font-medium dark:text-slate-300">Sarah Chen</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">EV Special Cover</td>
+                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$2,100.00</td>
+                                <td class="px-6 py-4 text-sm text-[#4c739a]">Nov 05, 2023</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">SCHEDULED</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex gap-2">
+                                        <button
+                                            class="p-1.5 text-primary hover:bg-primary/10 rounded-md transition-colors">
+                                            <span class="material-symbols-outlined text-lg">edit</span>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors">
+                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Pagination -->
+                    <div
+                        class="px-6 py-4 flex items-center justify-between bg-[#f8fafc] dark:bg-slate-800/50 border-t border-[#cfdbe7] dark:border-slate-700">
+                        <p class="text-xs text-[#4c739a]">Showing 1-10 of 145 invoices</p>
+                        <div class="flex items-center gap-1">
+                            <button
+                                class="p-1 rounded border border-[#cfdbe7] dark:border-slate-700 text-[#4c739a] disabled:opacity-50">
+                                <span class="material-symbols-outlined text-sm leading-none">chevron_left</span>
+                            </button>
+                            <button
+                                class="w-7 h-7 flex items-center justify-center rounded bg-primary text-white text-xs font-bold">1</button>
+                            <button
+                                class="w-7 h-7 flex items-center justify-center rounded text-xs text-[#4c739a] hover:bg-slate-200">2</button>
+                            <button
+                                class="w-7 h-7 flex items-center justify-center rounded text-xs text-[#4c739a] hover:bg-slate-200">3</button>
+                            <button class="p-1 rounded border border-[#cfdbe7] dark:border-slate-700 text-[#4c739a]">
+                                <span class="material-symbols-outlined text-sm leading-none">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Manual Transfer Confirmation Overlay Example (Conceptual State) -->
+                <div class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+                    <div
+                        class="bg-white dark:bg-background-dark rounded-xl shadow-2xl w-full max-w-md p-6 border border-[#cfdbe7] dark:border-slate-700">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-bold">Confirm Manual Payment</h3>
+                            <button class="text-[#4c739a] hover:text-[#0d141b]"><span
+                                    class="material-symbols-outlined">close</span></button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-[#4c739a]">Invoice:</span>
+                                    <span class="font-bold">#INV-8904</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-[#4c739a]">Amount:</span>
+                                    <span class="font-bold text-primary">$450.00</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Transaction Reference</label>
+                                <input
+                                    class="w-full px-4 py-2 border border-[#cfdbe7] dark:border-slate-700 rounded-lg bg-transparent"
+                                    placeholder="Enter bank reference number" type="text" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Upload Receipt (Optional)</label>
+                                <div
+                                    class="border-2 border-dashed border-[#cfdbe7] dark:border-slate-700 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors">
+                                    <span
+                                        class="material-symbols-outlined text-3xl text-[#4c739a] mb-2">cloud_upload</span>
+                                    <p class="text-xs text-[#4c739a]">Click to upload or drag and drop</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 mt-8">
+                            <button
+                                class="flex-1 px-4 py-2 border border-[#cfdbe7] dark:border-slate-700 rounded-lg font-bold text-sm">Cancel</button>
+                            <button class="flex-1 px-4 py-2 bg-primary text-white rounded-lg font-bold text-sm">Verify
+                                &amp; Finalize</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Load employee sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const aside = doc.querySelector('aside');
+                if (aside) {
+                    container.appendChild(aside);
+                }
+            });
+    </script>
+</body>
+
+</html>

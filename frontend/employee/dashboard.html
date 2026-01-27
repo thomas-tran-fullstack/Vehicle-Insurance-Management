@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Employee Dashboard Overview - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-nav {
+            @apply bg-primary/10 text-primary border-r-4 border-primary;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Employee Sidebar -->
+        <div id="sidebar-container"></div>
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-6 pt-12">
+            <div class="max-w-7xl mx-auto space-y-6">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Welcome back, James</h1>
+                        <p class="text-slate-500 dark:text-slate-400">Here's what's happening with your claims today.
+                        </p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button
+                            class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">file_download</span>
+                            Export Report
+                        </button>
+                        <button
+                            class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-[20px]">add_circle</span>
+                            New Claim
+                        </button>
+                    </div>
+                </div>
+                <!-- Metric Summary Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div
+                        class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+                        <div
+                            class="size-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+                            <span class="material-symbols-outlined">pending_actions</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <h2 class="text-2xl font-bold leading-tight">24</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pending Inspections</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+                        <div
+                            class="size-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                            <span class="material-symbols-outlined">description</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <h2 class="text-2xl font-bold leading-tight">12</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">New Estimates</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+                        <div
+                            class="size-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                            <span class="material-symbols-outlined">shield_with_heart</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <h2 class="text-2xl font-bold leading-tight">45</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Claims</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+                        <div
+                            class="size-10 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <h2 class="text-2xl font-bold leading-tight">8</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Tasks for Today</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Daily Schedule Section (Left Column) -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                            <div
+                                class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                <h3 class="text-lg font-bold">Daily Schedule</h3>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                                        <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                                    </button>
+                                    <span class="text-sm font-semibold">October 12, 2023</span>
+                                    <button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+                                        <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <!-- Calendar Entry 1 -->
+                                <div class="flex p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div class="w-20 text-sm font-medium text-slate-500">09:00 AM</div>
+                                    <div class="flex-1 pl-4 border-l-4 border-primary">
+                                        <p class="font-bold text-sm">Vehicle Inspection - Tesla Model 3</p>
+                                        <p class="text-xs text-slate-500">Location: Riverside Auto Body Shop</p>
+                                        <div class="mt-2 flex items-center gap-2">
+                                            <span
+                                                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">Adjustment</span>
+                                            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">location_on</span>
+                                                San Jose, CA
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Calendar Entry 2 -->
+                                <div class="flex p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div class="w-20 text-sm font-medium text-slate-500">11:30 AM</div>
+                                    <div class="flex-1 pl-4 border-l-4 border-orange-500">
+                                        <p class="font-bold text-sm">Review New Estimate #EST-9920</p>
+                                        <p class="text-xs text-slate-500">Customer: Robert Fox</p>
+                                        <div class="mt-2 flex items-center gap-2">
+                                            <span
+                                                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300">High
+                                                Priority</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Calendar Entry 3 -->
+                                <div class="flex p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div class="w-20 text-sm font-medium text-slate-500">02:00 PM</div>
+                                    <div class="flex-1 pl-4 border-l-4 border-slate-300 dark:border-slate-700">
+                                        <p class="font-bold text-sm text-slate-400 line-through">Claim Settlement
+                                            Meeting</p>
+                                        <p class="text-xs text-slate-400">Status: Rescheduled</p>
+                                    </div>
+                                </div>
+                                <!-- Calendar Entry 4 -->
+                                <div class="flex p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <div class="w-20 text-sm font-medium text-slate-500">03:30 PM</div>
+                                    <div class="flex-1 pl-4 border-l-4 border-green-500">
+                                        <p class="font-bold text-sm">Site Visit: Highway 101 Collision</p>
+                                        <p class="text-xs text-slate-500">Police Report Reference: #POL-882</p>
+                                        <div class="mt-2 flex items-center gap-2">
+                                            <span
+                                                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300">Field
+                                                Work</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="p-4 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 text-center">
+                                <button class="text-primary text-sm font-bold hover:underline">View Full Weekly
+                                    Schedule</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Column (Calendar Picker & Recent Activity) -->
+                    <div class="space-y-6">
+                        <!-- Calendar Picker Component -->
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                                    <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                                </button>
+                                <p class="text-sm font-bold">October 2023</p>
+                                <button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1 text-center text-[11px] mb-2 font-bold text-slate-400">
+                                <div>S</div>
+                                <div>M</div>
+                                <div>T</div>
+                                <div>W</div>
+                                <div>T</div>
+                                <div>F</div>
+                                <div>S</div>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1">
+                                <div class="h-8 flex items-center justify-center text-slate-300 text-xs col-start-1">1
+                                </div>
+                                <div class="h-8 flex items-center justify-center text-slate-300 text-xs">2</div>
+                                <div class="h-8 flex items-center justify-center text-xs">3</div>
+                                <div class="h-8 flex items-center justify-center text-xs">4</div>
+                                <div class="h-8 flex items-center justify-center text-xs">5</div>
+                                <div class="h-8 flex items-center justify-center text-xs">6</div>
+                                <div class="h-8 flex items-center justify-center text-xs">7</div>
+                                <div class="h-8 flex items-center justify-center text-xs">8</div>
+                                <div class="h-8 flex items-center justify-center text-xs">9</div>
+                                <div class="h-8 flex items-center justify-center text-xs">10</div>
+                                <div class="h-8 flex items-center justify-center text-xs">11</div>
+                                <div
+                                    class="h-8 flex items-center justify-center bg-primary text-white rounded-lg text-xs font-bold shadow-md shadow-primary/20">
+                                    12</div>
+                                <div class="h-8 flex items-center justify-center text-xs">13</div>
+                                <div class="h-8 flex items-center justify-center text-xs">14</div>
+                                <div class="h-8 flex items-center justify-center text-xs">15</div>
+                                <div class="h-8 flex items-center justify-center text-xs">16</div>
+                                <div class="h-8 flex items-center justify-center text-xs">17</div>
+                                <div class="h-8 flex items-center justify-center text-xs">18</div>
+                                <div class="h-8 flex items-center justify-center text-xs">19</div>
+                                <div class="h-8 flex items-center justify-center text-xs">20</div>
+                                <div class="h-8 flex items-center justify-center text-xs">21</div>
+                                <div class="h-8 flex items-center justify-center text-xs">22</div>
+                                <div class="h-8 flex items-center justify-center text-xs">23</div>
+                                <div class="h-8 flex items-center justify-center text-xs">24</div>
+                                <div class="h-8 flex items-center justify-center text-xs">25</div>
+                                <div class="h-8 flex items-center justify-center text-xs">26</div>
+                                <div class="h-8 flex items-center justify-center text-xs">27</div>
+                                <div class="h-8 flex items-center justify-center text-xs">28</div>
+                                <div class="h-8 flex items-center justify-center text-xs">29</div>
+                                <div class="h-8 flex items-center justify-center text-xs">30</div>
+                                <div class="h-8 flex items-center justify-center text-xs">31</div>
+                            </div>
+                        </div>
+                        <!-- Recent Activity Feed -->
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                            <h3 class="text-sm font-bold mb-4">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex gap-3">
+                                    <div class="size-2 mt-1.5 rounded-full bg-blue-500 shrink-0"></div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xs text-slate-900 dark:text-slate-100"><span
+                                                class="font-bold">Estimate submitted</span> for Claim #12348 by
+                                            Riverside Auto</p>
+                                        <p class="text-[10px] text-slate-500 mt-1">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="size-2 mt-1.5 rounded-full bg-green-500 shrink-0"></div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xs text-slate-900 dark:text-slate-100"><span
+                                                class="font-bold">Claim approved</span> for Client: Sarah Connor</p>
+                                        <p class="text-[10px] text-slate-500 mt-1">4 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="size-2 mt-1.5 rounded-full bg-slate-300 shrink-0"></div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xs text-slate-900 dark:text-slate-100"><span
+                                                class="font-bold">Document uploaded</span>: VIN_PLATE_X82.jpg</p>
+                                        <p class="text-[10px] text-slate-500 mt-1">Yesterday at 5:12 PM</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="size-2 mt-1.5 rounded-full bg-orange-500 shrink-0"></div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xs text-slate-900 dark:text-slate-100"><span
+                                                class="font-bold">Note added</span> by Supervisor: "Review supplemental
+                                            parts request"</p>
+                                        <p class="text-[10px] text-slate-500 mt-1">Yesterday at 2:30 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full mt-6 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                View Activity Log
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recent Inspections Table-like Section -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <h3 class="text-lg font-bold">Newest Inspection Requests</h3>
+                        <button class="text-sm font-bold text-primary hover:underline">View All</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr
+                                    class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
+                                    <th class="px-6 py-3 font-bold">Claim ID</th>
+                                    <th class="px-6 py-3 font-bold">Vehicle</th>
+                                    <th class="px-6 py-3 font-bold">Client</th>
+                                    <th class="px-6 py-3 font-bold">Date Received</th>
+                                    <th class="px-6 py-3 font-bold">Status</th>
+                                    <th class="px-6 py-3 font-bold text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-bold">#CL-8821</td>
+                                    <td class="px-6 py-4 text-sm">2022 Ford F-150</td>
+                                    <td class="px-6 py-4 text-sm">Alice Thompson</td>
+                                    <td class="px-6 py-4 text-sm">Oct 11, 2023</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400">UNASSIGNED</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-primary font-bold text-xs hover:underline">Assign
+                                            Me</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-bold">#CL-8820</td>
+                                    <td class="px-6 py-4 text-sm">2019 Honda Civic</td>
+                                    <td class="px-6 py-4 text-sm">Marcus Wei</td>
+                                    <td class="px-6 py-4 text-sm">Oct 11, 2023</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">WAITING
+                                            ON INFO</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-primary font-bold text-xs hover:underline">View
+                                            Details</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Load employee sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const aside = doc.querySelector('aside');
+                if (aside) {
+                    container.appendChild(aside);
+                }
+            });
+    </script>
+</body>
+
+</html>

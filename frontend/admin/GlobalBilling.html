@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Global Billing Administration - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-50 min-h-screen">
+    <div class="flex h-full min-h-screen w-full overflow-x-hidden">
+        <!-- Sidebar Navigation -->
+    <div id="sidebar-container"></div>
+<!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Top Navigation Bar -->
+<div class="p-8 flex flex-col gap-8">
+                <!-- Metrics Summary (KPIs) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[#4c739a] text-sm font-medium">Total Revenue (MTD)</p>
+                            <span class="material-symbols-outlined text-primary">payments</span>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight">$4,250,000</h3>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-green-600 text-[18px]">trending_up</span>
+                            <span class="text-green-600 text-sm font-semibold">+12.4%</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[#4c739a] text-sm font-medium">Pending Payments</p>
+                            <span class="material-symbols-outlined text-orange-400">pending_actions</span>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight">124,500</h3>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-red-500 text-[18px]">trending_down</span>
+                            <span class="text-red-500 text-sm font-semibold">-5.2%</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[#4c739a] text-sm font-medium">Tax Liabilities</p>
+                            <span class="material-symbols-outlined text-[#4c739a]">account_balance</span>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight">$380,200</h3>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-green-600 text-[18px]">trending_up</span>
+                            <span class="text-green-600 text-sm font-semibold">+2.1%</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-[#4c739a] text-sm font-medium">Gateway Success</p>
+                            <span class="material-symbols-outlined text-green-500">check_circle</span>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight">99.85%</h3>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-green-600 text-[18px]">add</span>
+                            <span class="text-green-600 text-sm font-semibold">0.12%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Financial Filters -->
+                <section
+                    class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-lg font-bold">Financial Filters</h4>
+                        <button class="flex items-center gap-2 text-primary text-sm font-semibold">
+                            <span class="material-symbols-outlined text-[18px]">filter_alt_off</span>
+                            Reset All
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+                        <div class="flex flex-col gap-2">
+                            <p class="text-sm font-medium">Payment Status</p>
+                            <select
+                                class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 dark:bg-slate-800 text-sm py-2.5 focus:ring-primary focus:border-primary">
+                                <option>All Statuses</option>
+                                <option>Paid</option>
+                                <option>Pending</option>
+                                <option>Failed</option>
+                                <option>Refunded</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <p class="text-sm font-medium">Date Range</p>
+                            <select
+                                class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 dark:bg-slate-800 text-sm py-2.5 focus:ring-primary focus:border-primary">
+                                <option>Last 30 Days</option>
+                                <option>This Quarter</option>
+                                <option>Last Fiscal Year</option>
+                                <option>Custom Range</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <p class="text-sm font-medium">Region/Tax Zone</p>
+                            <select
+                                class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 dark:bg-slate-800 text-sm py-2.5 focus:ring-primary focus:border-primary">
+                                <option>Global - All regions</option>
+                                <option>North America (VAT)</option>
+                                <option>European Union (GST)</option>
+                                <option>Asia Pacific</option>
+                            </select>
+                        </div>
+                        <button
+                            class="bg-primary text-white font-bold py-2.5 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                            Apply Filters
+                        </button>
+                    </div>
+                </section>
+                <!-- Invoices Ledger -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-[#cfdbe7] dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div
+                        class="p-6 border-b border-[#e7edf3] dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <h4 class="text-lg font-bold">Recent Invoices</h4>
+                        <div class="flex items-center gap-3">
+                            <button
+                                class="flex items-center gap-2 px-4 py-2 bg-background-light dark:bg-slate-800 rounded-lg text-sm font-bold border border-[#cfdbe7] dark:border-slate-700">
+                                <span class="material-symbols-outlined text-[18px]">download</span>
+                                Export CSV
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-4 py-2 bg-background-light dark:bg-slate-800 rounded-lg text-sm font-bold border border-[#cfdbe7] dark:border-slate-700">
+                                <span class="material-symbols-outlined text-[18px]">print</span>
+                                Print Report
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr
+                                    class="bg-slate-50 dark:bg-slate-800/50 text-[#4c739a] text-xs font-bold uppercase tracking-wider">
+                                    <th class="px-6 py-4">Invoice #</th>
+                                    <th class="px-6 py-4">Client / Policy</th>
+                                    <th class="px-6 py-4">Date</th>
+                                    <th class="px-6 py-4">Amount</th>
+                                    <th class="px-6 py-4">Tax (VAT/GST)</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#e7edf3] dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8842</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-medium">Sarah Jenkins</span>
+                                            <span class="text-xs text-[#4c739a]">Premium Comprehensive (V-9921)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">Oct 24, 2023</td>
+                                    <td class="px-6 py-4 text-sm font-bold">$1,240.00</td>
+                                    <td class="px-6 py-4 text-sm">$186.00</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 uppercase">Paid</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined">more_horiz</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8843</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-medium">Liam O'Connor</span>
+                                            <span class="text-xs text-[#4c739a]">Standard Liability (V-4012)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">Oct 24, 2023</td>
+                                    <td class="px-6 py-4 text-sm font-bold">$890.00</td>
+                                    <td class="px-6 py-4 text-sm">$133.50</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-700 uppercase">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined">more_horiz</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8844</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-medium">Global Logistics Inc.</span>
+                                            <span class="text-xs text-[#4c739a]">Fleet Umbrella (F-0012)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">Oct 23, 2023</td>
+                                    <td class="px-6 py-4 text-sm font-bold">$12,500.00</td>
+                                    <td class="px-6 py-4 text-sm">$1,875.00</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-700 uppercase">Failed</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined">more_horiz</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8845</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-medium">Elena Rodriguez</span>
+                                            <span class="text-xs text-[#4c739a]">Full Coverage (V-1122)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">Oct 22, 2023</td>
+                                    <td class="px-6 py-4 text-sm font-bold">$1,450.00</td>
+                                    <td class="px-6 py-4 text-sm">$217.50</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 uppercase">Paid</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined">more_horiz</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="p-6 bg-slate-50 dark:bg-slate-800/20 flex items-center justify-between border-t border-[#e7edf3] dark:border-slate-800">
+                        <p class="text-sm text-[#4c739a]">Showing 1 to 4 of 2,450 results</p>
+                        <div class="flex gap-2">
+                            <button
+                                class="p-2 border border-[#cfdbe7] dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800 disabled:opacity-50"
+                                disabled="">
+                                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                            </button>
+                            <button class="px-3.5 py-1 text-sm font-bold bg-primary text-white rounded-lg">1</button>
+                            <button
+                                class="px-3.5 py-1 text-sm font-medium hover:bg-white dark:hover:bg-slate-800 rounded-lg">2</button>
+                            <button
+                                class="px-3.5 py-1 text-sm font-medium hover:bg-white dark:hover:bg-slate-800 rounded-lg">3</button>
+                            <button
+                                class="p-2 border border-[#cfdbe7] dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800">
+                                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer Stats: Gateway & Taxes -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Tax Breakdown -->
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-lg font-bold">Tax Calculation Breakdown</h4>
+                            <span
+                                class="text-xs font-bold text-[#4c739a] bg-background-light dark:bg-slate-800 px-2 py-1 rounded">Q4
+                                LIVE DATA</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex flex-col gap-1.5">
+                                <div class="flex justify-between text-sm">
+                                    <span class="font-medium">European Union (VAT 21%)</span>
+                                    <span class="font-bold">$142,500.00</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full">
+                                    <div class="bg-primary h-full rounded-full" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <div class="flex justify-between text-sm">
+                                    <span class="font-medium">North America (Sales Tax 8.5%)</span>
+                                    <span class="font-bold">$218,400.00</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full">
+                                    <div class="bg-primary h-full rounded-full" style="width: 82%;"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <div class="flex justify-between text-sm">
+                                    <span class="font-medium">Australia (GST 10%)</span>
+                                    <span class="font-bold">$19,300.00</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full">
+                                    <div class="bg-primary h-full rounded-full" style="width: 15%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Payment Gateway Logs -->
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-lg font-bold">Live Gateway Logs</h4>
+                            <button class="text-xs text-primary font-bold">VIEW ALL LOGS</button>
+                        </div>
+                        <div class="space-y-3">
+                            <div
+                                class="flex items-center gap-3 p-2.5 rounded-lg border border-[#e7edf3] dark:border-slate-800">
+                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                <span class="text-[11px] font-bold text-[#4c739a] uppercase">STRIPE</span>
+                                <span class="text-sm font-medium grow">ch_3Nq2L... Auth Success</span>
+                                <span class="text-[11px] text-[#4c739a]">2m ago</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 p-2.5 rounded-lg border border-[#e7edf3] dark:border-slate-800">
+                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                <span class="text-[11px] font-bold text-[#4c739a] uppercase">PAYPAL</span>
+                                <span class="text-sm font-medium grow">PAY-882X... Payout Completed</span>
+                                <span class="text-[11px] text-[#4c739a]">15m ago</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 p-2.5 rounded-lg border border-[#e7edf3] dark:border-slate-800 bg-red-50/50 dark:bg-red-900/10">
+                                <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                                <span class="text-[11px] font-bold text-[#4c739a] uppercase">STRIPE</span>
+                                <span class="text-sm font-medium grow text-red-600 dark:text-red-400">ch_3Nq2M... 402
+                                    Card Declined</span>
+                                <span class="text-[11px] text-[#4c739a]">22m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Load admin sidebar dynamically
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                if (container) {
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+
+</html>

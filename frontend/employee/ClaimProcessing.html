@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AVIMS - Claim Processing Center</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-200 min-h-screen flex flex-col">
+    <div class="flex flex-1">
+        <!-- Employee Sidebar -->
+        <div id="sidebar-container"></div>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-y-auto max-w-[1200px] mx-auto w-full px-4 lg:px-8 py-8 pt-12">
+            <!-- Page Heading -->
+            <div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-3">
+                        <h1
+                            class="text-[#0d141b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">
+                            Claim #CLM-99281</h1>
+                        <span
+                            class="px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold border border-yellow-200 uppercase">Pending
+                            Review</span>
+                    </div>
+                    <p class="text-[#4c739a] text-base font-normal">Policyholder: <span
+                            class="text-[#0d141b] dark:text-slate-200 font-semibold">Johnathan Doe</span> | Policy
+                        #POL-44102 | Incident Date: Oct 24, 2023</p>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="flex items-center justify-center rounded-lg h-10 px-4 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 text-[#0d141b] dark:text-white text-sm font-bold shadow-sm">
+                        <span class="material-symbols-outlined mr-2 text-[20px]">download</span>
+                        Export PDF
+                    </button>
+                    <button
+                        class="flex items-center justify-center rounded-lg h-10 px-4 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 text-[#0d141b] dark:text-white text-sm font-bold shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]">share</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-5 border border-[#cfdbe7] dark:border-slate-800 bg-white dark:bg-slate-900/50">
+                    <p class="text-[#4c739a] text-sm font-medium">Policy Limit</p>
+                    <p class="text-[#0d141b] dark:text-white text-2xl font-bold tracking-tight">$50,000</p>
+                    <p class="text-xs text-green-600 font-medium flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">check_circle</span> Comprehensive Coverage
+                    </p>
+                </div>
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-5 border border-[#cfdbe7] dark:border-slate-800 bg-white dark:bg-slate-900/50">
+                    <p class="text-[#4c739a] text-sm font-medium">Deductible</p>
+                    <p class="text-[#0d141b] dark:text-white text-2xl font-bold tracking-tight">$500</p>
+                    <p class="text-xs text-slate-500 font-medium">Standard deductible applied</p>
+                </div>
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-5 border border-[#cfdbe7] dark:border-slate-800 bg-white dark:bg-slate-900/50">
+                    <p class="text-[#4c739a] text-sm font-medium">Estimated Damage</p>
+                    <p class="text-[#0d141b] dark:text-white text-2xl font-bold tracking-tight">$4,250</p>
+                    <p class="text-xs text-blue-600 font-medium">Based on initial photo AI assessment</p>
+                </div>
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-5 border border-red-200 dark:border-red-900/30 bg-red-50/50 dark:bg-red-900/10">
+                    <p class="text-red-700 dark:text-red-400 text-sm font-medium">Processing Priority</p>
+                    <p class="text-red-800 dark:text-red-200 text-2xl font-bold tracking-tight">High Priority</p>
+                    <p class="text-xs text-red-600 font-medium">SLA: 12h remaining</p>
+                </div>
+            </div>
+            <!-- Content Tabs -->
+            <div class="flex border-b border-[#cfdbe7] dark:border-slate-800 mb-6 overflow-x-auto no-scrollbar">
+                <button
+                    class="px-6 py-3 border-b-2 border-primary text-primary text-sm font-bold whitespace-nowrap">Overview
+                    &amp; Data</button>
+                <button
+                    class="px-6 py-3 border-b-2 border-transparent text-[#4c739a] hover:text-[#0d141b] dark:hover:text-white text-sm font-medium whitespace-nowrap">Evidence
+                    &amp; Photos (8)</button>
+                <button
+                    class="px-6 py-3 border-b-2 border-transparent text-[#4c739a] hover:text-[#0d141b] dark:hover:text-white text-sm font-medium whitespace-nowrap">Documents
+                    (3)</button>
+                <button
+                    class="px-6 py-3 border-b-2 border-transparent text-[#4c739a] hover:text-[#0d141b] dark:hover:text-white text-sm font-medium whitespace-nowrap">Audit
+                    Log</button>
+            </div>
+            <!-- Evidence Section (Grid Layout) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
+                <!-- Left: Damage Photos & Media -->
+                <div class="lg:col-span-2 flex flex-col gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900/50 rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden">
+                        <div
+                            class="px-5 py-4 border-b border-[#cfdbe7] dark:border-slate-800 flex justify-between items-center">
+                            <h3 class="text-lg font-bold">Evidence Gallery</h3>
+                            <button class="text-primary text-sm font-bold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px]">open_in_full</span> View Fullscreen
+                            </button>
+                        </div>
+                        <div class="p-5 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div
+                                class="group relative aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-[#cfdbe7] dark:border-slate-700">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                                    data-alt="Close up of front bumper damage"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKuO1o8pnpfRSdumoRmpKn62n7a7pLeYtn6MjnAbg1sxY7tJ54yOgXApMbuMvdzPWczaPEkyNCWNGQI39a0TF5KXWLvnsQ7gmdsgQdzhGS6IX2vAlp83sX1FFQ1vaPjle5UBgeUhZFBzqokTfc01dqUaotzVoMzuAOsk5EL-gujWviVZps9zFpPrU42idtBAUFGs5omUDE2e9MYBXhwGZKBzTDAzU_Y7G20gogeKR4n_xxhTjydzOnkgjoi6DJo0ZNbz3vJeFas-zS');">
+                                </div>
+                                <div
+                                    class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">
+                                    Front Left</div>
+                            </div>
+                            <div
+                                class="group relative aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-[#cfdbe7] dark:border-slate-700">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                                    data-alt="Wide shot of vehicle in parking lot"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJiW1EodqzbFYMTg0Z9y7RLoHol7EBqMkzwOVKJx9Qriy1ZAqImYwFlxBizKuQKxF1XL578EnTMYQrwIdrOvA6sUxQaE6bsqZ1JC-VoU1ETmh52a3972r3wf2k960W7x07gSBNCjkAtOF5BCYNrBp3Px1lKoob6ae7OgxggD0iu6ECyPtU3OFEWeNTEX6i2Gii1kI-K4lmDLrGgo1DG1MUbS3evrFh_tu2GwrxcM_h7yUZxLje96hKxoqh7eOy70yHjRI5Z9asPxgZ');">
+                                </div>
+                                <div
+                                    class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">
+                                    Vehicle POV</div>
+                            </div>
+                            <div
+                                class="group relative aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-[#cfdbe7] dark:border-slate-700">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                                    data-alt="Side panel scraping detail"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClQs-ioW2V8Vo-tlqA9FnGF24LUOkhNKKeLXb0yF2grMb_2vYQiyOuOQttySgbfu9nly5Bl0QnXel9JPYQ1YibsQfKR3FunhxyqJyL9wbijSS-JLY5I7JAdq2ghHk5r5-C4O3Ju7Qarfmf9CMGCqTXLuV2lX-6vjaRLdaCnalkpiM8t2Da9S74YzMekVy4CWE1dNgzr9mLXyLRugIqv6hbiO7b45fMH_g6GJusYSma7-BjZ1mDOsO1NS9NIL3dF4LZqYypP2nEo-C6');">
+                                </div>
+                                <div
+                                    class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">
+                                    Driver Side</div>
+                            </div>
+                            <div
+                                class="group relative aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-[#cfdbe7] dark:border-slate-700">
+                                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                                    data-alt="Odometer reading showing mileage"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdVz0Y3k6sq6RD_3Axjk80jmf-NC83IxfBGNLaMTwB_Tu1KhFBSYGeJbVDGnlA0S_oOiqTc153fgcBW1Zqf9_z5zNvW5CmHGh6AWQtCYhAU6ZV0tTEMAjU5PCfhMNdnK_Xx7pLISpQLSoT3L3A7iIrrP4ao0QQXZilKg_IA-xCetpP1zbsHARNAxXXlhfRCP9QJeKG6OAl9Pfgft48bBGwB1SoaiO9i9jz3r00M9jynwh9aSTcK2DWTShTkiiOqlC8c3ZG7Ty5F_Fi');">
+                                </div>
+                                <div
+                                    class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">
+                                    Dashboard</div>
+                            </div>
+                            <div
+                                class="group relative aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-[#cfdbe7] dark:border-slate-700">
+                                <div
+                                    class="bg-primary/5 flex flex-col items-center justify-center h-full gap-2 cursor-pointer border-2 border-dashed border-primary/20 hover:bg-primary/10 transition-colors">
+                                    <span class="material-symbols-outlined text-primary">add_a_photo</span>
+                                    <span class="text-[11px] font-bold text-primary">ADD PHOTO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900/50 rounded-xl border border-[#cfdbe7] dark:border-slate-800 p-6">
+                        <h3 class="text-lg font-bold mb-4">Incident Report</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            "I was driving eastbound on Oak Street around 2:30 PM. A silver sedan pulled out from a
+                            parking spot without signaling and scraped my front left bumper. The other driver admitted
+                            fault at the scene. No injuries were reported, but there is significant paint damage and a
+                            dent."
+                        </p>
+                        <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                            <span class="material-symbols-outlined text-slate-400">location_on</span>
+                            <div>
+                                <p class="text-xs font-bold text-slate-500 uppercase">Location</p>
+                                <p class="text-sm font-medium">422 Oak Street, Portland, OR 97201</p>
+                            </div>
+                            <div class="ml-auto">
+                                <img alt="Map view of incident location" class="w-16 h-16 rounded-md"
+                                    data-location="Portland, OR"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDb0b_wqZ3w2iMmJctALgh5PJR-6ZydRvgopAMHP-ImYNYjOZi0wuQuI7SqwDSwAeZ1W_dtuX8kss2CMKrUWZ16ueDRql8CTtvdyc8BYuU_Wn5DmJmIAJtsP4AG4e8wkpnAZEA7MjU2SJO3KS2ydQWW_6llp3001IChe-FSXkldRqxCPvfmIKEGSO4tAv9GknhOrJbkG07XThx_SYQz1iSzGgNXUFbQq2x59jbxT8ch00ZW_koSupPvPt22XcGTDJYQPDW5O36UMGt" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Analysis & Sidebar Actions -->
+                <div class="flex flex-col gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900/50 rounded-xl border border-[#cfdbe7] dark:border-slate-800 p-6">
+                        <h3 class="text-lg font-bold mb-4">AI Risk Assessment</h3>
+                        <div class="flex flex-col gap-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Fraud Score</span>
+                                <span class="text-sm font-bold text-green-600">Low (8/100)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Damage Consistency</span>
+                                <span class="text-sm font-bold text-primary">Match (94%)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Historical Claims</span>
+                                <span class="text-sm font-bold">0 Prev. Claims</span>
+                            </div>
+                            <div class="mt-2 p-3 bg-primary/5 rounded-lg border border-primary/10">
+                                <p class="text-[11px] text-slate-500 font-medium">SYSTEM NOTE: Photos match
+                                    policyholder's description. No red flags detected in metadata.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900/50 rounded-xl border border-[#cfdbe7] dark:border-slate-800 p-6">
+                        <h3 class="text-lg font-bold mb-4">Quick Internal Notes</h3>
+                        <textarea
+                            class="form-textarea w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-transparent text-sm placeholder:text-slate-400 min-h-[100px] mb-3"
+                            placeholder="Add a private note..."></textarea>
+                        <button
+                            class="w-full h-9 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg border border-[#cfdbe7] dark:border-slate-700">SAVE
+                            NOTE</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Sticky Decision Action Bar -->
+    <footer
+        class="fixed bottom-0 left-0 right-0 bg-white dark:bg-background-dark border-t border-[#e7edf3] dark:border-slate-800 px-6 py-4 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+        <div class="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-4 text-sm text-[#4c739a]">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">update</span>
+                    Auto-saved 2m ago</span>
+                <span class="h-4 w-px bg-slate-200 dark:bg-slate-700"></span>
+                <span class="font-medium text-[#0d141b] dark:text-slate-200">Processing Step: Assessment Review</span>
+            </div>
+            <div class="flex gap-3">
+                <button
+                    class="flex items-center justify-center rounded-lg h-11 px-6 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 text-[#0d141b] dark:text-white text-sm font-bold hover:bg-slate-50 transition-colors">
+                    Request More Info
+                </button>
+                <button
+                    class="flex items-center justify-center rounded-lg h-11 px-6 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 text-[#0d141b] dark:text-white text-sm font-bold hover:bg-slate-50 transition-colors">
+                    Assign Inspector
+                </button>
+                <div class="flex">
+                    <button
+                        class="flex items-center justify-center rounded-l-lg h-11 px-6 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors border-r border-white/20">
+                        Recommend Approval
+                    </button>
+                    <button
+                        class="flex items-center justify-center rounded-r-lg h-11 w-11 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                </div>
+                <button
+                    class="flex items-center justify-center rounded-lg h-11 px-6 bg-red-600 text-white text-sm font-bold hover:bg-red-700 transition-colors">
+                    Reject
+                </button>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Load employee sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const aside = doc.querySelector('aside');
+                if (aside) {
+                    container.appendChild(aside);
+                }
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AVIMS Sidebar Navigation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+        }
+
+        .active-nav-item {
+            background-color: rgba(19, 127, 236, 0.1);
+            color: #137fec;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="flex flex-col w-72 h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-all duration-300">
+            <!-- Branding Header -->
+                <div class="flex items-center gap-3 pt-6">
+                    <div class="flex items-center gap-2 group cursor-pointer">
+                        <img src="../images/logo.png" alt="InsureDrive Logo" class="h-16 w-auto object-contain bg-transparent shadow-none rounded-none" /></a>
+                    </div>
+                </div>
+            <!-- Navigation Items Container -->
+            <div class="flex-1 overflow-y-auto px-4 sidebar-scroll">
+                <!-- Section: General -->
+                <div class="mb-6 pt-8">
+                    <nav class="space-y-1">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg active-nav-item transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]"
+                                style="font-variation-settings: 'FILL' 1">dashboard</span>
+                            <span class="text-sm font-medium">Dashboard</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">account_circle</span>
+                            <span class="text-sm font-medium">Profile</span>
+                        </a>
+                    </nav>
+                </div>
+                <!-- Section: Management -->
+                <div class="mb-6">
+                    <h3
+                        class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        Management</h3>
+                    <nav class="space-y-1">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">group</span>
+                            <span class="text-sm font-medium">Users</span>
+                            <span
+                                class="ml-auto px-1.5 py-0.5 text-[10px] bg-primary/10 text-primary rounded font-bold">Admin</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">badge</span>
+                            <span class="text-sm font-medium">Staff</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">person_pin_circle</span>
+                            <span class="text-sm font-medium">Customers</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">directions_car</span>
+                            <span class="text-sm font-medium">Vehicles</span>
+                        </a>
+                    </nav>
+                </div>
+                <!-- Section: Operations -->
+                <div class="mb-6">
+                    <h3
+                        class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        Operations</h3>
+                    <nav class="space-y-1">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">content_paste_search</span>
+                            <span class="text-sm font-medium">Inspections</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">description</span>
+                            <span class="text-sm font-medium">Policies</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">report_problem</span>
+                            <span class="text-sm font-medium">Claims</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">payments</span>
+                            <span class="text-sm font-medium">Billing</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">gavel</span>
+                            <span class="text-sm font-medium">Penalties</span>
+                        </a>
+                    </nav>
+                </div>
+                <!-- Section: Administration -->
+                <div class="mb-6">
+                    <h3
+                        class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        Administration</h3>
+                    <nav class="space-y-1">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">receipt_long</span>
+                            <span class="text-sm font-medium">Expenses</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">bar_chart</span>
+                            <span class="text-sm font-medium">Reports</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                            href="#">
+                            <span class="material-symbols-outlined text-[22px]">settings</span>
+                            <span class="text-sm font-medium">Settings</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                <!-- User Profile Snippet -->
+                <div class="flex items-center gap-3 px-2 py-1">
+                    <div class="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center"
+                        data-alt="User avatar profile picture"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDAXCTLuZNkcAhDH7cyXz6iEuopUbzlFWqzWOI1rCsSAd3k6HK-ptYJ6_SfNIeavEhebIQynVFYrcZDuaTBQhIxYW0quLMtVzQcZ0Q3nEw6_X6eTP5sj64ytgU9uM3YevN97tJaascNNgPXpK4nWhN673T_LXazh6ziEXHA9hyrT_CvSpvZ0UQYF9QC9UA8rK9W4n7ArXh37bm6ESFTc2OjWF-ep3aAuY5F50iNHIVCpregahbd5NEWTF1Qwjl85ekRPMDN26Vxy537");'>
+                    </div>
+                    <div class="flex flex-col truncate">
+                        <span class="text-sm font-semibold text-slate-900 dark:text-white truncate">Alex Johnson</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">System Administrator</span>
+                    </div>
+                </div>
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-1">
+                    <button
+                        class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <span class="material-symbols-outlined text-[22px]">logout</span>
+                        <span class="text-sm font-medium">Logout</span>
+                    </button>
+                    <button
+                        class="flex items-center justify-center gap-2 w-full px-3 py-2.5 mt-2 rounded-lg bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary/90 transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-lg">first_page</span>
+                        <span>Collapse Sidebar</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+
+</html>

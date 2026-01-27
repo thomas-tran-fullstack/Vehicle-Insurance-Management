@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vehicle Models - AVIMS Staff Directory</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f6393",
+                        "background-light": "#ffffff",
+                        "background-dark": "#22262a",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3f444a;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-[#0f151a] dark:text-gray-100 transition-colors duration-200">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Employee Sidebar -->
+        <div id="sidebar-container"></div>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-background-light dark:bg-background-dark pt-8">
+            <!-- Header -->
+            <header
+                class="h-16 border-b border-gray-100 dark:border-gray-800 flex items-center px-8 justify-between shrink-0">
+                <nav class="flex items-center gap-2 text-sm">
+                    <a class="text-[#557891] hover:text-primary transition-colors" href="#">Operations</a>
+                    <span class="text-[#557891] select-none">/</span>
+                    <span class="text-[#0f151a] dark:text-white font-semibold">Vehicle Models</span>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button
+                        class="p-2 text-[#557891] hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <div class="h-6 w-px bg-gray-200 dark:bg-gray-800"></div>
+                    <button class="flex items-center gap-2 text-sm font-bold text-[#557891]">
+                        <span>English (US)</span>
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </button>
+                </div>
+            </header>
+            <div class="flex-1 overflow-y-auto custom-scrollbar">
+                <div class="max-w-7xl mx-auto px-8 py-8">
+                    <!-- Page Heading & CTA -->
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                        <div class="space-y-1">
+                            <h1 class="text-4xl font-black tracking-tight text-[#0f151a] dark:text-white">Vehicle Models
+                            </h1>
+                            <p class="text-[#557891] font-medium">1,240 verified technical specifications in database
+                            </p>
+                        </div>
+                        <button
+                            class="bg-primary text-white px-6 h-11 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined text-xl">edit_note</span>
+                            Request Data Correction
+                        </button>
+                    </div>
+                    <!-- Search and Filters Section -->
+                    <div
+                        class="bg-gray-50 dark:bg-gray-800/30 border border-gray-100 dark:border-gray-800 rounded-xl p-2 mb-8">
+                        <div class="flex flex-col lg:flex-row gap-2">
+                            <div class="flex-1 relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#557891]">search</span>
+                                <input
+                                    class="w-full bg-white dark:bg-gray-900 border-none rounded-lg pl-12 pr-4 h-12 text-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-[#557891] dark:text-white"
+                                    placeholder="Search make, model, or VIN (Cmd+K)" type="text" />
+                            </div>
+                            <div class="flex gap-2 p-1 overflow-x-auto no-scrollbar">
+                                <button
+                                    class="h-10 px-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm font-semibold flex items-center gap-2 whitespace-nowrap hover:border-primary transition-colors">
+                                    <span>Body Type</span>
+                                    <span class="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+                                </button>
+                                <button
+                                    class="h-10 px-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm font-semibold flex items-center gap-2 whitespace-nowrap hover:border-primary transition-colors">
+                                    <span>Year Range</span>
+                                    <span class="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+                                </button>
+                                <button
+                                    class="h-10 px-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm font-semibold flex items-center gap-2 whitespace-nowrap hover:border-primary transition-colors">
+                                    <span>Market Price</span>
+                                    <span class="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+                                </button>
+                                <div class="w-px bg-gray-200 dark:bg-gray-700 mx-1"></div>
+                                <button
+                                    class="h-10 px-4 rounded-lg bg-[#e9eef2] dark:bg-gray-800 text-[#0f151a] dark:text-gray-200 text-sm font-bold flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                                    <span class="material-symbols-outlined text-lg">tune</span>
+                                    More Filters
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Quick Chips -->
+                        <div class="flex gap-2 mt-2 px-2 pb-2 overflow-x-auto no-scrollbar">
+                            <span
+                                class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+                                Active: Toyota <span
+                                    class="material-symbols-outlined text-xs cursor-pointer">close</span>
+                            </span>
+                            <span
+                                class="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+                                Active: 2020-2024 <span
+                                    class="material-symbols-outlined text-xs cursor-pointer">close</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Data Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Model Card 1 -->
+                        <div
+                            class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all cursor-pointer">
+                            <div class="h-48 bg-gray-100 dark:bg-gray-800 relative">
+                                <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                    data-alt="Modern white sedan parked in a studio"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDyJ1ryKYDLdfrDb2TEDqY-0JW-NanRrJamXRmaTtspaSNBZ7eGAwNyqGBXu50AI_v2-Mn18rYlcjY_xLJL4LeXfkgwgJ9_c_n6ikkqBotKIsE5ynZqC1CNJ54Du33bjnsJqIE0yN7fwhj5s2wb4ly7bqaxIgsb5ZLe8oSaRZeyKtXicghBuyGFBICorg6We9yApiRvJ-g3JbQ3BD5gTpg01xhhiL3KiDFELFM-VrcEeS3g70ytH8rYOVBvwuqGJeVE2QcWKju6jkDO')">
+                                </div>
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span
+                                        class="bg-green-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Verified</span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <p class="text-[#557891] text-xs font-bold uppercase tracking-widest">Toyota</p>
+                                        <h3 class="text-lg font-bold text-[#0f151a] dark:text-white leading-tight">Camry
+                                            Hybrid SE</h3>
+                                    </div>
+                                    <p class="text-primary font-black text-sm">2024</p>
+                                </div>
+                                <div
+                                    class="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50 dark:border-gray-800">
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Engine</p>
+                                        <p class="text-sm font-semibold">2.5L 4-Cyl</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Safety</p>
+                                        <div class="flex text-amber-500">
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Market Val</p>
+                                        <p class="text-sm font-bold">$34,290</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Insurance Cat</p>
+                                        <p class="text-sm font-semibold">B2-High</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Model Card 2 -->
+                        <div
+                            class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all cursor-pointer">
+                            <div class="h-48 bg-gray-100 dark:bg-gray-800 relative">
+                                <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                    data-alt="Blue compact SUV on a mountain road"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDeLzbwkj-C63-F5LfxfZ63KNCkLTOOZCEP7TjdgbJ4eGDQYNFw-T3ZcDLO2xu8fsPTWmGGNZH74IP0NV1QoiRAVWY_hum6EDY8jiICkBE82f0CtBGTNIObHR_EWbc64cvqgF1M4eg92fLSo0Ixv5NtLMYSpZJTgLmoERNnkolCwVWZh81igeJXgKHQ7bPNS4sJxypJXHb36I6pcThxk7rkpnYdPrNDpjL1SXoUzP3X2wlgevb1BLnN84AAI4-EDSQxf3hsMkNKKzRL')">
+                                </div>
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span
+                                        class="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Review
+                                        Required</span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <p class="text-[#557891] text-xs font-bold uppercase tracking-widest">Honda</p>
+                                        <h3 class="text-lg font-bold text-[#0f151a] dark:text-white leading-tight">CR-V
+                                            LX</h3>
+                                    </div>
+                                    <p class="text-primary font-black text-sm">2023</p>
+                                </div>
+                                <div
+                                    class="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50 dark:border-gray-800">
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Engine</p>
+                                        <p class="text-sm font-semibold">1.5L Turbo</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Safety</p>
+                                        <div class="flex text-amber-500">
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm">star</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Market Val</p>
+                                        <p class="text-sm font-bold text-amber-600">$29,500*</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Insurance Cat</p>
+                                        <p class="text-sm font-semibold">C1-Mid</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Model Card 3 -->
+                        <div
+                            class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all cursor-pointer">
+                            <div class="h-48 bg-gray-100 dark:bg-gray-800 relative">
+                                <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                    data-alt="Electric car charging at a station"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGTaAs9jFQ54jYwD-cZjxRMFMjpUhCyqJPjreNPUTrimzyIe-Qjf6fV8YJje1KWWNGelnAA6lf_N_wO0NDadMQSN9C5wKWahnggYfbPlcwHymnM-cU4dse7lVORFrowVla2ElCuvWxOMyLXm1w2dz1U5eTZLTve7_OyI488OyyHnZFWl2JVD5Zlw7N0k-XsvlgC0KSTeqE2-D6FkGNzrKXgs9ZUEUINFwyiLbioOyggojwakD4XnDUbxglzrAopOxubX6LZ3JzBqz1')">
+                                </div>
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span
+                                        class="bg-green-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Verified</span>
+                                </div>
+                                <div class="absolute top-3 right-3">
+                                    <span
+                                        class="bg-primary/90 text-white text-[10px] font-black px-2 py-0.5 rounded flex items-center gap-1 uppercase">
+                                        <span class="material-symbols-outlined text-xs">bolt</span> Electric
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <p class="text-[#557891] text-xs font-bold uppercase tracking-widest">Tesla</p>
+                                        <h3 class="text-lg font-bold text-[#0f151a] dark:text-white leading-tight">Model
+                                            Y Long Range</h3>
+                                    </div>
+                                    <p class="text-primary font-black text-sm">2024</p>
+                                </div>
+                                <div
+                                    class="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50 dark:border-gray-800">
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Power</p>
+                                        <p class="text-sm font-semibold">384 kW</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Safety</p>
+                                        <div class="flex text-amber-500">
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Market Val</p>
+                                        <p class="text-sm font-bold">$47,990</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Insurance Cat</p>
+                                        <p class="text-sm font-semibold">EV-Special</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Model Card 4 -->
+                        <div
+                            class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all cursor-pointer">
+                            <div class="h-48 bg-gray-100 dark:bg-gray-800 relative">
+                                <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                                    data-alt="Rugged dark SUV in a muddy environment"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBUJGPUkmFbwJqzZLN3Tf_Wo6d-sUvgnnKzPQKBS0lmtH9onPy4ZCRpV50ItqjTzB7ikWljKf45U3ITeCJNch0KJ5mLOUSmzjsb1x__FRojLnI7ADfQ1aeRj9e6yrx_2EjkIX2GbUELAKObMNMUzp3-oOYtyh_gS-VZlLZlMobuuvxE0WL7XYQDM8olFQNiKaA0mG5JniRdfQvI02QekT4Y1wTnBxpRVGqrJM-2aruuVlWi1HGLDdsi-9y5EHBgZrjmf33xuBSG6u-y')">
+                                </div>
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span
+                                        class="bg-green-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Verified</span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <p class="text-[#557891] text-xs font-bold uppercase tracking-widest">Jeep</p>
+                                        <h3 class="text-lg font-bold text-[#0f151a] dark:text-white leading-tight">
+                                            Wrangler Rubicon</h3>
+                                    </div>
+                                    <p class="text-primary font-black text-sm">2024</p>
+                                </div>
+                                <div
+                                    class="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-gray-50 dark:border-gray-800">
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Engine</p>
+                                        <p class="text-sm font-semibold">3.6L V6</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Safety</p>
+                                        <div class="flex text-amber-500">
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            <span class="material-symbols-outlined text-sm">star</span>
+                                            <span class="material-symbols-outlined text-sm">star</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Market Val</p>
+                                        <p class="text-sm font-bold">$49,595</p>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <p class="text-[10px] text-[#557891] font-bold uppercase">Insurance Cat</p>
+                                        <p class="text-sm font-semibold">4WD-Off</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pagination / Footer Status -->
+                    <div
+                        class="mt-12 flex flex-col sm:flex-row items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-8 gap-4">
+                        <p class="text-sm text-[#557891] font-medium">Showing <span
+                                class="text-[#0f151a] dark:text-white font-bold">1-24</span> of <span
+                                class="text-[#0f151a] dark:text-white font-bold">1,240</span> models</p>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="size-9 rounded-lg border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                            </button>
+                            <button class="size-9 rounded-lg bg-primary text-white font-bold text-sm">1</button>
+                            <button
+                                class="size-9 rounded-lg border border-gray-200 dark:border-gray-800 font-bold text-sm flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">2</button>
+                            <button
+                                class="size-9 rounded-lg border border-gray-200 dark:border-gray-800 font-bold text-sm flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">3</button>
+                            <span class="px-2 text-[#557891]">...</span>
+                            <button
+                                class="size-9 rounded-lg border border-gray-200 dark:border-gray-800 font-bold text-sm flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">52</button>
+                            <button
+                                class="size-9 rounded-lg border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Right Detail Panel (Optional/Conditional) -->
+        <aside
+            class="w-[400px] border-l border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark hidden xl:flex flex-col shrink-0">
+            <div class="p-6 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                <h2 class="font-bold text-lg">Model Detail</h2>
+                <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+                <div class="rounded-xl overflow-hidden h-40 bg-gray-100 dark:bg-gray-800 mb-6">
+                    <div class="w-full h-full bg-cover bg-center" data-alt="Close up of a car headlight"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAf6-7oEMbY0XgsZB1uTtJdsz_AMRE31M1xolwP7It8R5-Nf4MKQyfgT_YcddOXa8QaWWCW6kYhl6vW4y-hZj0bqS6VjDEmChLvilmue7Ss7zamyCBgsabj3J4A6ah6_aHkSzMi1FmXfi9LBSdNpHAaQheHcICi8bHM1ntRTGAhiMOISXB9BzgPTNFMUkEVEX_01FRMpFzeZNHrO_KY6vTDdsn9oIMJGi3E4DazGwcFhYpZwMGEzJn8QChT8tPD3iMK8xS5ierDqaDs')">
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-black mb-1">2024 Toyota Camry</h3>
+                        <p class="text-sm text-[#557891] font-medium flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs text-green-500 fill-1">check_circle</span>
+                            Data Audit Completed: Mar 12, 2024
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 flex items-center justify-between">
+                            <span class="text-xs font-bold text-[#557891] uppercase tracking-wider">Engine
+                                Displacement</span>
+                            <span class="text-sm font-bold">2,487 cc</span>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 flex items-center justify-between">
+                            <span class="text-xs font-bold text-[#557891] uppercase tracking-wider">Curb Weight</span>
+                            <span class="text-sm font-bold">3,310 lbs</span>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 flex items-center justify-between">
+                            <span class="text-xs font-bold text-[#557891] uppercase tracking-wider">Safety Rating
+                                (NCAP)</span>
+                            <span class="text-sm font-bold">5 Stars</span>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 flex items-center justify-between">
+                            <span class="text-xs font-bold text-[#557891] uppercase tracking-wider">Fuel System</span>
+                            <span class="text-sm font-bold">Hybrid Direct Injection</span>
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <p class="text-xs font-black uppercase text-[#557891] mb-4 tracking-widest">Market Price Trend
+                            (12m)</p>
+                        <div
+                            class="h-32 w-full rounded-lg bg-gradient-to-t from-primary/5 to-transparent border-b-2 border-primary/20 relative">
+                            <!-- Minimalist line chart simulation -->
+                            <svg class="absolute inset-0 h-full w-full" preserveaspectratio="none">
+                                <path d="M0 80 Q 50 70, 100 85 T 200 60 T 300 40 T 400 30" fill="none" stroke="#1f6393"
+                                    stroke-width="2" vector-effect="non-scaling-stroke"></path>
+                            </svg>
+                            <div
+                                class="absolute bottom-2 left-0 right-0 flex justify-between px-2 text-[10px] text-[#557891] font-bold">
+                                <span>MAR '23</span>
+                                <span>SEP '23</span>
+                                <span>MAR '24</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6">
+                        <button
+                            class="w-full py-3 rounded-lg border-2 border-gray-200 dark:border-gray-800 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            Download PDF Spec Sheet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <script>
+        // Load employee sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const aside = doc.querySelector('aside');
+                if (aside) {
+                    container.appendChild(aside);
+                }
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Staff Notification Center - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-200">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Employee Sidebar -->
+        <div id="sidebar-container"></div>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto flex flex-col pt-8">
+            <!-- Header Section -->
+                    <div>
+                        <h2 class="text-[#0d141b] dark:text-white text-4xl font-black tracking-tight">Notification
+                            Center</h2>
+                        <p class="text-[#4c739a] dark:text-slate-400 mt-1">Manage alerts and internal communications for
+                            Module 14.</p>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary hover:bg-primary/20 rounded-lg text-sm font-bold transition-all">
+                        <span class="material-symbols-outlined text-[20px]">done_all</span>
+                        <span>Mark All as Read</span>
+                    </button>
+                </div>
+                <!-- Search & Filters Utility -->
+                <div class="mb-6">
+                    <div class="relative w-full max-w-2xl">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-[#4c739a] text-[20px]">search</span>
+                        </div>
+                        <input
+                            class="block w-full pl-10 pr-3 py-2.5 border-none bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-primary text-sm shadow-sm placeholder:text-[#4c739a]"
+                            placeholder="Search by Claim ID, keywords, or staff name..." type="text" />
+                    </div>
+                </div>
+                <!-- Tabs Navigation -->
+                <div class="border-b border-slate-200 dark:border-slate-800">
+                    <div class="flex gap-8">
+                        <a class="flex items-center gap-2 border-b-2 border-primary text-primary pb-3 pt-2" href="#">
+                            <span class="text-sm font-bold">All</span>
+                            <span class="px-1.5 py-0.5 bg-primary/10 text-primary text-[10px] rounded-full">24</span>
+                        </a>
+                        <a class="flex items-center gap-2 border-b-2 border-transparent text-[#4c739a] dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 pb-3 pt-2"
+                            href="#">
+                            <span class="text-sm font-bold">Urgent</span>
+                            <span class="px-1.5 py-0.5 bg-red-100 text-red-600 text-[10px] rounded-full">3</span>
+                        </a>
+                        <a class="flex items-center gap-2 border-b-2 border-transparent text-[#4c739a] dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 pb-3 pt-2"
+                            href="#">
+                            <span class="text-sm font-bold">Task Updates</span>
+                            <span
+                                class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] rounded-full">12</span>
+                        </a>
+                        <a class="flex items-center gap-2 border-b-2 border-transparent text-[#4c739a] dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 pb-3 pt-2"
+                            href="#">
+                            <span class="text-sm font-bold">System Alerts</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Notifications Feed -->
+            <div class="flex-1 px-8 py-6 space-y-4 max-w-5xl">
+                <!-- Urgent Notification Item -->
+                <div
+                    class="relative bg-white dark:bg-slate-900 border-l-4 border-red-500 rounded-lg p-4 shadow-sm group hover:shadow-md transition-shadow">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 size-10 bg-red-50 dark:bg-red-950 rounded-full flex items-center justify-center text-red-500">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="text-sm font-bold text-red-600">Urgent: SLA Violation Imminent</h3>
+                                <span class="text-[11px] text-[#4c739a] font-medium">2 mins ago</span>
+                            </div>
+                            <p class="text-sm text-slate-800 dark:text-slate-200 mb-2">Claim <a
+                                    class="text-primary font-semibold hover:underline" href="#">#CLM-98234</a> has not
+                                been reviewed for 48 hours. High-priority loss reported ($15,000+).</p>
+                            <div class="flex items-center gap-4">
+                                <button class="text-xs font-bold text-primary hover:underline">Assign to Me</button>
+                                <button class="text-xs font-bold text-slate-500 hover:text-slate-700">Dismiss</button>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="size-2 bg-primary rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Task Update Item -->
+                <div
+                    class="relative bg-white dark:bg-slate-900 border-l-4 border-primary rounded-lg p-4 shadow-sm group hover:shadow-md transition-shadow">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 size-10 bg-blue-50 dark:bg-blue-950 rounded-full flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined">assignment_late</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Task Expiring: Document
+                                    Approval</h3>
+                                <span class="text-[11px] text-[#4c739a] font-medium">1 hour ago</span>
+                            </div>
+                            <p class="text-sm text-slate-800 dark:text-slate-200 mb-2">Police report for <a
+                                    class="text-primary font-semibold hover:underline" href="#">#CLM-77102</a> expires
+                                in 4 hours. Approval required for settlement release.</p>
+                            <div class="flex items-center gap-4">
+                                <button class="text-xs font-bold text-primary hover:underline">Review Documents</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Internal Message Item -->
+                <div
+                    class="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4 shadow-sm group hover:shadow-md transition-shadow">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="size-10 rounded-full bg-cover bg-center" data-alt="Female team member headshot"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5DbVsXoF9V3yU3EfYfwaVqm8SPIhiJ6x4Jbs-rg7AS-_pJ5upn83XMvSztRk48MdKl9Q4ICRjOxIm9UfiwlLSAvXsd3p0iV0j6jhlX2vRW57IIfggzkO6NyLwhrqH5QdgXxlKPJLIZQgEbd5IOOIUH78FoPEQazWLlBsnIDWmVe4QFi7my4I5QJINTUFMp9VVY3mw1-ERMcFKi6espFAS-1o4SyKwBNgJzIvsACzTlTG5ROAU23o-QruBvh9AsGcy9yrnvfPYvfVz');">
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Sarah Jenkins <span
+                                        class="font-normal text-slate-500 text-xs">from Fleet Claims Team</span></h3>
+                                <span class="text-[11px] text-[#4c739a] font-medium">4 hours ago</span>
+                            </div>
+                            <p class="text-sm text-slate-800 dark:text-slate-200 mb-2 italic">"Hi James, I've uploaded
+                                the appraisal for the Tesla Model 3. Can you check if the battery assessment is
+                                sufficient?"</p>
+                            <div class="flex items-center gap-4">
+                                <button class="text-xs font-bold text-primary hover:underline">Reply</button>
+                                <button class="text-xs font-bold text-slate-500 hover:text-slate-700">View
+                                    Thread</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- System Alert Item -->
+                <div
+                    class="relative bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-lg p-4 transition-shadow opacity-80">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 size-10 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined">settings_suggest</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="text-sm font-bold text-slate-600 dark:text-slate-400">System Maintenance</h3>
+                                <span class="text-[11px] text-[#4c739a] font-medium">Yesterday</span>
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">The AVIMS platform will undergo
+                                scheduled maintenance this Sunday from 02:00 to 04:00 UTC. Expect intermittent downtime.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Task Update Item (Unread) -->
+                <div
+                    class="relative bg-white dark:bg-slate-900 border-l-4 border-primary rounded-lg p-4 shadow-sm group hover:shadow-md transition-shadow">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 size-10 bg-blue-50 dark:bg-blue-950 rounded-full flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined">add_task</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="text-sm font-bold text-slate-900 dark:text-white">New Task Assigned</h3>
+                                <span class="text-[11px] text-[#4c739a] font-medium">Yesterday</span>
+                            </div>
+                            <p class="text-sm text-slate-800 dark:text-slate-200 mb-2">You have been assigned as the
+                                lead adjuster for <a class="text-primary font-semibold hover:underline"
+                                    href="#">#CLM-99012</a> (Total Loss Assessment).</p>
+                            <div class="flex items-center gap-4">
+                                <button class="text-xs font-bold text-primary hover:underline">View Task
+                                    Details</button>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="size-2 bg-primary rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Section -->
+            <footer
+                class="p-8 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center text-[#4c739a] text-xs">
+                <div class="flex gap-4">
+                    <a class="hover:text-primary transition-colors" href="#">Help Center</a>
+                    <a class="hover:text-primary transition-colors" href="#">Notification Settings</a>
+                    <a class="hover:text-primary transition-colors" href="#">Feedback</a>
+                </div>
+                <div>
+                    Displaying 24 of 152 notifications
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script>
+        // Load employee sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const aside = doc.querySelector('aside');
+                if (aside) {
+                    container.appendChild(aside);
+                }
+            });
+    </script>
+</body>
+
+</html>

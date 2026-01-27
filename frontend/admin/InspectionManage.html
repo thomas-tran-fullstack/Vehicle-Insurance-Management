@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Inspection Management Admin - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-nav {
+            background-color: #137fec20;
+            color: #137fec;
+            border-right: 4px solid #137fec;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+<!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Top Navbar -->
+<div class="p-8 space-y-8">
+                <!-- Metrics Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pending Requests</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-3xl font-bold">124</h3>
+                            <span class="text-emerald-500 text-sm font-bold flex items-center gap-0.5 mb-1">
+                                <span class="material-symbols-outlined text-sm">trending_up</span> 12%
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Inspections</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-3xl font-bold">45</h3>
+                            <span class="text-emerald-500 text-sm font-bold flex items-center gap-0.5 mb-1">
+                                <span class="material-symbols-outlined text-sm">trending_up</span> 5%
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Completed (Today)</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-3xl font-bold">89</h3>
+                            <span class="text-rose-500 text-sm font-bold flex items-center gap-0.5 mb-1">
+                                <span class="material-symbols-outlined text-sm">trending_down</span> 2%
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-2">
+                            <span class="flex h-2 w-2 relative">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                            </span>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Delayed/Overdue</p>
+                        <div class="flex items-end justify-between">
+                            <h3 class="text-3xl font-bold text-rose-500">12</h3>
+                            <span class="text-rose-500 text-sm font-bold flex items-center gap-0.5 mb-1">
+                                <span class="material-symbols-outlined text-sm">warning</span> Action
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Chart Area -->
+                    <div
+                        class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h4 class="text-lg font-bold">Completion Rate Trend</h4>
+                                <p class="text-sm text-slate-500">Daily performance over last 7 days</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold text-primary">88%</span>
+                                <p class="text-xs text-emerald-500 font-bold">+4.2% Avg</p>
+                            </div>
+                        </div>
+                        <div class="h-48 w-full relative">
+                            <svg class="w-full h-full overflow-visible" viewbox="0 0 500 150">
+                                <defs>
+                                    <lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#137fec;stop-opacity:0.2"></stop>
+                                        <stop offset="100%" style="stop-color:#137fec;stop-opacity:0"></stop>
+                                    </lineargradient>
+                                </defs>
+                                <path d="M0,120 Q50,30 100,80 T200,50 T300,100 T400,20 T500,60 L500,150 L0,150 Z"
+                                    fill="url(#gradient)"></path>
+                                <path d="M0,120 Q50,30 100,80 T200,50 T300,100 T400,20 T500,60" fill="none"
+                                    stroke="#137fec" stroke-linecap="round" stroke-width="3"></path>
+                            </svg>
+                            <div
+                                class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Inspector Availability -->
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                        <div
+                            class="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <h4 class="font-bold">Inspector Workload</h4>
+                            <button class="text-xs text-primary font-bold hover:underline">View Map</button>
+                        </div>
+                        <div class="flex-1 overflow-y-auto max-h-64 p-4 space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
+                                        data-alt="Inspector profile image"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPfZAT_BKhTLWKS80o8TbhkIKoaqg8Re5oitD8Xc0lRbc-42Ck6fHAvs7294OblQRcO6DIfuFGZOQiKXj7cGXjBlN5f0Asj0v-4b6_1U8g9j4ej-YDB9KbcY4ELYVztCGwFDbESS0dv7DuUWeaB-wL9mZl4azV9R79g0yjw9KO4hS2MC4-gXDJAWYO3y6yjmAXHPcuR_WuGaiOkR-4NeKOvRrSUESHncOFSWKAe_9D5nQc61a1HqnIsD2H6vly223X_jjdr5a8E0-8')">
+                                    </div>
+                                    <div
+                                        class="absolute bottom-0 right-0 size-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full">
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold">John Doe</p>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1">
+                                        <div class="bg-primary h-full rounded-full" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-slate-500">8/10</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
+                                        data-alt="Inspector profile image"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnbZPSoWOlvCxs2BuCgwFaT2ojjg4Lfqs2I4GXXmWDtVdOLrYp87xL8ONS7oqAmN_k1iRLfSF0_sWc_oIAb2EnGCgjTlveA_D0joP9CjX8b-ZgIVFm_W9MuOSwWxM6afGdhdJJV0C-GgxVyp6M4ydD1oUXfrwM2hKucKcFBgOVe3qQ_Q-VGofU3WwRtbW-hIjnY84-1bP32ccA9V02CRKeHwPlI1P3OF_aBZwCxsaw-2DfRLyUiNJxKIUbfOycO3Cq_4fp5Mn9ZNVc')">
+                                    </div>
+                                    <div
+                                        class="absolute bottom-0 right-0 size-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full">
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold">Alex Smith</p>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1">
+                                        <div class="bg-primary h-full rounded-full" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-slate-500">3/10</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
+                                        data-alt="Inspector profile image"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCxbkhrtliXw98qgeX73kJ0SE2U9ijY8NI9NZkJs7Cwe4xFX2QM9aXDhv7_xdck4NQE8EkeVhT4q8OsMHscAZJeRtkzqMfU81aDWqK2-Yog-_TTa4EamlEQyoYQsh3-T542Hm_OUutj04Qomr5Z_EzQuXpbz8O0yl87BAcISnmtbWwiH9dIc5xVtL2fldpf06YCAqS4EqMjBiYS_Roid3SpJqz7al9ql-XFw9otEBn9uKbvlnpKDJTwAa_k64jICghvh-1MEXUR1ldx')">
+                                    </div>
+                                    <div
+                                        class="absolute bottom-0 right-0 size-3 bg-amber-500 border-2 border-white dark:border-slate-900 rounded-full">
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold">Elena Rodriguez</p>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1">
+                                        <div class="bg-primary h-full rounded-full" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-rose-500">10/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dispatch Queue Table -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div
+                        class="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">view_list</span>
+                            <h4 class="text-lg font-bold">Dispatch Queue</h4>
+                            <span class="px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-bold">24 Active
+                                Requests</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
+                                <span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:opacity-90 transition-opacity shadow-md shadow-primary/20">
+                                <span class="material-symbols-outlined text-sm">add</span> New Request
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="bg-slate-50 dark:bg-slate-800/50 text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
+                                    <th class="px-6 py-4">Case ID</th>
+                                    <th class="px-6 py-4">Vehicle &amp; Location</th>
+                                    <th class="px-6 py-4">Requested</th>
+                                    <th class="px-6 py-4">SLA Timer</th>
+                                    <th class="px-6 py-4">Inspector</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-primary">#INS-9921</td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-medium">Toyota Camry (2022)</p>
+                                        <p class="text-xs text-slate-500">Downtown, Dubai</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">10:45 AM</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2 text-rose-500 font-bold">
+                                            <span class="material-symbols-outlined text-sm">timer</span>
+                                            <span>0h 15m left</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
+                                                data-alt="Inspector avatar"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzdvvsmTykLaMB1pAMeQbn7CYlrzMEortp6Fu1ng1D7wrMINX9rpzf5ewYqqwNEjGDoHppikImKQO7-zGhwWIXSZVMgnyJzdwKJyoSAuw_flDePlUmHvThHOx7I9R9GIae1u2AIMPlFM60iFRd0Qe_RYpKTUh0Z8Zcgn-dsTaqmL4VFO_CBEXWvxB6-9bMnq0XRZZzWEMo_bb0lPvXzT6XtaWOGBbMFIM0moc7I7LG3JjaHOYoFDfVmvJ4kAiF6PzKYbr7IfvM1tKX')">
+                                            </div>
+                                            <span class="text-xs">Alex Smith</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">In
+                                            Progress</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">more_vert</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-primary">#INS-9918</td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-medium">Tesla Model 3 (2023)</p>
+                                        <p class="text-xs text-slate-500">Business Bay, Dubai</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">09:30 AM</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2 text-slate-400 font-bold">
+                                            <span class="material-symbols-outlined text-sm">check_circle</span>
+                                            <span>Completed</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
+                                                data-alt="Inspector avatar"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxiNRI5d8Ny6UoPNae4efukAscQQrMUXBPGZIlUmO0GG_vjmYdY5JnsZddbbUeOi18KtOFm4gXnLJPASMiZ_7c1VhIMYAEuaXad4MLBgbz7aRVjXsWAgnUSfQVyKyk2l2Npjw9_d2CDyMkuQ1KtM5AY6TwWG2vWCMsxSTKvcV3IIyL7ljZTOhYBRdZM0SNooH4F1zVFLL7etOumN1JuMtHCd_rBqHY1p0PLup2itElAcwAKmjExgga8CjzZGngSOxC-PwkmEoOCPtk')">
+                                            </div>
+                                            <span class="text-xs">Elena Rodriguez</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wide">Completed</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">more_vert</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-primary">#INS-9905</td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-medium">Ford F-150 (2021)</p>
+                                        <p class="text-xs text-slate-500">Palm Jumeirah</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">08:15 AM</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2 text-rose-600 font-bold animate-pulse">
+                                            <span class="material-symbols-outlined text-sm">priority_high</span>
+                                            <span>Overdue by 2h</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-[10px] font-bold text-slate-400 italic">Unassigned</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 text-[10px] font-bold uppercase tracking-wide">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded hover:bg-primary/90 transition-all">Assign</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-primary">#INS-9899</td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-medium">Mercedes S-Class (2024)</p>
+                                        <p class="text-xs text-slate-500">Jumeirah Beach</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">07:50 AM</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2 text-amber-500 font-bold">
+                                            <span class="material-symbols-outlined text-sm">timer</span>
+                                            <span>1h 40m left</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
+                                                data-alt="Inspector avatar"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHvk4aYlpiv_sicsJVSZsSKx6qbEfr_0Deo4Yr3HhoHCBBa2YgcplusxxSU_P0J4QvKGbO5b3Ol_ktI8ZtOy9X2EhypMCKxvzEwWinJFS44sKRCOJJJCirLQusm7IG_MiAaygWhFSgD97eV6rNRzBCCmu9ZdKqpWWaZtcWtagbLTU8CTvYORj3JaLgGiXa7UfaKPQTWHKhaFPSw2daCg1PWSzfea4EXQk1WU37TouhFLzl0aA2DFpkHzlUby42DWWjS6vWQMgQIMFs')">
+                                            </div>
+                                            <span class="text-xs">John Doe</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">In
+                                            Progress</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">more_vert</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <p class="text-xs text-slate-500">Showing 1 to 4 of 24 entries</p>
+                        <div class="flex gap-1">
+                            <button
+                                class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800">Prev</button>
+                            <button class="px-3 py-1.5 rounded-md bg-primary text-white text-xs font-bold">1</button>
+                            <button
+                                class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800">2</button>
+                            <button
+                                class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer / Info Bar -->
+</main>
+    </div>
+    <script>
+        // Load admin sidebar dynamically
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                if (container) {
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+
+</html>

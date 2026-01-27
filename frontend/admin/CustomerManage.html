@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Customer Management Admin - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-100">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+    <div id="sidebar-container"></div>
+<!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto flex flex-col bg-background-light dark:bg-background-dark">
+            <!-- Header/Top Nav -->
+<div class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+                <!-- Page Heading -->
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <h2 class="text-3xl font-black tracking-tight dark:text-white">Customer Directory</h2>
+                        <p class="text-[#4c739a] dark:text-slate-400 text-base">Manage and view all registered insurance
+                            holders (1,240 total)</p>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-bold text-sm hover:bg-primary/90 transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-sm">add</span>
+                        <span>Add New Customer</span>
+                    </button>
+                </div>
+                <!-- Filters & Search Toolbar -->
+                <div
+                    class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm flex flex-wrap gap-4 items-center justify-between">
+                    <div class="flex flex-wrap gap-3 flex-1">
+                        <div class="relative min-w-[300px]">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c739a] text-lg">search</span>
+                            <input
+                                class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-[#4c739a]"
+                                placeholder="Search by name, email, or policy ID..." type="text" />
+                        </div>
+                        <div
+                            class="flex items-center bg-slate-50 dark:bg-slate-800 px-3 py-2 rounded-lg border border-transparent hover:border-slate-200 cursor-pointer transition-all">
+                            <span class="material-symbols-outlined text-primary text-lg mr-2">calendar_today</span>
+                            <span class="text-sm text-[#0d141b] dark:text-slate-200">Registration Date</span>
+                            <span class="material-symbols-outlined text-[#4c739a] text-lg ml-2">expand_more</span>
+                        </div>
+                        <div
+                            class="flex items-center bg-slate-50 dark:bg-slate-800 px-3 py-2 rounded-lg border border-transparent hover:border-slate-200 cursor-pointer transition-all">
+                            <span class="material-symbols-outlined text-primary text-lg mr-2">filter_list</span>
+                            <span class="text-sm text-[#0d141b] dark:text-slate-200">Policy Status: All</span>
+                            <span class="material-symbols-outlined text-[#4c739a] text-lg ml-2">expand_more</span>
+                        </div>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 border border-[#e7edf3] dark:border-slate-800 rounded-lg text-sm font-bold text-[#0d141b] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                        <span class="material-symbols-outlined text-lg">download</span>
+                        <span>Export CSV</span>
+                    </button>
+                </div>
+                <!-- Customer Table -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/50 border-b border-[#e7edf3] dark:border-slate-800">
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c739a]">
+                                        Customer Name</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c739a]">
+                                        Policy Status</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c739a]">
+                                        Vehicles</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c739a]">
+                                        Registered</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-[#4c739a] text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#e7edf3] dark:divide-slate-800">
+                                <!-- Row 1 -->
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="size-10 rounded-full bg-slate-200 bg-cover"
+                                                data-alt="Profile picture of John Anderson"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDM5jKSdsN1npzx8J4Rd_oBKBC6qnCY9GWb5nbfYPneoNv1i7MfHbQbksEoxK55dI6sWSYAvNAxwUBi84mx5K0SQMa41qLgUKjONLkHcLBhTdXyRFgw16QjL2oJUhOhL-zdiiugV5kK1jecIYXGamEKzqeoO49BEGXmoChpN6VRcKptvGGZsKXkOPKYPgiHhr-D1UccsDx9EkVuOF-ZjChuSSI2PCp0CoopBUdNeswtyaBzEQpXKI90TxR0EiP5oRY9tQ8CKrvJLAv9')">
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-bold text-[#0d141b] dark:text-white">John
+                                                    Anderson</span>
+                                                <span class="text-xs text-[#4c739a]">john.a@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <span
+                                                class="material-symbols-outlined text-sm text-[#4c739a]">directions_car</span>
+                                            <span class="text-sm font-medium text-[#0d141b] dark:text-slate-200">2
+                                                Vehicles</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 12, 2023</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-primary hover:text-primary/80 font-bold text-sm">View
+                                            Profile</button>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="size-10 rounded-full bg-slate-200 bg-cover"
+                                                data-alt="Profile picture of Sarah Jenkins"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7bPyD_OqZJI5WUeEnht6Ic2hxbF3mqTGSkTUCjfEWCxQ49fvAS_70EDEtfl3pe_RCdAC3krP0SwbWewnvng4h3KCcBdTsBjqDwFoPj3WLfos6ajt4U7jOL1m0KxmT3Ov5_5A-g4TcpxDnokwGarViLYQ5uECRhkiyFbiB3rE1fCsgmDYFeEv7elkbrIOITm7W7J50At_MH5LyM4Ou3kSoTJHrcnh35ZPT74ZVwd0qof3WuersU5802OLxvwcCU12yCGAaaiwVDcoz')">
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-bold text-[#0d141b] dark:text-white">Sarah
+                                                    Jenkins</span>
+                                                <span class="text-xs text-[#4c739a]">s.jenkins@webmail.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                                            Pending
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <span
+                                                class="material-symbols-outlined text-sm text-[#4c739a]">motorcycle</span>
+                                            <span class="text-sm font-medium text-[#0d141b] dark:text-slate-200">1
+                                                Vehicle</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-[#4c739a]">Jan 05, 2024</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-primary hover:text-primary/80 font-bold text-sm">View
+                                            Profile</button>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="size-10 rounded-full bg-slate-200 bg-cover"
+                                                data-alt="Profile picture of Michael Chen"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBn6-UR6ofKKrXWodOeK4Y1-aibuJca48P7eXYG5024OaEZt1SXtl5F9MxD6PPFzK1Yr6hqNosLH25X1a8v936MyE6qykQI-KGWk8I-iy2M0M_Cz68H10Laaz6JxW2pxW2n9c037qm2tlfltghMoq1iVDNYDIDOmshPUoqovfx_gKKTNGWeIwRmPpj1zyeu9m1gjdGbOpMIxNP0jZqv4F4Z4eBQQOplVlHO5H7GPu-tZ8u294nXYtlLah--txJoxzlG9mGLtlj4sZ38')">
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-bold text-[#0d141b] dark:text-white">Michael
+                                                    Chen</span>
+                                                <span class="text-xs text-[#4c739a]">m.chen_dev@gmail.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+                                            Expired
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <span
+                                                class="material-symbols-outlined text-sm text-[#4c739a]">fire_truck</span>
+                                            <span class="text-sm font-medium text-[#0d141b] dark:text-slate-200">3
+                                                Vehicles</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-[#4c739a]">Nov 22, 2023</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-primary hover:text-primary/80 font-bold text-sm">View
+                                            Profile</button>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="size-10 rounded-full bg-slate-200 bg-cover"
+                                                data-alt="Profile picture of Emily Rodriguez"
+                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDhuklHuDcTMrhnWew7xgFvLL2Z39RWx-aC4mc0bZjDwLJttsLaP_H_O2Sc5o1DU6BhLxOWx7f7e2TtUPmc3lYONIKdmjY5DMa563XuxwcNANBP99rZZvNH4R4mOb4pkYJszRGtGIgSNc6POKET26z2VJ5TLrck--XPZIbmbO8-w7D4CWBm4WXe9yhzEPVbBayJzuDxUl_y8GqymgcVw2MZ3ArbQTfbqzJFfzgXkdzLWkshoad45zIBuCaZPkdzoSsbE2OYY_oS29S-')">
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-bold text-[#0d141b] dark:text-white">Emily
+                                                    Rodriguez</span>
+                                                <span class="text-xs text-[#4c739a]">emily.r@outlook.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <span
+                                                class="material-symbols-outlined text-sm text-[#4c739a]">directions_car</span>
+                                            <span class="text-sm font-medium text-[#0d141b] dark:text-slate-200">1
+                                                Vehicle</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-[#4c739a]">Feb 14, 2024</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-primary hover:text-primary/80 font-bold text-sm">View
+                                            Profile</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div
+                        class="px-6 py-4 border-t border-[#e7edf3] dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
+                        <span class="text-xs text-[#4c739a]">Showing 1 to 4 of 1,240 customers</span>
+                        <div class="flex gap-2">
+                            <button
+                                class="px-3 py-1 border border-[#e7edf3] dark:border-slate-800 rounded text-xs font-bold hover:bg-white dark:hover:bg-slate-700 transition-colors">Previous</button>
+                            <button class="px-3 py-1 bg-primary text-white rounded text-xs font-bold">1</button>
+                            <button
+                                class="px-3 py-1 border border-[#e7edf3] dark:border-slate-800 rounded text-xs font-bold hover:bg-white dark:hover:bg-slate-700 transition-colors">2</button>
+                            <button
+                                class="px-3 py-1 border border-[#e7edf3] dark:border-slate-800 rounded text-xs font-bold hover:bg-white dark:hover:bg-slate-700 transition-colors">3</button>
+                            <button
+                                class="px-3 py-1 border border-[#e7edf3] dark:border-slate-800 rounded text-xs font-bold hover:bg-white dark:hover:bg-slate-700 transition-colors">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm flex items-center gap-4">
+                        <div class="p-3 bg-primary/10 rounded-full text-primary">
+                            <span class="material-symbols-outlined">person_add</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[#4c739a] uppercase tracking-wider">New This Month</p>
+                            <p class="text-2xl font-black dark:text-white">+124</p>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm flex items-center gap-4">
+                        <div
+                            class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-full text-amber-600 dark:text-amber-400">
+                            <span class="material-symbols-outlined">assignment_late</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[#4c739a] uppercase tracking-wider">Pending Approvals</p>
+                            <p class="text-2xl font-black dark:text-white">18</p>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm flex items-center gap-4">
+                        <div
+                            class="p-3 bg-green-100 dark:bg-green-900/30 rounded-full text-green-600 dark:text-green-400">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[#4c739a] uppercase tracking-wider">Active Policies</p>
+                            <p class="text-2xl font-black dark:text-white">1,085</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Load admin sidebar dynamically
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                if (container) {
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+
+</html>

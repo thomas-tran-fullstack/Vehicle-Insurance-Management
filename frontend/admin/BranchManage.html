@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Branch Management - AVIMS Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e67b8",
+                        "background-light": "#fafafa",
+                        "background-dark": "#1a1c22",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body { font-family: 'Public Sans', sans-serif; }
+            .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+            .sidebar-item-active { background-color: rgba(46, 103, 184, 0.1); border-right: 3px solid #2e67b8; }
+            input:focus, select:focus, textarea:focus { border-color: #2e67b8 !important; ring: 0 !important; outline: none !important; }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#101419] dark:text-gray-100 min-h-screen">
+    <div class="flex">
+        <div id="sidebar-container"></div>
+        <main class="flex-1 min-h-screen pt-12">
+            <div class="p-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-3xl font-black text-[#101419] dark:text-white tracking-tight mb-1">Branch
+                            Management</h2>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">Monitor and manage all operational AVIMS
+                            hubs globally.</p>
+                    </div>
+                    <button
+                        class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-bold shadow-lg shadow-primary/20 transition-all text-sm">
+                        <span class="material-symbols-outlined text-xl">add</span>
+                        Add New Branch
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div
+                        class="bg-white dark:bg-[#21242c] p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 text-primary rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined">corporate_fare</span>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Total Branches</p>
+                                <h4 class="text-2xl font-black">24</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#21242c] p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-green-50 dark:bg-green-900/20 text-green-600 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined">hub</span>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Active Hubs</p>
+                                <h4 class="text-2xl font-black">21</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#21242c] p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined">groups</span>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Global Staff Count</p>
+                                <h4 class="text-2xl font-black">482</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-white dark:bg-[#21242c] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+                    <div
+                        class="p-6 border-b border-gray-200 dark:border-gray-800 flex flex-col md:flex-row gap-4 items-center justify-between">
+                        <div class="relative w-full md:w-96">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                            <input
+                                class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-lg text-sm transition-all focus:bg-white dark:focus:bg-gray-800"
+                                placeholder="Search by branch name or ID..." type="text" />
+                        </div>
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            <select
+                                class="flex-1 md:flex-none px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-lg text-sm min-w-[140px]">
+                                <option value="">All Cities</option>
+                                <option value="london">London</option>
+                                <option value="manchester">Manchester</option>
+                                <option value="birmingham">Birmingham</option>
+                            </select>
+                            <select
+                                class="flex-1 md:flex-none px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-lg text-sm min-w-[140px]">
+                                <option value="">Status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                            <button
+                                class="p-2.5 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-200 dark:border-gray-700">
+                                <span class="material-symbols-outlined text-xl">filter_list</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr
+                                    class="bg-gray-50 dark:bg-gray-800/50 text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th class="px-6 py-4">Branch ID</th>
+                                    <th class="px-6 py-4">Name</th>
+                                    <th class="px-6 py-4">City</th>
+                                    <th class="px-6 py-4">Manager</th>
+                                    <th class="px-6 py-4">Contact</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-primary">LON-001</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-sm">North London Central</span>
+                                            <span class="text-xs text-gray-500">Oxford St Hub</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">London</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div
+                                                class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                                <img alt="Manager" class="w-full h-full object-cover"
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRVc-JlhC5VY_kfNxGm39W_7mdtfgnfCkpVJpIixnPixB-l5di8AYMSG00zowQWWETg2chOL6h76WTEM0UVmjiwEmpzpT82SVnC1u6DKkGzPmLH1R-wOfkiHlCzvLD3y5J1i0EcrYvo9fPue0N6mJ0LVFqOM4_vueq-uMPo8z3XsxLBFO2H49B6l4XTaubPHjk6kgY54lzByj7CajqMDgq45ceghegfxXbZoPh3NWMUS-9myA59NBX6F7B4OX4W0ngBVx0Ixm7AX34" />
+                                            </div>
+                                            <span class="text-sm font-medium">Felix Morgan</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col text-xs gap-0.5">
+                                            <span class="text-gray-700 dark:text-gray-300 font-medium">+44 20 7946
+                                                0000</span>
+                                            <span class="text-gray-500">london@avims.com</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase rounded">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                                <span class="material-symbols-outlined text-xl">visibility</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-primary">MAN-002</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-sm">Manchester North</span>
+                                            <span class="text-xs text-gray-500">Piccadilly Plaza</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">Manchester</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div
+                                                class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                                <img alt="Manager" class="w-full h-full object-cover"
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk7ajz4XOLsb4-SNVKmZ59FyC_BxDjhQy5k9Vua-sIDbQlpIz1qNDBvZ88bWLQ08gW5BCPt_vld9Hgv2ihtT0X6v8i8Tfvrrx4sn9f0_Th2loWB0yvklWOoZiFvxrMwPuGgM5rFGzl9zAuDgFqHfs9JO7A6ESlzBJnpVHxpzKJukCP8dJaQooNTDmCUJZhrljpEAm7fOg4EZhOo35X0twzefWLq32itXKQvVE3Guxe8aL1FMCO4HCb0zNoejzW-eD6OL9_7LmrH9wI" />
+                                            </div>
+                                            <span class="text-sm font-medium">Sarah Jenkins</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col text-xs gap-0.5">
+                                            <span class="text-gray-700 dark:text-gray-300 font-medium">+44 161 496
+                                                0234</span>
+                                            <span class="text-gray-500">manc@avims.com</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase rounded">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                                <span class="material-symbols-outlined text-xl">visibility</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-primary">BHM-014</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-sm">Birmingham West</span>
+                                            <span class="text-xs text-gray-500">Oldbury Retail Park</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">Birmingham</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div
+                                                class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                                <img alt="Manager" class="w-full h-full object-cover"
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjGDvTqqq8Rhmhws_Oij3LbWSkIgtCf385aKSvuNLoSbzPaj2FxgXzJlk8THV-c6zA0B-eFVKZFkP1VmHTrCibLmaM2k0DXhsjspQKk77wj2pNAbi8vas82j8svh2uvQixcZhD2jPlDgUFOLbmt0iD_X0rALBcV_XyS4KiFKLJpOGpAfHzGol1JhugO7CJ-SiOGqYR9EMwox9JzS0v2Hg0IK90q-QI-rLdSMP3WAqjDlFqUA1uAnr3t3Sj5npLN7vJ1qwNw7R5LKtY" />
+                                            </div>
+                                            <span class="text-sm font-medium">Thomas Reed</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col text-xs gap-0.5">
+                                            <span class="text-gray-700 dark:text-gray-300 font-medium">+44 121 496
+                                                0888</span>
+                                            <span class="text-gray-500">bhm@avims.com</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-[10px] font-bold uppercase rounded">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+                                            Inactive
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                                <span class="material-symbols-outlined text-xl">visibility</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                                <span class="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="px-6 py-4 bg-gray-50 dark:bg-gray-800/30 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                        <p class="text-xs text-gray-500 font-medium">Showing 1 to 10 of 24 entries</p>
+                        <div class="flex items-center gap-1">
+                            <button class="p-2 text-gray-400 hover:text-primary disabled:opacity-50" disabled="">
+                                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                            </button>
+                            <button class="w-8 h-8 rounded bg-primary text-white text-xs font-bold">1</button>
+                            <button
+                                class="w-8 h-8 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-xs font-medium">2</button>
+                            <button
+                                class="w-8 h-8 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-xs font-medium">3</button>
+                            <button class="p-2 text-gray-400 hover:text-primary">
+                                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Load admin sidebar dynamically
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.getElementById('sidebar-container');
+                if (container) {
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+
+</html>
