@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AVIMS Employee Navigation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#176782",
+                        "background-light": "#f7f7f8",
+                        "background-dark": "#18181b",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased h-screen overflow-hidden">
+    <div class="flex h-full w-full">
+        <aside
+            class="flex flex-col w-72 h-full bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 transition-all duration-300 ease-in-out relative">
+            <div class="flex items-center justify-between px-6 py-6 h-20 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 group cursor-pointer">
+                        <img src="../images/logo.png" alt="InsureDrive Logo" class="h-16 w-auto object-contain bg-transparent shadow-none rounded-none" /></a>
+                    </div>
+                </div>
+                <button
+                    class="flex items-center justify-center p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400">
+                    <span class="material-symbols-outlined text-xl">menu_open</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto sidebar-scroll px-4 pb-6">
+                <nav class="space-y-1 mt-4">
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-all"
+                        href="#">
+                        <span class="material-symbols-outlined text-xl"
+                            style="font-variation-settings: 'FILL' 1">dashboard</span>
+                        <span class="text-sm font-semibold">Dashboard</span>
+                        <div class="ml-auto w-1 h-5 bg-primary rounded-full"></div>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">fact_check</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Inspections</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">calculate</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Estimates</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">description</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Policies</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">payments</span>
+                        <span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Billing
+                            Management</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">emergency_share</span>
+                        <span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Claim
+                            Management</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">gavel</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Violation
+                            Management</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">directions_car</span>
+                        <span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Vehicle
+                            Models</span>
+                    </a>
+                    <div class="pt-4 pb-2 border-t border-slate-100 dark:border-zinc-800 my-2"></div>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">notifications_active</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Notifications</span>
+                        <span
+                            class="ml-auto bg-primary text-white text-[10px] font-bold h-5 min-w-[20px] px-1.5 flex items-center justify-center rounded-full">4</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">contact_support</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Support</span>
+                    </a>
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">account_circle</span>
+                        <span
+                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Profile</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/50">
+                <div
+                    class="flex items-center gap-3 p-2 bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-zinc-700">
+                    <div class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfLdVp4qGWDS3Kka2qelGCbQqmrQEQge8sS6mqz7h99YcFiooDpP_SJLYWEmFLRGEeI-8fMlea5O6nQVLNuU18bePfQpFlBscecFNKD3ItYutSbr20oCFEdJj0wEOP2NXz7Htlq1k2a4PHTA6r3hOpKK3LtysLTLNMJKcV7jx4GyggeD_9f0Dq-K_fUUYAqVtrFVKcMF4fica371p5_6cl5n-QfNHybnvKHOr0xRsI_vnek9eJnuNln4E-dOXtEJBVcFOwixsN1L6D');">
+                    </div>
+                    <div class="flex flex-col overflow-hidden">
+                        <p class="text-xs font-bold text-slate-800 dark:text-white truncate">Marcus Wright</p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Senior Underwriter</p>
+                    </div>
+                    <button class="ml-auto text-slate-400 hover:text-red-500 transition-colors">
+                        <span class="material-symbols-outlined text-lg">logout</span>
+                    </button>
+                </div>
+            </div>
+            <div class="absolute -right-3 top-1/2 -translate-y-1/2 z-10">
+                <button
+                    class="h-6 w-6 rounded-full border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-400 hover:text-primary flex items-center justify-center shadow-md">
+                    <span class="material-symbols-outlined text-xs">chevron_left</span>
+                </button>
+            </div>
+        </aside>
+    </div>
+
+</body>
+
+</html>

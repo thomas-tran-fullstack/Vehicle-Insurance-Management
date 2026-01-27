@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Customer Feedback - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .star-filled {
+            font-variation-settings: 'FILL' 1;
+            color: #fbbf24;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-50 min-h-screen flex flex-col">
+    <div id="header-container"></div>
+    <main class="flex-grow max-w-[1200px] mx-auto w-full px-6 py-8 pt-8">
+        <!-- Page Heading -->
+        <div class="flex flex-wrap justify-between items-end gap-4 mb-8">
+            <div class="flex flex-col gap-2">
+                <h2 class="text-4xl font-black leading-tight tracking-tight">Customer Feedback &amp; Support</h2>
+                <p class="text-[#4c739a] dark:text-slate-400 text-lg">We value your input to help us serve you better.
+                </p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Feedback Form -->
+            <div class="lg:col-span-2 space-y-6">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-[#e7edf3] dark:border-slate-800 p-8">
+                    <h3 class="text-2xl font-bold mb-6">Send us your feedback</h3>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Subject -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold text-[#0d141b] dark:text-slate-200">Subject</label>
+                                <input
+                                    class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base transition-all"
+                                    placeholder="Briefly describe your feedback" type="text" />
+                            </div>
+                            <!-- Category -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold text-[#0d141b] dark:text-slate-200">Feedback
+                                    Category</label>
+                                <select
+                                    class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base transition-all appearance-none">
+                                    <option disabled="" selected="" value="">Select a category</option>
+                                    <option value="claims">Claims</option>
+                                    <option value="billing">Billing</option>
+                                    <option value="website">Website</option>
+                                    <option value="general">General</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Satisfaction Rating -->
+                        <div class="flex flex-col gap-3">
+                            <label class="text-sm font-semibold text-[#0d141b] dark:text-slate-200">Overall
+                                Satisfaction</label>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined star-filled cursor-pointer text-3xl">star</span>
+                                <span class="material-symbols-outlined star-filled cursor-pointer text-3xl">star</span>
+                                <span class="material-symbols-outlined star-filled cursor-pointer text-3xl">star</span>
+                                <span class="material-symbols-outlined star-filled cursor-pointer text-3xl">star</span>
+                                <span
+                                    class="material-symbols-outlined cursor-pointer text-3xl text-gray-300 dark:text-slate-600">star</span>
+                                <span class="ml-4 text-sm font-medium text-primary">Very Good</span>
+                            </div>
+                        </div>
+                        <!-- Message -->
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-semibold text-[#0d141b] dark:text-slate-200">Detailed
+                                Message</label>
+                            <textarea
+                                class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary p-4 text-base transition-all resize-none"
+                                placeholder="Tell us what's on your mind..." rows="6"></textarea>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button
+                                class="bg-primary hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md shadow-primary/20"
+                                type="submit">
+                                Submit Feedback
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Right Column: Support Sidebar -->
+            <div class="space-y-6">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-[#e7edf3] dark:border-slate-800 p-8">
+                    <h3 class="text-xl font-bold mb-6">Need help?</h3>
+                    <p class="text-sm text-[#4c739a] dark:text-slate-400 mb-8">Our support team is here for you 24/7.
+                        Choose your preferred method to get in touch.</p>
+                    <div class="space-y-4">
+                        <!-- Phone -->
+                        <div
+                            class="flex items-center gap-4 p-4 rounded-xl border border-[#e7edf3] dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group cursor-pointer">
+                            <div
+                                class="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                <span class="material-symbols-outlined">call</span>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-xs font-bold uppercase tracking-wider text-[#4c739a] dark:text-slate-500">
+                                    Phone Support</p>
+                                <p class="text-base font-bold">1-800-AVIMS-HELP</p>
+                            </div>
+                        </div>
+                        <!-- Live Chat -->
+                        <div
+                            class="flex items-center gap-4 p-4 rounded-xl border border-[#e7edf3] dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group cursor-pointer">
+                            <div
+                                class="size-12 bg-green-500/10 rounded-full flex items-center justify-center text-green-500 group-hover:bg-green-500 group-hover:text-white transition-all relative">
+                                <span class="material-symbols-outlined">chat</span>
+                                <div
+                                    class="absolute top-0 right-0 size-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full">
+                                </div>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-xs font-bold uppercase tracking-wider text-[#4c739a] dark:text-slate-500">
+                                    Live Chat</p>
+                                <p class="text-base font-bold">Available 24/7</p>
+                            </div>
+                        </div>
+                        <!-- Email -->
+                        <div
+                            class="flex items-center gap-4 p-4 rounded-xl border border-[#e7edf3] dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group cursor-pointer">
+                            <div
+                                class="size-12 bg-primary/10 rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                <span class="material-symbols-outlined">mail</span>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-xs font-bold uppercase tracking-wider text-[#4c739a] dark:text-slate-500">
+                                    Email Us</p>
+                                <p class="text-sm font-bold truncate">support@avims-insurance.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 p-4 bg-primary/5 dark:bg-primary/10 rounded-xl">
+                        <p class="text-xs font-medium text-primary text-center">Typical response time: under 2 hours</p>
+                    </div>
+                </div>
+                <!-- Secondary Promo Card -->
+                <div class="bg-primary rounded-xl p-8 text-white relative overflow-hidden shadow-lg shadow-primary/30">
+                    <div class="relative z-10">
+                        <h4 class="text-lg font-bold mb-2">Knowledge Base</h4>
+                        <p class="text-sm text-blue-100 mb-6">Find quick answers to common questions about claims and
+                            policies.</p>
+                        <a class="inline-flex items-center gap-2 text-sm font-bold bg-white text-primary px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                            href="#">
+                            Visit Help Center
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+                        </a>
+                    </div>
+                    <!-- Abstract Background Pattern -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

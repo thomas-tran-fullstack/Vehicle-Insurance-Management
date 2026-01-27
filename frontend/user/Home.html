@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Customer Home Page | AutoGuard Insurance</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-50 transition-colors duration-200">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+        <main class="max-w-[1200px] mx-auto px-4 pb-8 flex-1 pt-0">
+            <!-- Hero Section -->
+            <section class="mx-auto max-w-[1200px] px-4 md:px-10 py-12 md:py-20">
+                <div class="@container">
+                    <div class="flex flex-col gap-10 @[864px]:flex-row @[864px]:items-center">
+                        <div class="flex flex-col gap-8 flex-1">
+                            <div class="flex flex-col gap-4">
+                                <h1
+                                    class="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-tight @[480px]:text-6xl">
+                                    Protect Your Vehicle Today – Flexible Coverage
+                                </h1>
+                                <p
+                                    class="text-[#4c739a] dark:text-slate-400 text-lg md:text-xl font-normal max-w-[540px]">
+                                    Get personalized vehicle insurance with competitive rates and comprehensive
+                                    protection for every road ahead.
+                                </p>
+                            </div>
+                            <!-- Quote Widget -->
+                            <div
+                                class="flex flex-col sm:flex-row gap-3 p-2 bg-white dark:bg-slate-900 rounded-xl shadow-xl shadow-primary/5 border border-[#e7edf3] dark:border-slate-800 max-w-[560px]">
+                                <div
+                                    class="flex flex-1 items-center gap-2 px-3 py-2 bg-[#f6f7f8] dark:bg-slate-800 rounded-lg">
+                                    <span class="material-symbols-outlined text-[#4c739a]">location_on</span>
+                                    <input
+                                        class="w-full border-none bg-transparent focus:ring-0 text-[#0d141b] dark:text-white placeholder:text-[#4c739a] text-base font-medium"
+                                        placeholder="Enter Zip Code" type="text" />
+                                </div>
+                                <button
+                                    class="flex h-12 items-center justify-center rounded-lg px-8 bg-primary text-white font-bold hover:scale-[1.02] transition-transform active:scale-95 whitespace-nowrap">
+                                    Start Quote
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-4 text-sm text-[#4c739a] dark:text-slate-500">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+                                    <span>No Hidden Fees</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+                                    <span>Cancel Anytime</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent pointer-events-none">
+                                </div>
+                                <img alt="Modern blue sedan parked in a clean suburban environment"
+                                    class="w-full h-full object-cover"
+                                    data-alt="Modern blue sedan parked in a clean suburban environment"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0M7UZ-xNqI0_FAP3ZksJ9H2F4hx-FKW4zW6dA5GFn5GrNoYlr-HI4RbXp8xDSTLOcoY1Z_oBiUURAdqhHfHMaUgexYpsAg3DhDpXSglJilVOPsZKnyG4pZkOmUvsW9qwjrRIxPfXXQVLTK6T67lXFvDrXs_W8bf0cqMwgl6b9lG7vryDep6NhLMvcsq_ZjNp2FHWV2k_Nw_lS-11uHrQAgSu_In8FP2b91wWH-Zm00xB8-gM241tWaz5-9XJwJYUDpt42vp6PF3XR" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Feature Section -->
+            <section class="bg-white dark:bg-slate-900/50 py-20 border-y border-[#e7edf3] dark:border-slate-800">
+                <div class="mx-auto max-w-[1200px] px-4 md:px-10">
+                    <div class="flex flex-col gap-12">
+                        <div class="flex flex-col gap-4 text-center items-center">
+                            <h2 class="text-[#0d141b] dark:text-white text-3xl md:text-4xl font-black leading-tight">
+                                Why Choose Our Protection?
+                            </h2>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-lg max-w-[720px]">
+                                Experience seamless insurance management designed for the modern driver. We've
+                                simplified every step of the process.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Feature 1 -->
+                            <div
+                                class="group flex flex-col gap-5 rounded-2xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-900 p-8 hover:border-primary transition-colors">
+                                <div
+                                    class="flex size-14 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                    <span class="material-symbols-outlined text-3xl">assignment_turned_in</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">Easy
+                                        Claims</h3>
+                                    <p class="text-[#4c739a] dark:text-slate-400 text-base leading-relaxed">
+                                        File a claim in minutes via our mobile-ready portal and get back on the road
+                                        faster with our accelerated review process.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div
+                                class="group flex flex-col gap-5 rounded-2xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-900 p-8 hover:border-primary transition-colors">
+                                <div
+                                    class="flex size-14 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                    <span class="material-symbols-outlined text-3xl">support_agent</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">24/7
+                                        Support</h3>
+                                    <p class="text-[#4c739a] dark:text-slate-400 text-base leading-relaxed">
+                                        Our experts are here for you any time, any day to answer your questions and
+                                        guide you through emergency situations.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div
+                                class="group flex flex-col gap-5 rounded-2xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-900 p-8 hover:border-primary transition-colors">
+                                <div
+                                    class="flex size-14 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                    <span class="material-symbols-outlined text-3xl">tune</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">Flexible
+                                        Plans</h3>
+                                    <p class="text-[#4c739a] dark:text-slate-400 text-base leading-relaxed">
+                                        Coverage tailored to your driving habits, vehicle type, and monthly budget. Only
+                                        pay for what you actually need.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Insurance Categories -->
+            <section class="mx-auto max-w-[1200px] px-4 md:px-10 py-20">
+                <div class="flex items-center justify-between mb-10 px-4">
+                    <h2
+                        class="text-[#0d141b] dark:text-white text-2xl md:text-3xl font-bold leading-tight tracking-tight">
+                        Insurance Categories</h2>
+                    <a class="text-primary font-bold text-sm hover:underline flex items-center gap-1" href="#">
+                        View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+                    <!-- Category 1 -->
+                    <div class="group flex flex-col gap-4 pb-3 cursor-pointer">
+                        <div class="w-full aspect-video rounded-xl overflow-hidden relative">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+                            <img alt="White modern SUV driving on an open highway"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                data-alt="White modern SUV driving on an open highway"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtBZIvj5uTjTczUlz597Cq4xiJCSTgS_S16G0n98WR_qHRH75bYr2xNOrZ_7sLKt75Uvs-njCdH492S7K9IV-eVes8oAjIMFZystPJgv88qz--fwTg_KQ3otAnuF8X34yt8GTeLrn9xJuDRF0cECY8B3JtygscOlf8vG5-YLVbR6LrNBAQBUj5SiW8QNkgfZFQaVJKuhQNlHJHwviiJf52bF0l9Q-qOWya830gAWQJp23lLu3pdI2RprRlo6yjVPeV3yVGO4qNy9Gw" />
+                        </div>
+                        <div class="px-1">
+                            <p class="text-[#0d141b] dark:text-white text-lg font-bold">Car Insurance</p>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Daily commuters &amp; families</p>
+                        </div>
+                    </div>
+                    <!-- Category 2 -->
+                    <div class="group flex flex-col gap-4 pb-3 cursor-pointer">
+                        <div class="w-full aspect-video rounded-xl overflow-hidden relative">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+                            <img alt="Black cruiser motorcycle parked on a coastal road"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                data-alt="Black cruiser motorcycle parked on a coastal road"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn1v5tM0DzKFrPzXmst2tGM_1R41aEKYfEZ9CaSjAURR1oO4sH-e7SxnNcNbFK7Ucds0MdBfABDHlyANFCQuFTceRDJeZ4UFqeQnxDOGNX-e-BSLLkTYzecZrbA0eWG-S4G83nOqokX0cSqMzHGklCHO-CxyilCUN6TIBmVaHa6k4J1YZR0ethquvWtiM_ul8RvS_S8EEwO7oB6lMVxaGAQIuhqjgFrXRjw7E8vxf8ZYJAbZe93TjZ9nF50tCMX5SYcVGcEvJR-S38" />
+                        </div>
+                        <div class="px-1">
+                            <p class="text-[#0d141b] dark:text-white text-lg font-bold">Bike Insurance</p>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Enthusiasts &amp; weekend riders</p>
+                        </div>
+                    </div>
+                    <!-- Category 3 -->
+                    <div class="group flex flex-col gap-4 pb-3 cursor-pointer">
+                        <div class="w-full aspect-video rounded-xl overflow-hidden relative">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+                            <img alt="Large commercial delivery truck on a bridge"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                data-alt="Large commercial delivery truck on a bridge"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVvgBhSn_1Et_a5qwuaZetPtsp-TWhBiSRa17g0l6wN94Poi9VOCAn40GXEec8fpY10LmaFkW2Evha9Whj8uKSrE-YC818yT26Pc7qMJP-2cmY7n0MBZlvMKz3uSsZIzWNIsW2-SSuekhff2jOnfXWujUTjWTC_KlZu3J3Ap1cq5GKUIPZUSASprK13qN1Hr3U_HCc1Hak_4q-CyRI1gE2gf2Hp7eZKWaF0FmdNvxvcYXWAXCvD3AUnYkp_yPKGYNryO-Gk2WajQe9" />
+                        </div>
+                        <div class="px-1">
+                            <p class="text-[#0d141b] dark:text-white text-lg font-bold">Truck Insurance</p>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Commercial &amp; heavy-duty fleets</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

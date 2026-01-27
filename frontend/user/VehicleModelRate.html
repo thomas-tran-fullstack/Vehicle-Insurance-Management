@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vehicle Insurance Rates Table | AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "navy-deep": "#0A192F",
+                        "navy-muted": "#112240",
+                        "electric-blue": "#0066FF",
+                        "soft-white": "#F8FAFC",
+                        "border-light": "#E2E8F0",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.75rem", "lg": "1.5rem", "xl": "2.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .glass-header {
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .table-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .table-row-hover:hover {
+            background: #F1F5F9;
+        }
+    </style>
+</head>
+
+<body class="text-slate-900 transition-colors duration-300">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div id="header-container"></div>
+            <main class="flex-1 pt-8">
+                <section class="px-6 lg:px-20 py-16 bg-white">
+                    <div class="max-w-[1200px] mx-auto">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+                            <div>
+                                <span
+                                    class="inline-block px-4 py-1.5 rounded-full bg-electric-blue/10 text-electric-blue text-xs font-bold uppercase tracking-widest border border-electric-blue/20 mb-4">Pricing
+                                    Transparency</span>
+                                <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-navy-deep mb-4">Vehicle
+                                    <span class="text-electric-blue">Insurance Rates</span>
+                                </h1>
+                                <p class="text-slate-500 text-lg max-w-2xl font-medium">Compare monthly premiums across
+                                    different vehicle segments. Find the most cost-effective coverage for your specific
+                                    car model.</p>
+                            </div>
+                            <div class="flex p-1 bg-slate-100 border border-slate-200 rounded-full w-fit">
+                                <button
+                                    class="px-6 py-2 rounded-full text-sm font-bold bg-white text-navy-deep shadow-sm transition-all">New
+                                    Vehicles</button>
+                                <button
+                                    class="px-6 py-2 rounded-full text-sm font-bold text-slate-500 hover:text-navy-deep transition-all">Used
+                                    Vehicles</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="px-6 lg:px-20 pb-24 bg-soft-white">
+                    <div class="max-w-[1200px] mx-auto">
+                        <div class="w-full table-card rounded-2xl overflow-hidden">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-slate-200 bg-slate-50">
+                                            <th
+                                                class="px-8 py-5 text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Vehicle Class</th>
+                                            <th
+                                                class="px-8 py-5 text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Estimated Monthly Premium</th>
+                                            <th
+                                                class="px-8 py-5 text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Coverage Highlights</th>
+                                            <th
+                                                class="px-8 py-5 text-right text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 bg-white">
+                                        <tr class="table-row-hover transition-colors">
+                                            <td class="px-8 py-8">
+                                                <div class="flex items-center gap-4">
+                                                    <div
+                                                        class="size-12 rounded-xl bg-electric-blue/10 flex items-center justify-center text-electric-blue">
+                                                        <span class="material-symbols-outlined">directions_car</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-navy-deep font-bold text-lg">Sedan</div>
+                                                        <div class="text-slate-400 text-xs">Standard &amp; Compact</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <div class="flex flex-col">
+                                                    <span class="text-navy-deep text-2xl font-black">From $65<span
+                                                            class="text-sm font-medium text-slate-400">/mo</span></span>
+                                                    <span class="text-electric-blue text-xs font-bold uppercase">Best
+                                                        Value</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <ul class="space-y-1.5">
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Comprehensive Liability
+                                                    </li>
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Roadside Assistance
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="px-8 py-8 text-right">
+                                                <button
+                                                    class="px-6 py-2.5 rounded-full bg-electric-blue text-white font-bold text-sm hover:bg-navy-deep transition-all shadow-md shadow-blue-500/10">
+                                                    Get Quote
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-row-hover transition-colors">
+                                            <td class="px-8 py-8">
+                                                <div class="flex items-center gap-4">
+                                                    <div
+                                                        class="size-12 rounded-xl bg-electric-blue/10 flex items-center justify-center text-electric-blue">
+                                                        <span class="material-symbols-outlined">airport_shuttle</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-navy-deep font-bold text-lg">SUV</div>
+                                                        <div class="text-slate-400 text-xs">Full-size &amp; Crossover
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <div class="flex flex-col">
+                                                    <span class="text-navy-deep text-2xl font-black">From $89<span
+                                                            class="text-sm font-medium text-slate-400">/mo</span></span>
+                                                    <span class="text-slate-400 text-xs font-bold uppercase">Standard
+                                                        Risk</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <ul class="space-y-1.5">
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Off-road Coverage
+                                                    </li>
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Multi-passenger Liability
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="px-8 py-8 text-right">
+                                                <button
+                                                    class="px-6 py-2.5 rounded-full bg-electric-blue text-white font-bold text-sm hover:bg-navy-deep transition-all shadow-md shadow-blue-500/10">
+                                                    Get Quote
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-row-hover transition-colors">
+                                            <td class="px-8 py-8">
+                                                <div class="flex items-center gap-4">
+                                                    <div
+                                                        class="size-12 rounded-xl bg-electric-blue/10 flex items-center justify-center text-electric-blue">
+                                                        <span
+                                                            class="material-symbols-outlined">directions_car_filled</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-navy-deep font-bold text-lg">Hatchback</div>
+                                                        <div class="text-slate-400 text-xs">Sub-compact &amp; Electric
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <div class="flex flex-col">
+                                                    <span class="text-navy-deep text-2xl font-black">From $58<span
+                                                            class="text-sm font-medium text-slate-400">/mo</span></span>
+                                                    <span class="text-electric-blue text-xs font-bold uppercase">Urban
+                                                        Discount</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <ul class="space-y-1.5">
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Theft Protection
+                                                    </li>
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Glass Damage Waiver
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="px-8 py-8 text-right">
+                                                <button
+                                                    class="px-6 py-2.5 rounded-full bg-electric-blue text-white font-bold text-sm hover:bg-navy-deep transition-all shadow-md shadow-blue-500/10">
+                                                    Get Quote
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-row-hover transition-colors">
+                                            <td class="px-8 py-8">
+                                                <div class="flex items-center gap-4">
+                                                    <div
+                                                        class="size-12 rounded-xl bg-electric-blue/10 flex items-center justify-center text-electric-blue">
+                                                        <span class="material-symbols-outlined">diamond</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-navy-deep font-bold text-lg">Luxury</div>
+                                                        <div class="text-slate-400 text-xs">Exotic &amp; Performance
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <div class="flex flex-col">
+                                                    <span class="text-navy-deep text-2xl font-black">From $145<span
+                                                            class="text-sm font-medium text-slate-400">/mo</span></span>
+                                                    <span class="text-slate-400 text-xs font-bold uppercase">Premium
+                                                        Tier</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-8 py-8">
+                                                <ul class="space-y-1.5">
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        Agreed Value Policy
+                                                    </li>
+                                                    <li class="flex items-center gap-2 text-slate-600 text-sm">
+                                                        <span
+                                                            class="material-symbols-outlined text-electric-blue text-[18px]">check_circle</span>
+                                                        OEM Parts Repair
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td class="px-8 py-8 text-right">
+                                                <button
+                                                    class="px-6 py-2.5 rounded-full bg-electric-blue text-white font-bold text-sm hover:bg-navy-deep transition-all shadow-md shadow-blue-500/10">
+                                                    Get Quote
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="bg-white py-24 px-6 lg:px-20 relative overflow-hidden border-t border-slate-100">
+                    <div
+                        class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-electric-blue/5 rounded-full blur-[120px]">
+                    </div>
+                    <div class="max-w-[1200px] mx-auto">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
+                            <div class="space-y-8">
+                                <h2 class="text-navy-deep text-4xl font-black leading-tight">Why do rates <br /><span
+                                        class="text-electric-blue">vary by model?</span></h2>
+                                <p class="text-slate-500 text-lg">Insurers don't just look at your driving record. The
+                                    vehicle itself dictates a large part of the risk profile and potential repair costs.
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 space-y-3">
+                                        <span
+                                            class="material-symbols-outlined text-electric-blue text-3xl">history</span>
+                                        <h4 class="text-navy-deep font-bold">Repair History</h4>
+                                        <p class="text-slate-500 text-sm leading-relaxed">Frequency and average cost of
+                                            repairs for specific models are key indicators.</p>
+                                    </div>
+                                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 space-y-3">
+                                        <span
+                                            class="material-symbols-outlined text-electric-blue text-3xl">security</span>
+                                        <h4 class="text-navy-deep font-bold">Safety Ratings</h4>
+                                        <p class="text-slate-500 text-sm leading-relaxed">Standard safety features and
+                                            crash test results significantly impact risk profiles.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 group">
+                                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCeTjtTTQuZApTEWSy3FGjWVkr_vLsMQCRowiNayLeiDB2Pgy2R73DLN_nhgPvU2CH6lJIBfTIbB6e_AFWOFBdncNanfOK35NpmwSrkDLZBosB7PZU4yEDLjTuQckJ2FI5kgNxxGeeTN5CZ3lORR-8H-v7F7mAwI1aQrqKsRw8rresTb8jpb1lkUco_PFaTyQBAYhTCB7uP0GG2uusAwwfXAvPxV3w9xd1p-At4G_JhqqYRxWCaKNsQxGqYZ3Xb7Nizk6NAdNAgolR0");'>
+                                    </div>
+                                    <div class="absolute inset-0 bg-navy-deep/40 flex items-center justify-center">
+                                        <div
+                                            class="size-20 rounded-full bg-electric-blue text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-2xl">
+                                            <span class="material-symbols-outlined !text-4xl">play_arrow</span>
+                                        </div>
+                                    </div>
+                                    <div class="absolute bottom-6 left-6 right-6">
+                                        <div
+                                            class="bg-white/90 backdrop-blur px-4 py-3 rounded-xl border border-white/20">
+                                            <p class="text-navy-deep text-sm font-bold">Video Guide: Understanding
+                                                Premiums</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="px-6 lg:px-20 py-24 bg-soft-white">
+                    <div
+                        class="max-w-[1200px] mx-auto rounded-3xl bg-navy-deep p-12 lg:p-20 text-center space-y-8 relative overflow-hidden shadow-2xl">
+                        <div class="absolute inset-0 opacity-10"
+                            style="background-image: radial-gradient(circle at 2px 2px, #FFF 1px, transparent 0); background-size: 40px 40px;">
+                        </div>
+                        <h2 class="text-white text-4xl lg:text-5xl font-black tracking-tighter relative z-10">Get your
+                            personalized rate.</h2>
+                        <p class="text-slate-300 text-lg lg:text-xl font-medium max-w-2xl mx-auto relative z-10">Start
+                            your quote today and see exactly what you'll pay based on your model and history.</p>
+                        <div class="relative z-10">
+                            <button
+                                class="bg-electric-blue text-white px-12 py-5 rounded-full font-black text-lg hover:bg-blue-700 hover:-translate-y-1 transition-all shadow-xl shadow-blue-600/30">Start
+                                Free Quote</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

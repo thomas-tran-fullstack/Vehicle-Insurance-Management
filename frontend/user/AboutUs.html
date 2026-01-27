@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About AVIMS | Leading Vehicle Insurance Automation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-50 min-h-screen">
+    <!-- Top Navigation Bar -->
+    <div id="header-container"></div>
+    <main class="max-w-[1200px] mx-auto pb-20 pt-8">
+        <!-- Hero Section -->
+        <section class="p-4 md:p-10">
+            <div class="relative min-h-[520px] flex flex-col items-center justify-center overflow-hidden rounded-xl bg-cover bg-center text-center p-6"
+                data-alt="Modern corporate office with tech team working together"
+                style='background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuArPHzEQjj9pQ2RBdlwYpSSMEjclW3xCWNiVXBcC8Ske_TM9RNRMdQorScFoxJGOLduZZ7qOfbZL_dwRW2IYdnfFPxvntxERW8ijXzjh7kvpwsLaDRCLjmLbjQNXaLODEA_R6ptW6-aSE0MH0q32K3I6syIdqTtXFNWUtLKgWFseDMz1Li-b-a7ij8IdQjwcUFbSYeh93DqbYkGFOXc7TVE6ob6LQJPfUsBvl4l2UP-XGukwISrehYyvO27RRDi5MFmYEk6pmJOtpi0");'>
+                <div class="max-w-[700px] space-y-6">
+                    <h1 class="text-white text-4xl md:text-6xl font-black leading-tight tracking-tighter">
+                        Redefining the Future of Vehicle Insurance
+                    </h1>
+                    <p class="text-white/90 text-lg md:text-xl font-normal leading-relaxed">
+                        Since 2010, AVIMS has been at the forefront of digital transformation, automating complex
+                        processes to make insurance simpler, faster, and more secure for everyone.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button
+                            class="bg-primary text-white px-8 py-3 rounded-lg font-bold text-lg hover:scale-105 transition-transform">
+                            Meet Our Team
+                        </button>
+                        <button
+                            class="bg-white/20 backdrop-blur text-white border border-white/30 px-8 py-3 rounded-lg font-bold text-lg hover:bg-white/30 transition-all">
+                            View Roadmap
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Our Mission Section -->
+        <section class="px-4 md:px-10 py-12">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div
+                        class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                        Our Mission
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black leading-tight">
+                        Automation Driven by Human Needs
+                    </h2>
+                    <p class="text-lg text-[#4c739a] dark:text-slate-400 leading-relaxed">
+                        We aim to eliminate the friction of traditional insurance. By automating manual workflows, we
+                        provide unprecedented speed and iron-clad security for our clients, allowing them to focus on
+                        the road ahead.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div
+                            class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-[#cfdbe7] dark:border-slate-700 shadow-sm">
+                            <span class="text-primary material-symbols-outlined text-3xl mb-2">speed</span>
+                            <h3 class="font-bold">Lightning Fast</h3>
+                            <p class="text-sm text-[#4c739a] dark:text-slate-400">Claims processed in minutes, not days.
+                            </p>
+                        </div>
+                        <div
+                            class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-[#cfdbe7] dark:border-slate-700 shadow-sm">
+                            <span class="text-primary material-symbols-outlined text-3xl mb-2">shield</span>
+                            <h3 class="font-bold">Bank-Grade Security</h3>
+                            <p class="text-sm text-[#4c739a] dark:text-slate-400">Your data is protected by the latest
+                                encryption.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-2xl rotate-1 group">
+                    <img alt="Team collaborating in a bright office space"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        data-alt="Collaborative tech team working on insurance software"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvEcAVpoistYfEQMHV_ngqBtJbrJYg-3Gogne8q-0VVi6Smmqh1qBBDoEBG0nDLAxqVN7ZSITzrlK9P2vW9jqNw508FQKZDkJEWgZtnFvWD2M8H_Q6GlIcipsnpPu6nDWgf6fId_inOy1uvHmwmvRn9ejU6ndbpeqyH-yVVR9Tm9KSMYozdlO4OP18Jm7Mn6nhd3wqZeDJ8ttucB1THe3HCQsd9tF1jvBjnviSFqrYENghq130wwJyMqY6jWx9pWOmJV46stIhWGnQ" />
+                </div>
+            </div>
+        </section>
+        <!-- Our Impact Banner -->
+        <section class="px-4 md:px-10 py-10">
+            <div
+                class="bg-primary rounded-2xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="text-center md:text-left">
+                    <h2 class="text-4xl md:text-5xl font-black mb-2 tracking-tighter">80% Less Paperwork</h2>
+                    <p class="text-xl text-primary-20 opacity-90">Our automated system has revolutionized the
+                        traditional filing process.</p>
+                </div>
+                <div class="flex gap-8 items-center border-l-0 md:border-l border-white/20 md:pl-8">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold">1M+</div>
+                        <div class="text-xs uppercase font-bold opacity-70">Policies Issued</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold">15min</div>
+                        <div class="text-xs uppercase font-bold opacity-70">Avg. Claim Time</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Our History Timeline -->
+        <section class="px-4 md:px-10 py-12">
+            <h2 class="text-2xl font-bold mb-8 border-b border-[#cfdbe7] dark:border-slate-700 pb-4">Our Journey</h2>
+            <div class="grid grid-cols-[40px_1fr] gap-x-6">
+                <!-- 2010 -->
+                <div class="flex flex-col items-center gap-1 pt-3">
+                    <div class="text-primary material-symbols-outlined">rocket_launch</div>
+                    <div class="w-[2px] bg-primary/20 h-full grow"></div>
+                </div>
+                <div class="flex flex-col py-4">
+                    <p class="text-primary text-sm font-bold uppercase tracking-wider">2010</p>
+                    <p class="text-[#0d141b] dark:text-white text-xl font-bold">Founded in Silicon Valley</p>
+                    <p class="text-[#4c739a] dark:text-slate-400 text-base mt-2">Started with a core vision to
+                        revolutionize the manual vehicle insurance industry through cloud computing.</p>
+                </div>
+                <!-- 2015 -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-[2px] bg-primary/20 h-4"></div>
+                    <div class="text-primary material-symbols-outlined">auto_awesome</div>
+                    <div class="w-[2px] bg-primary/20 h-full grow"></div>
+                </div>
+                <div class="flex flex-col py-8">
+                    <p class="text-primary text-sm font-bold uppercase tracking-wider">2015</p>
+                    <p class="text-[#0d141b] dark:text-white text-xl font-bold">Digitization Milestone</p>
+                    <p class="text-[#4c739a] dark:text-slate-400 text-base mt-2">Successfully transitioned 100% of our
+                        partner carrier networks from paper-based to fully digital API integrations.</p>
+                </div>
+                <!-- Present -->
+                <div class="flex flex-col items-center gap-1 pb-3">
+                    <div class="w-[2px] bg-primary/20 h-4"></div>
+                    <div class="text-primary material-symbols-outlined">leaderboard</div>
+                </div>
+                <div class="flex flex-col py-4">
+                    <p class="text-primary text-sm font-bold uppercase tracking-wider">Today</p>
+                    <p class="text-[#0d141b] dark:text-white text-xl font-bold">Industry Leadership</p>
+                    <p class="text-[#4c739a] dark:text-slate-400 text-base mt-2">Leading the market in automated vehicle
+                        insurance processing with AI-driven damage assessments.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Key Features Grid -->
+        <section
+            class="px-4 md:px-10 py-12 bg-white dark:bg-slate-900 rounded-3xl mt-12 shadow-sm border border-[#cfdbe7] dark:border-slate-800">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-3xl font-black mb-4">The AVIMS Ecosystem</h2>
+                <p class="text-[#4c739a] dark:text-slate-400">Powerful tools designed to simplify every aspect of your
+                    insurance lifecycle.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div
+                    class="flex flex-col gap-4 p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-800/50 hover:shadow-md transition-shadow">
+                    <div class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">timer</span>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-lg font-bold">Real-time Estimates</h3>
+                        <p class="text-sm text-[#4c739a] dark:text-slate-400 leading-relaxed">Our immediate pricing
+                            engine generates instant quotes based on live data.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div
+                    class="flex flex-col gap-4 p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-800/50 hover:shadow-md transition-shadow">
+                    <div class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">cloud_upload</span>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-lg font-bold">Digital Claims</h3>
+                        <p class="text-sm text-[#4c739a] dark:text-slate-400 leading-relaxed">Paperless submission
+                            through our mobile app with real-time AI verification.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div
+                    class="flex flex-col gap-4 p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-800/50 hover:shadow-md transition-shadow">
+                    <div class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">location_on</span>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-lg font-bold">Inspection Tracking</h3>
+                        <p class="text-sm text-[#4c739a] dark:text-slate-400 leading-relaxed">Track the exact status and
+                            location of vehicle assessments on a live map.</p>
+                    </div>
+                </div>
+                <!-- Feature 4 -->
+                <div
+                    class="flex flex-col gap-4 p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-800 bg-background-light dark:bg-slate-800/50 hover:shadow-md transition-shadow">
+                    <div class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-lg font-bold">Automated Billing</h3>
+                        <p class="text-sm text-[#4c739a] dark:text-slate-400 leading-relaxed">Seamless subscription
+                            management and automated tax-ready invoicing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Our Team & Office -->
+        <section class="px-4 md:px-10 py-20">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                <div class="max-w-xl">
+                    <h2 class="text-3xl font-black mb-4">The Faces Behind the Tech</h2>
+                    <p class="text-[#4c739a] dark:text-slate-400">Our diverse team of engineers, insurance experts, and
+                        designers are working around the clock to build a safer world for drivers.</p>
+                </div>
+                <button
+                    class="bg-[#e7edf3] dark:bg-slate-800 text-primary font-bold px-6 py-2 rounded-lg hover:bg-primary hover:text-white transition-all">
+                    View Careers
+                </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 h-[500px]">
+                <div class="rounded-xl overflow-hidden shadow-lg">
+                    <img alt="Woman engineer working on code" class="w-full h-full object-cover"
+                        data-alt="Software engineer developing insurance algorithms"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxaw7vD5QzunzMjy_lsTU3QX4brhqGAtQ1_IFFx4huuwKpHGyTbNLibtA9SZSoGScwsKtz3DmVpbZaoEZEN4jg14jZQPIWI_QTM--GjLK6RJK5Dilp6XRJ6G3m-fVsxVHsrmsySTWVWxIy1Ae-i4i5svKfDPUjxWcCsgXTUTbwCx2ShN-5UTll7P_a1IS4GqisXCOy7MLd8IA1IKmFG6donLrwl6BloTzTO8Y1Z-SJqIPqJzRww0izVlf1qi_DPlIBFeISF5L76oiD" />
+                </div>
+                <div class="flex flex-col gap-4 h-full">
+                    <div class="rounded-xl overflow-hidden h-1/2 shadow-lg">
+                        <img alt="Modern minimalist office lobby" class="w-full h-full object-cover"
+                            data-alt="Modern minimalist office workspace"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLQail5ct22gb8P7xSkEZt5Gn3hzPj2it-Q5_lHlATZ0CVVOwYRfx-00tONZ0SwP0nl96XZPRKiMF0XvpA4ZTU2GRTOSEh_XnUtYsmkRW6jF29erIrHm27ZkGYagQ98kh9oWipcf1tdyILPggBqaFTfThiCrbxj_7yKCXmYB4mNTjqW39BXjpMlEWbQKhapgu7ckncHL1T7VLTVwRknYE9PcCch8LP0WO9UInD_txBeP0dFlWaFUavJc-j_LyCE3tg916w0HCoT-7O" />
+                    </div>
+                    <div class="rounded-xl overflow-hidden h-1/2 shadow-lg">
+                        <img alt="Team discussing at a table" class="w-full h-full object-cover"
+                            data-alt="Strategic planning session in a conference room"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcaQtlds8TQfcqRcU-g1AZP4lTn1OxcalKkBjnHAqNHBE5U3In4cn1ztLbjM1QPyvPFHiDocfYC3-jUcmgrC3699Ag16BWbLo0_VYOpQGFLQ-sCqPRrr3uKTKXOVICvGzNGtecYGVL0dJJM5JN5_cchgYo8pD9S6dX7eKRh5ZN6zzN7HkPmwXvDNfbcuM5ZlUxTSdfLXD170XRNKqWZGhHXbD8ST1eppvUNiqtBY6f_Cf8nRcpZ31zCx70cipf-CwkQhwN5cxYWQBe" />
+                    </div>
+                </div>
+                <div class="hidden md:block rounded-xl overflow-hidden shadow-lg">
+                    <img alt="Group of developers laughing" class="w-full h-full object-cover"
+                        data-alt="Collaborative tech team working together"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNPoyTeOuiye2UrjTteCpZz2vJPWBjE7ZOknUDnHGzXd3ztEBWC0DoFeG-PhNEaKhih1A4uRq95n-cHuyys9Rv-yNMIbBXZPlyhuUDcJD-EkiF8Gxmr6HNuuyU6Bc_lrL2FWi6hq0CY_AMKYyqFr9hys0Vm1JjN0CsfJ0vIQW5Glte9PNgGN7L_1uyD-R-VYNs0944xsPpjOcHKDcPibM-4ZH0rSomWFnxAYL8xXaxDsk0HmHWDMN5Xua2f8TOqUFqy_M5lhRuhWGj" />
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

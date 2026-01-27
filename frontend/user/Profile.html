@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Customer Profile | InsureGuard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-50 min-h-screen">
+    <div class="layout-container flex flex-col min-h-screen">
+        <!-- Header from template -->
+        <div id="header-container"></div>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex justify-center pb-8 px-4 md:px-10 lg:px-40 pt-8">
+            <div class="max-w-[1200px] w-full flex flex-col md:flex-row gap-8">
+                <!-- Sidebar -->
+                <aside class="w-full md:w-64 flex-shrink-0">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm flex flex-col gap-8 h-fit">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                data-alt="Round customer avatar"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAq5OnZrBCQ63qkNU2gqev59Ar5bse8yJDteSvvDRA8QRu45Z5_HYdmH3FelO2KSv-3vB-wz9V46vvpV80ayu1F_Fk_useJfi7PRe5DgirWNjNji1jqoU5ndCKamAg_04zyobGQVQLRc9JV8Ok2gOAn6aQjb0ng9Esk69MkVROnL7XsxyCeksS3kRADqnrPXW3jFWKCItQjoUoQlb-HLsejGDNHBJnTx1aDYc6qBQB0_A5Sjw6EUWIMh5Gg3v6b1VzqqfYO-MSD8yuJ");'>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[#0d141b] dark:text-white text-base font-bold leading-none">Tran Bao
+                                    Toan
+                                </h1>
+                                <p class="text-[#4c739a] text-xs mt-1">Gold Tier Member</p>
+                            </div>
+                        </div>
+                        <nav class="flex flex-col gap-1">
+                            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold"
+                                href="Profile.html">
+                                <span class="material-symbols-outlined">person</span>
+                                <span class="text-sm">My Profile</span>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                href="VehiclesList.html">
+                                <span class="material-symbols-outlined">directions_car</span>
+                                <span class="text-sm">My Vehicles</span>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                href="PolicyLookup.html">
+                                <span class="material-symbols-outlined">verified_user</span>
+                                <span class="text-sm">My Active Policies</span>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                href="InspectionList.html">
+                                <span class="material-symbols-outlined">fact_check</span>
+                                <span class="text-sm">My Inspections</span>
+                            </a>
+                            <div class="my-2 border-t border-slate-100 dark:border-slate-800"></div>
+                            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                href="BillingList.html">
+                                <span class="material-symbols-outlined">receipt_long</span>
+                                <span class="text-sm">Transaction History</span>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                href="CancellationList.html">
+                                <span class="material-symbols-outlined">cancel_presentation</span>
+                                <span class="text-sm">Cancellations History</span>
+                            </a>
+                        </nav>
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                            <button
+                                class="w-full bg-primary text-white text-sm font-bold py-3 rounded-lg hover:bg-primary/90 transition-shadow shadow-md shadow-primary/20">
+                                View ID Cards
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+                <!-- Profile Content -->
+                <div class="flex-1 flex flex-col gap-6">
+                    <!-- Profile Header Card -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6">
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div class="flex items-center gap-6">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-24 w-24 ring-4 ring-slate-50 dark:ring-slate-800"
+                                    data-alt="Large profile header photo"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtSh71JeBSSuTpH1YSIz-p3QoPpiLzO4HP3EFiZKb1-z8LY619pdA1Tl_2LM4Rul4yNsJvMUoIJDdQbS2INtDyAMRBeIZBkA_yxzCSJLNSWJxF9OQDQjnkM6gZeFJe1VdCByyZVHG33JtL_eG8pRvfqFT3V09DWNnWphl8MUTLnLcaKTt9nh0v1MuwGKZxjfPWt6-38BWxUr1DcVRjj3yi26fNmuXz5GSIg-BGoBOuVApiMy_yzNrQPqy0btC7kEjxkRtzZ1Qfsz1I");'>
+                                </div>
+                                <div class="flex flex-col">
+                                    <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white">Tran Bao Toan</h2>
+                                    <p class="text-[#4c739a] text-sm">Member ID: A23141<span
+                                            class="font-mono text-primary font-medium">#8829104</span></p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                            Account Verified
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-full md:w-auto">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                                Edit Profile
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Personal Information -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm overflow-hidden">
+                        <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800">
+                            <h3 class="text-lg font-bold text-[#0d141b] dark:text-white">Personal Information</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Full Name
+                                    </p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">Tran Bao Toan
+                                    </p>
+                                </div>
+                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Email
+                                        Address</p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">
+                                        thomastran.fullstack@gmail.com</p>
+                                </div>
+                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Phone
+                                        Number</p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">034-361-7067
+                                    </p>
+                                </div>
+                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Mailing
+                                        Address</p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-relaxed">
+                                        123 Nam Song Hau, Tran De, Can Tho, VietNam</p>
+                                </div>
+                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Date of
+                                        Birth</p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">November 2, 2004
+                                    </p>
+                                </div>
+                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Driver's
+                                        License</p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">•••• •••• 5692
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Additional Settings -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-primary rounded-xl">
+                                    <span class="material-symbols-outlined">lock</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Security</h4>
+                                    <p class="text-xs text-[#4c739a]">Manage your password</p>
+                                </div>
+                            </div>
+                            <button class="text-primary text-sm font-bold hover:underline">Manage</button>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-800 text-slate-500 rounded-xl">
+                                    <span class="material-symbols-outlined">mail</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Notifications</h4>
+                                    <p class="text-xs text-[#4c739a]">Email &amp; SMS alerts</p>
+                                </div>
+                            </div>
+                            <button class="text-primary text-sm font-bold hover:underline">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Get New Quote - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .step-active {
+            color: #137fec;
+        }
+
+        .step-completed {
+            color: #10b981;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <div id="header-container"></div>
+    <main class="max-w-[1200px] mx-auto px-4 lg:px-10 py-8 pt-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Get a New Insurance Quote
+            </h1>
+            <p class="text-slate-600 dark:text-slate-400 text-lg">Quick, easy, and transparent insurance for your
+                vehicle.</p>
+        </div>
+        <div class="mb-10">
+            <div class="flex items-center justify-between max-w-4xl mx-auto">
+                <div class="flex flex-col items-center gap-2 flex-1 relative">
+                    <div
+                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center font-bold z-10 shadow-lg shadow-primary/20">
+                        1</div>
+                    <span class="text-xs font-bold text-primary uppercase tracking-wider">Vehicle Info</span>
+                    <div class="absolute top-5 left-1/2 w-full h-0.5 bg-slate-200 dark:bg-slate-800 -z-0"></div>
+                </div>
+                <div class="flex flex-col items-center gap-2 flex-1 relative">
+                    <div
+                        class="size-10 rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold z-10">
+                        2</div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Coverage</span>
+                    <div class="absolute top-5 left-1/2 w-full h-0.5 bg-slate-200 dark:bg-slate-800 -z-0"></div>
+                </div>
+                <div class="flex flex-col items-center gap-2 flex-1 relative">
+                    <div
+                        class="size-10 rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold z-10">
+                        3</div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Details</span>
+                    <div class="absolute top-5 left-1/2 w-full h-0.5 bg-slate-200 dark:bg-slate-800 -z-0"></div>
+                </div>
+                <div class="flex flex-col items-center gap-2 flex-1">
+                    <div
+                        class="size-10 rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center font-bold z-10">
+                        4</div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Review</span>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 dark:border-slate-800">
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Step 1: Vehicle Information</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Please provide the details of the
+                            vehicle you wish to insure.</p>
+                    </div>
+                    <form class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300"
+                                    for="make">Vehicle Make</label>
+                                <select
+                                    class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-primary focus:border-primary"
+                                    id="make">
+                                    <option value="">Select Make</option>
+                                    <option>Tesla</option>
+                                    <option>BMW</option>
+                                    <option>Toyota</option>
+                                    <option>Honda</option>
+                                    <option>Ford</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300"
+                                    for="model">Vehicle Model</label>
+                                <input
+                                    class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-primary focus:border-primary"
+                                    id="model" placeholder="e.g. Model 3, X5" type="text" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300"
+                                    for="year">Production Year</label>
+                                <select
+                                    class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-primary focus:border-primary"
+                                    id="year">
+                                    <option value="">Select Year</option>
+                                    <option>2024</option>
+                                    <option>2023</option>
+                                    <option>2022</option>
+                                    <option>2021</option>
+                                    <option>2020</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300"
+                                    for="license">License Plate Number</label>
+                                <input
+                                    class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-primary focus:border-primary uppercase"
+                                    id="license" placeholder="ABC-1234" type="text" />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="vin">Vehicle
+                                Identification Number (VIN)</label>
+                            <div class="relative">
+                                <input
+                                    class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-primary focus:border-primary uppercase"
+                                    id="vin" placeholder="17-character alphanumeric code" type="text" />
+                                <span
+                                    class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-help"
+                                    title="Look for this on your registration document or dashboard">help</span>
+                            </div>
+                        </div>
+                        <div
+                            class="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                            <button class="text-slate-500 hover:text-slate-700 font-bold text-sm px-6 py-2.5"
+                                type="button">
+                                Cancel
+                            </button>
+                            <button
+                                class="bg-primary hover:bg-primary/90 text-white px-8 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 transition-all"
+                                type="button">
+                                Next Step: Coverage
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="lg:col-span-4">
+                <div class="sticky top-24 space-y-6">
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div
+                            class="p-5 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+                            <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">receipt_long</span>
+                                Price Summary
+                            </h3>
+                        </div>
+                        <div class="p-5 space-y-4">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 dark:text-slate-400">Base Premium</span>
+                                <span class="font-semibold text-slate-900 dark:text-white">$0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 dark:text-slate-400">Coverage Add-ons</span>
+                                <span class="font-semibold text-slate-900 dark:text-white">$0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 dark:text-slate-400">Discounts</span>
+                                <span class="font-semibold text-emerald-600">-$0.00</span>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-slate-900 dark:text-white">Estimated Total</span>
+                                    <span class="text-2xl font-black text-primary">$0.00</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-2 text-center uppercase tracking-widest">Pricing
+                                    updates as you complete the form</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/20 p-5">
+                        <h4 class="font-bold text-primary text-sm mb-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">support_agent</span>
+                            Need Assistance?
+                        </h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Our agents are available 24/7 to help you choose the best coverage for your needs.
+                        </p>
+                        <a class="text-xs font-bold text-primary hover:underline" href="#">Chat with an expert</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Request Cancellation - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.5);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+        <!-- Header from template -->
+        <div id="header-container"></div>
+        <main class="flex flex-1 justify-center pb-8 pt-8">
+            <div class="layout-content-container flex flex-col max-w-[1000px] w-full px-6 md:px-10">
+                <div class="flex flex-col gap-2 mb-8">
+                    <h1 class="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-tight">Request
+                        Policy Cancellation</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-base max-w-2xl">
+                        Fill out the form below to initiate the termination of your insurance policy. Please review the
+                        terms and refund estimation carefully.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 flex flex-col gap-6">
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
+                            <form action="#" class="space-y-8">
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="flex items-center justify-center size-8 rounded-full bg-primary text-white text-xs font-bold">1</span>
+                                        <h3 class="text-lg font-bold">Select Policy</h3>
+                                    </div>
+                                    <div class="pl-11">
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Active
+                                            Policies</label>
+                                        <select
+                                            class="form-select w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                            <option value="">Choose a policy to cancel</option>
+                                            <option value="pol-10293">POL-10293 - Comprehensive Auto (2022 Tesla Model
+                                                3)</option>
+                                            <option value="pol-44921">POL-44921 - Liability Only (2018 Ford F-150)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="flex items-center justify-center size-8 rounded-full bg-primary text-white text-xs font-bold">2</span>
+                                        <h3 class="text-lg font-bold">Cancellation Reason</h3>
+                                    </div>
+                                    <div class="pl-11 space-y-4">
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Primary
+                                                Reason</label>
+                                            <select
+                                                class="form-select w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                                <option value="">Select a reason</option>
+                                                <option value="sold">Vehicle Sold</option>
+                                                <option value="rate">Better Rate Found Elsewhere</option>
+                                                <option value="service">Dissatisfied with Service</option>
+                                                <option value="moving">Moving Out of Coverage Area</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Additional
+                                                Comments (Optional)</label>
+                                            <textarea
+                                                class="form-textarea w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary min-h-[100px]"
+                                                placeholder="Please provide more details..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="flex items-center justify-center size-8 rounded-full bg-primary text-white text-xs font-bold">3</span>
+                                        <h3 class="text-lg font-bold">Cancellation Date</h3>
+                                    </div>
+                                    <div class="pl-11">
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Requested
+                                            Effective Date</label>
+                                        <div class="relative">
+                                            <input
+                                                class="form-input w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary pr-10"
+                                                type="date" value="2024-05-20" />
+                                        </div>
+                                        <p class="mt-2 text-[12px] text-slate-500">Note: Cancellation cannot be
+                                            backdated more than 30 days without proof of sale.</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-4">
+                                    <button
+                                        class="px-6 py-2.5 rounded-lg font-bold text-sm text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
+                                        type="button">Cancel</button>
+                                    <button
+                                        class="bg-primary hover:bg-primary/90 text-white px-8 py-2.5 rounded-lg font-bold text-sm transition-all shadow-md active:scale-95"
+                                        type="submit">Submit Request</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div
+                                class="p-5 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                <h3 class="font-bold text-sm flex items-center gap-2">
+                                    <span
+                                        class="material-symbols-outlined text-primary text-[20px]">account_balance_wallet</span>
+                                    Refund Estimation
+                                </h3>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-500">Unused Premium</span>
+                                    <span class="font-medium">$452.40</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-500">Cancellation Fee</span>
+                                    <span class="text-red-500">-$25.00</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-500">Taxes &amp; Levies</span>
+                                    <span class="text-red-500">-$12.15</span>
+                                </div>
+                                <div class="pt-4 border-t border-dashed border-slate-200 dark:border-slate-700">
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-bold">Estimated Refund</span>
+                                        <span class="text-xl font-black text-primary">$415.25</span>
+                                    </div>
+                                </div>
+                                <div class="bg-blue-50 dark:bg-primary/10 p-3 rounded-lg flex gap-2">
+                                    <span class="material-symbols-outlined text-primary text-[18px]">info</span>
+                                    <p class="text-[11px] text-blue-800 dark:text-blue-300 leading-tight">
+                                        This is a preliminary estimate based on the selected date. Final amount may vary
+                                        upon audit.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-amber-50 dark:bg-amber-500/10 rounded-xl border border-amber-200 dark:border-amber-500/20 p-6">
+                            <div class="flex items-center gap-3 mb-4 text-amber-700 dark:text-amber-400">
+                                <span class="material-symbols-outlined">warning</span>
+                                <h3 class="font-bold text-sm uppercase tracking-wider">Important Warning</h3>
+                            </div>
+                            <ul class="space-y-3 text-xs text-amber-800/80 dark:text-amber-300/80 leading-relaxed">
+                                <li class="flex gap-2">
+                                    <span class="font-bold">•</span>
+                                    <span>Driving without insurance is illegal in most jurisdictions and may result in
+                                        heavy fines or license suspension.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold">•</span>
+                                    <span>A gap in insurance coverage can lead to significantly higher premiums in the
+                                        future.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold">•</span>
+                                    <span>Lienholders and leasing companies require continuous coverage. Cancellation
+                                        may violate your finance agreement.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <a class="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary transition-all group"
+                            href="cancellation-history.html">
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">history</span>
+                                <span class="text-sm font-semibold">View History</span>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400 text-[18px]">chevron_right</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

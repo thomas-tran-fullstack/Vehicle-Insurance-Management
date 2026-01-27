@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AVIMS Support Hub</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b7cee",
+                        "navy": "#0f172a",
+                        "background-light": "#f8fafc",
+                        "border-light": "#e2e8f0",
+                        "text-navy": "#0f172a",
+                        "text-muted": "#64748b"
+                    },
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-glow:focus-within {
+            box-shadow: 0 0 0 3px rgba(43, 124, 238, 0.15);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Animation cho câu trả lời */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+
+        .faq-active .faq-answer {
+            max-height: 500px;
+            padding-top: 1rem;
+        }
+
+        .faq-active .arrow-icon {
+            transform: rotate(90deg);
+            color: #2b7cee;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light font-display text-text-navy transition-colors duration-300">
+
+    <div id="header-container"></div>
+
+    <main class="max-w-[1200px] mx-auto px-6 py-12 space-y-16 pt-8">
+        <section class="relative rounded-2xl overflow-hidden min-h-[350px] flex flex-col items-center justify-center text-center p-8 bg-white border border-border-light shadow-sm">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5"></div>
+            <div class="relative max-w-2xl w-full space-y-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-navy leading-tight">
+                    How can we <span class="text-primary">help you?</span>
+                </h1>
+                <p class="text-text-muted text-lg max-w-lg mx-auto">
+                    Search our knowledge base for policy updates, claim status, or billing inquiries.
+                </p>
+                <div class="relative max-w-xl mx-auto custom-glow rounded-xl overflow-hidden group border border-border-light shadow-sm">
+                    <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-text-muted group-focus-within:text-primary transition-colors">
+                        <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <input id="searchInput" onkeyup="searchFaq()"
+                           class="w-full bg-white border-none py-5 pl-12 pr-32 focus:ring-0 text-navy placeholder:text-text-muted rounded-xl"
+                           placeholder="Type keywords (e.g. claim, policy)..." type="text" />
+                    <button class="absolute right-2 inset-y-2 bg-primary text-white px-6 rounded-lg font-bold text-sm hover:bg-primary/90 transition-colors">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <h2 class="text-2xl font-extrabold tracking-tight text-navy px-2">Support Categories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card-hover group p-8 rounded-xl border border-border-light bg-white flex flex-col gap-4 cursor-pointer shadow-sm">
+                    <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined">description</span></div>
+                    <div><h3 class="font-bold text-lg mb-1">Policy Management</h3><p class="text-text-muted text-sm">Renewals, coverage updates.</p></div>
+                </div>
+                <div class="card-hover group p-8 rounded-xl border border-border-light bg-white flex flex-col gap-4 cursor-pointer shadow-sm">
+                    <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined">car_crash</span></div>
+                    <div><h3 class="font-bold text-lg mb-1">Claims Help</h3><p class="text-text-muted text-sm">File a new claim or track status.</p></div>
+                </div>
+                <div class="card-hover group p-8 rounded-xl border border-border-light bg-white flex flex-col gap-4 cursor-pointer shadow-sm">
+                    <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined">account_balance_wallet</span></div>
+                    <div><h3 class="font-bold text-lg mb-1">Billing & Payments</h3><p class="text-text-muted text-sm">View invoices, autopay options.</p></div>
+                </div>
+                <div class="card-hover group p-8 rounded-xl border border-border-light bg-white flex flex-col gap-4 cursor-pointer shadow-sm">
+                    <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span class="material-symbols-outlined">settings_suggest</span></div>
+                    <div><h3 class="font-bold text-lg mb-1">Technical Support</h3><p class="text-text-muted text-sm">Login issues, app help.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-5 space-y-8">
+                <div>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-navy mb-2">Trending FAQs</h2>
+                    <p class="text-text-muted text-sm">Most common questions from our community.</p>
+                </div>
+
+                <div id="faqContainer" class="space-y-4">
+                    <p class="text-center text-gray-400 py-4">Loading questions...</p>
+                </div>
+
+                <div class="p-8 rounded-xl bg-navy/5 border border-navy/10 flex flex-col items-center text-center gap-4">
+                    <div class="size-14 rounded-full bg-navy flex items-center justify-center text-white">
+                        <span class="material-symbols-outlined text-3xl">support_agent</span>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-navy">Need more help?</h4>
+                        <p class="text-text-muted text-sm mt-1">Our team is available 24/7 via live chat.</p>
+                    </div>
+                    <button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-bold transition-all shadow-md">Start Live Chat</button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-8">
+                <div class="p-8 rounded-xl border border-border-light bg-white space-y-8 shadow-sm">
+                    <div>
+                        <h2 class="text-2xl font-extrabold tracking-tight text-navy mb-2">Create a Support Ticket</h2>
+                        <p class="text-text-muted text-sm">Can't find what you're looking for? Submit a detailed inquiry.</p>
+                    </div>
+
+                    <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-navy uppercase tracking-wider">Full Name</label>
+                            <input id="contactName" required class="bg-background-light border-border-light rounded-lg px-4 py-3 focus:ring-primary focus:border-primary text-navy" placeholder="John Doe" type="text" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-navy uppercase tracking-wider">Policy Number (Optional)</label>
+                            <input id="contactPolicy" class="bg-background-light border-border-light rounded-lg px-4 py-3 focus:ring-primary focus:border-primary text-navy" placeholder="AV-12345678" type="text" />
+                        </div>
+                        <div class="flex flex-col gap-2 md:col-span-2">
+                            <label class="text-xs font-bold text-navy uppercase tracking-wider">Description</label>
+                            <textarea id="contactMessage" required class="bg-background-light border-border-light rounded-lg px-4 py-3 focus:ring-primary focus:border-primary text-navy" placeholder="Describe your issue..." rows="4"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" id="submitBtn" class="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-extrabold text-lg transition-all flex items-center justify-center gap-3 shadow-lg shadow-primary/20">
+                                <span class="material-symbols-outlined">send</span> Submit Inquiry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script>
+        // --- CẤU HÌNH ---
+        const API_BASE = 'http://localhost:5169/api'; // KIỂM TRA PORT CỦA BẠN TẠI ĐÂY
+
+        // 1. Load Header & Footer templates
+        fetch('../templates/header.html').then(r => r.text()).then(h => document.getElementById('header-container').innerHTML = h).catch(() => { });
+        fetch('../templates/footer.html').then(r => r.text()).then(h => document.getElementById('footer-container').innerHTML = h).catch(() => { });
+
+        let allFaqs = [];
+
+        // 2. Tải và hiển thị FAQ từ Backend
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('faqContainer');
+            try {
+                const res = await fetch(`${API_BASE}/Faqs`);
+                if (!res.ok) throw new Error("Server Error");
+
+                allFaqs = await res.json();
+                renderFaqs(allFaqs);
+            } catch (err) {
+                console.error("Lỗi:", err);
+                container.innerHTML = `
+                        <div class="p-4 rounded-xl bg-red-50 text-red-600 border border-red-100 text-center text-sm">
+                            <p class="font-bold">Backend is not connected!</p>
+                            <p>Check 'dotnet run' and CORS settings.</p>
+                        </div>`;
+            }
+        });
+
+        function renderFaqs(data) {
+            const container = document.getElementById('faqContainer');
+            container.innerHTML = data.length === 0 ? '<p class="text-center text-gray-500">No FAQs match your search.</p>' : '';
+
+            data.forEach(item => {
+                const html = `
+                        <div class="rounded-xl border border-border-light bg-white overflow-hidden transition-colors cursor-pointer group shadow-sm hover:border-primary/50"
+                             onclick="toggleAnswer(this)">
+                            <div class="p-5 flex items-center justify-between">
+                                <span class="font-bold text-sm text-navy group-hover:text-primary transition-colors select-none">
+                                    ${item.question}
+                                </span>
+                                <span class="material-symbols-outlined text-text-muted text-lg arrow-icon transition-transform duration-300">
+                                    chevron_right
+                                </span>
+                            </div>
+                            <div class="faq-answer px-5 bg-slate-50 text-text-muted text-sm leading-relaxed border-t border-transparent">
+                                <div class="pb-5">${item.answer}</div>
+                            </div>
+                        </div>`;
+                container.innerHTML += html;
+            });
+        }
+
+        function toggleAnswer(element) {
+            element.classList.toggle('faq-active');
+        }
+
+        function searchFaq() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allFaqs.filter(f =>
+                f.question.toLowerCase().includes(keyword) ||
+                f.answer.toLowerCase().includes(keyword)
+            );
+            renderFaqs(filtered);
+        }
+
+        // 3. Xử lý gửi Form Contact lên Backend
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+
+            // Lấy dữ liệu từ các ô input
+            const formData = {
+                name: document.getElementById('contactName').value,
+                // Ghép Policy và Message vào một chuỗi nếu Model của bạn chỉ có 1 trường 'Message'
+                message: `Policy: ${document.getElementById('contactPolicy').value} | Issue: ${document.getElementById('contactMessage').value}`
+            };
+
+            // Vô hiệu hóa nút tránh bấm nhiều lần
+            btn.disabled = true;
+            btn.innerHTML = "Submitting...";
+
+            try {
+                const res = await fetch(`${API_BASE}/Contacts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (res.ok) {
+                    alert("Ticket Created Successfully! We will respond shortly.");
+                    document.getElementById('contactForm').reset();
+                } else {
+                    alert("Submission failed. Please check your data or API.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection error! Is your backend running?");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined">send</span> Submit Inquiry';
+            }
+        });
+    </script>
+</body>
+</html>

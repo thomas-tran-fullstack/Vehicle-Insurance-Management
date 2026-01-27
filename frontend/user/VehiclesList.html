@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Vehicles List - InsureDrive</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#0d141b] dark:text-slate-100">
+    <!-- Header from template -->
+    <div id="header-container"></div>
+    <main class="max-w-[1200px] mx-auto px-6 pb-8 pt-8">
+        <!-- Page Heading Section -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <div class="flex flex-col gap-1">
+                <h1 class="text-[#0d141b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">My
+                    Vehicles</h1>
+                <p class="text-[#4c739a] dark:text-slate-400 text-base font-normal">Review coverage, file claims, and
+                    manage your garage.</p>
+            </div>
+            <button onclick="location.href='ClaimRequest.html'"
+                class="flex min-w-[160px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold transition-transform active:scale-95 shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined">add_circle</span>
+                <span class="truncate">Add New Vehicle</span>
+            </button>
+        </div>
+        <!-- Summary Stats Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div
+                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Total Vehicles</p>
+                    <span class="material-symbols-outlined text-primary">directions_car</span>
+                </div>
+                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">3</p>
+            </div>
+            <div
+                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Active Policies</p>
+                    <span class="material-symbols-outlined text-green-500">verified_user</span>
+                </div>
+                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">2</p>
+            </div>
+            <div
+                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Expiring Soon</p>
+                    <span class="material-symbols-outlined text-amber-500">warning</span>
+                </div>
+                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">1</p>
+            </div>
+            <div
+                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Pending Claims</p>
+                    <span class="material-symbols-outlined text-[#4c739a]">history</span>
+                </div>
+                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">0</p>
+            </div>
+        </div>
+        <!-- Filter and Search Bar -->
+        <div
+            class="bg-white dark:bg-background-dark p-4 rounded-xl border border-[#cfdbe7] dark:border-slate-800 mb-6 flex flex-col md:flex-row gap-4 items-center">
+            <div class="flex-1 w-full">
+                <label class="flex flex-col h-12 w-full">
+                    <div
+                        class="flex w-full flex-1 items-stretch rounded-lg h-full border border-[#cfdbe7] dark:border-slate-700 bg-white dark:bg-slate-900">
+                        <div class="text-[#4c739a] flex items-center justify-center pl-4 rounded-l-lg border-r-0">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input
+                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-transparent h-full placeholder:text-[#4c739a] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                            placeholder="Search by license plate, make, or model..." value="" />
+                    </div>
+                </label>
+            </div>
+            <div class="flex gap-2 w-full md:w-auto">
+                <button
+                    class="flex flex-1 md:flex-none items-center justify-center gap-2 px-4 py-2 bg-[#e7edf3] dark:bg-slate-800 rounded-lg text-[#0d141b] dark:text-white font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <span class="material-symbols-outlined text-xl">filter_list</span>
+                    <span>Filters</span>
+                </button>
+                <button
+                    class="flex flex-1 md:flex-none items-center justify-center gap-2 px-4 py-2 bg-[#e7edf3] dark:bg-slate-800 rounded-lg text-[#0d141b] dark:text-white font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <span class="material-symbols-outlined text-xl">sort</span>
+                    <span>Sort</span>
+                </button>
+            </div>
+        </div>
+        <!-- Vehicle Grid Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Vehicle Card 1 -->
+            <div
+                class="flex flex-col bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover"
+                    data-alt="Modern blue sedan driving on a highway"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmTR66kl9Q8wBV38hcTrK--0xiiCmj7xH5uz7ZWX9I-J3sKCVP1B7WwDL0CUvs79ELPKfd0pJl6L1HeHyMC2dpiCRUbQWMaZbkdwFtLbHqRmuY_sNvbLPo49iFyAxauF7jNaTg0vOllyGEkQe-QxiwOKO24nmHfIyfehkEqKbpdxswYfLXrM-mQO6kxaGOVGszH3mJyNB7aajiL3fr62I-6Ib0ueVJnB4lN3rAgZo6l5X01KD7S1la3WQzE7WzgP5yjvQ-HuM8So1e");'>
+                    <div class="absolute top-3 right-3">
+                        <span
+                            class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 backdrop-blur-sm">
+                            <span class="material-symbols-outlined text-xs">check_circle</span>
+                            ACTIVE
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">2022 Toyota Camry
+                            </h3>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Plate: <span
+                                    class="font-mono text-primary font-bold">ABC-1234</span></p>
+                        </div>
+                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </button>
+                    </div>
+                    <div class="space-y-2 mt-4 flex-1">
+                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
+                            <span class="material-symbols-outlined text-lg">calendar_today</span>
+                            <span>Policy expires: Dec 12, 2024</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
+                            <span class="material-symbols-outlined text-lg">build</span>
+                            <span>Last service: Oct 2023</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-6">
+                        <button onclick="location.href='VehicleDetail.html'"
+                            class="flex items-center justify-center px-4 py-2 border border-primary text-primary text-sm font-bold rounded-lg hover:bg-primary/5 transition-colors">
+                            View Details
+                        </button>
+                        <button onclick="location.href='Claim.html'"
+                            class="flex items-center justify-center px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-colors">
+                            File Claim
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Vehicle Card 2 -->
+            <div
+                class="flex flex-col bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover"
+                    data-alt="Dark gray SUV parked in a suburban driveway"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWElQReIyIlhQBLs-Ak4mZVLdu7xjql7qiABERoNgBY7afRtkovQ5YDXnewqF-qjpPK-7YffljXAYx2dZYrj5D1WebWWWHBrP9yINbGV0VNYBr2BZpTJTOmHMl5lD9DmSRMLqz5YksefPq95n886BWWNijnQqCvsuA9Gn00qgCelyXOMGHxaf7JVK_8o6YnVnu0fNiHhIkMIVwS01lqhJWvxoXgfJc0MQRldYRDDaJMJF1Js6_0pMJ_3IvMwMlHP_3EVl5nAiqchMB");'>
+                    <div class="absolute top-3 right-3">
+                        <span
+                            class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 backdrop-blur-sm">
+                            <span class="material-symbols-outlined text-xs">check_circle</span>
+                            ACTIVE
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">2020 Honda CR-V
+                            </h3>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Plate: <span
+                                    class="font-mono text-primary font-bold">XYZ-9876</span></p>
+                        </div>
+                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </button>
+                    </div>
+                    <div class="space-y-2 mt-4 flex-1">
+                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
+                            <span class="material-symbols-outlined text-lg">calendar_today</span>
+                            <span>Policy expires: Jan 15, 2025</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
+                            <span class="material-symbols-outlined text-lg">build</span>
+                            <span>Last service: Jan 2024</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-6">
+                        <button onclick="location.href='VehicleDetail.html'"
+                            class="flex items-center justify-center px-4 py-2 border border-primary text-primary text-sm font-bold rounded-lg hover:bg-primary/5 transition-colors">
+                            View Details
+                        </button>
+                        <button onclick="location.href='Claim.html'"
+                            class="flex items-center justify-center px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-colors">
+                            File Claim
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Vehicle Card 3 -->
+            <div
+                class="flex flex-col bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover grayscale"
+                    data-alt="Rugged white pickup truck offroading"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCW2uiAe-YQ1h92pWHreVRi5_2exu01SAjDZuvzK9fcWrQbp-oTox12bK6a_C7hWktHZG6oot6JxqRMJIn-NFiWvhFqxv1WkK_gbJQY3T9Vh9KHiLh5XjWULuScQo4jhjbm0Cn9AXxNcMqjW5dCkVJvUwZGeoQTL82WVTqDjqRQkXKlAIyKTsvJaHVwvSlQoSCoyWUGEJC8PKbeyOCQ2rUW-Q2g0CORi7uRpU7QuKDtJXW5jXDH83s7uqB1r3TS4Xgj_OehtoWf_FTO");'>
+                    <div class="absolute inset-0 bg-black/20"></div>
+                    <div class="absolute top-3 right-3">
+                        <span
+                            class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 backdrop-blur-sm">
+                            <span class="material-symbols-outlined text-xs">error</span>
+                            EXPIRED
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">2018 Ford F-150
+                            </h3>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Plate: <span
+                                    class="font-mono text-primary font-bold">LMN-4567</span></p>
+                        </div>
+                        <button class="text-[#4c739a] hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </button>
+                    </div>
+                    <div class="space-y-2 mt-4 flex-1">
+                        <div class="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 font-medium">
+                            <span class="material-symbols-outlined text-lg">event_busy</span>
+                            <span>Policy expired on Nov 01, 2023</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
+                            <span class="material-symbols-outlined text-lg">info</span>
+                            <span>Renewal required for coverage</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-6">
+                        <button
+                            class="flex items-center justify-center px-4 py-2 border border-[#cfdbe7] dark:border-slate-700 text-[#4c739a] dark:text-slate-400 text-sm font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            View History
+                        </button>
+                        <button
+                            class="flex items-center justify-center px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-colors">
+                            Renew Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination or Load More (Optional) -->
+        <div class="mt-12 flex justify-center">
+            <button
+                class="px-8 py-3 bg-[#e7edf3] dark:bg-slate-800 text-[#0d141b] dark:text-white font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                Load More Vehicles
+            </button>
+        </div>
+    </main>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

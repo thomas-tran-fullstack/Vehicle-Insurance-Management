@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Updated Website Site Map - AVIMS Insurance</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&amp;family=Inter:wght@300..900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --deep-navy: #0A192F;
+            --electric-blue: #2563EB;
+            --soft-white: #F8FAFC;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-white);
+            color: var(--deep-navy);
+        }
+        .heading-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -4px rgba(37, 99, 235, 0.1);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+        .icon-vibrant {
+            color: var(--electric-blue);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0.02) 100%);
+        }
+        .chip-active {
+            background-color: var(--electric-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .sitemap-2x2-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .sitemap-2x2-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "navy": "#0A192F",
+                        "electric": "#2563EB",
+                        "soft": "#F8FAFC"
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-soft dark:bg-[#020617] dark:text-slate-100 transition-colors duration-300">
+    <div id="header-container"></div>
+    <main class="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 pt-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+            <div>
+                <h2 class="text-4xl md:text-5xl font-black heading-font tracking-tight text-navy dark:text-white">
+                    AVIMS Site Map</h2>
+            </div>
+            <div class="w-full md:w-96">
+                <div class="relative group">
+                    <span
+                        class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-electric">search</span>
+                    <input
+                        class="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm focus:ring-2 ring-electric text-sm outline-none transition-all group-hover:border-electric/50"
+                        placeholder="Search for pages, services, or tools..." type="text" />
+                    <kbd
+                        class="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[10px] font-medium text-slate-400">
+                        <span>⌘</span>K
+                    </kbd>
+                </div>
+            </div>
+        </div>
+        <section class="mb-16">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
+                <span class="w-10 h-[1px] bg-slate-200"></span> Most Visited
+            </h3>
+            <div class="flex flex-wrap gap-3">
+                <a class="chip-active flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-transform hover:scale-105"
+                    href="../user/EstimateRequest.html">
+                    <span class="material-symbols-outlined text-[18px]">bolt</span> New Quote
+                </a>
+                <a class="bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-200 dark:border-slate-800 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
+                    href="../user/PoliciesList.html">
+                    <span class="material-symbols-outlined text-[18px] text-electric">receipt_long</span> My Policies
+                </a>
+                <a class="bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-200 dark:border-slate-800 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
+                    href="../user/ClaimRequest.html">
+                    <span class="material-symbols-outlined text-[18px] text-electric">campaign</span> Submit Claim
+                </a>
+                <a class="bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-200 dark:border-slate-800 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
+                    href="../user/BillingList.html">
+                    <span class="material-symbols-outlined text-[18px] text-electric">credit_card</span> Billing
+                </a>
+                <a class="bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-200 dark:border-slate-800 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
+                    href="../user/VehiclesList.html">
+                    <span class="material-symbols-outlined text-[18px] text-electric">car_repair</span> My Vehicles
+                </a>
+            </div>
+        </section>
+        <div class="sitemap-2x2-grid mb-24">
+            <section class="glass-card rounded-[2.5rem] p-8 lg:p-10">
+                <div class="w-14 h-14 rounded-2xl icon-vibrant flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-3xl font-light">account_circle</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold mb-6 text-navy dark:text-white">Getting Started &amp; Profile
+                </h3>
+                <div class="space-y-1">
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="#">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Platform
+                            Overview</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">arrow_forward</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/Profile.html">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">My
+                            Profile</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">arrow_forward</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/Notifications.html">
+                        <span
+                            class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Notifications</span>
+                        <span
+                            class="bg-electric/10 text-electric text-[10px] px-2 py-0.5 rounded-full font-bold">UPDATED</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="#">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Security
+                            &amp; Privacy</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">lock</span>
+                    </a>
+                </div>
+            </section>
+            <section class="glass-card rounded-[2.5rem] p-8 lg:p-10">
+                <div class="w-14 h-14 rounded-2xl icon-vibrant flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-3xl font-light">directions_car</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold mb-6 text-navy dark:text-white">Asset Management</h3>
+                <div class="space-y-1">
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/VehiclesList.html">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">My
+                            Vehicles</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">arrow_forward</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/VehicleModels.html">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Vehicle
+                            Models</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">arrow_forward</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/VehicleAdd.html">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Vehicle
+                            Registry</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">arrow_forward</span>
+                    </a>
+                </div>
+            </section>
+            <section class="glass-card rounded-[2.5rem] p-8 lg:p-10">
+                <div class="w-14 h-14 rounded-2xl icon-vibrant flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-3xl font-light">verified_user</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold mb-6 text-navy dark:text-white">Insurance &amp; Services</h3>
+                <div class="space-y-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+                        <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                            href="../user/EstimateRequest.html">
+                            <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Get
+                                New Quote</span>
+                            <span
+                                class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">bolt</span>
+                        </a>
+                        <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                            href="../user/InsurancePoliciesList.html">
+                            <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">My
+                                Insurances</span>
+                            <span
+                                class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">arrow_forward</span>
+                        </a>
+                        <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                            href="../user/PolicyLookup.html">
+                            <span
+                                class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Policy
+                                Lookup</span>
+                            <span
+                                class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">search</span>
+                        </a>
+                        <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                            href="../user/PoliciesList.html">
+                            <span
+                                class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Policies</span>
+                            <span
+                                class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">description</span>
+                        </a>
+                        <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                            href="../user/EstimateList.html">
+                            <span
+                                class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Estimates</span>
+                            <span
+                                class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">calculate</span>
+                        </a>
+                        <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                            href="../user/CancellationList.html">
+                            <span
+                                class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium text-red-500/80">Cancellations</span>
+                            <span
+                                class="material-symbols-outlined text-slate-300 group-hover:text-red-500 text-[18px]">cancel</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <section class="glass-card rounded-[2.5rem] p-8 lg:p-10">
+                <div class="w-14 h-14 rounded-2xl icon-vibrant flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-3xl font-light">payments</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold mb-6 text-navy dark:text-white">Finance &amp; Support</h3>
+                <div class="space-y-1">
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/BillingList.html">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Billing
+                            &amp; Invoice</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">receipt</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/Claim.html">
+                        <span
+                            class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Claims</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">campaign</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="#">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Help
+                            Center (FAQ)</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">help_center</span>
+                    </a>
+                    <a class="group flex items-center justify-between p-3 rounded-xl hover:bg-electric/5 transition-all"
+                        href="../user/Support.html">
+                        <span class="text-slate-600 dark:text-slate-400 group-hover:text-electric font-medium">Support</span>
+                        <span
+                            class="material-symbols-outlined text-slate-300 group-hover:text-electric text-[18px]">feedback</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            <div
+                class="lg:col-span-8 bg-navy dark:bg-slate-900 rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl shadow-navy/20">
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center gap-10">
+                    <div class="w-24 h-24 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md">
+                        <span class="material-symbols-outlined text-5xl">headset_mic</span>
+                    </div>
+                    <div>
+                        <h4 class="text-3xl font-bold heading-font mb-3">Need personalized help?</h4>
+                        <p class="text-white/60 mb-6 text-lg max-w-lg">Our dedicated specialists are ready to guide you
+                            through your insurance journey.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button
+                                class="bg-electric hover:bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-electric/25">
+                                Start Live Chat
+                            </button>
+                            <button
+                                class="bg-white/5 hover:bg-white/10 text-white px-8 py-3.5 rounded-2xl font-bold transition-all border border-white/10">
+                                Book a Call
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-electric/20 rounded-full blur-[80px]"></div>
+            </div>
+            <div class="lg:col-span-4 glass-card rounded-[2.5rem] p-10 flex flex-col justify-center">
+                <h5 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">Quick Links</h5>
+                <ul class="space-y-4">
+                    <li><a class="text-navy dark:text-white font-bold hover:text-electric flex items-center gap-2 group"
+                            href="#">Update Profile <span
+                                class="material-symbols-outlined text-slate-300 group-hover:translate-x-1 transition-transform text-[18px]">trending_flat</span></a>
+                    </li>
+                    <li><a class="text-navy dark:text-white font-bold hover:text-electric flex items-center gap-2 group"
+                            href="#">Policy PDF Export <span
+                                class="material-symbols-outlined text-slate-300 group-hover:translate-x-1 transition-transform text-[18px]">trending_flat</span></a>
+                    </li>
+                    <li><a class="text-navy dark:text-white font-bold hover:text-electric flex items-center gap-2 group"
+                            href="#">App Download <span
+                                class="material-symbols-outlined text-slate-300 group-hover:translate-x-1 transition-transform text-[18px]">trending_flat</span></a>
+                    </li>
+                    <li><a class="text-navy dark:text-white font-bold hover:text-electric flex items-center gap-2 group"
+                            href="#">Privacy Policy <span
+                                class="material-symbols-outlined text-slate-300 group-hover:translate-x-1 transition-transform text-[18px]">trending_flat</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

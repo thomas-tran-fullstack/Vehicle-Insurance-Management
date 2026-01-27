@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vehicle Models - Customer Guide | AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2563eb",
+                        "primary-dark": "#1e40af",
+                        "accent": "#3b82f6",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                        "card-dark": "#1e293b",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-overlay {
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 50%, rgba(15, 23, 42, 0.2) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light text-slate-900 transition-colors duration-300">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div id="header-container"></div>
+            <main class="flex-1 pt-8">
+                <section class="px-6 lg:px-20 py-12 bg-background-light">
+                    <div class="max-w-[1200px] mx-auto">
+                        <div class="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <div class="flex min-h-[520px] flex-col gap-8 bg-cover bg-center bg-no-repeat items-start justify-center px-8 lg:px-16 relative"
+                                data-alt="Modern high-end electric car on a dark sleek highway"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCeTjtTTQuZApTEWSy3FGjWVkr_vLsMQCRowiNayLeiDB2Pgy2R73DLN_nhgPvU2CH6lJIBfTIbB6e_AFWOFBdncNanfOK35NpmwSrkDLZBosB7PZU4yEDLjTuQckJ2FI5kgNxxGeeTN5CZ3lORR-8H-v7F7mAwI1aQrqKsRw8rresTb8jpb1lkUco_PFaTyQBAYhTCB7uP0GG2uusAwwfXAvPxV3w9xd1p-At4G_JhqqYRxWCaKNsQxGqYZ3Xb7Nizk6NAdNAgolR0");'>
+                                <div class="absolute inset-0 hero-overlay"></div>
+                                <div class="max-w-2xl space-y-4 relative z-10">
+                                    <span
+                                        class="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-bold uppercase tracking-widest border border-primary/30 backdrop-blur-sm">Intelligence
+                                        Guide</span>
+                                    <h1
+                                        class="text-white text-5xl lg:text-7xl font-black leading-[1.1] tracking-tighter">
+                                        Choose the <span
+                                            class="text-primary underline decoration-primary/30 underline-offset-8">right
+                                            cover</span> for your ride.
+                                    </h1>
+                                    <p class="text-slate-300 text-lg lg:text-xl font-medium leading-relaxed max-w-xl">
+                                        Explore how different vehicle models impact your insurance premiums and find the
+                                        perfect protection for your lifestyle.
+                                    </p>
+                                </div>
+                                <div class="flex flex-wrap gap-4 relative z-10">
+                                    <button
+                                        class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-base font-bold transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:bg-primary-dark">
+                                        Check Rates Now
+                                    </button>
+                                    <button
+                                        class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-full h-14 px-8 bg-white/10 hover:bg-white/20 text-white text-base font-bold backdrop-blur-md border border-white/20 transition-all">
+                                        View All Models
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="px-6 lg:px-20 bg-background-light">
+                    <div class="max-w-[1200px] mx-auto">
+                        <div class="flex items-center gap-4 pb-8">
+                            <div class="h-px flex-1 bg-slate-200"></div>
+                            <h2 class="text-primary text-sm font-bold uppercase tracking-[0.2em]">Vehicle Categories
+                            </h2>
+                            <div class="h-px flex-1 bg-slate-200"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="px-6 lg:px-20 pb-20 bg-background-light">
+                    <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div
+                            class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+                            <div class="relative w-full aspect-[4/3] bg-center bg-no-repeat bg-cover transition-transform duration-500 group-hover:scale-110"
+                                data-alt="Sleek modern metallic sedan in studio lighting"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-2w2MxDARvQu_OnHYtfdwb4Fq5YlAFb6_PTQn0jguySv2t90-Vhq-M-SoTUHlquY8GIwFh57X7eXmaN_fUsv_9_xq3rHb2mcm78Ez7zak8R3e8WTGsH5Cg28Lw3RhPFNRq8FNcFv5olJu6yJWGt3FaBATpm348tJtO6hOy4X-1TouCS3eezNfObNLwk-AiscS3f0HqxJAxkUU4JFb-86r63byTyJAPvsghpkXJMpFWOegPgszeYM5GpLHvkrBY6XGR48K5XRto3Zo");'>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60">
+                                </div>
+                            </div>
+                            <div class="p-6 flex flex-col flex-1">
+                                <h3 class="text-slate-900 text-2xl font-bold mb-2">Sedan</h3>
+                                <p class="text-slate-500 text-sm font-medium leading-relaxed mb-6">Efficiency meets
+                                    protection. Ideal for daily commutes and urban stability.</p>
+                                <div class="mt-auto flex flex-col gap-3">
+                                    <div class="flex items-center gap-2 text-primary">
+                                        <span class="material-symbols-outlined text-sm">bolt</span>
+                                        <span class="text-xs font-bold uppercase">Low Risk Profile</span>
+                                    </div>
+                                    <button
+                                        class="w-full h-11 rounded-full border-2 border-primary text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">
+                                        View Rates
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+                            <div class="relative w-full aspect-[4/3] bg-center bg-no-repeat bg-cover transition-transform duration-500 group-hover:scale-110"
+                                data-alt="Rugged SUV parked on mountain pass"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDFp-jvsL9tUfYrwIXh32zz2RjKrsBPx30qS5XLRL6E3KfPal60YJg7VtOkAjZMAkQ9cQJn__2lkEy_yhj0OIOk0xlONDDTccfEE0jR813RGLRY_YuN72P4FdCT056z-bcyW72WlV2CZRmmj1nKv0Uywq18ma2W1K8wxVglmMeFK9dakqF_MGy8j-zJJXHZSbhV3TUm9nHXLNvd2PPFh4-BUcomgOeWeDBfhXnpSoJZXB45_83fx_u4WQXCAFIPFV4tDq59LmYCSQzb");'>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60">
+                                </div>
+                            </div>
+                            <div class="p-6 flex flex-col flex-1">
+                                <h3 class="text-slate-900 text-2xl font-bold mb-2">SUV</h3>
+                                <p class="text-slate-500 text-sm font-medium leading-relaxed mb-6">Built for adventure.
+                                    Enhanced coverage for family and off-road safety standards.</p>
+                                <div class="mt-auto flex flex-col gap-3">
+                                    <div class="flex items-center gap-2 text-primary">
+                                        <span class="material-symbols-outlined text-sm">family_restroom</span>
+                                        <span class="text-xs font-bold uppercase">High Safety Rating</span>
+                                    </div>
+                                    <button
+                                        class="w-full h-11 rounded-full border-2 border-primary text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">
+                                        View Rates
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+                            <div class="relative w-full aspect-[4/3] bg-center bg-no-repeat bg-cover transition-transform duration-500 group-hover:scale-110"
+                                data-alt="Compact colorful hatchback in city setting"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1S4ZsVkqt4oEeOFVmZxfUbP22mSTEGLvKwma-iF4V1SJ8HQKNjwN1H0wBfXWpWf2XVSyPts2uZrvpQjKkiTonLXtBlN8Fi0yVdQDzNv8rPMRR8oE5z8D81by-YneXdCKOTex3PBorakPllAJ_GRS806AKWkYZXO9MyKwEJnwigJsKHraWK7XlZ6XJ4Jz5kCgT5_hKc5zpdoyzOwI8qwt7ns3fRc-KJBfOE-XizX4KoQXTNBpcxlB1Ed5B_fim6joFBpmHi0xji-4L");'>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60">
+                                </div>
+                            </div>
+                            <div class="p-6 flex flex-col flex-1">
+                                <h3 class="text-slate-900 text-2xl font-bold mb-2">Hatchback</h3>
+                                <p class="text-slate-500 text-sm font-medium leading-relaxed mb-6">Compact and
+                                    cost-effective. Lower premiums specifically tailored for urban drivers.</p>
+                                <div class="mt-auto flex flex-col gap-3">
+                                    <div class="flex items-center gap-2 text-primary">
+                                        <span class="material-symbols-outlined text-sm">savings</span>
+                                        <span class="text-xs font-bold uppercase">Best Value Plans</span>
+                                    </div>
+                                    <button
+                                        class="w-full h-11 rounded-full border-2 border-primary text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">
+                                        View Rates
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+                            <div class="relative w-full aspect-[4/3] bg-center bg-no-repeat bg-cover transition-transform duration-500 group-hover:scale-110"
+                                data-alt="High performance luxury sports car in elegant driveway"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDL0PHiXk4yIAITMxLj6NT2sW37VquH2hpZYPNZQinJkLBcdSUbqD89LrSJJMZni-86K3BZy-LBuQZ1mN01QCcoS8f6RA0O47FxYcYu2FIPg3QN8uTHraJLnuLy9Zo5xfdsLBp4CvRRpPQ3aB6S35lvPwvhmx-FR5xPw2S1Rb0JEcPxiUNOQB9_6jrEZSeCWNGb6YhbgzZrFNILioh3ajMD-5mMmirsgyzcVFJBvvMoz1NZmWTCv5Awnt0hW2smsm7c6GjsZHFMFwMJ");'>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent opacity-60">
+                                </div>
+                            </div>
+                            <div class="p-6 flex flex-col flex-1">
+                                <h3 class="text-slate-900 text-2xl font-bold mb-2">Luxury</h3>
+                                <p class="text-slate-500 text-sm font-medium leading-relaxed mb-6">Premium care for
+                                    high-performance assets. Specialized valuation coverage for elite models.</p>
+                                <div class="mt-auto flex flex-col gap-3">
+                                    <div class="flex items-center gap-2 text-primary">
+                                        <span class="material-symbols-outlined text-sm">diamond</span>
+                                        <span class="text-xs font-bold uppercase">Agreed Value Policy</span>
+                                    </div>
+                                    <button
+                                        class="w-full h-11 rounded-full border-2 border-primary text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">
+                                        View Rates
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="bg-background-dark py-24 px-6 lg:px-20 relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[120px]">
+                    </div>
+                    <div class="max-w-[1200px] mx-auto">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
+                            <div class="space-y-8">
+                                <div class="space-y-4">
+                                    <h2 class="text-white text-4xl lg:text-5xl font-black leading-tight tracking-tight">
+                                        How we calculate <br /><span class="text-primary">your unique rate</span>
+                                    </h2>
+                                    <p class="text-slate-400 text-lg font-medium leading-relaxed max-w-lg">
+                                        Understanding the factors that influence your premium helps you make an informed
+                                        decision when choosing a vehicle. We look beyond just the sticker price.
+                                    </p>
+                                </div>
+                                <div class="space-y-4">
+                                    <div
+                                        class="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                                        <div
+                                            class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                            <span class="material-symbols-outlined">analytics</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white font-bold text-lg">Market Depreciation</h4>
+                                            <p class="text-slate-400 text-sm">We analyze how fast models lose value to
+                                                adjust replacement costs.</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                                        <div
+                                            class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                            <span class="material-symbols-outlined">build</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white font-bold text-lg">Parts Availability</h4>
+                                            <p class="text-slate-400 text-sm">Specialized parts for imported models can
+                                                affect repair timescales and costs.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div
+                                    class="flex flex-1 gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 flex-col group hover:bg-primary/10 transition-all duration-300">
+                                    <div class="text-primary group-hover:scale-110 transition-transform duration-300">
+                                        <span class="material-symbols-outlined !text-4xl">shield</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-white text-xl font-bold leading-tight">Safety Features</h3>
+                                        <p class="text-slate-400 text-sm font-normal leading-normal">Advanced safety
+                                            tech and high crash test ratings can lead to significant discounts of up to
+                                            15% on your annual premium.</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex flex-1 gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 flex-col group hover:bg-primary/10 transition-all duration-300">
+                                    <div class="text-primary group-hover:scale-110 transition-transform duration-300">
+                                        <span
+                                            class="material-symbols-outlined !text-4xl">settings_input_component</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-white text-xl font-bold leading-tight">Engine Size &amp;
+                                            Performance</h3>
+                                        <p class="text-slate-400 text-sm font-normal leading-normal">Higher performance
+                                            engines often require specialized coverage and different risk assessments
+                                            based on acceleration profiles.</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex flex-1 gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 flex-col group hover:bg-primary/10 transition-all duration-300">
+                                    <div class="text-primary group-hover:scale-110 transition-transform duration-300">
+                                        <span class="material-symbols-outlined !text-4xl">key</span>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <h3 class="text-white text-xl font-bold leading-tight">Theft Risk &amp; Recovery
+                                        </h3>
+                                        <p class="text-slate-400 text-sm font-normal leading-normal">Popular models or
+                                            those without modern anti-theft systems may see adjusted premium rates based
+                                            on local recovery data.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="px-6 lg:px-20 py-20 bg-background-light">
+                    <div
+                        class="max-w-[1200px] mx-auto rounded-[3rem] bg-primary p-12 lg:p-20 text-center space-y-8 relative overflow-hidden shadow-2xl shadow-primary/30">
+                        <div class="absolute inset-0 opacity-10" data-alt="Abstract geometric grid pattern"
+                            style="background-image: radial-gradient(circle at 2px 2px, #fff 1px, transparent 0); background-size: 40px 40px;">
+                        </div>
+                        <h2 class="text-white text-4xl lg:text-6xl font-black tracking-tighter relative z-10">
+                            Ready to secure your journey?
+                        </h2>
+                        <p class="text-white/90 text-lg lg:text-xl font-bold max-w-2xl mx-auto relative z-10">
+                            Get an instant insurance quote tailored to your specific vehicle model and driving history
+                            in under 2 minutes.
+                        </p>
+                        <div class="relative z-10">
+                            <button
+                                class="bg-white text-primary px-12 py-5 rounded-full font-black text-lg hover:scale-105 transition-all shadow-xl shadow-black/20 hover:bg-slate-50">
+                                Start Free Quote
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

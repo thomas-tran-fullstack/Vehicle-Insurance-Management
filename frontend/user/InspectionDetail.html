@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Inspection Status - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-200 min-h-screen">
+    <!-- Header from template -->
+    <div id="header-container"></div>
+    <main class="max-w-[960px] mx-auto px-4 pb-8 pt-8 ">
+        <!-- Page Heading -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div class="flex flex-col gap-1">
+                <h1 class="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-tight">Track My
+                    Inspection</h1>
+                <p class="text-[#4c739a] dark:text-slate-400 text-lg font-normal">Real-time status of your vehicle
+                    insurance inspection</p>
+            </div>
+            <div class="flex gap-3">
+                <button
+                    class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">Reschedule</button>
+                <button
+                    class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">Contact
+                    Support</button>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Timeline and Info -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Status Progress Card -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="font-bold text-lg">Current Progress</h3>
+                        <span
+                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">Awaiting
+                            Inspector Arrival</span>
+                    </div>
+                    <div class="grid grid-cols-[48px_1fr] gap-x-4">
+                        <!-- Pending -->
+                        <div class="flex flex-col items-center">
+                            <div class="size-10 rounded-full bg-green-500 text-white flex items-center justify-center">
+                                <span class="material-symbols-outlined">check</span>
+                            </div>
+                            <div class="w-[2px] bg-green-500 h-16"></div>
+                        </div>
+                        <div class="pb-8">
+                            <p class="text-[#0d141b] dark:text-white text-base font-bold">Pending</p>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Awaiting assignment and scheduling</p>
+                            <p class="text-xs text-green-600 font-medium mt-1">Completed on Oct 22</p>
+                        </div>
+                        <!-- In Progress -->
+                        <div class="flex flex-col items-center">
+                            <div
+                                class="size-10 rounded-full bg-primary text-white flex items-center justify-center ring-4 ring-primary/20">
+                                <span class="material-symbols-outlined">directions_car</span>
+                            </div>
+                            <div class="w-[2px] bg-slate-200 dark:bg-slate-700 h-16"></div>
+                        </div>
+                        <div class="pb-8">
+                            <p class="text-[#0d141b] dark:text-white text-base font-bold">In Progress</p>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Inspector is en route to your location
+                            </p>
+                            <div class="mt-3 flex items-center gap-2 text-primary font-medium text-sm">
+                                <span class="material-symbols-outlined text-sm">schedule</span>
+                                Est. Arrival: 10:15 AM
+                            </div>
+                        </div>
+                        <!-- Completed -->
+                        <div class="flex flex-col items-center">
+                            <div
+                                class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center">
+                                <span class="material-symbols-outlined">description</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 dark:text-slate-500 text-base font-bold">Completed</p>
+                            <p class="text-slate-400 dark:text-slate-600 text-sm">Report being generated and reviewed
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Next Steps Info -->
+                <div class="bg-primary/5 border border-primary/10 rounded-xl p-6">
+                    <div class="flex gap-4">
+                        <span class="material-symbols-outlined text-primary text-3xl">info</span>
+                        <div>
+                            <h4 class="font-bold text-[#0d141b] dark:text-white mb-1">What happens next?</h4>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm leading-relaxed">
+                                Once the inspector finishes the assessment, your digital report will be generated within
+                                2-4 business hours. You will receive an SMS and email notification to view the final
+                                report and proceed with your policy issuance.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Column: Inspector and Schedule -->
+            <div class="space-y-6">
+                <!-- Inspector Card -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
+                    <div class="p-6">
+                        <p
+                            class="text-[#4c739a] dark:text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-4">
+                            Assigned Inspector</p>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="size-16 rounded-lg bg-slate-100 bg-cover bg-center"
+                                data-alt="Portrait of a professional vehicle inspector"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA2yZJJgHt9TKjAyWD_mINj1Ve_r2WkaMIUsyMlISo9LTnXfLRHbitNT3_kLJThN1lsVpSjTShv2deGpaHt9Wh79EVRwbT71aFUcbBpJRkDvHQR5oWwnaK8Z34T3FYvBHdF0fStYQ4dol5hrBknRC4dNUUD8kDk_n02iv6hZs-qksTOxJKB0yvoir-TKJTd14DzS1NiptCmRHEHHpfrFPhEHhpAhQ1Co0JvmoM6Ly6yJ1s7oppd1VHQzRufUZh9qxgS1KT6jfXpHzSS");'>
+                            </div>
+                            <div>
+                                <p class="text-[#0d141b] dark:text-white text-lg font-bold leading-tight">John Doe</p>
+                                <p class="text-[#4c739a] dark:text-slate-400 text-sm">Certified Professional</p>
+                                <div class="flex mt-1 text-yellow-500">
+                                    <span class="material-symbols-outlined text-xs">star</span>
+                                    <span class="material-symbols-outlined text-xs">star</span>
+                                    <span class="material-symbols-outlined text-xs">star</span>
+                                    <span class="material-symbols-outlined text-xs">star</span>
+                                    <span class="material-symbols-outlined text-xs">star_half</span>
+                                    <span class="text-xs text-slate-400 ml-1">(4.8)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full flex items-center justify-center gap-2 bg-primary text-white py-2.5 rounded-lg font-semibold hover:bg-primary/90 transition-all">
+                            <span class="material-symbols-outlined text-sm">call</span>
+                            Contact Inspector
+                        </button>
+                    </div>
+                </div>
+                <!-- Schedule Card -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800">
+                    <p class="text-[#4c739a] dark:text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-4">
+                        Appointment Details</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-0.5">calendar_today</span>
+                            <div>
+                                <p class="text-xs text-slate-400">Date</p>
+                                <p class="text-sm font-bold">Tuesday, October 24, 2023</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-0.5">schedule</span>
+                            <div>
+                                <p class="text-xs text-slate-400">Time Slot</p>
+                                <p class="text-sm font-bold">10:00 AM - 12:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
+                            <div>
+                                <p class="text-xs text-slate-400">Location</p>
+                                <p class="text-sm font-bold">123 Business Bay, Downtown, Dubai</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+                        <div class="aspect-video w-full bg-slate-100 rounded-lg overflow-hidden relative"
+                            data-alt="Map showing the inspection location">
+                            <div class="absolute inset-0 bg-slate-200 flex items-center justify-center"
+                                data-location="Dubai, UAE"
+                                style="https://lh3.googleusercontent.com/aida-public/AB6AXuBlgejCjFcWH0gQbF6QOh2IJghFhUehxwG90ka8dXMrj3kfYwrEVRXUvClmad-hwgSve-PpleSSrDD7Q1iZp2ssrWk7Z2kM-qf_5_Z8IDC-rWXg61OVCbZfkL1hSEryDsWgvYh3lKtLvjeuYwCAUXYWJ7_A5oUbBwscLbTBJ7feU7Gss9Nr0LYZvF3w3pnQ5WasQEWw11eLZ5Z_HvM9UV3m6tsZmmn4pLXcDfPFHYNAnnlnb_R_XtdHrTXjMks6wRCW6buGaXeG1CEw">
+                                <span class="material-symbols-outlined text-4xl text-primary/40">map</span>
+                            </div>
+                            <!-- Static map placeholder indicator -->
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary">
+                                <span class="material-symbols-outlined text-3xl">location_on</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        // Resize on window resize
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>
