@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Vehicle-Insurance-Management-main\\VehicleInsuranceAPI.csproj": {}
+    "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj": {}
   },
   "projects": {
-    "D:\\Vehicle-Insurance-Management-main\\VehicleInsuranceAPI.csproj": {
+    "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Vehicle-Insurance-Management-main\\VehicleInsuranceAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
         "projectName": "VehicleInsuranceAPI",
-        "projectPath": "D:\\Vehicle-Insurance-Management-main\\VehicleInsuranceAPI.csproj",
-        "packagesPath": "C:\\Users\\ntdat\\.nuget\\packages\\",
-        "outputPath": "D:\\Vehicle-Insurance-Management-main\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ntdat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -88,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
