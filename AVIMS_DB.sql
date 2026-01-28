@@ -31,6 +31,7 @@ CREATE TABLE Staff (
     FullName NVARCHAR(150),
     Phone NVARCHAR(20),
     Position NVARCHAR(100),
+    Avatar NVARCHAR(255),
     IsActive BIT DEFAULT 1,
     FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
@@ -40,6 +41,7 @@ CREATE TABLE Customers (
     CustomerName NVARCHAR(150),
     Address NVARCHAR(255),
     Phone NVARCHAR(20),
+    Avatar NVARCHAR(255),
     FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
 CREATE TABLE VehicleModels (
@@ -155,3 +157,41 @@ CREATE TABLE Contacts (
     Message NVARCHAR(500),
     CreatedDate DATETIME DEFAULT GETDATE()
 );
+
+-- =============================================
+-- INSERT SAMPLE DATA
+-- =============================================
+
+-- Insert Roles
+INSERT INTO Roles (RoleName) VALUES ('ADMIN');
+INSERT INTO Roles (RoleName) VALUES ('STAFF');
+INSERT INTO Roles (RoleName) VALUES ('CUSTOMER');
+
+-- Insert Users with hashed passwords
+-- Password: Admin123! (bcrypt hash)
+INSERT INTO Users (Username, PasswordHash, Email, RoleId, IsLocked, CreatedAt)
+VALUES ('admin_user', '$2a$10$spGlapzTEfAerLa2lJ9TSO6dwKiV8reSE.0L0PkoY4W4csj7rpcqG', 'admin@autoguard.com', 1, 0, GETDATE());
+
+-- Password: Staff123! (bcrypt hash)
+INSERT INTO Users (Username, PasswordHash, Email, RoleId, IsLocked, CreatedAt)
+VALUES ('staff_user', '$2a$10$br8nlsbdYLp43b9tFrBCCevKE6S6LzuHbN1d3nSLJIS460jcx560e', 'staff@autoguard.com', 2, 0, GETDATE());
+
+-- Password: Cust123! (bcrypt hash)
+INSERT INTO Users (Username, PasswordHash, Email, RoleId, IsLocked, CreatedAt)
+VALUES ('customer_user', '$2a$10$8nV.EdwH/r3JbB9N7VPTa./BAovlJVD2oCyVd/Sa/Q3XjFbYc4uaO', 'customer@autoguard.com', 3, 0, GETDATE());
+
+-- Insert Staff (for staff_user)
+INSERT INTO Staff (UserId, FullName, Phone, Position, Avatar, IsActive)
+VALUES (2, 'Nguyen Van A', '0987654321', 'Inspector', '/images/staff-avatar-1.png', 1);
+
+-- Insert another Staff member (for demo purposes)
+INSERT INTO Staff (UserId, FullName, Phone, Position, Avatar, IsActive)
+VALUES (2, 'Tran Thi B', '0987654322', 'Claims Officer', '/images/staff-avatar-2.png', 1);
+
+-- Insert Customers (for customer_user)
+INSERT INTO Customers (UserId, CustomerName, Address, Phone, Avatar)
+VALUES (3, 'Pham Minh C', '123 Main St, Ho Chi Minh City', '0912345678', '/images/customer-avatar-1.png');
+
+-- Insert another Customer (for demo purposes)
+INSERT INTO Customers (UserId, CustomerName, Address, Phone, Avatar)
+VALUES (3, 'Le Thu D', '456 Oak Ave, Hanoi', '0912345679', '/images/customer-avatar-2.png');

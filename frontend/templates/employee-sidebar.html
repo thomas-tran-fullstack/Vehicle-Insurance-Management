@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="light" lang="en">
 
 <head>
@@ -52,6 +52,48 @@
             background: #cbd5e1;
         }
     </style>
+    <script>
+        function initializeStaffSidebar() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user || user.roleId !== 2) {
+                // Not a STAFF user, redirect to login
+                window.location.href = '../user/Authenticate.html';
+                return;
+            }
+
+            // Update staff info
+            const staffNameEl = document.getElementById('staffName');
+            const staffPositionEl = document.getElementById('staffPosition');
+            const staffAvatarEl = document.getElementById('staffAvatar');
+
+            if (staffNameEl && user.fullName) {
+                staffNameEl.textContent = user.fullName;
+            }
+            
+            if (staffAvatarEl) {
+                if (user.avatar) {
+                    staffAvatarEl.style.backgroundImage = `url('${user.avatar}')`;
+                } else {
+                    staffAvatarEl.style.backgroundImage = "url('../images/default-avatar.png')";
+                }
+                staffAvatarEl.onerror = function() {
+                    this.style.backgroundImage = "url('../images/default-avatar.png')";
+                };
+            }
+        }
+
+        function logoutStaff() {
+            localStorage.removeItem('user');
+            window.location.href = '../user/Authenticate.html';
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeStaffSidebar);
+        } else {
+            initializeStaffSidebar();
+        }
+    </script>
 </head>
 
 <body
@@ -158,14 +200,14 @@
             <div class="p-4 border-t border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/50">
                 <div
                     class="flex items-center gap-3 p-2 bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-zinc-700">
-                    <div class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600"
-                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfLdVp4qGWDS3Kka2qelGCbQqmrQEQge8sS6mqz7h99YcFiooDpP_SJLYWEmFLRGEeI-8fMlea5O6nQVLNuU18bePfQpFlBscecFNKD3ItYutSbr20oCFEdJj0wEOP2NXz7Htlq1k2a4PHTA6r3hOpKK3LtysLTLNMJKcV7jx4GyggeD_9f0Dq-K_fUUYAqVtrFVKcMF4fica371p5_6cl5n-QfNHybnvKHOr0xRsI_vnek9eJnuNln4E-dOXtEJBVcFOwixsN1L6D');">
+                    <div id="staffAvatar" class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600"
+                        style="background-image: url('/images/default-avatar.png');">
                     </div>
                     <div class="flex flex-col overflow-hidden">
-                        <p class="text-xs font-bold text-slate-800 dark:text-white truncate">Marcus Wright</p>
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Senior Underwriter</p>
+                        <p id="staffName" class="text-xs font-bold text-slate-800 dark:text-white truncate">Staff Name</p>
+                        <p id="staffPosition" class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Position</p>
                     </div>
-                    <button class="ml-auto text-slate-400 hover:text-red-500 transition-colors">
+                    <button onclick="logoutStaff()" class="ml-auto text-slate-400 hover:text-red-500 transition-colors">
                         <span class="material-symbols-outlined text-lg">logout</span>
                     </button>
                 </div>
@@ -178,6 +220,8 @@
             </div>
         </aside>
     </div>
+    <script src="../js/pageLoader.js"></script>
+
 
 </body>
 

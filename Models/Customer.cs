@@ -15,6 +15,8 @@ public partial class Customer
 
     public string? Phone { get; set; }
 
+    public string? Avatar { get; set; }
+
     public virtual ICollection<Estimate> Estimates { get; set; } = new List<Estimate>();
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();

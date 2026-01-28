@@ -37,6 +37,36 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #e0e7ff;
+            border-top-color: #137fec;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        .loading-spinner.active {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -89,47 +119,70 @@
                             <p class="text-[#4c739a] dark:text-[#9bb1c7] mt-2">Join AutoGuard and secure your drive
                                 today.</p>
                         </div>
-                        <form class="space-y-4">
+                        <form class="space-y-4" id="registerForm">
                             <div class="flex flex-col gap-2">
                                 <label class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Full
                                     Name</label>
-                                <input
+                                <input id="customerName"
                                     class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 text-base font-normal"
-                                    placeholder="John Doe" type="text" />
+                                    placeholder="John Doe" type="text" required />
+                                <span class="error-message" id="customerNameError"></span>
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Email
-                                    or Username</label>
-                                <input
+                                <label class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Username</label>
+                                <input id="username"
                                     class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 text-base font-normal"
-                                    placeholder="name@example.com" type="text" />
+                                    placeholder="john_doe" type="text" required />
+                                <span class="error-message" id="usernameError"></span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Email</label>
+                                <input id="email"
+                                    class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 text-base font-normal"
+                                    placeholder="name@example.com" type="email" required />
+                                <span class="error-message" id="emailError"></span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Phone</label>
+                                <input id="phone"
+                                    class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 text-base font-normal"
+                                    placeholder="0912345678" type="tel" required />
+                                <span class="error-message" id="phoneError"></span>
                             </div>
                             <div class="flex flex-col gap-2">
                                 <label
                                     class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Password</label>
                                 <div class="relative flex w-full items-center">
-                                    <input
+                                    <input id="password"
                                         class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 pr-12 text-base font-normal"
-                                        placeholder="Create a password" type="password" />
-                                    <button class="absolute right-4 text-[#4c739a] hover:text-primary" type="button">
+                                        placeholder="Create a password" type="password" required />
+                                    <button class="absolute right-4 text-[#4c739a] hover:text-primary" type="button" id="togglePassword1">
                                         <span class="material-symbols-outlined text-[20px]">visibility</span>
                                     </button>
                                 </div>
+                                <span class="error-message" id="passwordError"></span>
                             </div>
                             <div class="flex flex-col gap-2">
                                 <label class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Confirm
                                     Password</label>
                                 <div class="relative flex w-full items-center">
-                                    <input
-                                        class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 text-base font-normal"
-                                        placeholder="Confirm your password" type="password" />
+                                    <input id="confirmPassword"
+                                        class="form-input flex w-full rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] h-12 placeholder:text-[#9bb1c7] p-4 pr-12 text-base font-normal"
+                                        placeholder="Confirm your password" type="password" required />
+                                    <button class="absolute right-4 text-[#4c739a] hover:text-primary" type="button" id="togglePassword2">
+                                        <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                    </button>
                                 </div>
+                                <span class="error-message" id="confirmPasswordError"></span>
                             </div>
+                            <div id="registerError" class="error-message text-center"></div>
+                            <div id="registerSuccess" class="success-message text-center"></div>
                             <div class="pt-2">
                                 <button
-                                    class="flex w-full cursor-pointer items-center justify-center rounded-lg h-12 px-4 bg-primary text-white text-base font-bold transition-opacity hover:opacity-90 active:scale-[0.98]"
-                                    type="submit">
-                                    Create Account
+                                    class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg h-12 px-4 bg-primary text-white text-base font-bold transition-opacity hover:opacity-90 active:scale-[0.98]"
+                                    type="submit" id="registerBtn">
+                                    <span class="loading-spinner" id="spinner"></span>
+                                    <span>Create Account</span>
                                 </button>
                             </div>
                         </form>
@@ -160,7 +213,7 @@
                         </button>
                         <p class="text-center text-sm text-[#4c739a] dark:text-[#9bb1c7] mt-8">
                             Already have an account?
-                            <a class="text-primary font-bold hover:underline" href="#">Login now</a>
+                            <a class="text-primary font-bold hover:underline" href="./Login.html">Login now</a>
                         </p>
                     </div>
                 </div>
@@ -212,6 +265,155 @@
                 document.getElementById('header-container').innerHTML = html;
             })
             .catch(error => console.error('Error loading header:', error));
+
+        // Toggle password visibility for password field
+        document.getElementById('togglePassword1').addEventListener('click', function(e) {
+            e.preventDefault();
+            const passwordField = document.getElementById('password');
+            const icon = this.querySelector('.material-symbols-outlined');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                passwordField.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        });
+
+        // Toggle password visibility for confirm password field
+        document.getElementById('togglePassword2').addEventListener('click', function(e) {
+            e.preventDefault();
+            const confirmPasswordField = document.getElementById('confirmPassword');
+            const icon = this.querySelector('.material-symbols-outlined');
+            
+            if (confirmPasswordField.type === 'password') {
+                confirmPasswordField.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                confirmPasswordField.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        });
+
+        // Clear error messages on input
+        ['customerName', 'username', 'email', 'phone', 'password', 'confirmPassword'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', function() {
+                    const errorId = id + 'Error';
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                    }
+                });
+            }
+        });
+
+        // Handle register form submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const customerName = document.getElementById('customerName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            const registerBtn = document.getElementById('registerBtn');
+            const spinner = document.getElementById('spinner');
+            const registerError = document.getElementById('registerError');
+            const registerSuccess = document.getElementById('registerSuccess');
+            
+            // Clear previous messages
+            registerError.textContent = '';
+            registerSuccess.textContent = '';
+            
+            // Validate fields
+            let isValid = true;
+            if (!customerName) {
+                document.getElementById('customerNameError').textContent = 'Full name is required';
+                isValid = false;
+            }
+            if (!username) {
+                document.getElementById('usernameError').textContent = 'Username is required';
+                isValid = false;
+            }
+            if (!email) {
+                document.getElementById('emailError').textContent = 'Email is required';
+                isValid = false;
+            }
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email';
+                isValid = false;
+            }
+            if (!phone) {
+                document.getElementById('phoneError').textContent = 'Phone is required';
+                isValid = false;
+            }
+            if (!password) {
+                document.getElementById('passwordError').textContent = 'Password is required';
+                isValid = false;
+            }
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 6 characters';
+                isValid = false;
+            }
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            try {
+                registerBtn.disabled = true;
+                spinner.classList.add('active');
+                
+                const response = await fetch('/api/loginusermanagement/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        email: email,
+                        customerName: customerName,
+                        phone: phone,
+                        address: ''
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    registerSuccess.textContent = 'Account created successfully! Redirecting to login...';
+                    setTimeout(() => {
+                        window.location.href = './Login.html';
+                    }, 2000);
+                } else {
+                    registerError.textContent = data.message || 'Registration failed';
+                }
+            } catch (error) {
+                console.error('Register error:', error);
+                registerError.textContent = 'An error occurred. Please try again.';
+            } finally {
+                registerBtn.disabled = false;
+                spinner.classList.remove('active');
+            }
+        });
+
+        // Switch to Login tab
+        document.querySelectorAll('a').forEach(link => {
+            if (link.textContent.includes('Login')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = './Login.html';
+                });
+            }
+        });
     </script>
 </body>
 

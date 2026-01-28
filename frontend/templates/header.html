@@ -92,7 +92,220 @@
         .nav-link-active::after {
             width: 100%;
         }
+
+        .user-menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            margin-top: 0.5rem;
+        }
+
+        .user-menu-dropdown.active {
+            display: block;
+        }
+
+        .user-menu-dropdown a,
+        .user-menu-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            color: #374151;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 200ms;
+        }
+
+        .user-menu-dropdown a:hover,
+        .user-menu-dropdown button:hover {
+            background-color: #f3f4f6;
+        }
+
+        .dark .user-menu-dropdown {
+            background: #1a2633;
+            border-color: #2a3a4a;
+        }
+
+        .dark .user-menu-dropdown a,
+        .dark .user-menu-dropdown button {
+            color: #e5e7eb;
+        }
+
+        .dark .user-menu-dropdown a:hover,
+        .dark .user-menu-dropdown button:hover {
+            background-color: #2a3a4a;
+        }
+
+        /* Active Navigation Styling */
+        .nav-link.active {
+            color: #137fec;
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background-color: #137fec;
+        }
     </style>
+    <script>
+        function initializeHeader() {
+            const userMenuBtn = document.getElementById('userMenuBtn');
+            const userMenuDropdown = document.getElementById('userMenuDropdown');
+
+            if (userMenuBtn && userMenuDropdown) {
+                userMenuBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    userMenuDropdown.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function () {
+                    userMenuDropdown.classList.remove('active');
+                });
+            }
+
+            // Check login status
+            checkLoginStatus();
+        }
+
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            const authButtonsContainer = document.getElementById('authButtonsContainer');
+            const userProfileContainer = document.getElementById('userProfileContainer');
+
+            if (!authButtonsContainer || !userProfileContainer) return;
+
+            if (user && user.roleId) {
+                // User is logged in
+                authButtonsContainer.style.display = 'none';
+                userProfileContainer.style.display = 'flex';
+
+                // Set user info
+                const customerNameDisplay = document.getElementById('customerNameDisplay');
+                const userAvatar = document.getElementById('userAvatar');
+
+                if (user.roleName === 'CUSTOMER') {
+                    // Load customer data from database
+                    loadCustomerData();
+                    if (userAvatar) {
+                        userAvatar.src = '../images/default-avatar.png';
+                    }
+                } else if (user.roleName === 'ADMIN' && user.username) {
+                    if (customerNameDisplay) customerNameDisplay.textContent = user.username;
+                    if (userAvatar) {
+                        userAvatar.src = '../images/admin.png';
+                        userAvatar.onerror = function() {
+                            this.src = '../images/default-avatar.png';
+                        };
+                    }
+                } else if (user.roleName === 'STAFF' && user.fullName) {
+                    if (customerNameDisplay) customerNameDisplay.textContent = user.fullName;
+                    if (userAvatar && user.avatar) {
+                        userAvatar.src = user.avatar;
+                        userAvatar.onerror = function() {
+                            this.src = '../images/default-avatar.png';
+                        };
+                    } else if (userAvatar) {
+                        userAvatar.src = '../images/default-avatar.png';
+                    }
+                }
+            } else {
+                // User is not logged in
+                authButtonsContainer.style.display = 'flex';
+                userProfileContainer.style.display = 'none';
+            }
+        }
+
+        async function loadCustomerData() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user || !user.userId) return;
+
+            try {
+                const response = await fetch(`/api/customerinformation/${user.userId}`);
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    const customerNameDisplay = document.getElementById('customerNameDisplay');
+                    if (customerNameDisplay && data.data.customerName) {
+                        customerNameDisplay.textContent = data.data.customerName;
+                    }
+                }
+            } catch (error) {
+                console.log('Could not load customer data');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '../user/Authenticate.html';
+        }
+
+        // Highlight active navigation link
+        function highlightActiveNav() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPath = window.location.pathname.toLowerCase();
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = (link.getAttribute('href') || '').toLowerCase();
+                // Match by filename without extension
+                const fileName = href.split('/').pop().split('.')[0];
+                const pathFileName = currentPath.split('/').pop().split('.')[0];
+                
+                if (fileName && pathFileName && fileName === pathFileName) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchToggle = document.getElementById('searchToggle');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (searchToggle && searchInput) {
+                searchToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (searchInput.style.display === 'none') {
+                        searchInput.style.display = 'block';
+                        searchInput.focus();
+                    } else {
+                        searchInput.style.display = 'none';
+                    }
+                });
+                
+                // Close search input on document click
+                document.addEventListener('click', () => {
+                    if (searchInput.style.display === 'block') {
+                        searchInput.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initializeHeader();
+                highlightActiveNav();
+                setupSearch();
+            });
+        } else {
+            initializeHeader();
+            highlightActiveNav();
+            setupSearch();
+        }
+    </script>
+    <!-- Page Loader Script -->
+    <script src="../js/pageLoader.js"></script>
 </head>
 
 <body>
@@ -123,21 +336,51 @@
                 </div>
                 <!-- Right: Search and Auth Buttons -->
                 <div class="flex items-center gap-6">
-                    <!-- Search Icon -->
-                    <button
-                        class="flex items-center justify-center p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined text-[24px]" data-icon="search">search</span>
-                    </button>
-                    <div class="flex items-center gap-3">
-                        <!-- Login Button (Secondary/Ghost) -->
-                        <button onclick="location.href='../user/Login.html'"
-                            class="px-5 py-2 text-sm font-semibold text-slate-700 hover:text-primary dark:text-slate-200 dark:hover:text-primary bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all">
-                            Login
+                    <!-- Search Icon and Input -->
+                    <div class="relative flex items-center">
+                        <button id="searchToggle"
+                            class="flex items-center justify-center p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[24px]">search</span>
                         </button>
-                        <!-- Register Button (Primary) -->
-                        <button onclick="location.href='../user/Register.html'"
-                            class="px-5 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-95">
-                            Register
+                        <input type="text" id="searchInput" placeholder="Search..."
+                            class="hidden absolute right-12 top-1/2 -translate-y-1/2 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 w-64 transition-all"
+                            style="display: none;" />
+                    </div>
+                    <!-- Auth Button (shown when not logged in) -->
+                    <div id="authButtonsContainer" class="flex items-center gap-3">
+                        <!-- Sign In Button with Icon -->
+                        <button onclick="location.href='../user/Authenticate.html'"
+                            class="flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg transition-all active:scale-95">
+                            <span class="material-symbols-outlined text-[20px]">account_circle</span>
+                            <span>Sign In</span>
+                        </button>
+                    </div>
+
+                    <!-- User Profile (shown when logged in) -->
+                    <div id="userProfileContainer" class="flex items-center gap-4 relative" style="display: none;">
+                        <button id="userMenuBtn"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer relative">
+                            <img id="userAvatar" src="../images/default-avatar.png" alt="User Avatar"
+                                class="w-8 h-8 rounded-full object-cover border-2 border-primary" />
+                            <span id="customerNameDisplay" class="text-sm font-medium text-slate-700 dark:text-slate-200 hidden sm:inline">User</span>
+                            <span class="material-symbols-outlined text-[20px] text-slate-500">expand_more</span>
+
+                            <!-- Dropdown Menu -->
+                            <div id="userMenuDropdown" class="user-menu-dropdown">
+                                <a href="../user/Profile.html" class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">account_circle</span>
+                                    Profile
+                                </a>
+                                <a href="../user/NotificationList.html" class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">notifications</span>
+                                    Notifications
+                                </a>
+                                <div style="border-top: 1px solid #e2e8f0; margin: 0.25rem 0;"></div>
+                                <button onclick="logout()" class="flex items-center gap-2 text-red-600">
+                                    <span class="material-symbols-outlined text-[18px]">logout</span>
+                                    Logout
+                                </button>
+                            </div>
                         </button>
                     </div>
                 </div>

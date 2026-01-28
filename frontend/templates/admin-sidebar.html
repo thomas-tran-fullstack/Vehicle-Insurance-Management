@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en">
 
@@ -55,6 +55,47 @@
             color: #137fec;
         }
     </style>
+    <script>
+        function initializeAdminSidebar() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user || user.roleId !== 1) {
+                // Not an ADMIN user, redirect to login
+                window.location.href = '../user/Authenticate.html';
+                return;
+            }
+
+            // Update admin info
+            const adminNameEl = document.getElementById('adminName');
+            const adminAvatarEl = document.getElementById('adminAvatar');
+
+            if (adminNameEl && user.username) {
+                adminNameEl.textContent = user.username;
+            }
+            
+            if (adminAvatarEl) {
+                if (user.avatar) {
+                    adminAvatarEl.style.backgroundImage = `url('${user.avatar}')`;
+                } else {
+                    adminAvatarEl.style.backgroundImage = "url('../images/admin.png')";
+                }
+                adminAvatarEl.onerror = function() {
+                    this.style.backgroundImage = "url('../images/default-avatar.png')";
+                };
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('user');
+            window.location.href = '../user/Authenticate.html';
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeAdminSidebar);
+        } else {
+            initializeAdminSidebar();
+        }
+    </script>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display">
@@ -177,18 +218,18 @@
             <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
                 <!-- User Profile Snippet -->
                 <div class="flex items-center gap-3 px-2 py-1">
-                    <div class="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center"
-                        data-alt="User avatar profile picture"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDAXCTLuZNkcAhDH7cyXz6iEuopUbzlFWqzWOI1rCsSAd3k6HK-ptYJ6_SfNIeavEhebIQynVFYrcZDuaTBQhIxYW0quLMtVzQcZ0Q3nEw6_X6eTP5sj64ytgU9uM3YevN97tJaascNNgPXpK4nWhN673T_LXazh6ziEXHA9hyrT_CvSpvZ0UQYF9QC9UA8rK9W4n7ArXh37bm6ESFTc2OjWF-ep3aAuY5F50iNHIVCpregahbd5NEWTF1Qwjl85ekRPMDN26Vxy537");'>
+                    <div id="adminAvatar" class="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center"
+                        data-alt="Admin avatar profile picture"
+                        style='background-image: url("../images/admin.png");'>
                     </div>
                     <div class="flex flex-col truncate">
-                        <span class="text-sm font-semibold text-slate-900 dark:text-white truncate">Alex Johnson</span>
+                        <span id="adminName" class="text-sm font-semibold text-slate-900 dark:text-white truncate">Admin</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">System Administrator</span>
                     </div>
                 </div>
                 <!-- Action Buttons -->
                 <div class="flex flex-col gap-1">
-                    <button
+                    <button onclick="logoutAdmin()"
                         class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                         <span class="material-symbols-outlined text-[22px]">logout</span>
                         <span class="text-sm font-medium">Logout</span>
@@ -202,6 +243,8 @@
             </div>
         </aside>
     </div>
+    <script src="../js/pageLoader.js"></script>
+
 </body>
 
 </html>

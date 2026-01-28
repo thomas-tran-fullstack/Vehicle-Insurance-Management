@@ -15,6 +15,8 @@ public partial class Staff
 
     public string? Position { get; set; }
 
+    public string? Avatar { get; set; }
+
     public bool? IsActive { get; set; }
 
     public virtual User User { get; set; } = null!;

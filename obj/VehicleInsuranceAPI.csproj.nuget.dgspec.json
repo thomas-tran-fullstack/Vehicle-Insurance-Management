@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj": {}
+    "C:\\Code\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj": {
+    "C:\\Code\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
+        "projectUniqueName": "C:\\Code\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
         "projectName": "VehicleInsuranceAPI",
-        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
+        "projectPath": "C:\\Code\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\Project3_1\\Vehicle-Insurance-Management\\obj\\",
+        "outputPath": "C:\\Code\\Vehicle-Insurance-Management\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,21 +44,25 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.11, )"
             },
             "Microsoft.OpenApi": {
               "target": "Package",
@@ -88,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

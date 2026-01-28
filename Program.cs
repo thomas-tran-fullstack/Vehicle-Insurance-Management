@@ -1,67 +1,72 @@
-<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using VehicleInsuranceAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --- Services ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "Missing ConnectionStrings:DefaultConnection in appsettings.json / environment variables.");
+}
 
 builder.Services.AddDbContext<VehicleInsuranceContext>(options =>
     options.UseSqlServer(connectionString));
 
-
-=======
-var builder = WebApplication.CreateBuilder(args);
-
->>>>>>> 8120502c19ece383406e34570cee8b6d23fa61f9
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
+
+// CORS: dev-friendly
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
+// --- Middleware ---
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-);
-<<<<<<< HEAD
-=======
+app.UseRouting();
+app.UseCors("AllowAll");
 
-// Phục vụ các tệp tĩnh từ thư mục frontend
->>>>>>> 8120502c19ece383406e34570cee8b6d23fa61f9
+// ✅ Serve static files from: VehicleInsuranceAPI/frontend
+var frontendPath = Path.Combine(builder.Environment.ContentRootPath, "frontend");
+if (!Directory.Exists(frontendPath))
+{
+    throw new DirectoryNotFoundException(
+        $"Static frontend folder not found: {frontendPath}. Expected: VehicleInsuranceAPI/frontend");
+}
+
+// ✅ Make "/" show frontend/user/home.html
+// Approach: redirect "/" -> "/user/home.html"
+app.MapGet("/", () => Results.Redirect("/user/home.html"));
+
+// ✅ Serve files in /frontend as web root
+// Example: frontend/user/home.html => http://localhost:5169/user/home.html
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(app.Environment.ContentRootPath, "frontend")),
+    FileProvider = new PhysicalFileProvider(frontendPath),
     RequestPath = ""
 });
 
-<<<<<<< HEAD
-// Route mặc định
-=======
-// Route /index phục vụ index.html
->>>>>>> 8120502c19ece383406e34570cee8b6d23fa61f9
-app.MapGet("/index", async (HttpContext context) =>
-{
-    context.Response.ContentType = "text/html; charset=utf-8";
-    await context.Response.SendFileAsync(Path.Combine(app.Environment.ContentRootPath, "frontend", "index.html"));
-});
-
 app.UseAuthorization();
-<<<<<<< HEAD
+
+// --- API Endpoints ---
+app.MapGet("/api/test", () => Results.Ok("App works!"));
+app.MapGet("/api/health", () => Results.Ok(new { status = "ok" }));
 
 app.MapControllers();
 
 app.Run();
-=======
-app.MapControllers();
-app.Run();
->>>>>>> 8120502c19ece383406e34570cee8b6d23fa61f9
