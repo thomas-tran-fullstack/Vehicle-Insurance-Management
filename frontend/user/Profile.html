@@ -54,23 +54,22 @@
         <!-- Header from template -->
         <div id="header-container"></div>
         <!-- Main Content Area -->
-        <main class="flex-1 flex justify-center pb-8 px-4 md:px-10 lg:px-40 pt-8">
-            <div class="max-w-[1200px] w-full flex flex-col md:flex-row gap-8">
-                <!-- Sidebar -->
-                <aside class="w-full md:w-64 flex-shrink-0">
-                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm flex flex-col gap-8 h-fit">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
-                                data-alt="Round customer avatar"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAq5OnZrBCQ63qkNU2gqev59Ar5bse8yJDteSvvDRA8QRu45Z5_HYdmH3FelO2KSv-3vB-wz9V46vvpV80ayu1F_Fk_useJfi7PRe5DgirWNjNji1jqoU5ndCKamAg_04zyobGQVQLRc9JV8Ok2gOAn6aQjb0ng9Esk69MkVROnL7XsxyCeksS3kRADqnrPXW3jFWKCItQjoUoQlb-HLsejGDNHBJnTx1aDYc6qBQB0_A5Sjw6EUWIMh5Gg3v6b1VzqqfYO-MSD8yuJ");'>
+        <main class="flex-1 flex justify-center pb-8 px-4 md:px-10 lg:px-20 pt-8">
+            <div class="w-full max-w-6xl">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Sidebar -->
+                    <aside class="w-full lg:w-80 flex-shrink-0">
+                        <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm flex flex-col gap-8 h-fit sticky top-8">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    id="sidebarAvatar" data-alt="Round customer avatar"
+                                    style='background-image: url("https://via.placeholder.com/48");'>
+                                </div>
+                                <div class="flex flex-col">
+                                    <h1 class="text-[#0d141b] dark:text-white text-base font-bold leading-none" id="sidebarName">Loading...</h1>
+                                    <p class="text-[#4c739a] text-xs mt-1">Gold Tier Member</p>
+                                </div>
                             </div>
-                            <div class="flex flex-col">
-                                <h1 class="text-[#0d141b] dark:text-white text-base font-bold leading-none">Tran Bao
-                                    Toan
-                                </h1>
-                                <p class="text-[#4c739a] text-xs mt-1">Gold Tier Member</p>
-                            </div>
-                        </div>
                         <nav class="flex flex-col gap-1">
                             <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold"
                                 href="Profile.html">
@@ -105,9 +104,9 @@
                             </a>
                         </nav>
                         <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <button
-                                class="w-full bg-primary text-white text-sm font-bold py-3 rounded-lg hover:bg-primary/90 transition-shadow shadow-md shadow-primary/20">
-                                View ID Cards
+                            <button id="logoutBtn"
+                                class="w-full bg-red-600 text-white text-sm font-bold py-3 rounded-lg hover:bg-red-700 transition-shadow shadow-md shadow-red-600/20">
+                                Log out
                             </button>
                         </div>
                     </div>
@@ -116,16 +115,15 @@
                 <div class="flex-1 flex flex-col gap-6">
                     <!-- Profile Header Card -->
                     <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6">
-                        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                             <div class="flex items-center gap-6">
                                 <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-24 w-24 ring-4 ring-slate-50 dark:ring-slate-800"
-                                    data-alt="Large profile header photo"
-                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtSh71JeBSSuTpH1YSIz-p3QoPpiLzO4HP3EFiZKb1-z8LY619pdA1Tl_2LM4Rul4yNsJvMUoIJDdQbS2INtDyAMRBeIZBkA_yxzCSJLNSWJxF9OQDQjnkM6gZeFJe1VdCByyZVHG33JtL_eG8pRvfqFT3V09DWNnWphl8MUTLnLcaKTt9nh0v1MuwGKZxjfPWt6-38BWxUr1DcVRjj3yi26fNmuXz5GSIg-BGoBOuVApiMy_yzNrQPqy0btC7kEjxkRtzZ1Qfsz1I");'>
+                                    id="profileAvatar" data-alt="Large profile header photo"
+                                    style='background-image: url("https://via.placeholder.com/96");'>
                                 </div>
                                 <div class="flex flex-col">
-                                    <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white">Tran Bao Toan</h2>
-                                    <p class="text-[#4c739a] text-sm">Member ID: A23141<span
-                                            class="font-mono text-primary font-medium">#8829104</span></p>
+                                    <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white" id="profileName">Loading...</h2>
+                                    <p class="text-[#4c739a] text-sm" id="profileMemberId">Member ID: -</p>
                                     <div class="flex items-center gap-2 mt-2">
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
@@ -135,7 +133,7 @@
                                 </div>
                             </div>
                             <button
-                                class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-full md:w-auto">
+                                class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-full sm:w-auto">
                                 <span class="material-symbols-outlined text-lg">edit</span>
                                 Edit Profile
                             </button>
@@ -151,69 +149,93 @@
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
                                     <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Full Name
                                     </p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">Tran Bao Toan
-                                    </p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium" id="infoFullName">-</p>
                                 </div>
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
                                     <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Email
                                         Address</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">
-                                        thomastran.fullstack@gmail.com</p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium" id="infoEmail">-</p>
                                 </div>
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
                                     <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Phone
                                         Number</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">034-361-7067
-                                    </p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium" id="infoPhone">-</p>
                                 </div>
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
                                     <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Mailing
                                         Address</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-relaxed">
-                                        123 Nam Song Hau, Tran De, Can Tho, VietNam</p>
-                                </div>
-                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Date of
-                                        Birth</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">November 2, 2004
-                                    </p>
-                                </div>
-                                <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Driver's
-                                        License</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium">•••• •••• 5692
-                                    </p>
+                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-relaxed" id="infoAddress">-</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Additional Settings -->
+                    <!-- Security & Account Settings -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div
-                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <div class="flex items-center gap-4">
+                        <!-- Change Password Card -->
+                        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-4 mb-6">
                                 <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-primary rounded-xl">
                                     <span class="material-symbols-outlined">lock</span>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-sm">Security</h4>
-                                    <p class="text-xs text-[#4c739a]">Manage your password</p>
+                                    <h4 class="font-bold text-sm">Change Password</h4>
+                                    <p class="text-xs text-[#4c739a]">Update your account password</p>
                                 </div>
                             </div>
-                            <button class="text-primary text-sm font-bold hover:underline">Manage</button>
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-semibold text-[#0d141b] dark:text-white">Current Password</label>
+                                    <input type="password" id="currentPassword" placeholder="Enter current password"
+                                        class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-semibold text-[#0d141b] dark:text-white">New Password</label>
+                                    <input type="password" id="newPassword" placeholder="Enter new password"
+                                        class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-semibold text-[#0d141b] dark:text-white">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" placeholder="Confirm new password"
+                                        class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                                </div>
+                                <button id="changePasswordBtn"
+                                    class="w-full mt-2 bg-primary text-white text-sm font-bold py-2.5 rounded-lg hover:bg-primary/90 transition-colors">
+                                    Update Password
+                                </button>
+                            </div>
                         </div>
-                        <div
-                            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <div class="p-3 bg-slate-50 dark:bg-slate-800 text-slate-500 rounded-xl">
-                                    <span class="material-symbols-outlined">mail</span>
+
+                        <!-- 2FA Settings Card -->
+                        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-xl">
+                                    <span class="material-symbols-outlined">security</span>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-sm">Notifications</h4>
-                                    <p class="text-xs text-[#4c739a]">Email &amp; SMS alerts</p>
+                                    <h4 class="font-bold text-sm">Two-Factor Authentication</h4>
+                                    <p class="text-xs text-[#4c739a]">Enhance your account security</p>
                                 </div>
                             </div>
-                            <button class="text-primary text-sm font-bold hover:underline">Update</button>
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                                    <div>
+                                        <p class="text-sm font-semibold text-[#0d141b] dark:text-white">2FA Status</p>
+                                        <p class="text-xs text-[#4c739a] mt-1">Enable two-factor authentication for added security</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="twoFactorToggle" class="sr-only peer" />
+                                        <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                    Two-factor authentication adds an extra layer of security by requiring a second verification method when logging in to your account.
+                                </p>
+                                <button id="setupTwoFactorBtn"
+                                    class="w-full mt-2 bg-slate-200 dark:bg-slate-700 text-[#0d141b] dark:text-white text-sm font-bold py-2.5 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled>
+                                    Set Up 2FA
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -226,35 +248,133 @@
         frameborder="0"></iframe>
 
     <script>
-        // Auto-adjust iframe heights
-        function resizeIframe(iframe) {
+        // Get user data on page load
+        document.addEventListener('DOMContentLoaded', async function () {
             try {
-                const height = iframe.contentWindow.document.documentElement.scrollHeight;
-                iframe.style.height = height + 'px';
-            } catch (err) {
-                console.log('Cannot access iframe content');
+                // Get userId from localStorage
+                const userId = localStorage.getItem('userId');
+                if (!userId) {
+                    window.location.href = 'Login.html';
+                    return;
+                }
+
+                // Get user email from localStorage
+                const userEmail = localStorage.getItem('userEmail');
+                const username = localStorage.getItem('username');
+
+                // Fetch customer information from API
+                const response = await fetch(`/api/CustomerInformation/${userId}`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    const customer = result.data;
+                    
+                    // Update profile header
+                    const avatarUrl = customer.avatar || 'https://via.placeholder.com/96';
+                    document.getElementById('profileAvatar').style.backgroundImage = `url("${avatarUrl}")`;
+                    document.getElementById('sidebarAvatar').style.backgroundImage = `url("${avatarUrl}")`;
+                    
+                    const fullName = customer.fullName || 'User';
+                    document.getElementById('profileName').textContent = fullName;
+                    document.getElementById('sidebarName').textContent = fullName;
+
+                    // Update personal information
+                    document.getElementById('infoFullName').textContent = fullName;
+                    document.getElementById('infoEmail').textContent = userEmail || '-';
+                    document.getElementById('infoPhone').textContent = customer.phone || '-';
+                    document.getElementById('infoAddress').textContent = customer.address || '-';
+                    document.getElementById('profileMemberId').textContent = `Member ID: ${userId}`;
+                } else {
+                    console.log('Customer not found, using basic info');
+                    document.getElementById('profileName').textContent = username || 'User';
+                    document.getElementById('sidebarName').textContent = username || 'User';
+                    document.getElementById('infoEmail').textContent = userEmail || '-';
+                    document.getElementById('profileMemberId').textContent = `Member ID: ${userId}`;
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
             }
-        }
+        });
 
-        const headerFrame = document.getElementById('header-frame');
-        const footerFrame = document.getElementById('footer-frame');
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            if (confirm('Are you sure you want to log out?')) {
+                // Clear localStorage
+                localStorage.removeItem('userId');
+                localStorage.removeItem('username');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('roleName');
+                
+                // Redirect to home
+                window.location.href = 'Home.html';
+            }
+        });
 
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
+        // Change password functionality
+        document.getElementById('changePasswordBtn').addEventListener('click', async function () {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
 
-        if (footerFrame) {
-            footerFrame.onload = function () {
-                resizeIframe(footerFrame);
-            };
-        }
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert('Please fill in all password fields');
+                return;
+            }
 
-        // Resize on window resize
-        window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
-            if (footerFrame) resizeIframe(footerFrame);
+            if (newPassword !== confirmPassword) {
+                alert('New password and confirm password do not match');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+
+            try {
+                const username = localStorage.getItem('username');
+                const response = await fetch('/api/LoginUserManagement/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        currentPassword: currentPassword,
+                        newPassword: newPassword
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Password changed successfully!');
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                } else {
+                    alert('Error: ' + (result.message || 'Failed to change password'));
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                alert('An error occurred while changing password');
+            }
+        });
+
+        // 2FA Toggle
+        document.getElementById('twoFactorToggle').addEventListener('change', function () {
+            const setupBtn = document.getElementById('setupTwoFactorBtn');
+            if (this.checked) {
+                setupBtn.disabled = false;
+                setupBtn.textContent = 'Configure 2FA';
+            } else {
+                setupBtn.disabled = true;
+                setupBtn.textContent = 'Set Up 2FA';
+            }
+        });
+
+        // Setup 2FA button
+        document.getElementById('setupTwoFactorBtn').addEventListener('click', function () {
+            alert('2FA setup will be implemented in the next phase. Coming soon!');
         });
     </script>
     <script>
@@ -263,6 +383,12 @@
             .then(response => response.text())
             .then(html => {
                 document.getElementById('header-container').innerHTML = html;
+                // Ensure DOM is updated before initializing
+                setTimeout(() => {
+                    if (window.initializeHeader) {
+                        window.initializeHeader();
+                    }
+                }, 100);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>

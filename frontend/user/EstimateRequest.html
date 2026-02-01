@@ -245,9 +245,36 @@
     <script>
         // Load header fragment
         fetch('../templates/header.html')
-            .then(response => response.text())
+            .then(response => {
+                console.log('Header fetch response:', response.status);
+                return response.text();
+            })
             .then(html => {
+                console.log('Header HTML loaded, inserting into DOM');
                 document.getElementById('header-container').innerHTML = html;
+                
+                // Load header.js script file
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                script.onload = () => {
+                    console.log('header.js loaded successfully');
+                    // Now check for initializeHeader
+                    let retries = 0;
+                    const checkAndInitialize = () => {
+                        retries++;
+                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
+                            console.log('Calling window.initializeHeader()');
+                            window.initializeHeader();
+                        } else if (retries < 10) {
+                            setTimeout(checkAndInitialize, 100);
+                        }
+                    };
+                    checkAndInitialize();
+                };
+                script.onerror = () => {
+                    console.error('Failed to load header.js');
+                };
+                document.head.appendChild(script);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>

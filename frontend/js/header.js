@@ -1,0 +1,205 @@
+// Flag to indicate header script has loaded
+window.headerScriptLoaded = false;
+
+function initializeHeader() {
+    const userMenuBtn = document.getElementById('userMenuBtn');
+    const userMenuDropdown = document.getElementById('userMenuDropdown');
+    let hideDropdownTimeout;
+
+    if (userMenuBtn && userMenuDropdown) {
+        // Show dropdown on hover
+        userMenuBtn.addEventListener('mouseenter', function (e) {
+            clearTimeout(hideDropdownTimeout);
+            userMenuDropdown.classList.add('active');
+        });
+
+        // Hide dropdown with 500ms delay on mouse leave
+        userMenuBtn.addEventListener('mouseleave', function (e) {
+            hideDropdownTimeout = setTimeout(() => {
+                userMenuDropdown.classList.remove('active');
+            }, 500);
+        });
+
+        // Keep dropdown open when hovering over it
+        userMenuDropdown.addEventListener('mouseenter', function (e) {
+            clearTimeout(hideDropdownTimeout);
+        });
+
+        // Hide dropdown when leaving the dropdown area
+        userMenuDropdown.addEventListener('mouseleave', function (e) {
+            hideDropdownTimeout = setTimeout(() => {
+                userMenuDropdown.classList.remove('active');
+            }, 200);
+        });
+
+        // Close on click outside
+        document.addEventListener('click', function (e) {
+            if (!userMenuBtn.contains(e.target) && !userMenuDropdown.contains(e.target)) {
+                userMenuDropdown.classList.remove('active');
+            }
+        });
+    }
+
+    // Check login status
+    checkLoginStatus();
+}
+
+function checkLoginStatus() {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const authButtonsContainer = document.getElementById('authButtonsContainer');
+    const userProfileContainer = document.getElementById('userProfileContainer');
+
+    console.log('checkLoginStatus - user:', user);
+    console.log('checkLoginStatus - authButtonsContainer:', authButtonsContainer);
+    console.log('checkLoginStatus - userProfileContainer:', userProfileContainer);
+
+    if (!authButtonsContainer || !userProfileContainer) return;
+
+    if (user && user.roleId) {
+        // User is logged in
+        console.log('User logged in, showing profile');
+        authButtonsContainer.style.display = 'none';
+        userProfileContainer.style.display = 'flex';
+
+        // Set user info
+        const customerNameDisplay = document.getElementById('customerNameDisplay');
+        const userAvatar = document.getElementById('userAvatar');
+
+        if (user.roleName === 'CUSTOMER') {
+            // Load customer data from database
+            loadCustomerData();
+            if (userAvatar) {
+                // Try to load avatar, fall back to user.png
+                userAvatar.src = user.avatar || '../images/user.png';
+                userAvatar.onerror = function() {
+                    this.src = '../images/user.png';
+                };
+            }
+        } else if (user.roleName === 'ADMIN' && user.username) {
+            if (customerNameDisplay) customerNameDisplay.textContent = user.username;
+            if (userAvatar) {
+                userAvatar.src = '../images/admin.png';
+                userAvatar.onerror = function() {
+                    this.src = '../images/user.png';
+                };
+            }
+        } else if (user.roleName === 'STAFF' && user.fullName) {
+            if (customerNameDisplay) customerNameDisplay.textContent = user.fullName;
+            if (userAvatar && user.avatar) {
+                userAvatar.src = user.avatar;
+                userAvatar.onerror = function() {
+                    this.src = '../images/user.png';
+                };
+            } else if (userAvatar) {
+                userAvatar.src = '../images/user.png';
+            }
+        }
+    } else {
+        // User is not logged in
+        console.log('User not logged in, showing sign in button');
+        authButtonsContainer.style.display = 'flex';
+        userProfileContainer.style.display = 'none';
+    }
+}
+
+async function loadCustomerData() {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!user || !user.userId) return;
+
+    try {
+        const response = await fetch(`/api/customerinformation/${user.userId}`);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            const customerNameDisplay = document.getElementById('customerNameDisplay');
+            const userAvatar = document.getElementById('userAvatar');
+            
+            if (customerNameDisplay && data.data.fullName) {
+                customerNameDisplay.textContent = data.data.fullName;
+            }
+            
+            // Update avatar if available
+            if (userAvatar && data.data.avatar) {
+                userAvatar.src = data.data.avatar;
+                userAvatar.onerror = function() {
+                    this.src = '../images/user.png';
+                };
+            }
+        }
+    } catch (error) {
+        console.log('Could not load customer data');
+    }
+}
+
+function logout() {
+    localStorage.removeItem('user');
+    window.location.href = '../user/Authenticate.html';
+}
+
+// Highlight active navigation link
+function highlightActiveNav() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const currentPath = window.location.pathname.toLowerCase();
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        const href = (link.getAttribute('href') || '').toLowerCase();
+        // Match by filename without extension
+        const fileName = href.split('/').pop().split('.')[0];
+        const pathFileName = currentPath.split('/').pop().split('.')[0];
+        
+        if (fileName && pathFileName && fileName === pathFileName) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Setup search functionality
+function setupSearch() {
+    const searchToggle = document.getElementById('searchToggle');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchToggle && searchInput) {
+        searchToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (searchInput.style.display === 'none') {
+                searchInput.style.display = 'block';
+                searchInput.focus();
+            } else {
+                searchInput.style.display = 'none';
+            }
+        });
+        
+        // Close search input on document click
+        document.addEventListener('click', () => {
+            if (searchInput.style.display === 'block') {
+                searchInput.style.display = 'none';
+            }
+        });
+    }
+}
+
+// Export functions to window
+window.initializeHeader = initializeHeader;
+window.highlightActiveNav = highlightActiveNav;
+window.setupSearch = setupSearch;
+
+// Initialize when header script loads directly (not via fetch)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Header script DOMContentLoaded, auto-initializing');
+        if (typeof initializeHeader === 'function') {
+            initializeHeader();
+        }
+        if (typeof highlightActiveNav === 'function') {
+            highlightActiveNav();
+        }
+        if (typeof setupSearch === 'function') {
+            setupSearch();
+        }
+    });
+}
+
+// Mark that header script has finished loading
+window.headerScriptLoaded = true;
+console.log('Header script execution completed');

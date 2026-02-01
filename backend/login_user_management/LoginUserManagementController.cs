@@ -90,6 +90,7 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                     if (customer != null)
                     {
                         response.CustomerName = customer.CustomerName;
+                        response.FullName = customer.CustomerName;
                         response.Avatar = customer.Avatar;
                     }
                 }
@@ -242,5 +243,69 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
             
             return Ok(new { exists = exists });
         }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.CurrentPassword) || string.IsNullOrEmpty(request.NewPassword))
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Username, current password, and new password are required"
+                });
+            }
+
+            try
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Username == request.Username);
+
+                if (user == null)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "User not found"
+                    });
+                }
+
+                // Verify current password
+                if (!PasswordHashService.VerifyPassword(request.CurrentPassword, user.PasswordHash))
+                {
+                    return Unauthorized(new
+                    {
+                        success = false,
+                        message = "Current password is incorrect"
+                    });
+                }
+
+                // Hash new password and update
+                user.PasswordHash = PasswordHashService.HashPassword(request.NewPassword);
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Password changed successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = $"An error occurred: {ex.Message}"
+                });
+            }
+        }
     }
-}
+
+    // Request model for change password
+    public class ChangePasswordRequest
+    {
+        public string Username { get; set; }
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+    }

@@ -258,6 +258,12 @@
             .then(response => response.text())
             .then(html => {
                 document.getElementById('header-container').innerHTML = html;
+                // Ensure DOM is updated before initializing
+                setTimeout(() => {
+                    if (window.initializeHeader) {
+                        window.initializeHeader();
+                    }
+                }, 100);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
