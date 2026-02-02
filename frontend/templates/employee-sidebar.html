@@ -52,48 +52,6 @@
             background: #cbd5e1;
         }
     </style>
-    <script>
-        function initializeStaffSidebar() {
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
-            if (!user || user.roleId !== 2) {
-                // Not a STAFF user, redirect to login
-                window.location.href = '../user/Authenticate.html';
-                return;
-            }
-
-            // Update staff info
-            const staffNameEl = document.getElementById('staffName');
-            const staffPositionEl = document.getElementById('staffPosition');
-            const staffAvatarEl = document.getElementById('staffAvatar');
-
-            if (staffNameEl && user.fullName) {
-                staffNameEl.textContent = user.fullName;
-            }
-            
-            if (staffAvatarEl) {
-                if (user.avatar) {
-                    staffAvatarEl.style.backgroundImage = `url('${user.avatar}')`;
-                } else {
-                    staffAvatarEl.style.backgroundImage = "url('../images/default-avatar.png')";
-                }
-                staffAvatarEl.onerror = function() {
-                    this.style.backgroundImage = "url('../images/default-avatar.png')";
-                };
-            }
-        }
-
-        function logoutStaff() {
-            localStorage.removeItem('user');
-            window.location.href = '../user/Authenticate.html';
-        }
-
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeStaffSidebar);
-        } else {
-            initializeStaffSidebar();
-        }
-    </script>
 </head>
 
 <body
@@ -114,66 +72,50 @@
             </div>
             <div class="flex-1 overflow-y-auto sidebar-scroll px-4 pb-6">
                 <nav class="space-y-1 mt-4">
-                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-all"
-                        href="#">
+                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 transition-all hover:bg-slate-100 dark:hover:bg-zinc-800"
+                        href="dashboard.html">
                         <span class="material-symbols-outlined text-xl"
                             style="font-variation-settings: 'FILL' 1">dashboard</span>
                         <span class="text-sm font-semibold">Dashboard</span>
-                        <div class="ml-auto w-1 h-5 bg-primary rounded-full"></div>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="InspectionManage.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">fact_check</span>
                         <span
                             class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Inspections</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="EstimateManage.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">calculate</span>
                         <span
                             class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Estimates</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="PolicyManage.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">description</span>
                         <span
                             class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Policies</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="BillingManage.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">payments</span>
                         <span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Billing
                             Management</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="ClaimProcessing.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">emergency_share</span>
                         <span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Claim
                             Management</span>
                     </a>
-                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
-                        <span
-                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">gavel</span>
-                        <span
-                            class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Violation
-                            Management</span>
-                    </a>
-                    <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
-                        <span
-                            class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">directions_car</span>
-                        <span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Vehicle
-                            Models</span>
-                    </a>
                     <div class="pt-4 pb-2 border-t border-slate-100 dark:border-zinc-800 my-2"></div>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="StaffNotification.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">notifications_active</span>
                         <span
@@ -182,14 +124,14 @@
                             class="ml-auto bg-primary text-white text-[10px] font-bold h-5 min-w-[20px] px-1.5 flex items-center justify-center rounded-full">4</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="StaffSupport.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">contact_support</span>
                         <span
                             class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Support</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                        href="#">
+                        href="Profile.html">
                         <span
                             class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">account_circle</span>
                         <span
@@ -197,17 +139,17 @@
                     </a>
                 </nav>
             </div>
-            <div class="p-4 border-t border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/50">
+            <div class="sticky bottom-0 p-4 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-lg">
                 <div
-                    class="flex items-center gap-3 p-2 bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-zinc-700">
-                    <div id="staffAvatar" class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600"
-                        style="background-image: url('/images/default-avatar.png');">
+                    class="flex items-center gap-3 p-2 bg-slate-50 dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-zinc-700">
+                    <div id="staffAvatar" class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600 shrink-0"
+                        style="background-image: url('/images/staff-avatar-1.png');">
                     </div>
-                    <div class="flex flex-col overflow-hidden">
+                    <div class="flex flex-col overflow-hidden min-w-0">
                         <p id="staffName" class="text-xs font-bold text-slate-800 dark:text-white truncate">Staff Name</p>
                         <p id="staffPosition" class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Position</p>
                     </div>
-                    <button onclick="logoutStaff()" class="ml-auto text-slate-400 hover:text-red-500 transition-colors">
+                    <button onclick="logoutStaff()" class="ml-auto text-slate-400 hover:text-red-500 transition-colors shrink-0">
                         <span class="material-symbols-outlined text-lg">logout</span>
                     </button>
                 </div>
@@ -221,7 +163,6 @@
         </aside>
     </div>
     <script src="../js/pageLoader.js"></script>
-
 
 </body>
 

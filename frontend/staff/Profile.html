@@ -91,7 +91,7 @@
                             </span>
                         </div>
                         <p class="text-primary font-semibold text-lg">Senior Specialist</p>
-                        <p class="text-[#4c739a] dark:text-slate-400">Underwriting / Claims Adjustment • North East
+                        <p class="text-[#4c739a] dark:text-slate-400">Underwriting / Claims Adjustment ï¿½ North East
                             District</p>
                     </div>
                     <div class="flex gap-3">
@@ -237,7 +237,7 @@
                                             Password</label>
                                         <input
                                             class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            placeholder="••••••••" type="password" />
+                                            placeholder="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" type="password" />
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label
@@ -303,6 +303,7 @@
             </div>
         </main>
     </div>
+    <script src="../js/employee-sidebar.js"></script>
     <script>
         // Load employee sidebar
         fetch('../templates/employee-sidebar.html')
@@ -314,6 +315,9 @@
                 const aside = doc.querySelector('aside');
                 if (aside) {
                     container.appendChild(aside);
+                    if (typeof initializeStaffSidebar === 'function') {
+                        initializeStaffSidebar();
+                    }
                 }
             });
     </script>

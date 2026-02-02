@@ -332,6 +332,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/admin-sidebar.js"></script>
     <script>
         // Load admin sidebar dynamically
         fetch('../templates/admin-sidebar.html')
@@ -340,6 +341,9 @@
                 const container = document.getElementById('sidebar-container');
                 if (container) {
                     container.innerHTML = html;
+                    if (typeof initializeAdminSidebar === 'function') {
+                        initializeAdminSidebar();
+                    }
                 }
             })
             .catch(error => console.error('Error loading sidebar:', error));

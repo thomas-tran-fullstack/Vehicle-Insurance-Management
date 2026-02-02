@@ -306,14 +306,14 @@ GO
 INSERT INTO Roles (RoleName) VALUES ('ADMIN'), ('STAFF'), ('CUSTOMER');
 GO
 
--- Users (admin, 2 staff, 2 customers)
+-- Users (admin, staff, customers)
 INSERT INTO Users (Username, PasswordHash, Email, Phone, RoleId, IsLocked)
 VALUES
-('admin_user',    '$2a$10$spGlapzTEfAerLa2lJ9TSO6dwKiV8reSE.0L0PkoY4W4csj7rpcqG', 'admin@avims.com',  '0900000001', 1, 0),
-('staff_inspector','$2a$10$br8nlsbdYLp43b9tFrBCCevKE6S6LzuHbN1d3nSLJIS460jcx560e', 'inspector@avims.com','0900000002', 2, 0),
-('staff_claims',  '$2a$10$br8nlsbdYLp43b9tFrBCCevKE6S6LzuHbN1d3nSLJIS460jcx560e', 'claims@avims.com',   '0900000003', 2, 0),
-('cust_phamc',    '$2a$10$8nV.EdwH/r3JbB9N7VPTa./BAovlJVD2oCyVd/Sa/Q3XjFbYc4uaO', 'phamc@avims.com',    '0912345678', 3, 0),
-('cust_lethud',   '$2a$10$8nV.EdwH/r3JbB9N7VPTa./BAovlJVD2oCyVd/Sa/Q3XjFbYc4uaO', 'lethud@avims.com',   '0912345679', 3, 0);
+('admin','$2a$10$spGlapzTEfAerLa2lJ9TSO6dwKiV8reSE.0L0PkoY4W4csj7rpcqG', 'admin@avims.com',  '0900000001', 1, 0),
+('staff','$2a$12$0wltvLEeIBOgEqg1v.yIEOHPHHmIWdrRESZ2cY7gdyiyUVErj6wJ6', 'inspector@avims.com','0900000002', 2, 0),
+('customer','$2a$12$uEg4KMoCueGMfAkf1A5/iOvbzbfCr5wK4BBX0J0cHrZerBxsTQ39i', 'phamc@avims.com',    '0912345678', 3, 0),
+('customer2','$2a$12$uEg4KMoCueGMfAkf1A5/iOvbzbfCr5wK4BBX0J0cHrZerBxsTQ39i', 'lethud@avims.com',   '0912345679', 3, 0),
+('staff2','$2a$12$0wltvLEeIBOgEqg1v.yIEOHPHHmIWdrRESZ2cY7gdyiyUVErj6wJ6', 'inspector2@avims.com','0900000003', 2, 0);
 GO
 
 
@@ -327,14 +327,14 @@ GO
 INSERT INTO Staff (UserId, FullName, Phone, Position, Avatar)
 VALUES
 (2, 'Nguyen Van A', '0987654321', 'Inspector', '/images/staff-avatar-1.png'),
-(3, 'Tran Thi B',   '0987654322', 'Claims Officer', '/images/staff-avatar-2.png');
+(5, 'Tran Thi B',   '0987654322', 'Claims Officer', '/images/staff-avatar-2.png');
 GO
 
 -- Customer rows
 INSERT INTO Customers (UserId, CustomerName, Address, Phone, Avatar)
 VALUES
-(4, 'Pham Minh C', '123 Main St, Ho Chi Minh City', '0912345678', '/images/customer-avatar-1.png'),
-(5, 'Le Thu D',    '456 Oak Ave, Hanoi',            '0912345679', '/images/customer-avatar-2.png');
+(3, 'Pham Minh C', '123 Main St, Ho Chi Minh City', '0912345678', '/images/customer-avatar-1.png'),
+(4, 'Le Thu D',    '456 Oak Ave, Hanoi',            '0912345679', '/images/customer-avatar-2.png');
 GO
 
 -- Insurance Types
@@ -372,9 +372,9 @@ GO
 -- Policies
 INSERT INTO Policies (PolicyNumber, CustomerId, VehicleId, InsuranceTypeId, PolicyStartDate, PolicyEndDate, DurationMonths, Warranty, AddressProofPath, PremiumAmount, Status, CreatedByStaffId)
 VALUES
-(2026100001, 1, 1, 1, '2026-01-01', '2026-12-31', 12, N'12 months', '/uploads/proofs/phamc_addr.pdf', 11250000, 'ACTIVE', 2),
-(2026100002, 1, 2, 3, '2026-01-15', '2026-07-14', 6,  N'6 months',  '/uploads/proofs/phamc_addr.pdf',   810000, 'ACTIVE', 2),
-(2026100003, 2, 3, 2, '2026-02-01', '2027-01-31', 12, N'12 months', '/uploads/proofs/lethud_addr.pdf', 27200000, 'ACTIVE', 2);
+(2026100001, 1, 1, 1, '2026-01-01', '2026-12-31', 12, N'12 months', '/uploads/proofs/phamc_addr.pdf', 11250000, 'ACTIVE', 1),
+(2026100002, 1, 2, 3, '2026-01-15', '2026-07-14', 6,  N'6 months',  '/uploads/proofs/phamc_addr.pdf',   810000, 'ACTIVE', 1),
+(2026100003, 2, 3, 2, '2026-02-01', '2027-01-31', 12, N'12 months', '/uploads/proofs/lethud_addr.pdf', 27200000, 'ACTIVE', 1);
 GO
 
 -- Policy Documents
@@ -403,7 +403,7 @@ GO
 -- Claims
 INSERT INTO Claims (ClaimNumber, PolicyId, AccidentPlace, AccidentDate, InsuredAmount, ClaimableAmount, Status, ReviewedByStaffId, DecisionAt, DecisionNote)
 VALUES
-(2026300001, 1, N'District 1, HCMC', '2026-03-02', 450000000, 15000000, 'APPROVED', 2, '2026-03-10T09:00:00', N'Approved after document verification'),
+(2026300001, 1, N'District 1, HCMC', '2026-03-02', 450000000, 15000000, 'APPROVED', 1, '2026-03-10T09:00:00', N'Approved after document verification'),
 (2026300002, 3, N'Cau Giay, Hanoi',  '2026-03-05', 850000000, 30000000, 'SUBMITTED', NULL, NULL, NULL);
 GO
 
@@ -446,6 +446,6 @@ GO
 -- Notifications
 INSERT INTO Notifications (ToUserId, Title, Message, Channel, Status, SentAt)
 VALUES
-(4, N'Renewal reminder', N'Your policy 2026100001 will expire soon. Please renew before end date.', 'IN_APP', 'SENT', SYSDATETIME()),
+(3, N'Renewal reminder', N'Your policy 2026100001 will expire soon. Please renew before end date.', 'IN_APP', 'SENT', SYSDATETIME()),
 (NULL, N'System maintenance', N'The portal will be maintained on Sunday 01:00-03:00.', 'IN_APP', 'QUEUED', NULL);
 GO

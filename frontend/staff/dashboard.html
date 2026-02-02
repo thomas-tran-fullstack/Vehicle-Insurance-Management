@@ -366,6 +366,37 @@
         </main>
     </div>
     <script>
+        // Check authentication - Staff only
+        function checkStaffAuth() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            
+            if (!userStr) {
+                window.location.href = '../user/Authenticate.html';
+                return;
+            }
+            
+            let user;
+            try {
+                user = JSON.parse(userStr);
+            } catch {
+                window.location.href = '../user/Authenticate.html';
+                return;
+            }
+
+            // Check if user is STAFF
+            if (!user.userId || user.roleName !== 'STAFF') {
+                window.location.href = '../user/Authenticate.html';
+                return;
+            }
+        }
+
+        // Run auth check on page load
+        checkStaffAuth();
+    </script>
+    <script src="../js/employee-sidebar.js"></script>
+    <script>
         // Load employee sidebar
         fetch('../templates/employee-sidebar.html')
             .then(response => response.text())
@@ -376,6 +407,10 @@
                 const aside = doc.querySelector('aside');
                 if (aside) {
                     container.appendChild(aside);
+                    // Initialize sidebar after HTML is injected
+                    if (typeof initializeStaffSidebar === 'function') {
+                        initializeStaffSidebar();
+                    }
                 }
             });
     </script>

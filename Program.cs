@@ -59,6 +59,23 @@ else
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+
+// Serve static files from uploads directory
+var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
+if (!Directory.Exists(uploadsPath))
+{
+    Directory.CreateDirectory(uploadsPath);
+}
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadsPath),
+    RequestPath = "/uploads",
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers["Cache-Control"] = "public,max-age=3600";
+    }
+});
+
 app.UseRouting();
 app.UseAuthorization();
 
@@ -85,6 +102,38 @@ app.MapGet("/templates/{filename}", async (string filename, HttpContext context)
 app.MapGet("/user/{filename}", async (string filename, HttpContext context) =>
 {
     var filePath = Path.Combine(app.Environment.ContentRootPath, "frontend", "user", filename);
+    if (File.Exists(filePath))
+    {
+        context.Response.ContentType = "text/html; charset=utf-8";
+        var content = await File.ReadAllTextAsync(filePath);
+        await context.Response.WriteAsync(content);
+    }
+    else
+    {
+        context.Response.StatusCode = 404;
+    }
+});
+
+// Serve admin pages
+app.MapGet("/admin/{filename}", async (string filename, HttpContext context) =>
+{
+    var filePath = Path.Combine(app.Environment.ContentRootPath, "frontend", "admin", filename);
+    if (File.Exists(filePath))
+    {
+        context.Response.ContentType = "text/html; charset=utf-8";
+        var content = await File.ReadAllTextAsync(filePath);
+        await context.Response.WriteAsync(content);
+    }
+    else
+    {
+        context.Response.StatusCode = 404;
+    }
+});
+
+// Serve staff pages
+app.MapGet("/staff/{filename}", async (string filename, HttpContext context) =>
+{
+    var filePath = Path.Combine(app.Environment.ContentRootPath, "frontend", "staff", filename);
     if (File.Exists(filePath))
     {
         context.Response.ContentType = "text/html; charset=utf-8";

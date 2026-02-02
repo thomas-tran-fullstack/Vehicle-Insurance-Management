@@ -53,49 +53,9 @@
         .active-nav-item {
             background-color: rgba(19, 127, 236, 0.1);
             color: #137fec;
+            font-weight: 500;
         }
     </style>
-    <script>
-        function initializeAdminSidebar() {
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
-            if (!user || user.roleId !== 1) {
-                // Not an ADMIN user, redirect to login
-                window.location.href = '../user/Authenticate.html';
-                return;
-            }
-
-            // Update admin info
-            const adminNameEl = document.getElementById('adminName');
-            const adminAvatarEl = document.getElementById('adminAvatar');
-
-            if (adminNameEl && user.username) {
-                adminNameEl.textContent = user.username;
-            }
-            
-            if (adminAvatarEl) {
-                if (user.avatar) {
-                    adminAvatarEl.style.backgroundImage = `url('${user.avatar}')`;
-                } else {
-                    adminAvatarEl.style.backgroundImage = "url('../images/admin.png')";
-                }
-                adminAvatarEl.onerror = function() {
-                    this.style.backgroundImage = "url('../images/default-avatar.png')";
-                };
-            }
-        }
-
-        function logoutAdmin() {
-            localStorage.removeItem('user');
-            window.location.href = '../user/Authenticate.html';
-        }
-
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeAdminSidebar);
-        } else {
-            initializeAdminSidebar();
-        }
-    </script>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display">
@@ -114,16 +74,11 @@
                 <!-- Section: General -->
                 <div class="mb-6 pt-8">
                     <nav class="space-y-1">
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg active-nav-item transition-colors duration-200"
-                            href="#">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-200"
+                            href="dashboard.html">
                             <span class="material-symbols-outlined text-[22px]"
                                 style="font-variation-settings: 'FILL' 1">dashboard</span>
                             <span class="text-sm font-medium">Dashboard</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
-                            <span class="material-symbols-outlined text-[22px]">account_circle</span>
-                            <span class="text-sm font-medium">Profile</span>
                         </a>
                     </nav>
                 </div>
@@ -134,24 +89,24 @@
                         Management</h3>
                     <nav class="space-y-1">
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="UserManage.html">
                             <span class="material-symbols-outlined text-[22px]">group</span>
                             <span class="text-sm font-medium">Users</span>
                             <span
                                 class="ml-auto px-1.5 py-0.5 text-[10px] bg-primary/10 text-primary rounded font-bold">Admin</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="EmployeeManage.html">
                             <span class="material-symbols-outlined text-[22px]">badge</span>
                             <span class="text-sm font-medium">Staff</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="CustomerManage.html">
                             <span class="material-symbols-outlined text-[22px]">person_pin_circle</span>
                             <span class="text-sm font-medium">Customers</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="VehicleManage.html">
                             <span class="material-symbols-outlined text-[22px]">directions_car</span>
                             <span class="text-sm font-medium">Vehicles</span>
                         </a>
@@ -164,22 +119,22 @@
                         Operations</h3>
                     <nav class="space-y-1">
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="InspectionManage.html">
                             <span class="material-symbols-outlined text-[22px]">content_paste_search</span>
                             <span class="text-sm font-medium">Inspections</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="GlobalPolicy.html">
                             <span class="material-symbols-outlined text-[22px]">description</span>
                             <span class="text-sm font-medium">Policies</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="GlobalClaim.html">
                             <span class="material-symbols-outlined text-[22px]">report_problem</span>
                             <span class="text-sm font-medium">Claims</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="GlobalBilling.html">
                             <span class="material-symbols-outlined text-[22px]">payments</span>
                             <span class="text-sm font-medium">Billing</span>
                         </a>
@@ -197,19 +152,14 @@
                         Administration</h3>
                     <nav class="space-y-1">
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="ExpensesManage.html">
                             <span class="material-symbols-outlined text-[22px]">receipt_long</span>
                             <span class="text-sm font-medium">Expenses</span>
                         </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
+                            href="Report.html">
                             <span class="material-symbols-outlined text-[22px]">bar_chart</span>
                             <span class="text-sm font-medium">Reports</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
-                            href="#">
-                            <span class="material-symbols-outlined text-[22px]">settings</span>
-                            <span class="text-sm font-medium">Settings</span>
                         </a>
                     </nav>
                 </div>
@@ -230,14 +180,9 @@
                 <!-- Action Buttons -->
                 <div class="flex flex-col gap-1">
                     <button onclick="logoutAdmin()"
-                        class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                        <span class="material-symbols-outlined text-[22px]">logout</span>
-                        <span class="text-sm font-medium">Logout</span>
-                    </button>
-                    <button
-                        class="flex items-center justify-center gap-2 w-full px-3 py-2.5 mt-2 rounded-lg bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary/90 transition-all shadow-sm">
-                        <span class="material-symbols-outlined text-lg">first_page</span>
-                        <span>Collapse Sidebar</span>
+                        class="flex items-center justify-center gap-2 w-full px-3 py-2.5 mt-2 rounded-lg bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-lg">logout</span>
+                        <span>Log Out</span>
                     </button>
                 </div>
             </div>

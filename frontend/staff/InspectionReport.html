@@ -69,7 +69,7 @@
                         <div class="flex items-center gap-3 mt-1">
                             <span
                                 class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-bold rounded border border-slate-200 dark:border-slate-700">IN-PROGRESS</span>
-                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">VIN: 1HGBH41JXMN001234 •
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">VIN: 1HGBH41JXMN001234 ï¿½
                                 Plate: ABC-1234</p>
                         </div>
                     </div>
@@ -364,6 +364,7 @@
             </div>
         </main>
     </div>
+    <script src="../js/employee-sidebar.js"></script>
     <script>
         // Load employee sidebar
         fetch('../templates/employee-sidebar.html')
@@ -375,6 +376,9 @@
                 const aside = doc.querySelector('aside');
                 if (aside) {
                     container.appendChild(aside);
+                    if (typeof initializeStaffSidebar === 'function') {
+                        initializeStaffSidebar();
+                    }
                 }
             });
     </script>

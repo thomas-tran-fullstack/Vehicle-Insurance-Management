@@ -247,5 +247,16 @@ if (document.readyState === 'loading') {
     });
 }
 
-// Mark that header script has finished loading
-window.headerScriptLoaded = true;
+/**
+ * Update avatar in header when user changes their profile picture
+ */
+function updateHeaderAvatar(newAvatarUrl) {
+    const userAvatar = document.getElementById('userAvatar');
+    if (userAvatar) {
+        userAvatar.src = newAvatarUrl;
+        userAvatar.onerror = function() {
+            this.src = '../images/user.png';
+        };
+    }
+}
+

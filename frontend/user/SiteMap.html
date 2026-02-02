@@ -59,6 +59,15 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
+        #footer-frame {
+            border: none;
+            width: 100vw;
+            height: auto;
+            margin-left: calc(-50vw + 50%);
+            padding: 0;
+            display: block;
+            overflow: hidden;
+        }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
@@ -349,13 +358,26 @@
         fetch('../templates/header.html')
             .then(response => response.text())
             .then(html => {
-                document.getElementById('header-container').innerHTML = html;
-                // Ensure DOM is updated before initializing
-                setTimeout(() => {
-                    if (window.initializeHeader) {
-                        window.initializeHeader();
-                    }
-                }, 100);
+                const headerContainer = document.getElementById('header-container');
+                headerContainer.innerHTML = html;
+                
+                // Load header.js script
+                const headerScript = document.createElement('script');
+                headerScript.src = '../js/header.js';
+                headerScript.onload = function() {
+                    setTimeout(() => {
+                        if (window.initializeHeader) {
+                            window.initializeHeader();
+                        }
+                        if (window.highlightActiveNav) {
+                            window.highlightActiveNav();
+                        }
+                        if (window.setupSearch) {
+                            window.setupSearch();
+                        }
+                    }, 50);
+                };
+                document.head.appendChild(headerScript);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>

@@ -244,6 +244,7 @@
             </footer>
         </main>
     </div>
+    <script src="../js/employee-sidebar.js"></script>
     <script>
         // Load employee sidebar
         fetch('../templates/employee-sidebar.html')
@@ -255,6 +256,9 @@
                 const aside = doc.querySelector('aside');
                 if (aside) {
                     container.appendChild(aside);
+                    if (typeof initializeStaffSidebar === 'function') {
+                        initializeStaffSidebar();
+                    }
                 }
             });
     </script>
