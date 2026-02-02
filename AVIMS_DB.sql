@@ -18,6 +18,8 @@ CREATE TABLE Users (
     Phone NVARCHAR(20) NULL,
     RoleId INT NOT NULL,
     IsLocked BIT NOT NULL DEFAULT 0,
+    Status NVARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    BannedUntil DATETIME2 NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     LastLoginAt DATETIME2 NULL,
     FOREIGN KEY (RoleId) REFERENCES Roles(RoleId)
@@ -152,6 +154,7 @@ CREATE TABLE Policies (
     AddressProofPath NVARCHAR(255) NULL,       -- file path/url
     PremiumAmount DECIMAL(18,2) NOT NULL,
     Status NVARCHAR(30) NOT NULL DEFAULT 'ACTIVE',  -- DRAFT/ACTIVE/CANCELLED/LAPSED
+    IsHidden BIT NOT NULL DEFAULT 0,
     CreatedByStaffId INT NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId),

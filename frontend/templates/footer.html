@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <!-- Footer is rendered inside an <iframe> on pages, so force all links to navigate the TOP window (not inside iframe) -->
+    <base target="_top">
     <title>Global Footer Component - Vehicle Insurance</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
@@ -47,37 +49,32 @@
 </head>
 <body style="margin: 0; padding: 0; display: block;">
     <!-- Global Footer Component -->
-    <footer class="bg-footer-blue dark:bg-[#08121d] text-white pt-16 pb-8 px-6 lg:px-40"
+    <footer class="bg-footer-blue dark:bg-[#08121d] text-white pt-16 pb-8 px-6 lg:px-40">
         <div class="max-w-[1280px] mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <!-- Column 1: Identity -->
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-4xl">shield_person</span>
-                        <span class="text-2xl font-black tracking-tight text-white">INSURE<span
-                                class="text-primary">CO</span></span>
+                        <img src="../images/logo.png" alt="InsureDrive Logo" class="h-16 w-auto object-contain bg-transparent shadow-none rounded-none" />
                     </div>
                     <p class="text-white/70 text-base leading-relaxed">
-                        Protecting your journey since 1995. Providing comprehensive vehicle coverage you can trust,
+                        Protecting your journey since 2026. Providing comprehensive vehicle coverage you can trust,
                         backed by 24/7 support and rapid claims processing.
                     </p>
                 </div>
+
                 <!-- Column 2: Quick Links -->
                 <div class="flex flex-col gap-4">
-                    <h3 class="text-lg font-bold text-white tracking-tight">Quick Links</h3>
-                    <ul class="flex flex-col gap-3">
-                        <li><a class="text-white/70 hover:text-primary transition-colors duration-200" href="#">Privacy
-                                Policy</a></li>
-                        <li><a class="text-white/70 hover:text-primary transition-colors duration-200" href="#">Terms of
-                                Service</a></li>
-                        <li><a class="text-white/70 hover:text-primary transition-colors duration-200" href="#">FAQ
-                                &amp; Support</a></li>
-                        <li><a class="text-white/70 hover:text-primary transition-colors duration-200"
-                                href="#">Accessibility</a></li>
-                        <li><a class="text-white/70 hover:text-primary transition-colors duration-200" href="#">Manage
-                                Policy</a></li>
-                    </ul>
+                    <h3 class="text-lg font-bold text-white tracking-tight">Quick Link</h3>
+                    <div class="flex flex-col gap-3 text-sm">
+                        <a href="../user/Home.html" target="_top" class="text-white/70 hover:text-white transition-colors">Home</a>
+                        <a href="../user/InsuranceType.html" target="_top" class="text-white/70 hover:text-white transition-colors">Types Of Insurance</a>
+                        <a href="../user/SiteMap.html" target="_top" class="text-white/70 hover:text-white transition-colors">Site Map</a>
+                        <a href="../user/Testimonial.html" target="_top" class="text-white/70 hover:text-white transition-colors">Testimonials</a>
+                        <a href="../user/ContactUs.html" target="_top" class="text-white/70 hover:text-white transition-colors">Contact Us</a>
+                    </div>
                 </div>
+
                 <!-- Column 3: Contact Info -->
                 <div class="flex flex-col gap-4">
                     <h3 class="text-lg font-bold text-white tracking-tight">Contact Us</h3>
@@ -86,21 +83,21 @@
                             <span class="material-symbols-outlined text-primary">phone_in_talk</span>
                             <div class="flex flex-col">
                                 <span class="text-sm text-white/50">24/7 Claims Support</span>
-                                <span class="text-white font-medium">1-800-INSURE</span>
+                                <span class="text-white font-medium">+84 343617067</span>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="material-symbols-outlined text-primary">mail</span>
                             <div class="flex flex-col">
                                 <span class="text-sm text-white/50">Email Support</span>
-                                <span class="text-white font-medium">support@insurance.com</span>
+                                <span class="text-white font-medium">thomastran.fullstack@gmail.com</span>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
                             <span class="material-symbols-outlined text-primary">location_on</span>
                             <div class="flex flex-col">
                                 <span class="text-sm text-white/50">Office Headquarters</span>
-                                <span class="text-white font-medium">123 Insurance Way, New York, NY</span>
+                                <span class="text-white font-medium">1 Ly Tu Trong, Ninh Kieu, Can Tho, Viet Nam</span>
                             </div>
                         </div>
                     </div>
@@ -145,7 +142,7 @@
             <!-- Bottom Copyright Bar -->
             <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-white/50 text-sm font-normal">
-                    © 2024 Vehicle Insurance Co. All rights reserved.
+                    © 2026 AVIMS Vehicle Insurance. All rights reserved.
                 </p>
             </div>
         </div>

@@ -226,6 +226,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.Property(e => e.Status).HasMaxLength(50);
                 entity.Property(e => e.Warranty).HasMaxLength(100);
+                entity.Property(e => e.IsHidden).HasDefaultValue(false);
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Policies)
                     .HasForeignKey(d => d.CustomerId)
@@ -283,6 +284,10 @@ namespace VehicleInsuranceAPI.Data
                     .HasColumnType("datetime");
                 entity.Property(e => e.Email).HasMaxLength(150);
                 entity.Property(e => e.IsLocked).HasDefaultValue(false);
+                entity.Property(e => e.Status)
+                    .HasMaxLength(20)
+                    .HasDefaultValue("ACTIVE");
+                entity.Property(e => e.BannedUntil).HasColumnType("datetime");
                 entity.Property(e => e.PasswordHash).HasMaxLength(255);
                 entity.Property(e => e.Username).HasMaxLength(100);
 

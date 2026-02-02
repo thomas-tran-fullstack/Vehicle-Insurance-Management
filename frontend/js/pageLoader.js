@@ -4,9 +4,35 @@
  * Include this script at the end of body tag in all HTML files
  */
 
+// Force light mode by removing dark class
+if (document.documentElement.classList.contains('dark')) {
+    document.documentElement.classList.remove('dark');
+}
+
 (function() {
+    function ensureFavicon() {
+        try {
+            // Use a relative path that works for all current pages (all HTML files are inside /user, /staff, /admin, /templates)
+            const faviconHref = '../images/logo.png';
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                link.type = 'image/png';
+                document.head.appendChild(link);
+            }
+            // Always set (in case an old favicon was cached)
+            link.href = faviconHref;
+        } catch (_) {
+            // Ignore favicon errors (non-blocking)
+        }
+    }
+
     // Add loading bar and spinner HTML if not already present
     function initializePageLoader() {
+        // Ensure project favicon (logo.png) is used across all pages
+        ensureFavicon();
+
         // Check if loader HTML is already added
         if (document.getElementById('loadingBar')) return;
         
@@ -178,6 +204,21 @@
         `;
         document.head.appendChild(style);
     }
+
+    function ensureFavicon() {
+        // Avoid duplicates
+        let iconLink = document.querySelector('link[rel~="icon"]');
+        if (!iconLink) {
+            iconLink = document.createElement('link');
+            iconLink.rel = 'icon';
+            iconLink.type = 'image/png';
+            document.head.appendChild(iconLink);
+        }
+
+        // All pages are one directory deep under /frontend (user/, staff/, admin/, templates/)
+        // so "../images/logo.png" is the correct relative path.
+        iconLink.href = '../images/logo.png';
+    }
     
     let loadingTimeout;
     let loadingBarTimeout;
@@ -229,6 +270,18 @@
     function setupEventListeners() {
         // Show loading on page load
         window.addEventListener('load', finishLoading);
+        
+        // Handle browser back/forward navigation (popstate event)
+        window.addEventListener('popstate', () => {
+            finishLoading();
+        });
+        
+        // Make sure loading is finished when page becomes visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                finishLoading();
+            }
+        });
         
         // Handle link navigation with 0.5 second delay
         document.addEventListener('click', (e) => {

@@ -1,3 +1,8 @@
+// Force light mode by removing dark class (project requirement: light mode only)
+if (document.documentElement.classList.contains('dark')) {
+    document.documentElement.classList.remove('dark');
+}
+
 // Flag to indicate header script has loaded
 window.headerScriptLoaded = false;
 
@@ -45,19 +50,15 @@ function initializeHeader() {
 }
 
 function checkLoginStatus() {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const user = getValidSessionUser();
+    
     const authButtonsContainer = document.getElementById('authButtonsContainer');
     const userProfileContainer = document.getElementById('userProfileContainer');
 
-    console.log('checkLoginStatus - user:', user);
-    console.log('checkLoginStatus - authButtonsContainer:', authButtonsContainer);
-    console.log('checkLoginStatus - userProfileContainer:', userProfileContainer);
-
     if (!authButtonsContainer || !userProfileContainer) return;
 
-    if (user && user.roleId) {
+    if (user) {
         // User is logged in
-        console.log('User logged in, showing profile');
         authButtonsContainer.style.display = 'none';
         userProfileContainer.style.display = 'flex';
 
@@ -96,14 +97,60 @@ function checkLoginStatus() {
         }
     } else {
         // User is not logged in
-        console.log('User not logged in, showing sign in button');
         authButtonsContainer.style.display = 'flex';
         userProfileContainer.style.display = 'none';
     }
 }
 
+/**
+ * Return a validated user session object (or null).
+ * This prevents showing the user dropdown when localStorage contains stale/invalid data.
+ */
+function getValidSessionUser() {
+    // Prefer sessionStorage for normal login; localStorage only when "Remember me" is checked.
+    const sessionStr = sessionStorage.getItem('user');
+    const localStr = localStorage.getItem('user');
+    const userStr = sessionStr || localStr;
+    if (!userStr) return null;
+
+    let user;
+    try {
+        user = JSON.parse(userStr);
+    } catch {
+        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
+        return null;
+    }
+
+    // If session came from localStorage, only trust it when rememberMe=true
+    if (!sessionStr && localStr) {
+        const rememberFlag = user?.rememberMe === true;
+        if (!rememberFlag) {
+            localStorage.removeItem('user');
+            return null;
+        }
+    }
+
+    // Basic shape validation
+    const userId = Number(user?.userId);
+    const roleId = Number(user?.roleId);
+    const roleName = String(user?.roleName || '').toUpperCase();
+
+    const validRoleName = ['CUSTOMER', 'STAFF', 'ADMIN'].includes(roleName);
+    const validIds = Number.isInteger(userId) && userId > 0 && Number.isInteger(roleId) && roleId > 0;
+
+    if (!validRoleName || !validIds) {
+        // Clear bogus session so header shows "Sign In"
+        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
+        return null;
+    }
+
+    return user;
+}
+
 async function loadCustomerData() {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const user = getValidSessionUser();
     if (!user || !user.userId) return;
 
     try {
@@ -132,6 +179,7 @@ async function loadCustomerData() {
 }
 
 function logout() {
+    sessionStorage.removeItem('user');
     localStorage.removeItem('user');
     window.location.href = '../user/Authenticate.html';
 }
@@ -187,7 +235,6 @@ window.setupSearch = setupSearch;
 // Initialize when header script loads directly (not via fetch)
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('Header script DOMContentLoaded, auto-initializing');
         if (typeof initializeHeader === 'function') {
             initializeHeader();
         }
@@ -202,4 +249,3 @@ if (document.readyState === 'loading') {
 
 // Mark that header script has finished loading
 window.headerScriptLoaded = true;
-console.log('Header script execution completed');

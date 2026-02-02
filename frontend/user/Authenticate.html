@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>InsureDrive - Authentication</title>
 
-    <!-- ✅ MUST: Tailwind config BEFORE loading CDN -->
     <script>
+        // Clear any stale login data when entering Authenticate page
+        window.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (user && !user.userId && !user.roleId) {
+                localStorage.removeItem('user');
+                console.log('Cleared invalid user data from localStorage');
+            }
+        });
+        
         tailwind = window.tailwind || {};
         tailwind.config = {
             darkMode: "class",
@@ -267,7 +275,7 @@
         }
 
         /* Page load animation */
-        main {
+        main.auth-main {
             animation: pageLoadFade 0.6s ease-in-out;
         }
 
@@ -281,6 +289,40 @@
                 transform: translateY(0);
             }
         }
+
+        /* Force desktop layout for Authenticate page */
+        @media (min-width: 1024px) {
+            main.auth-main {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                gap: 0 !important;
+            }
+
+            main.auth-main > .auth-banner {
+                display: flex !important;
+                width: 50% !important;
+                flex-shrink: 0;
+            }
+
+            main.auth-main > .auth-panel {
+                display: flex !important;
+                width: 50% !important;
+                flex-shrink: 0;
+            }
+        }
+
+        /* Mobile layout */
+        @media (max-width: 1023px) {
+            main.auth-main {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            .auth-banner {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -289,9 +331,9 @@
 
     <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         <!-- ✅ Force flex + force lg row to avoid being overridden by global CSS -->
-        <main class="flex-1 !flex !flex-col lg:!flex-row bg-white dark:bg-background-dark overflow-hidden pt-0">
+        <main class="auth-main flex-1 flex flex-col lg:flex-row bg-white dark:bg-background-dark w-full">
             <!-- Left Banner -->
-            <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#101922]">
+            <div class="auth-banner hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#101922]">
                 <img alt="Modern Luxury Car" class="absolute inset-0 w-full h-full object-cover opacity-70"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmHtT0krj94FB2MgIYFExBoiz1aJjht-l9qkXfVjaX9fM29tEnrm445VFX5yYh_gJFC6MhuzSbYlvgq0JPBzpJexQxJa6toEM-ujwclQvGXpipAxRzqjoNWgqmfeGo_RooY4alFSSmRiqZwYhg6-l61RdGLAEE4gY8dyWf6SfnY1ME2tZCGrBCbEskxAwhqAAIQT6D0HWXNOSbLidHTeAvqJ9NVWNwDhjBZ-d8BTpSkawqKyFIWL5-_bAIq0n0B0rx0ymxzT8TyJfx" />
                 <div class="absolute inset-0 bg-gradient-to-tr from-[#137fec]/40 to-transparent"></div>
@@ -317,7 +359,7 @@
             </div>
 
             <!-- Right Auth Modal -->
-            <div class="flex-1 flex items-center justify-center p-6 lg:p-12 bg-background-light dark:bg-[#101922]">
+            <div class="auth-panel flex-1 flex items-center justify-center p-6 lg:p-12 bg-background-light dark:bg-[#101922]">
                 <div
                     class="w-full max-w-[480px] bg-white dark:bg-[#1a2633] rounded-xl shadow-xl border border-[#e7edf3] dark:border-[#2a3a4a] overflow-hidden modal-content">
 
@@ -626,17 +668,29 @@
             }, 300);
         });
 
-        // Load header fragment
+        // Load header fragment + header.js (same 방식 như Home để tránh header bị sai trạng thái)
         fetch('../templates/header.html')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('header-container').innerHTML = html;
-                // Ensure DOM is updated before initializing
-                setTimeout(() => {
-                    if (window.initializeHeader) {
-                        window.initializeHeader();
-                    }
-                }, 500);
+
+                // Load header.js after header HTML is injected
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                script.onload = () => {
+                    // Wait until header.js exposes initializeHeader
+                    let retries = 0;
+                    const checkAndInitialize = () => {
+                        retries++;
+                        if (window.headerScriptLoaded && typeof window.initializeHeader === 'function') {
+                            window.initializeHeader();
+                        } else if (retries < 10) {
+                            setTimeout(checkAndInitialize, 100);
+                        }
+                    };
+                    checkAndInitialize();
+                };
+                document.head.appendChild(script);
             })
             .catch(error => console.error('Error loading header:', error));
 
@@ -683,6 +737,37 @@
                 loginTab.classList.remove('active');
                 registerBtn.classList.add('active');
                 loginBtn.classList.remove('active');
+            }
+        }
+
+        // ===== Force 2-column layout on desktop =====
+        // When running via `dotnet run`, some global CSS can override flex classes.
+        // This JS enforces the intended layout (banner left, modal right) at >=1024px.
+        function forceAuthLayout() {
+            const main = document.querySelector('main.auth-main');
+            const banner = document.querySelector('main.auth-main > .auth-banner');
+            const panel = document.querySelector('main.auth-main > .auth-panel');
+
+            if (!main || !banner || !panel) return;
+
+            if (window.innerWidth >= 1024) {
+                main.style.display = 'flex';
+                main.style.flexDirection = 'row';
+                main.style.flexWrap = 'nowrap';
+
+                banner.style.display = 'flex';
+                banner.style.width = '50%';
+                banner.style.flexShrink = '0';
+
+                panel.style.display = 'flex';
+                panel.style.width = '50%';
+                panel.style.flexShrink = '0';
+            } else {
+                main.style.display = 'flex';
+                main.style.flexDirection = 'column';
+                banner.style.display = 'none';
+                panel.style.display = 'flex';
+                panel.style.width = '100%';
             }
         }
 
@@ -828,17 +913,27 @@
                 console.log('Login response:', data);
 
                 if (data.success) {
-                    console.log('Login successful, saving user to localStorage');
-                    localStorage.setItem('user', JSON.stringify({
+                    const remember = !!document.getElementById('remember')?.checked;
+                    const userPayload = {
                         userId: data.userId,
                         username: data.username,
                         roleId: data.roleId,
                         roleName: data.roleName,
                         customerName: data.customerName,
                         fullName: data.fullName,
-                        avatar: data.avatar
-                    }));
-                    console.log('User saved:', JSON.parse(localStorage.getItem('user')));
+                        avatar: data.avatar,
+                        rememberMe: remember
+                    };
+
+                    // IMPORTANT:
+                    // - sessionStorage is per-tab and won’t “stick” like localStorage
+                    // - localStorage is used only when user checked "Keep me signed in"
+                    sessionStorage.setItem('user', JSON.stringify(userPayload));
+                    if (remember) {
+                        localStorage.setItem('user', JSON.stringify(userPayload));
+                    } else {
+                        localStorage.removeItem('user');
+                    }
 
                     showPopMessage('Login successful!', 'success', 2000);
                     setTimeout(() => {
@@ -994,6 +1089,16 @@
                 });
             }
         });
+
+        // Enforce intended layout regardless of global CSS (dotnet-run scenario)
+        window.addEventListener('load', forceAuthLayout);
+        window.addEventListener('resize', () => {
+            // Debounce a bit
+            clearTimeout(window.__authLayoutT);
+            window.__authLayoutT = setTimeout(forceAuthLayout, 80);
+        });
+        // Also run once now (in case script executes after DOM is ready)
+        forceAuthLayout();
     </script>
 
     <!-- Page Loader Script -->

@@ -17,6 +17,12 @@ public partial class User
 
     public bool? IsLocked { get; set; }
 
+    // Business status: ACTIVE / INACTIVE
+    public string? Status { get; set; }
+
+    // If not null and > now, the user is temporarily banned
+    public DateTime? BannedUntil { get; set; }
+
     public DateTime? CreatedAt { get; set; }
 
     public virtual ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();

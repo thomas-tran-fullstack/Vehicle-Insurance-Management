@@ -72,6 +72,27 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                     });
                 }
 
+                // Business rules: inactive/banned users cannot login
+                var status = (user.Status ?? "ACTIVE").ToUpper();
+                if (status != "ACTIVE")
+                {
+                    return Unauthorized(new LoginResponse
+                    {
+                        Success = false,
+                        Message = "Your account had been inactive"
+                    });
+                }
+
+                if (user.BannedUntil != null && user.BannedUntil.Value > DateTime.Now)
+                {
+                    var until = user.BannedUntil.Value;
+                    return Unauthorized(new LoginResponse
+                    {
+                        Success = false,
+                        Message = $"Your account had been inactive (banned until {until:HH:mm} - {until:dd/MM/yyyy})"
+                    });
+                }
+
                 var response = new LoginResponse
                 {
                     Success = true,
@@ -309,3 +330,4 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
         public string CurrentPassword { get; set; }
         public string NewPassword { get; set; }
     }
+}

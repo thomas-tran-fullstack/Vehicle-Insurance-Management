@@ -19,6 +19,9 @@ public partial class Policy
 
     public string? Status { get; set; }
 
+    // Soft visibility flag used when a customer is deactivated/deleted.
+    public bool? IsHidden { get; set; }
+
     public virtual ICollection<Bill> Bills { get; set; } = new List<Bill>();
 
     public virtual ICollection<Claim> Claims { get; set; } = new List<Claim>();

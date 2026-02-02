@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Customer Home Page | AutoGuard Insurance</title>
 
-    <!-- ✅ Tailwind config MUST be before CDN -->
+    <!-- ? Tailwind config MUST be before CDN -->
     <script>
         tailwind = window.tailwind || {};
         tailwind.config = {
@@ -44,12 +44,12 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* ✅ FORCE hero 2 columns on desktop */
+        /* ? FORCE hero 2 columns on desktop */
         .hero-row {
             display: flex !important;
             flex-direction: column !important;
             gap: 2.5rem;
-            /* giống gap-10 */
+            /* gi?ng gap-10 */
         }
 
         @media (min-width: 1024px) {
@@ -76,7 +76,7 @@
                         <div class="flex flex-col gap-4">
                             <h1
                                 class="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                                Protect Your Vehicle Today – Flexible Coverage
+                                Protect Your Vehicle Today - Flexible Coverage
                             </h1>
                             <p class="text-[#4c739a] dark:text-slate-400 text-lg md:text-xl font-normal max-w-[540px]">
                                 Get personalized vehicle insurance with competitive rates and comprehensive protection
@@ -312,12 +312,12 @@
                         retries++;
                         console.log(`Check ${retries}: headerScriptLoaded=${window.headerScriptLoaded}, initializeHeader=${typeof window.initializeHeader}`);
                         if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
-                            console.log('✓ Header script loaded and initializeHeader found! Calling it now...');
+                            console.log('? Header script loaded and initializeHeader found! Calling it now...');
                             window.initializeHeader();
                         } else if (retries < 10) {
                             setTimeout(checkAndInitialize, 100);
                         } else {
-                            console.error('✗ Failed to initialize header after retries');
+                            console.error('? Failed to initialize header after retries');
                         }
                     };
                     checkAndInitialize();
