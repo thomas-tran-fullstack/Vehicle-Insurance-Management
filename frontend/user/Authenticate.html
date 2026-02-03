@@ -46,6 +46,9 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
 
+    <!-- Google Sign-In SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -443,7 +446,7 @@
                                 <div class="h-[1px] flex-1 bg-[#e7edf3] dark:bg-[#3a4b5c]"></div>
                             </div>
 
-                            <button
+                            <button id="loginGoogleBtn"
                                 class="flex w-full items-center justify-center gap-3 rounded-lg h-12 px-4 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] text-[#0d141b] dark:text-white text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                                 <svg class="w-5 h-5" viewBox="0 0 24 24">
                                     <path
@@ -589,8 +592,7 @@
                                     register with</span>
                                 <div class="h-[1px] flex-1 bg-[#e7edf3] dark:bg-[#3a4b5c]"></div>
                             </div>
-
-                            <button
+                            <button id="signupGoogleBtn"
                                 class="flex w-full items-center justify-center gap-3 rounded-lg h-12 px-4 border border-[#cfdbe7] dark:border-[#3a4b5c] bg-white dark:bg-[#1a2633] text-[#0d141b] dark:text-white text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                                 <svg class="w-5 h-5" viewBox="0 0 24 24">
                                     <path
@@ -1099,6 +1101,144 @@
         });
         // Also run once now (in case script executes after DOM is ready)
         forceAuthLayout();
+
+        // ==================== GOOGLE SIGN-IN HANDLER ====================
+        // Initialize Google Sign-In
+        window.onload = function () {
+            // Wait for Google SDK to load
+            if (window.google && window.google.accounts) {
+                google.accounts.id.initialize({
+                    client_id: '871823019630-lmbul5pp672rouorb24qjvpmjrqsqftm.apps.googleusercontent.com',
+                    callback: handleGoogleSignIn
+                });
+            }
+        };
+
+        // Handle Google Sign-In callback
+        async function handleGoogleSignIn(response) {
+            if (!response.credential) {
+                showPopMessage('Google Sign-In failed', 'error');
+                return;
+            }
+
+            try {
+                // Decode JWT token (without verification - frontend only)
+                const base64Url = response.credential.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+
+                const googleUser = JSON.parse(jsonPayload);
+                console.log('Google User:', googleUser);
+
+                // Send to backend for verification and processing
+                const result = await fetch('/api/LoginUserManagement/google-signin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token: response.credential,
+                        email: googleUser.email,
+                        name: googleUser.name
+                    })
+                });
+
+                const data = await result.json();
+                console.log('Backend response:', data);
+
+                if (data.success) {
+                    if (data.userExists) {
+                        // User exists - log in directly
+                        const user = {
+                            userId: data.userId,
+                            username: data.username,
+                            email: data.email,
+                            roleId: data.roleId,
+                            roleName: data.roleName,
+                            fullName: data.fullName
+                        };
+
+                        sessionStorage.setItem('user', JSON.stringify(user));
+                        showPopMessage('Logged in successfully!', 'success', 1000);
+
+                        // Redirect based on role
+                        setTimeout(() => {
+                            if (data.roleName === 'CUSTOMER') {
+                                window.location.href = 'Home.html';
+                            } else if (data.roleName === 'STAFF' || data.roleName === 'ADMIN') {
+                                window.location.href = '../admin/Dashboard.html';
+                            }
+                        }, 800);
+                    } else {
+                        // New user - redirect to OTP verification (no message, instant redirect)
+                        sessionStorage.setItem('googleEmail', googleUser.email);
+                        sessionStorage.setItem('googleName', googleUser.name);
+                        sessionStorage.setItem('googleToken', response.credential);
+                        
+                        // Redirect immediately without message or delay
+                        window.location.href = 'VerifyOTP.html';
+                    }
+                } else {
+                    showPopMessage(data.message || 'Google Sign-In failed', 'error');
+                }
+            } catch (error) {
+                console.error('Google Sign-In error:', error);
+                showPopMessage('An error occurred during Google Sign-In', 'error');
+            }
+        }
+
+        // Attach Google Sign-In to buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginGoogleBtn = document.getElementById('loginGoogleBtn');
+            const signupGoogleBtn = document.getElementById('signupGoogleBtn');
+
+            if (loginGoogleBtn) {
+                loginGoogleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.google && window.google.accounts) {
+                        google.accounts.id.prompt((notification) => {
+                            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                                // If one-tap prompt doesn't show, use redirect flow
+                                triggerGoogleSignIn();
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (signupGoogleBtn) {
+                signupGoogleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.google && window.google.accounts) {
+                        google.accounts.id.prompt((notification) => {
+                            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                                triggerGoogleSignIn();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        function triggerGoogleSignIn() {
+            // Create hidden Google button and click it
+            const hiddenDiv = document.createElement('div');
+            hiddenDiv.id = 'google_signin_button_hidden';
+            hiddenDiv.style.display = 'none';
+            document.body.appendChild(hiddenDiv);
+
+            if (window.google && window.google.accounts) {
+                google.accounts.id.renderButton(
+                    hiddenDiv,
+                    { theme: 'outline', size: 'large' }
+                );
+                // Click the rendered button
+                const hiddenButton = hiddenDiv.querySelector('div[role="button"]');
+                if (hiddenButton) {
+                    hiddenButton.click();
+                }
+            }
+        }
     </script>
 
     <!-- Page Loader Script -->

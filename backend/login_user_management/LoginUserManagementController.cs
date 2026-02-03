@@ -9,10 +9,12 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
     public class LoginUserManagementController : ControllerBase
     {
         private readonly VehicleInsuranceContext _context;
+        private readonly EmailService _emailService;
 
-        public LoginUserManagementController(VehicleInsuranceContext context)
+        public LoginUserManagementController(VehicleInsuranceContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         [HttpGet("demo")]
@@ -79,7 +81,7 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                     return Unauthorized(new LoginResponse
                     {
                         Success = false,
-                        Message = "Your account had been inactive"
+                        Message = "Your account had been banned"
                     });
                 }
 
@@ -321,13 +323,261 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                 });
             }
         }
+
+        // ==================== GOOGLE SIGN-IN ENDPOINTS ====================
+
+        [HttpPost("google-signin")]
+        public async Task<IActionResult> GoogleSignIn([FromBody] GoogleSignInRequest request)
+        {
+            try
+            {
+                // Validate token and extract email (in production, verify with Google API)
+                // For now, we trust the token from frontend
+
+                var email = request.Email?.Trim().ToLower();
+                if (string.IsNullOrWhiteSpace(email))
+                    return BadRequest(new { success = false, message = "Email is required" });
+
+                // Check if user exists
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == email);
+
+                if (user != null)
+                {
+                    // User exists - get customer name if customer record exists
+                    var customer = await _context.Customers
+                        .FirstOrDefaultAsync(c => c.UserId == user.UserId);
+                    var fullName = customer?.CustomerName ?? request.Name ?? user.Username;
+                    return Ok(new
+                    {
+                        success = true,
+                        userExists = true,
+                        userId = user.UserId,
+                        username = user.Username,
+                        email = user.Email,
+                        roleId = user.RoleId,
+                        roleName = user.Role?.RoleName ?? "CUSTOMER",
+                        fullName = fullName
+                    });
+                }
+
+                // User doesn't exist - generate and send OTP
+                var otp = GenerateOTP();
+                
+                // Store OTP in session/cache (in production, use Redis or database with TTL)
+                var otpKey = $"otp_{email}";
+                // For demo, store in memory with 5 minute expiry
+                OtpStorage.Store(otpKey, otp, TimeSpan.FromMinutes(5));
+
+                // Send OTP via email (implement email service)
+                await SendOTPEmail(email, otp, request.Name ?? "User");
+
+                return Ok(new
+                {
+                    success = true,
+                    userExists = false,
+                    message = "OTP sent to email. Please verify."
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPRequest request)
+        {
+            try
+            {
+                var email = request.Email?.Trim().ToLower();
+                var otp = request.OTP?.Trim();
+
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(otp))
+                    return BadRequest(new { success = false, message = "Email and OTP are required" });
+
+                // Verify OTP
+                var otpKey = $"otp_{email}";
+                if (!OtpStorage.Verify(otpKey, otp))
+                    return BadRequest(new { success = false, message = "Invalid or expired OTP" });
+
+                // Create new user (customer)
+                var fullName = request.FullName ?? email.Split('@')[0];
+                var username = GenerateUsername(fullName);
+                var password = GenerateRandomPassword();
+                var passwordHash = PasswordHashService.HashPassword(password);
+
+                var newUser = new Models.User
+                {
+                    Username = username,
+                    Email = email,
+                    PasswordHash = passwordHash,
+                    RoleId = 2, // Customer role
+                    Status = "ACTIVE",
+                    CreatedAt = DateTime.Now
+                };
+
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                // Create customer record
+                var customer = new Models.Customer
+                {
+                    UserId = newUser.UserId,
+                    CustomerName = fullName,
+                    Phone = null,
+                    Address = null
+                };
+
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
+
+                // Clear OTP
+                OtpStorage.Remove(otpKey);
+
+                return Ok(new
+                {
+                    success = true,
+                    userId = newUser.UserId,
+                    username = username,
+                    email = newUser.Email,
+                    roleId = newUser.RoleId,
+                    roleName = "CUSTOMER",
+                    fullName = fullName,
+                    message = "Account created successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+
+        [HttpPost("resend-otp")]
+        public async Task<IActionResult> ResendOTP([FromBody] ResendOTPRequest request)
+        {
+            try
+            {
+                var email = request.Email?.Trim().ToLower();
+                if (string.IsNullOrWhiteSpace(email))
+                    return BadRequest(new { success = false, message = "Email is required" });
+
+                // Generate new OTP
+                var otp = GenerateOTP();
+                var otpKey = $"otp_{email}";
+                OtpStorage.Store(otpKey, otp, TimeSpan.FromMinutes(5));
+
+                // Send OTP
+                await SendOTPEmail(email, otp, "User");
+
+                return Ok(new { success = true, message = "OTP sent successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+
+        // ==================== HELPER FUNCTIONS ====================
+
+        private string GenerateOTP()
+        {
+            var random = new Random();
+            return random.Next(1000, 9999).ToString();
+        }
+
+        private string GenerateUsername(string fullName)
+        {
+            var baseName = fullName?.Replace(" ", "").ToLower() ?? "user";
+            var random = new Random();
+            return $"{baseName}_{random.Next(100, 9999)}";
+        }
+
+        private string GenerateRandomPassword()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+            var random = new Random();
+            var password = new System.Text.StringBuilder();
+            for (int i = 0; i < 12; i++)
+                password.Append(chars[random.Next(chars.Length)]);
+            return password.ToString();
+        }
+
+        private async Task SendOTPEmail(string email, string otp, string name)
+        {
+            try
+            {
+                // Use EmailService to send OTP
+                await _emailService.SendOTPAsync(email, otp, name);
+                Console.WriteLine($"[EMAIL SUCCESS] OTP sent to {email}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[EMAIL ERROR] Failed to send OTP to {email}: {ex.Message}");
+                // Don't throw - let the OTP verification continue even if email fails
+                // In production, might want to log this and notify admin
+            }
+        }
+    }
+
+    // ==================== OTP STORAGE (In-Memory) ====================
+    public static class OtpStorage
+    {
+        private static Dictionary<string, (string otp, DateTime expiry)> _storage = new();
+
+        public static void Store(string key, string otp, TimeSpan duration)
+        {
+            _storage[key] = (otp, DateTime.UtcNow.Add(duration));
+        }
+
+        public static bool Verify(string key, string otp)
+        {
+            if (!_storage.ContainsKey(key))
+                return false;
+
+            var (storedOtp, expiry) = _storage[key];
+            if (DateTime.UtcNow > expiry)
+            {
+                _storage.Remove(key);
+                return false;
+            }
+
+            return storedOtp == otp;
+        }
+
+        public static void Remove(string key)
+        {
+            _storage.Remove(key);
+        }
+    }
+
+    // ==================== REQUEST/RESPONSE MODELS ====================
+
+    public class GoogleSignInRequest
+    {
+        public string? Token { get; set; }
+        public string? Email { get; set; }
+        public string? Name { get; set; }
+    }
+
+    public class VerifyOTPRequest
+    {
+        public string? Email { get; set; }
+        public string? OTP { get; set; }
+        public string? FullName { get; set; }
+        public string? Token { get; set; }
+    }
+
+    public class ResendOTPRequest
+    {
+        public string? Email { get; set; }
     }
 
     // Request model for change password
     public class ChangePasswordRequest
     {
-        public string Username { get; set; }
-        public string CurrentPassword { get; set; }
-        public string NewPassword { get; set; }
+        public string? Username { get; set; }
+        public string? CurrentPassword { get; set; }
+        public string? NewPassword { get; set; }
     }
 }

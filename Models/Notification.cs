@@ -7,17 +7,19 @@ public partial class Notification
 {
     public int NotificationId { get; set; }
 
-    public int? UserId { get; set; }
+    public int? ToUserId { get; set; }
 
-    public string? Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    public string? Message { get; set; }
+    public string Message { get; set; } = null!;
 
-    public string? Type { get; set; }
+    public string Channel { get; set; } = "IN_APP";
 
-    public bool? IsRead { get; set; }
+    public string Status { get; set; } = "QUEUED";
 
-    public DateTime? CreatedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? SentAt { get; set; }
 
     public virtual User? User { get; set; }
 }

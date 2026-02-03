@@ -245,6 +245,17 @@ if (document.readyState === 'loading') {
             setupSearch();
         }
     });
+} else {
+    // DOM is already loaded, initialize immediately
+    if (typeof initializeHeader === 'function') {
+        initializeHeader();
+    }
+    if (typeof highlightActiveNav === 'function') {
+        highlightActiveNav();
+    }
+    if (typeof setupSearch === 'function') {
+        setupSearch();
+    }
 }
 
 /**

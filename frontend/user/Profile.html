@@ -233,11 +233,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-full sm:w-auto">
-                                <span class="material-symbols-outlined text-lg">edit</span>
-                                Edit Profile
-                            </button>
+                            <div id="editProfileButtonContainer" class="flex gap-2 w-full sm:w-auto">
+                                <button id="editProfileBtn"
+                                    class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-sm font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-full sm:w-auto">
+                                    <span class="material-symbols-outlined text-lg">edit</span>
+                                    Edit Profile
+                                </button>
+                                <button id="saveProfileBtn" style="display: none;"
+                                    class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold border border-primary hover:bg-primary/90 transition-colors">
+                                    <span class="material-symbols-outlined text-lg">save</span>
+                                    Save
+                                </button>
+                                <button id="cancelProfileBtn" style="display: none;"
+                                    class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-slate-200 dark:bg-slate-700 text-[#0d141b] dark:text-white text-sm font-bold border border-slate-300 dark:border-slate-600 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
+                                    <span class="material-symbols-outlined text-lg">cancel</span>
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <!-- Personal Information -->
@@ -247,25 +259,36 @@
                         </div>
                         <div class="p-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <!-- Full Name Field -->
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Full Name
-                                    </p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium" id="infoFullName">-</p>
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Full Name</p>
+                                    <div id="fullNameDisplay" class="text-[#0d141b] dark:text-slate-200 text-base font-medium">-</div>
+                                    <input type="text" id="fullNameInput" placeholder="Enter full name"
+                                        class="hidden px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" />
                                 </div>
+
+                                <!-- Email Address Field (Read-only) -->
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Email
-                                        Address</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium" id="infoEmail">-</p>
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Email Address</p>
+                                    <div id="emailDisplay" class="text-[#0d141b] dark:text-slate-200 text-base font-medium">-</div>
+                                    <input type="email" id="emailInput" placeholder="Email (Read-only)"
+                                        class="hidden px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 cursor-not-allowed" readonly />
                                 </div>
+
+                                <!-- Phone Number Field -->
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Phone
-                                        Number</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium" id="infoPhone">-</p>
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Phone Number</p>
+                                    <div id="phoneDisplay" class="text-[#0d141b] dark:text-slate-200 text-base font-medium">-</div>
+                                    <input type="tel" id="phoneInput" placeholder="Enter phone number"
+                                        class="hidden px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" />
                                 </div>
+
+                                <!-- Mailing Address Field -->
                                 <div class="flex flex-col gap-1.5 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
-                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Mailing
-                                        Address</p>
-                                    <p class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-relaxed" id="infoAddress">-</p>
+                                    <p class="text-[#4c739a] text-xs font-semibold uppercase tracking-wider">Mailing Address</p>
+                                    <div id="addressDisplay" class="text-[#0d141b] dark:text-slate-200 text-base font-medium leading-relaxed">-</div>
+                                    <textarea id="addressInput" placeholder="Enter mailing address"
+                                        class="hidden px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[#0d141b] dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -440,6 +463,9 @@
                 const response = await fetch(`/api/CustomerInformation/${userId}`);
                 const result = await response.json();
 
+                console.log('API Response:', result); // Debug log
+                console.log('Customer data:', result.data); // Debug log
+
                 if (result.success && result.data) {
                     const customer = result.data;
                     
@@ -460,41 +486,201 @@
                     document.getElementById('profileName').textContent = fullName;
                     document.getElementById('sidebarName').textContent = fullName;
 
-                    // Update personal information
-                    document.getElementById('infoFullName').textContent = fullName;
-                    document.getElementById('infoEmail').textContent = user.email || customer.email || '-';
-                    document.getElementById('infoPhone').textContent = customer.phone || '-';
-                    document.getElementById('infoAddress').textContent = customer.address || '-';
+                    // Update personal information (display)
+                    document.getElementById('fullNameDisplay').textContent = fullName;
+                    const emailValue = customer.email || user.email || '-';
+                    console.log('Email to display:', emailValue); // Debug log
+                    document.getElementById('emailDisplay').textContent = emailValue;
+                    document.getElementById('phoneDisplay').textContent = customer.phone || '-';
+                    document.getElementById('addressDisplay').textContent = customer.address || '-';
                     document.getElementById('profileMemberId').textContent = `Member ID: ${userId}`;
+
+                    // Fill input fields for edit mode
+                    document.getElementById('fullNameInput').value = fullName;
+                    document.getElementById('emailInput').value = customer.email || user.email || '';
+                    document.getElementById('phoneInput').value = customer.phone || '';
+                    document.getElementById('addressInput').value = customer.address || '';
+
+                    // Store current values for cancel functionality
+                    window.profileData = {
+                        fullName: fullName,
+                        email: customer.email || user.email || '',
+                        phone: customer.phone || '',
+                        address: customer.address || ''
+                    };
                 } else {
                     console.log('Customer not found, using basic info');
                     document.getElementById('profileName').textContent = user.fullName || 'User';
                     document.getElementById('sidebarName').textContent = user.fullName || 'User';
-                    document.getElementById('infoEmail').textContent = user.email || '-';
+                    document.getElementById('emailDisplay').textContent = user.email || '-';
                     document.getElementById('profileMemberId').textContent = `Member ID: ${userId}`;
                     
+                    // Fill input fields
+                    document.getElementById('fullNameInput').value = user.fullName || '';
+                    document.getElementById('emailInput').value = user.email || '';
+                    
                     // Set default avatar
-                    document.getElementById('profileAvatar').style.backgroundImage = `url("../images/user.png")`;
+                    document.getElementById('profileAvatarImage').style.backgroundImage = `url("../images/user.png")`;
                     document.getElementById('sidebarAvatar').style.backgroundImage = `url("../images/user.png")`;
+
+                    // Store current values for cancel functionality
+                    window.profileData = {
+                        fullName: user.fullName || '',
+                        email: user.email || '',
+                        phone: '',
+                        address: ''
+                    };
                 }
             } catch (error) {
                 console.error('Error loading profile:', error);
             }
         });
 
-        // Logout functionality
+        // Logout functionality - Immediate logout without confirmation
         document.getElementById('logoutBtn').addEventListener('click', function () {
-            if (confirm('Are you sure you want to log out?')) {
-                // Clear sessionStorage and localStorage
-                sessionStorage.removeItem('user');
-                localStorage.removeItem('user');
-                
-                // Redirect to home
-                window.location.href = 'Home.html';
-            }
+            // Clear sessionStorage and localStorage
+            sessionStorage.removeItem('user');
+            localStorage.removeItem('user');
+            
+            // Redirect to home
+            window.location.href = 'Home.html';
         });
 
-        // Change password functionality
+        // Edit Profile functionality
+        document.getElementById('editProfileBtn').addEventListener('click', function () {
+            // Show input fields and hide display fields
+            document.getElementById('fullNameDisplay').style.display = 'none';
+            document.getElementById('fullNameInput').style.display = 'block';
+            
+            document.getElementById('emailDisplay').style.display = 'none';
+            document.getElementById('emailInput').style.display = 'block';
+            
+            document.getElementById('phoneDisplay').style.display = 'none';
+            document.getElementById('phoneInput').style.display = 'block';
+            
+            document.getElementById('addressDisplay').style.display = 'none';
+            document.getElementById('addressInput').style.display = 'block';
+            
+            // Show Save/Cancel buttons, hide Edit button
+            document.getElementById('editProfileBtn').style.display = 'none';
+            document.getElementById('saveProfileBtn').style.display = 'flex';
+            document.getElementById('cancelProfileBtn').style.display = 'flex';
+        });
+
+        // Cancel Edit functionality
+        document.getElementById('cancelProfileBtn').addEventListener('click', function () {
+            // Hide input fields and show display fields
+            document.getElementById('fullNameDisplay').style.display = 'block';
+            document.getElementById('fullNameInput').style.display = 'none';
+            
+            document.getElementById('emailDisplay').style.display = 'block';
+            document.getElementById('emailInput').style.display = 'none';
+            
+            document.getElementById('phoneDisplay').style.display = 'block';
+            document.getElementById('phoneInput').style.display = 'none';
+            
+            document.getElementById('addressDisplay').style.display = 'block';
+            document.getElementById('addressInput').style.display = 'none';
+            
+            // Restore original values
+            document.getElementById('fullNameInput').value = window.profileData.fullName;
+            document.getElementById('phoneInput').value = window.profileData.phone;
+            document.getElementById('addressInput').value = window.profileData.address;
+            
+            // Show Edit button, hide Save/Cancel buttons
+            document.getElementById('editProfileBtn').style.display = 'flex';
+            document.getElementById('saveProfileBtn').style.display = 'none';
+            document.getElementById('cancelProfileBtn').style.display = 'none';
+        });
+
+        // Save Profile functionality
+        document.getElementById('saveProfileBtn').addEventListener('click', async function () {
+            const fullName = document.getElementById('fullNameInput').value.trim();
+            const phone = document.getElementById('phoneInput').value.trim();
+            const address = document.getElementById('addressInput').value.trim();
+
+            // Validation
+            if (!fullName) {
+                showErrorMessage('Please enter your full name');
+                return;
+            }
+
+            if (fullName.length < 2 || fullName.length > 100) {
+                showErrorMessage('Full name must be between 2 and 100 characters');
+                return;
+            }
+
+            if (phone && !/^\d{10,11}$/.test(phone.replace(/\s/g, ''))) {
+                showErrorMessage('Phone number must be 10-11 digits');
+                return;
+            }
+
+            if (address && address.length > 255) {
+                showErrorMessage('Address must not exceed 255 characters');
+                return;
+            }
+
+            try {
+                // Get user ID from session
+                const userStr = sessionStorage.getItem('user') || localStorage.getItem('user');
+                const user = JSON.parse(userStr);
+                const userId = user.userId;
+
+                // Update customer information via API
+                const response = await fetch(`/api/CustomerInformation/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: fullName,
+                        phone: phone,
+                        address: address
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Update display fields with new values
+                    document.getElementById('fullNameDisplay').textContent = fullName;
+                    document.getElementById('profileName').textContent = fullName;
+                    document.getElementById('sidebarName').textContent = fullName;
+                    document.getElementById('phoneDisplay').textContent = phone || '-';
+                    document.getElementById('addressDisplay').textContent = address || '-';
+
+                    // Update stored profile data
+                    window.profileData = {
+                        fullName: fullName,
+                        email: window.profileData.email,
+                        phone: phone,
+                        address: address
+                    };
+
+                    // Hide input fields and show display fields
+                    document.getElementById('fullNameDisplay').style.display = 'block';
+                    document.getElementById('fullNameInput').style.display = 'none';
+                    
+                    document.getElementById('phoneDisplay').style.display = 'block';
+                    document.getElementById('phoneInput').style.display = 'none';
+                    
+                    document.getElementById('addressDisplay').style.display = 'block';
+                    document.getElementById('addressInput').style.display = 'none';
+                    
+                    // Show Edit button, hide Save/Cancel buttons
+                    document.getElementById('editProfileBtn').style.display = 'flex';
+                    document.getElementById('saveProfileBtn').style.display = 'none';
+                    document.getElementById('cancelProfileBtn').style.display = 'none';
+
+                    showSuccessMessage('Profile updated successfully!');
+                } else {
+                    showErrorMessage('Error updating profile: ' + (result.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showErrorMessage('An error occurred while updating profile: ' + error.message);
+            }
+        });
         document.getElementById('changePasswordBtn').addEventListener('click', async function () {
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;

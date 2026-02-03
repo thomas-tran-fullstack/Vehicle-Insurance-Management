@@ -22,4 +22,6 @@ public partial class Staff
     public virtual User User { get; set; } = null!;
 
     public virtual ICollection<VehicleInspection> VehicleInspections { get; set; } = new List<VehicleInspection>();
+
+    public virtual ICollection<Policy> Policies { get; set; } = new List<Policy>();
 }

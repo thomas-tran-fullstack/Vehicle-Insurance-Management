@@ -64,10 +64,17 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.LogId).HasName("PK__AuditLog__5E54864819BDE266");
 
-                entity.Property(e => e.Action).HasMaxLength(255);
+                entity.Property(e => e.LogId).ValueGeneratedOnAdd();
+                entity.Property(e => e.Action)
+                    .IsRequired()
+                    .HasMaxLength(255);
+                entity.Property(e => e.Entity).HasMaxLength(100);
+                entity.Property(e => e.EntityId).HasMaxLength(50);
+                entity.Property(e => e.Meta).HasColumnType("nvarchar(max)");
                 entity.Property(e => e.LogDate)
+                    .IsRequired()
                     .HasDefaultValueSql("(getdate())")
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime2");
 
                 entity.HasOne(d => d.User).WithMany(p => p.AuditLogs)
                     .HasForeignKey(d => d.UserId)
@@ -130,6 +137,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.User).WithMany(p => p.Customers)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Customers__UserI__47DBAE45");
             });
 
@@ -195,16 +203,27 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E12C5331BC1");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasDefaultValueSql("(getdate())")
-                    .HasColumnType("datetime");
-                entity.Property(e => e.IsRead).HasDefaultValue(false);
-                entity.Property(e => e.Title).HasMaxLength(200);
-                entity.Property(e => e.Type).HasMaxLength(50);
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(200);
+                entity.Property(e => e.Message)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+                entity.Property(e => e.Channel)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasDefaultValue("IN_APP");
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasDefaultValue("QUEUED");
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.User).WithMany(p => p.Notifications)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Notificat__UserI__778AC167");
+                    .HasForeignKey(d => d.ToUserId)
+                    .HasConstraintName("FK__Notificat__ToUser__778AC167");
             });
 
             modelBuilder.Entity<Penalty>(entity =>
@@ -224,9 +243,28 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.PolicyId).HasName("PK__Policies__2E1339A45F41D5A8");
 
-                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.PolicyNumber).IsRequired();
+                entity.Property(e => e.CustomerId).IsRequired();
+                entity.Property(e => e.VehicleId).IsRequired();
+                entity.Property(e => e.InsuranceTypeId).IsRequired();
+                entity.Property(e => e.PolicyStartDate).IsRequired();
+                entity.Property(e => e.PolicyEndDate).IsRequired();
+                entity.Property(e => e.DurationMonths).IsRequired();
+                entity.Property(e => e.PremiumAmount)
+                    .IsRequired()
+                    .HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.Warranty).HasMaxLength(100);
-                entity.Property(e => e.IsHidden).HasDefaultValue(false);
+                entity.Property(e => e.AddressProofPath).HasMaxLength(255);
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasDefaultValue("ACTIVE");
+                entity.Property(e => e.IsHidden)
+                    .IsRequired()
+                    .HasDefaultValue(false);
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Policies)
                     .HasForeignKey(d => d.CustomerId)
@@ -235,6 +273,14 @@ namespace VehicleInsuranceAPI.Data
                 entity.HasOne(d => d.Vehicle).WithMany(p => p.Policies)
                     .HasForeignKey(d => d.VehicleId)
                     .HasConstraintName("FK__Policies__Vehicl__59FA5E80");
+
+                entity.HasOne(d => d.InsuranceType).WithMany(p => p.Policies)
+                    .HasForeignKey(d => d.InsuranceTypeId)
+                    .HasConstraintName("FK__Policies__Insura__5A0EB469");
+
+                entity.HasOne(d => d.CreatedByStaff).WithMany(p => p.Policies)
+                    .HasForeignKey(d => d.CreatedByStaffId)
+                    .HasConstraintName("FK__Policies__Create__5B77B0A2");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -257,7 +303,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.User).WithMany(p => p.Staff)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Staff__UserId__44FF419A");
             });
 
@@ -283,6 +329,8 @@ namespace VehicleInsuranceAPI.Data
                     .HasDefaultValueSql("(getdate())")
                     .HasColumnType("datetime");
                 entity.Property(e => e.Email).HasMaxLength(150);
+                entity.Property(e => e.Phone).HasMaxLength(20);
+                entity.Property(e => e.LastLoginAt).HasColumnType("datetime");
                 entity.Property(e => e.IsLocked).HasDefaultValue(false);
                 entity.Property(e => e.Status)
                     .HasMaxLength(20)

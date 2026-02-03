@@ -39,7 +39,7 @@
         }
 
         .modal-hidden {
-            display: none !important;
+            display: none;
         }
 
         .toast-notification {
@@ -108,14 +108,6 @@
                         <option value="">All Status</option>
                         <option value="ACTIVE">Active</option>
                         <option value="INACTIVE">Inactive</option>
-                    </select>
-                    <select id="sortFilter"
-                        class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
-                        <option value="">Default (Newest)</option>
-                        <option value="name-asc">Name A → Z</option>
-                        <option value="name-desc">Name Z → A</option>
-                        <option value="id-asc">Oldest Staff</option>
-                        <option value="id-desc">Newest Staff</option>
                     </select>
                 </div>
 
@@ -288,94 +280,33 @@
         let currentStaffId = null;
         let isEditMode = false;
 
-        // Declare modal elements in global scope so they're accessible from HTML onclick handlers
-        let staffModal;
-        let deleteModal;
-
-        // Wait for DOM to be fully loaded before initializing
-        function initializeStaffManagement() {
-            try {
-                // Get modal elements from DOM
-                staffModal = document.getElementById('staffModal');
-                deleteModal = document.getElementById('deleteModal');
-                
-                if (!staffModal || !deleteModal) {
-                    console.error('Modal elements not found in DOM');
-                    return;
-                }
-
-                const addStaffBtn = document.getElementById('addStaffBtn');
-                const closeStaffModal = document.getElementById('closeStaffModal');
-                const cancelStaffModal = document.getElementById('cancelStaffModal');
-                const cancelDelete = document.getElementById('cancelDelete');
-                const saveStaffBtn = document.getElementById('saveStaffBtn');
-                const confirmDelete = document.getElementById('confirmDelete');
-
-                // Verify all button elements exist
-                if (!addStaffBtn || !closeStaffModal || !cancelStaffModal) {
-                    console.error('Required button elements not found');
-                    return;
-                }
-
-                // Verify modals are hidden on initialization
-                staffModal.classList.add('modal-hidden');
-                deleteModal.classList.add('modal-hidden');
-                console.log('Modals initialized as hidden');
-
-                addStaffBtn.addEventListener('click', () => openStaffModal('add'));
-                closeStaffModal.addEventListener('click', () => closeStaffModalFunc());
-                cancelStaffModal.addEventListener('click', () => closeStaffModalFunc());
-                cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
-                saveStaffBtn.addEventListener('click', saveStaff);
-                confirmDelete.addEventListener('click', deleteStaff);
-
-                // Close modal when clicking on the backdrop (outside the modal content)
-                staffModal.addEventListener('click', (e) => {
-                    if (e.target === staffModal) {
-                        closeStaffModalFunc();
-                    }
-                });
-
-                deleteModal.addEventListener('click', (e) => {
-                    if (e.target === deleteModal) {
-                        deleteModal.classList.add('modal-hidden');
-                    }
-                });
-
-                const regenerateUsername = document.getElementById('regenerateUsername');
-                const regeneratePassword = document.getElementById('regeneratePassword');
-                if (regenerateUsername) regenerateUsername.addEventListener('click', generateUsername);
-                if (regeneratePassword) regeneratePassword.addEventListener('click', generatePassword);
-
-                // Search and filter
-                const searchInput = document.getElementById('searchInput');
-                const statusFilter = document.getElementById('statusFilter');
-                const sortFilter = document.getElementById('sortFilter');
-                if (searchInput) searchInput.addEventListener('input', loadStaff);
-                if (statusFilter) statusFilter.addEventListener('change', loadStaff);
-                if (sortFilter) sortFilter.addEventListener('change', loadStaff);
-
-                // Load staff on page load
-                loadStaff();
-                
-                console.log('Staff management initialized successfully');
-            } catch (error) {
-                console.error('Error initializing staff management:', error);
-                console.error('Stack:', error.stack);
-            }
-        }
-
         // Load sidebar
         fetch('../templates/admin-sidebar.html')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('sidebar-container').innerHTML = html;
-                // Initialize sidebar after HTML is injected
-                if (typeof initializeAdminSidebar === 'function') {
-                    initializeAdminSidebar();
-                }
             })
             .catch(error => console.error('Error loading sidebar:', error));
+
+        // Modal controls
+        const staffModal = document.getElementById('staffModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const addStaffBtn = document.getElementById('addStaffBtn');
+        const closeStaffModal = document.getElementById('closeStaffModal');
+        const cancelStaffModal = document.getElementById('cancelStaffModal');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const saveStaffBtn = document.getElementById('saveStaffBtn');
+        const confirmDelete = document.getElementById('confirmDelete');
+
+        addStaffBtn.addEventListener('click', () => openStaffModal('add'));
+        closeStaffModal.addEventListener('click', () => closeStaffModalFunc());
+        cancelStaffModal.addEventListener('click', () => closeStaffModalFunc());
+        cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
+        saveStaffBtn.addEventListener('click', saveStaff);
+        confirmDelete.addEventListener('click', deleteStaff);
+
+        document.getElementById('regenerateUsername').addEventListener('click', generateUsername);
+        document.getElementById('regeneratePassword').addEventListener('click', generatePassword);
 
         function openStaffModal(mode, staffId = null) {
             isEditMode = mode === 'edit';
@@ -527,7 +458,6 @@
             try {
                 const search = document.getElementById('searchInput').value.trim();
                 const status = document.getElementById('statusFilter').value;
-                const sort = document.getElementById('sortFilter').value;
 
                 let url = `${API_URL}/AgentStaffManagement/staff`;
                 const params = new URLSearchParams();
@@ -536,21 +466,7 @@
                 if (params.toString()) url += '?' + params.toString();
 
                 const response = await fetch(url);
-                let staff = await response.json();
-
-                // Apply sorting
-                if (sort === 'name-asc') {
-                    staff.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
-                } else if (sort === 'name-desc') {
-                    staff.sort((a, b) => (b.fullName || '').localeCompare(a.fullName || ''));
-                } else if (sort === 'id-asc') {
-                    staff.sort((a, b) => a.staffId - b.staffId);
-                } else if (sort === 'id-desc') {
-                    staff.sort((a, b) => b.staffId - a.staffId);
-                } else {
-                    // Default - newest first
-                    staff.sort((a, b) => b.staffId - a.staffId);
-                }
+                const staff = await response.json();
 
                 const tbody = document.getElementById('staffTableBody');
                 if (!staff || staff.length === 0) {
@@ -609,13 +525,12 @@
             }, 3000);
         }
 
-        // Initialize when DOM is fully loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeStaffManagement);
-        } else {
-            // DOM is already loaded (page refresh or script added later)
-            initializeStaffManagement();
-        }
+        // Search and filter
+        document.getElementById('searchInput').addEventListener('input', loadStaff);
+        document.getElementById('statusFilter').addEventListener('change', loadStaff);
+
+        // Load staff on page load
+        loadStaff();
     </script>
 </body>
 

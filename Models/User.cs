@@ -13,6 +13,8 @@ public partial class User
 
     public string? Email { get; set; }
 
+    public string? Phone { get; set; }
+
     public int RoleId { get; set; }
 
     public bool? IsLocked { get; set; }
@@ -24,6 +26,8 @@ public partial class User
     public DateTime? BannedUntil { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+
+    public DateTime? LastLoginAt { get; set; }
 
     public virtual ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
 

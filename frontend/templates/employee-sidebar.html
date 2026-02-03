@@ -139,30 +139,31 @@
                     </a>
                 </nav>
             </div>
-            <div class="sticky bottom-0 p-4 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-lg">
-                <div
-                    class="flex items-center gap-3 p-2 bg-slate-50 dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-zinc-700">
-                    <div id="staffAvatar" class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600 shrink-0"
-                        style="background-image: url('/images/staff-avatar-1.png');">
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                <!-- User Profile Snippet -->
+                <div class="flex items-center gap-3 px-2 py-1">
+                    <div id="staffAvatar" class="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center"
+                        style="background-image: url('/images/default-avatar.png');">
                     </div>
-                    <div class="flex flex-col overflow-hidden min-w-0">
-                        <p id="staffName" class="text-xs font-bold text-slate-800 dark:text-white truncate">Staff Name</p>
-                        <p id="staffPosition" class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Position</p>
+                    <div class="flex flex-col truncate">
+                        <span id="staffName" class="text-sm font-semibold text-slate-900 dark:text-white truncate">Staff Name</span>
+                        <span id="staffPosition" class="text-xs text-slate-500 dark:text-slate-400 truncate">Position</span>
                     </div>
-                    <button onclick="logoutStaff()" class="ml-auto text-slate-400 hover:text-red-500 transition-colors shrink-0">
+                </div>
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-1">
+                    <button onclick="logoutStaff()"
+                        class="flex items-center justify-center gap-2 w-full px-3 py-2.5 mt-2 rounded-lg bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-all shadow-sm">
                         <span class="material-symbols-outlined text-lg">logout</span>
+                        <span>Log Out</span>
                     </button>
                 </div>
-            </div>
-            <div class="absolute -right-3 top-1/2 -translate-y-1/2 z-10">
-                <button
-                    class="h-6 w-6 rounded-full border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-400 hover:text-primary flex items-center justify-center shadow-md">
-                    <span class="material-symbols-outlined text-xs">chevron_left</span>
-                </button>
             </div>
         </aside>
     </div>
     <script src="../js/pageLoader.js"></script>
+
 
 </body>
 

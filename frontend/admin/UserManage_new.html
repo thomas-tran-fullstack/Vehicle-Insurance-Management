@@ -39,7 +39,7 @@
         }
 
         .modal-hidden {
-            display: none !important;
+            display: none;
         }
 
         .toast-notification {
@@ -109,22 +109,8 @@
                         class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
                         <option value="">All Roles</option>
                         <option value="1">Admin</option>
-                        <option value="2">Staff</option>
-                        <option value="3">Customer</option>
-                    </select>
-                    <select id="statusFilter"
-                        class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
-                        <option value="">All Status</option>
-                        <option value="ACTIVE">Active</option>
-                        <option value="INACTIVE">Inactive</option>
-                    </select>
-                    <select id="sortFilter"
-                        class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
-                        <option value="">Default (Newest)</option>
-                        <option value="name-asc">Name A → Z</option>
-                        <option value="name-desc">Name Z → A</option>
-                        <option value="id-asc">Oldest User</option>
-                        <option value="id-desc">Newest User</option>
+                        <option value="2">Customer</option>
+                        <option value="3">Staff</option>
                     </select>
                 </div>
 
@@ -189,8 +175,8 @@
                                 class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
                                 <option value="">Select Role</option>
                                 <option value="1">Admin</option>
-                                <option value="2">Staff</option>
-                                <option value="3">Customer</option>
+                                <option value="2">Customer</option>
+                                <option value="3">Staff</option>
                             </select>
                         </div>
                     </div>
@@ -327,108 +313,43 @@
         let isEditMode = false;
         let deleteMode = 'soft';
 
-        // Declare modal elements in global scope so they're accessible from HTML onclick handlers
-        let userModal;
-        let deleteModal;
-
-        // Wait for DOM to be fully loaded before initializing
-        function initializeUserManagement() {
-            try {
-                // Get modal elements from DOM
-                userModal = document.getElementById('userModal');
-                deleteModal = document.getElementById('deleteModal');
-                
-                if (!userModal || !deleteModal) {
-                    console.error('Modal elements not found in DOM');
-                    return;
-                }
-
-                const addUserBtn = document.getElementById('addUserBtn');
-                const closeUserModal = document.getElementById('closeUserModal');
-                const cancelUserModal = document.getElementById('cancelUserModal');
-                const cancelDelete = document.getElementById('cancelDelete');
-                const saveUserBtn = document.getElementById('saveUserBtn');
-                const confirmDelete = document.getElementById('confirmDelete');
-                const formRole = document.getElementById('formRole');
-                const banToggle = document.getElementById('banToggle');
-                const banDurationDiv = document.getElementById('banDurationDiv');
-
-                // Verify all button elements exist
-                if (!addUserBtn || !closeUserModal || !cancelUserModal) {
-                    console.error('Required button elements not found');
-                    return;
-                }
-
-                // Verify modals are hidden on initialization
-                userModal.classList.add('modal-hidden');
-                deleteModal.classList.add('modal-hidden');
-                console.log('Modals initialized as hidden');
-
-                addUserBtn.addEventListener('click', () => openUserModal('add'));
-                closeUserModal.addEventListener('click', () => closeUserModalFunc());
-                cancelUserModal.addEventListener('click', () => closeUserModalFunc());
-                cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
-
-                // Close modal when clicking on the backdrop (outside the modal content)
-                userModal.addEventListener('click', (e) => {
-                    if (e.target === userModal) {
-                        closeUserModalFunc();
-                    }
-                });
-
-                deleteModal.addEventListener('click', (e) => {
-                    if (e.target === deleteModal) {
-                        deleteModal.classList.add('modal-hidden');
-                    }
-                });
-
-                if (formRole) {
-                    formRole.addEventListener('change', (e) => {
-                        document.getElementById('positionDiv').classList.toggle('hidden', e.target.value !== '2');
-                        document.getElementById('addressDiv').classList.toggle('hidden', e.target.value !== '3');
-                    });
-                }
-
-                if (banToggle) {
-                    banToggle.addEventListener('change', (e) => {
-                        banDurationDiv.classList.toggle('hidden', !e.target.checked);
-                    });
-                }
-
-                saveUserBtn.addEventListener('click', saveUser);
-                confirmDelete.addEventListener('click', deleteUser);
-
-                // Search and filter
-                const searchInput = document.getElementById('searchInput');
-                const roleFilter = document.getElementById('roleFilter');
-                const statusFilter = document.getElementById('statusFilter');
-                const sortFilter = document.getElementById('sortFilter');
-                if (searchInput) searchInput.addEventListener('input', loadUsers);
-                if (roleFilter) roleFilter.addEventListener('change', loadUsers);
-                if (statusFilter) statusFilter.addEventListener('change', loadUsers);
-                if (sortFilter) sortFilter.addEventListener('change', loadUsers);
-
-                // Load users on page load
-                loadUsers();
-                
-                console.log('User management initialized successfully');
-            } catch (error) {
-                console.error('Error initializing user management:', error);
-                console.error('Stack:', error.stack);
-            }
-        }
-
         // Load sidebar
         fetch('../templates/admin-sidebar.html')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('sidebar-container').innerHTML = html;
-                // Initialize sidebar after HTML is injected
-                if (typeof initializeAdminSidebar === 'function') {
-                    initializeAdminSidebar();
-                }
             })
             .catch(error => console.error('Error loading sidebar:', error));
+
+        // Modal controls
+        const userModal = document.getElementById('userModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const closeUserModal = document.getElementById('closeUserModal');
+        const cancelUserModal = document.getElementById('cancelUserModal');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const saveUserBtn = document.getElementById('saveUserBtn');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const formRole = document.getElementById('formRole');
+        const banToggle = document.getElementById('banToggle');
+        const banDurationDiv = document.getElementById('banDurationDiv');
+
+        addUserBtn.addEventListener('click', () => openUserModal('add'));
+        closeUserModal.addEventListener('click', () => closeUserModalFunc());
+        cancelUserModal.addEventListener('click', () => closeUserModalFunc());
+        cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
+
+        formRole.addEventListener('change', (e) => {
+            document.getElementById('positionDiv').classList.toggle('hidden', e.target.value !== '3');
+            document.getElementById('addressDiv').classList.toggle('hidden', e.target.value !== '2');
+        });
+
+        banToggle.addEventListener('change', (e) => {
+            banDurationDiv.classList.toggle('hidden', !e.target.checked);
+        });
+
+        saveUserBtn.addEventListener('click', saveUser);
+        confirmDelete.addEventListener('click', deleteUser);
 
         function openUserModal(mode, userId = null) {
             isEditMode = mode === 'edit';
@@ -477,10 +398,10 @@
                 document.getElementById('formUsername').value = data.username || '';
                 document.getElementById('formEmail').value = data.email || '';
                 document.getElementById('formRole').value = data.roleId || '';
-                document.getElementById('formFullName').value = data.Staff?.fullName || data.Customer?.customerName || '';
-                document.getElementById('formPhone').value = data.Staff?.phone || data.Customer?.phone || '';
-                document.getElementById('formPosition').value = data.Staff?.position || '';
-                document.getElementById('formAddress').value = data.Customer?.address || '';
+                document.getElementById('formFullName').value = data.staff?.fullName || data.customer?.customerName || '';
+                document.getElementById('formPhone').value = data.staff?.phone || data.customer?.phone || '';
+                document.getElementById('formPosition').value = data.staff?.position || '';
+                document.getElementById('formAddress').value = data.customer?.address || '';
                 document.getElementById('formStatus').value = data.status || 'ACTIVE';
 
                 if (data.bannedUntil) {
@@ -488,8 +409,8 @@
                     banDurationDiv.classList.remove('hidden');
                 }
 
-                document.getElementById('positionDiv').classList.toggle('hidden', data.roleId !== 2);
-                document.getElementById('addressDiv').classList.toggle('hidden', data.roleId !== 3);
+                document.getElementById('positionDiv').classList.toggle('hidden', data.roleId !== 3);
+                document.getElementById('addressDiv').classList.toggle('hidden', data.roleId !== 2);
                 document.getElementById('formPassword').required = false;
             } catch (error) {
                 showToast('Error loading user data', 'error');
@@ -592,13 +513,10 @@
                     deleteModal.classList.add('modal-hidden');
                     loadUsers();
                 } else {
-                    const error = await response.json().catch(() => ({}));
-                    showToast(error.message || 'Error deleting user', 'error');
-                    console.error('Delete error:', error);
+                    showToast('Error deleting user', 'error');
                 }
             } catch (error) {
                 showToast('Error deleting user: ' + error.message, 'error');
-                console.error('Delete error:', error);
             }
         }
 
@@ -606,32 +524,15 @@
             try {
                 const search = document.getElementById('searchInput').value.trim();
                 const role = document.getElementById('roleFilter').value;
-                const status = document.getElementById('statusFilter').value;
-                const sort = document.getElementById('sortFilter').value;
 
                 let url = `${API_URL}/AdminManagement/users`;
                 const params = new URLSearchParams();
                 if (search) params.append('search', search);
                 if (role) params.append('roleId', role);
-                if (status) params.append('status', status);
                 if (params.toString()) url += '?' + params.toString();
 
                 const response = await fetch(url);
-                let users = await response.json();
-
-                // Apply sorting
-                if (sort === 'name-asc') {
-                    users.sort((a, b) => (a.username || '').localeCompare(b.username || ''));
-                } else if (sort === 'name-desc') {
-                    users.sort((a, b) => (b.username || '').localeCompare(a.username || ''));
-                } else if (sort === 'id-asc') {
-                    users.sort((a, b) => a.userId - b.userId);
-                } else if (sort === 'id-desc') {
-                    users.sort((a, b) => b.userId - a.userId);
-                } else {
-                    // Default - newest first
-                    users.sort((a, b) => b.userId - a.userId);
-                }
+                const users = await response.json();
 
                 const tbody = document.getElementById('usersTableBody');
                 if (!users || users.length === 0) {
@@ -699,13 +600,12 @@
             }, 3000);
         }
 
-        // Initialize when DOM is fully loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeUserManagement);
-        } else {
-            // DOM is already loaded (page refresh or script added later)
-            initializeUserManagement();
-        }
+        // Search and filter
+        document.getElementById('searchInput').addEventListener('input', loadUsers);
+        document.getElementById('roleFilter').addEventListener('change', loadUsers);
+
+        // Load users on page load
+        loadUsers();
     </script>
 </body>
 

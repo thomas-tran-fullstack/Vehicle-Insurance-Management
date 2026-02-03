@@ -18,7 +18,7 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
 
         // GET: api/AdminManagement/users?roleId=2&search=abc
         [HttpGet("users")]
-        public async Task<IActionResult> GetUsers([FromQuery] int? roleId = null, [FromQuery] string? search = null)
+        public async Task<IActionResult> GetUsers([FromQuery] int? roleId = null, [FromQuery] string? search = null, [FromQuery] string? status = null)
         {
             var q = _context.Users.AsNoTracking().Include(u => u.Role).AsQueryable();
 
@@ -29,6 +29,12 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
             {
                 var s = search.Trim().ToLower();
                 q = q.Where(u => u.Username.ToLower().Contains(s) || (u.Email != null && u.Email.ToLower().Contains(s)));
+            }
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                var st = status.Trim().ToUpper();
+                q = q.Where(u => u.Status != null && u.Status.ToUpper() == st);
             }
 
             var users = await q.OrderByDescending(u => u.UserId)
@@ -122,8 +128,8 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // RoleId mapping: ADMIN=1, CUSTOMER=2, STAFF=3
-            if (req.RoleId == 3)
+            // RoleId mapping: ADMIN=1, STAFF=2, CUSTOMER=3
+            if (req.RoleId == 2)
             {
                 var staff = new Staff
                 {
@@ -137,7 +143,7 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
                 _context.Staff.Add(staff);
                 await _context.SaveChangesAsync();
             }
-            else if (req.RoleId == 2)
+            else if (req.RoleId == 3)
             {
                 var customer = new Customer
                 {
@@ -180,7 +186,7 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
             user.BannedUntil = req.BannedUntil;
 
             // Update profile
-            if (user.RoleId == 3)
+            if (user.RoleId == 2)
             {
                 var staff = await _context.Staff.FirstOrDefaultAsync(s => s.UserId == id);
                 if (staff != null)
@@ -190,7 +196,7 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
                     staff.Position = req.Position;
                 }
             }
-            else if (user.RoleId == 2)
+            else if (user.RoleId == 3)
             {
                 var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == id);
                 if (customer != null)
@@ -202,7 +208,7 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
             }
 
             // If user becomes inactive/banned -> hide policies
-            if (user.RoleId == 2)
+            if (user.RoleId == 3)
             {
                 var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == id);
                 if (customer != null)
@@ -227,57 +233,64 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
         [HttpDelete("users/{id:int}")]
         public async Task<IActionResult> DeleteUser(int id, [FromQuery] bool permanent = false)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-            if (user == null) return NotFound();
-
-            // Helper: hide customer policies
-            async Task HideCustomerPolicies(int userId)
+            try
             {
-                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == userId);
-                if (customer == null) return;
-                var policies = await _context.Policies.Where(p => p.CustomerId == customer.CustomerId).ToListAsync();
-                foreach (var p in policies) p.IsHidden = true;
-            }
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+                if (user == null) return NotFound();
 
-            if (!permanent)
-            {
-                user.Status = "INACTIVE";
-                await HideCustomerPolicies(id);
-                await _context.SaveChangesAsync();
-                return Ok(new { success = true, mode = "soft" });
-            }
-
-            // permanent delete
-            if (user.RoleId == 3)
-            {
-                var staff = await _context.Staff.FirstOrDefaultAsync(s => s.UserId == id);
-                if (staff != null) _context.Staff.Remove(staff);
-            }
-            else if (user.RoleId == 2)
-            {
-                // Keep business records (Option A) but remove PII & credentials
-                await HideCustomerPolicies(id);
-
-                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == id);
-                if (customer != null)
+                // Helper: hide customer policies
+                async Task HideCustomerPolicies(int userId)
                 {
-                    customer.UserId = null; // detach from deleted user
-                    customer.CustomerName = "[DELETED]";
-                    customer.Phone = null;
-                    customer.Address = null;
-                    customer.Avatar = null;
+                    var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == userId);
+                    if (customer == null) return;
+                    var policies = await _context.Policies.Where(p => p.CustomerId == customer.CustomerId).ToListAsync();
+                    foreach (var p in policies) p.IsHidden = true;
                 }
+
+                if (!permanent)
+                {
+                    user.Status = "INACTIVE";
+                    await HideCustomerPolicies(id);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { success = true, mode = "soft" });
+                }
+
+                // permanent delete
+                if (user.RoleId == 3)
+                {
+                    var staff = await _context.Staff.FirstOrDefaultAsync(s => s.UserId == id);
+                    if (staff != null) _context.Staff.Remove(staff);
+                }
+                else if (user.RoleId == 2)
+                {
+                    // Keep business records (Option A) but remove PII & credentials
+                    await HideCustomerPolicies(id);
+
+                    var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == id);
+                    if (customer != null)
+                    {
+                        customer.UserId = null; // detach from deleted user
+                        customer.CustomerName = "[DELETED]";
+                        customer.Phone = null;
+                        customer.Address = null;
+                        customer.Avatar = null;
+                    }
+                }
+
+                // Remove user-related logs/notifications (PII)
+                var logs = await _context.AuditLogs.Where(l => l.UserId == id).ToListAsync();
+                if (logs.Count > 0) _context.AuditLogs.RemoveRange(logs);
+                var notis = await _context.Notifications.Where(n => n.ToUserId == id).ToListAsync();
+                if (notis.Count > 0) _context.Notifications.RemoveRange(notis);
+
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return Ok(new { success = true, mode = "hard" });
             }
-
-            // Remove user-related logs/notifications (PII)
-            var logs = await _context.AuditLogs.Where(l => l.UserId == id).ToListAsync();
-            if (logs.Count > 0) _context.AuditLogs.RemoveRange(logs);
-            var notis = await _context.Notifications.Where(n => n.UserId == id).ToListAsync();
-            if (notis.Count > 0) _context.Notifications.RemoveRange(notis);
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return Ok(new { success = true, mode = "hard" });
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error deleting user: {ex.Message}" });
+            }
         }
     }
 }

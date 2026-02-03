@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Staff Management Admin - AVIMS</title>
+    <title>Customer Management Admin - AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -39,7 +39,7 @@
         }
 
         .modal-hidden {
-            display: none !important;
+            display: none;
         }
 
         .toast-notification {
@@ -78,65 +78,71 @@
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-200">
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-100">
     <div class="flex h-screen overflow-hidden">
         <div id="sidebar-container"></div>
-        <main class="flex-1 flex flex-col overflow-y-auto">
-            <div class="bg-white dark:bg-[#15202b] border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
-                <div class="max-w-[1200px] mx-auto px-8 py-6">
-                    <div class="flex flex-wrap justify-between items-end gap-4">
-                        <div class="flex flex-col gap-1">
-                            <h2 class="text-[#0d141b] dark:text-white text-3xl font-black tracking-tight">Staff Management</h2>
-                            <p class="text-slate-500 dark:text-slate-400 text-sm">Manage staff members and their roles.</p>
+        <main class="flex-1 overflow-y-auto flex flex-col bg-background-light dark:bg-background-dark">
+            <div class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+                <!-- Page Heading -->
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <h2 class="text-3xl font-black tracking-tight dark:text-white">Customer Management</h2>
+                        <p class="text-[#4c739a] dark:text-slate-400 text-base">Manage and view all registered customers</p>
+                    </div>
+                    <button id="addCustomerBtn"
+                        class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-bold text-sm hover:bg-primary/90 transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-sm">add</span>
+                        <span>Add New Customer</span>
+                    </button>
+                </div>
+
+                <!-- Filters & Search Toolbar -->
+                <div
+                    class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm flex flex-wrap gap-4 items-center justify-between">
+                    <div class="flex flex-wrap gap-3 flex-1">
+                        <div class="relative min-w-[300px]">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c739a] text-lg">search</span>
+                            <input id="searchInput"
+                                class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-[#4c739a]"
+                                placeholder="Search by name, email, or phone..." type="text" />
                         </div>
-                        <button id="addStaffBtn"
-                            class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-sm shadow-primary/20">
-                            <span class="material-symbols-outlined text-sm">person_add</span>
-                            <span>Add New Staff</span>
-                        </button>
+                        <select id="statusFilter"
+                            class="px-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/50">
+                            <option value="">All Status</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                        </select>
                     </div>
                 </div>
-            </div>
 
-            <div class="max-w-[1200px] mx-auto px-8 py-8 w-full space-y-6">
-                <!-- Search & Filter -->
-                <div class="bg-white dark:bg-[#15202b] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
-                    <input id="searchInput" type="text" placeholder="Search by name or phone..."
-                        class="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
-                    <select id="statusFilter"
-                        class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
-                        <option value="">All Status</option>
-                        <option value="ACTIVE">Active</option>
-                        <option value="INACTIVE">Inactive</option>
-                    </select>
-                    <select id="sortFilter"
-                        class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
-                        <option value="">Default (Newest)</option>
-                        <option value="name-asc">Name A → Z</option>
-                        <option value="name-desc">Name Z → A</option>
-                        <option value="id-asc">Oldest Staff</option>
-                        <option value="id-desc">Newest Staff</option>
-                    </select>
-                </div>
-
-                <!-- Staff Table -->
+                <!-- Customer Table -->
                 <div
-                    class="bg-white dark:bg-[#15202b] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
-                            <thead class="bg-slate-50 dark:bg-slate-900/50">
+                            <thead class="bg-slate-50 dark:bg-slate-800">
                                 <tr>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Name</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Email</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Phone</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Position</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Status</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase text-right">Actions</th>
+                                    <th
+                                        class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        Customer Name</th>
+                                    <th
+                                        class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        Email</th>
+                                    <th
+                                        class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        Phone</th>
+                                    <th
+                                        class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        Status</th>
+                                    <th
+                                        class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">
+                                        Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="staffTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
-                                    <td colspan="6" class="px-6 py-8 text-center text-slate-500">Loading staff...</td>
+                            <tbody id="customersTableBody" class="divide-y divide-[#e7edf3] dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                    <td colspan="5" class="px-6 py-8 text-center text-slate-500">Loading customers...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -146,12 +152,12 @@
         </main>
     </div>
 
-    <!-- ADD/EDIT STAFF MODAL -->
-    <div id="staffModal" class="modal-hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <!-- ADD/EDIT CUSTOMER MODAL -->
+    <div id="customerModal" class="modal-hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
         <div class="bg-white dark:bg-[#15202b] rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div class="sticky top-0 flex justify-between items-center p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b]">
-                <h3 id="modalTitle" class="text-xl font-bold text-[#0d141b] dark:text-white">Add New Staff</h3>
-                <button id="closeStaffModal" class="text-slate-400 hover:text-slate-600">
+                <h3 id="modalTitle" class="text-xl font-bold text-[#0d141b] dark:text-white">Add New Customer</h3>
+                <button id="closeCustomerModal" class="text-slate-400 hover:text-slate-600">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
@@ -165,7 +171,7 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Full Name *</label>
-                            <input id="formFullName" type="text" placeholder="Full Name"
+                            <input id="formCustomerName" type="text" placeholder="Full Name"
                                 class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
                         </div>
                         <div>
@@ -174,14 +180,14 @@
                                 class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Phone</label>
-                            <input id="formPhone" type="text" placeholder="Phone"
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Phone *</label>
+                            <input id="formPhone" type="text" placeholder="Phone (10-11 digits)"
                                 class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Position</label>
-                            <input id="formPosition" type="text" placeholder="Position (e.g., Claims Officer, Underwriter)"
-                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Address</label>
+                            <textarea id="formAddress" placeholder="Address"
+                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50 resize-none" rows="3"></textarea>
                         </div>
                     </div>
                 </div>
@@ -237,13 +243,13 @@
             </div>
 
             <div class="sticky bottom-0 flex justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b]">
-                <button id="cancelStaffModal"
+                <button id="cancelCustomerModal"
                     class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                     Cancel
                 </button>
-                <button id="saveStaffBtn"
+                <button id="saveCustomerBtn"
                     class="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all">
-                    Save Staff
+                    Save Customer
                 </button>
             </div>
         </div>
@@ -256,8 +262,8 @@
                 <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
                     <span class="material-symbols-outlined text-red-600">warning</span>
                 </div>
-                <h3 id="deleteTitle" class="text-lg font-bold text-center text-[#0d141b] dark:text-white mb-2">Deactivate Staff?</h3>
-                <p id="deleteMessage" class="text-sm text-slate-500 text-center mb-4">This action will mark the staff as inactive. They cannot login.</p>
+                <h3 id="deleteTitle" class="text-lg font-bold text-center text-[#0d141b] dark:text-white mb-2">Deactivate Customer?</h3>
+                <p id="deleteMessage" class="text-sm text-slate-500 text-center mb-4">This action will mark the customer as inactive. They cannot login.</p>
             </div>
 
             <div class="flex gap-3 p-6 border-t border-slate-200 dark:border-slate-800">
@@ -285,127 +291,66 @@
     <script src="../js/pageLoader.js"></script>
     <script>
         const API_URL = 'http://localhost:5169/api';
-        let currentStaffId = null;
+        let currentCustomerId = null;
         let isEditMode = false;
-
-        // Declare modal elements in global scope so they're accessible from HTML onclick handlers
-        let staffModal;
-        let deleteModal;
-
-        // Wait for DOM to be fully loaded before initializing
-        function initializeStaffManagement() {
-            try {
-                // Get modal elements from DOM
-                staffModal = document.getElementById('staffModal');
-                deleteModal = document.getElementById('deleteModal');
-                
-                if (!staffModal || !deleteModal) {
-                    console.error('Modal elements not found in DOM');
-                    return;
-                }
-
-                const addStaffBtn = document.getElementById('addStaffBtn');
-                const closeStaffModal = document.getElementById('closeStaffModal');
-                const cancelStaffModal = document.getElementById('cancelStaffModal');
-                const cancelDelete = document.getElementById('cancelDelete');
-                const saveStaffBtn = document.getElementById('saveStaffBtn');
-                const confirmDelete = document.getElementById('confirmDelete');
-
-                // Verify all button elements exist
-                if (!addStaffBtn || !closeStaffModal || !cancelStaffModal) {
-                    console.error('Required button elements not found');
-                    return;
-                }
-
-                // Verify modals are hidden on initialization
-                staffModal.classList.add('modal-hidden');
-                deleteModal.classList.add('modal-hidden');
-                console.log('Modals initialized as hidden');
-
-                addStaffBtn.addEventListener('click', () => openStaffModal('add'));
-                closeStaffModal.addEventListener('click', () => closeStaffModalFunc());
-                cancelStaffModal.addEventListener('click', () => closeStaffModalFunc());
-                cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
-                saveStaffBtn.addEventListener('click', saveStaff);
-                confirmDelete.addEventListener('click', deleteStaff);
-
-                // Close modal when clicking on the backdrop (outside the modal content)
-                staffModal.addEventListener('click', (e) => {
-                    if (e.target === staffModal) {
-                        closeStaffModalFunc();
-                    }
-                });
-
-                deleteModal.addEventListener('click', (e) => {
-                    if (e.target === deleteModal) {
-                        deleteModal.classList.add('modal-hidden');
-                    }
-                });
-
-                const regenerateUsername = document.getElementById('regenerateUsername');
-                const regeneratePassword = document.getElementById('regeneratePassword');
-                if (regenerateUsername) regenerateUsername.addEventListener('click', generateUsername);
-                if (regeneratePassword) regeneratePassword.addEventListener('click', generatePassword);
-
-                // Search and filter
-                const searchInput = document.getElementById('searchInput');
-                const statusFilter = document.getElementById('statusFilter');
-                const sortFilter = document.getElementById('sortFilter');
-                if (searchInput) searchInput.addEventListener('input', loadStaff);
-                if (statusFilter) statusFilter.addEventListener('change', loadStaff);
-                if (sortFilter) sortFilter.addEventListener('change', loadStaff);
-
-                // Load staff on page load
-                loadStaff();
-                
-                console.log('Staff management initialized successfully');
-            } catch (error) {
-                console.error('Error initializing staff management:', error);
-                console.error('Stack:', error.stack);
-            }
-        }
 
         // Load sidebar
         fetch('../templates/admin-sidebar.html')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('sidebar-container').innerHTML = html;
-                // Initialize sidebar after HTML is injected
-                if (typeof initializeAdminSidebar === 'function') {
-                    initializeAdminSidebar();
-                }
             })
             .catch(error => console.error('Error loading sidebar:', error));
 
-        function openStaffModal(mode, staffId = null) {
+        // Modal controls
+        const customerModal = document.getElementById('customerModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const addCustomerBtn = document.getElementById('addCustomerBtn');
+        const closeCustomerModal = document.getElementById('closeCustomerModal');
+        const cancelCustomerModal = document.getElementById('cancelCustomerModal');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const saveCustomerBtn = document.getElementById('saveCustomerBtn');
+        const confirmDelete = document.getElementById('confirmDelete');
+
+        addCustomerBtn.addEventListener('click', () => openCustomerModal('add'));
+        closeCustomerModal.addEventListener('click', () => closeCustomerModalFunc());
+        cancelCustomerModal.addEventListener('click', () => closeCustomerModalFunc());
+        cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
+        saveCustomerBtn.addEventListener('click', saveCustomer);
+        confirmDelete.addEventListener('click', deleteCustomer);
+
+        document.getElementById('regenerateUsername').addEventListener('click', generateUsername);
+        document.getElementById('regeneratePassword').addEventListener('click', generatePassword);
+
+        function openCustomerModal(mode, customerId = null) {
             isEditMode = mode === 'edit';
-            currentStaffId = staffId;
+            currentCustomerId = customerId;
             resetForm();
 
-            if (isEditMode && staffId) {
-                document.getElementById('modalTitle').textContent = 'Edit Staff';
+            if (isEditMode && customerId) {
+                document.getElementById('modalTitle').textContent = 'Edit Customer';
                 document.getElementById('statusSection').classList.remove('hidden');
-                loadStaffData(staffId);
+                loadCustomerData(customerId);
             } else {
-                document.getElementById('modalTitle').textContent = 'Add New Staff';
+                document.getElementById('modalTitle').textContent = 'Add New Customer';
                 document.getElementById('statusSection').classList.add('hidden');
                 generateUsername();
                 generatePassword();
             }
 
-            staffModal.classList.remove('modal-hidden');
+            customerModal.classList.remove('modal-hidden');
         }
 
-        function closeStaffModalFunc() {
-            staffModal.classList.add('modal-hidden');
+        function closeCustomerModalFunc() {
+            customerModal.classList.add('modal-hidden');
             resetForm();
         }
 
         function resetForm() {
-            document.getElementById('formFullName').value = '';
+            document.getElementById('formCustomerName').value = '';
             document.getElementById('formEmail').value = '';
             document.getElementById('formPhone').value = '';
-            document.getElementById('formPosition').value = '';
+            document.getElementById('formAddress').value = '';
             document.getElementById('formUsername').value = '';
             document.getElementById('formPassword').value = '';
             document.getElementById('formStatus').value = 'ACTIVE';
@@ -413,7 +358,7 @@
 
         function generateUsername() {
             const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-            let username = 'staff_';
+            let username = 'cust_';
             for (let i = 0; i < 8; i++) {
                 username += chars.charAt(Math.floor(Math.random() * chars.length));
             }
@@ -429,42 +374,47 @@
             document.getElementById('formPassword').value = password;
         }
 
-        async function loadStaffData(staffId) {
+        async function loadCustomerData(customerId) {
             try {
-                const response = await fetch(`${API_URL}/AgentStaffManagement/staff/${staffId}`);
+                const response = await fetch(`${API_URL}/CustomerInformation/by-id/${customerId}`);
                 const data = await response.json();
 
-                document.getElementById('formFullName').value = data.fullName || '';
+                document.getElementById('formCustomerName').value = data.customerName || '';
                 document.getElementById('formEmail').value = data.user?.email || '';
                 document.getElementById('formPhone').value = data.phone || '';
-                document.getElementById('formPosition').value = data.position || '';
+                document.getElementById('formAddress').value = data.address || '';
                 document.getElementById('formUsername').value = data.user?.username || '';
                 document.getElementById('formPassword').value = '••••••••';
                 document.getElementById('formStatus').value = data.user?.status || 'ACTIVE';
             } catch (error) {
-                showToast('Error loading staff data', 'error');
+                showToast('Error loading customer data', 'error');
             }
         }
 
-        async function saveStaff() {
-            const fullName = document.getElementById('formFullName').value.trim();
+        async function saveCustomer() {
+            const customerName = document.getElementById('formCustomerName').value.trim();
             const email = document.getElementById('formEmail').value.trim();
             const phone = document.getElementById('formPhone').value.trim();
-            const position = document.getElementById('formPosition').value.trim();
+            const address = document.getElementById('formAddress').value.trim();
             const username = document.getElementById('formUsername').value.trim();
             const password = document.getElementById('formPassword').value.trim();
             const status = document.getElementById('formStatus').value;
 
-            if (!fullName) {
-                showToast('Full Name is required', 'error');
+            if (!customerName) {
+                showToast('Customer Name is required', 'error');
+                return;
+            }
+
+            if (phone && (phone.length < 10 || phone.length > 11)) {
+                showToast('Phone must be 10-11 digits', 'error');
                 return;
             }
 
             const payload = {
-                fullName,
+                customerName,
                 email: email || null,
                 phone: phone || null,
-                position: position || null,
+                address: address || null,
                 username: isEditMode ? username : undefined,
                 password: isEditMode && password !== '••••••••' ? password : undefined,
                 status: isEditMode ? status : undefined
@@ -472,8 +422,8 @@
 
             try {
                 const url = isEditMode 
-                    ? `${API_URL}/AgentStaffManagement/staff/${currentStaffId}`
-                    : `${API_URL}/AgentStaffManagement/staff`;
+                    ? `${API_URL}/CustomerInformation/${currentCustomerId}`
+                    : `${API_URL}/CustomerInformation`;
                 const method = isEditMode ? 'PUT' : 'POST';
 
                 const response = await fetch(url, {
@@ -485,97 +435,87 @@
                 if (response.ok) {
                     const result = await response.json();
                     if (!isEditMode) {
-                        showToast(`Staff created. Username: ${result.generatedUsername} | Password: ${result.generatedPassword}`, 'success');
+                        showToast(`Customer created. Username: ${result.generatedUsername} | Password: ${result.generatedPassword}`, 'success');
                     } else {
-                        showToast('Staff updated successfully', 'success');
+                        showToast('Customer updated successfully', 'success');
                     }
-                    closeStaffModalFunc();
-                    loadStaff();
+                    closeCustomerModalFunc();
+                    loadCustomers();
                 } else {
                     const error = await response.json();
-                    showToast(error.message || 'Error saving staff', 'error');
+                    showToast(error.message || 'Error saving customer', 'error');
                 }
             } catch (error) {
-                showToast('Error saving staff: ' + error.message, 'error');
+                showToast('Error saving customer: ' + error.message, 'error');
             }
         }
 
-        function openDeleteModal(staffId) {
-            currentStaffId = staffId;
+        function openDeleteModal(customerId) {
+            currentCustomerId = customerId;
             deleteModal.classList.remove('modal-hidden');
         }
 
-        async function deleteStaff() {
+        async function deleteCustomer() {
             try {
-                const response = await fetch(`${API_URL}/AgentStaffManagement/staff/${currentStaffId}?permanent=false`, {
+                const response = await fetch(`${API_URL}/CustomerInformation/${currentCustomerId}?permanent=false`, {
                     method: 'DELETE'
                 });
 
                 if (response.ok) {
-                    showToast('Staff deactivated successfully', 'success');
+                    showToast('Customer deactivated successfully', 'success');
                     deleteModal.classList.add('modal-hidden');
-                    loadStaff();
+                    loadCustomers();
                 } else {
-                    showToast('Error deleting staff', 'error');
+                    showToast('Error deleting customer', 'error');
                 }
             } catch (error) {
-                showToast('Error deleting staff: ' + error.message, 'error');
+                showToast('Error deleting customer: ' + error.message, 'error');
             }
         }
 
-        async function loadStaff() {
+        async function loadCustomers() {
             try {
                 const search = document.getElementById('searchInput').value.trim();
                 const status = document.getElementById('statusFilter').value;
-                const sort = document.getElementById('sortFilter').value;
 
-                let url = `${API_URL}/AgentStaffManagement/staff`;
+                let url = `${API_URL}/CustomerInformation/all`;
                 const params = new URLSearchParams();
                 if (search) params.append('search', search);
                 if (status) params.append('status', status);
                 if (params.toString()) url += '?' + params.toString();
 
                 const response = await fetch(url);
-                let staff = await response.json();
+                const customers = await response.json();
 
-                // Apply sorting
-                if (sort === 'name-asc') {
-                    staff.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
-                } else if (sort === 'name-desc') {
-                    staff.sort((a, b) => (b.fullName || '').localeCompare(a.fullName || ''));
-                } else if (sort === 'id-asc') {
-                    staff.sort((a, b) => a.staffId - b.staffId);
-                } else if (sort === 'id-desc') {
-                    staff.sort((a, b) => b.staffId - a.staffId);
-                } else {
-                    // Default - newest first
-                    staff.sort((a, b) => b.staffId - a.staffId);
-                }
-
-                const tbody = document.getElementById('staffTableBody');
-                if (!staff || staff.length === 0) {
-                    tbody.innerHTML = '<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20"><td colspan="6" class="px-6 py-8 text-center text-slate-500">No staff found</td></tr>';
+                const tbody = document.getElementById('customersTableBody');
+                if (!customers || customers.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No customers found</td></tr>';
                     return;
                 }
 
-                tbody.innerHTML = staff.map(s => `
-                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
-                        <td class="px-6 py-4 text-sm font-semibold text-slate-800 dark:text-white">${s.fullName || '-'}</td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${s.user?.email || '-'}</td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${s.phone || '-'}</td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${s.position || '-'}</td>
+                tbody.innerHTML = customers.map(c => `
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 border-b border-[#e7edf3] dark:border-slate-800">
+                        <td class="px-6 py-4">
+                            <span class="text-sm font-bold text-[#0d141b] dark:text-white">${c.customerName || '-'}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-[#4c739a] dark:text-slate-400">${c.user?.email || '-'}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-[#4c739a] dark:text-slate-400">${c.phone || '-'}</span>
+                        </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-1.5">
-                                <span class="size-2 rounded-full ${s.user?.status === 'ACTIVE' ? 'bg-green-500' : 'bg-red-500'}"></span>
-                                <span class="text-xs font-bold ${s.user?.status === 'ACTIVE' ? 'text-green-600' : 'text-red-600'}">${s.user?.status || 'ACTIVE'}</span>
+                                <span class="size-2 rounded-full ${c.user?.status === 'ACTIVE' ? 'bg-green-500' : 'bg-red-500'}"></span>
+                                <span class="text-xs font-bold ${c.user?.status === 'ACTIVE' ? 'text-green-600' : 'text-red-600'}">${c.user?.status || 'ACTIVE'}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex justify-end gap-2">
-                                <button onclick="openStaffModal('edit', ${s.staffId})" class="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-md transition-all" title="Edit">
+                                <button onclick="openCustomerModal('edit', ${c.customerId})" class="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-md transition-all" title="Edit">
                                     <span class="material-symbols-outlined">edit</span>
                                 </button>
-                                <button onclick="openDeleteModal(${s.staffId})" class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-all" title="Deactivate">
+                                <button onclick="openDeleteModal(${c.customerId})" class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-all" title="Deactivate">
                                     <span class="material-symbols-outlined">close</span>
                                 </button>
                             </div>
@@ -583,8 +523,8 @@
                     </tr>
                 `).join('');
             } catch (error) {
-                console.error('Error loading staff:', error);
-                document.getElementById('staffTableBody').innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-red-500">Error loading staff</td></tr>';
+                console.error('Error loading customers:', error);
+                document.getElementById('customersTableBody').innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-red-500">Error loading customers</td></tr>';
             }
         }
 
@@ -609,13 +549,12 @@
             }, 3000);
         }
 
-        // Initialize when DOM is fully loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeStaffManagement);
-        } else {
-            // DOM is already loaded (page refresh or script added later)
-            initializeStaffManagement();
-        }
+        // Search and filter
+        document.getElementById('searchInput').addEventListener('input', loadCustomers);
+        document.getElementById('statusFilter').addEventListener('change', loadCustomers);
+
+        // Load customers on page load
+        loadCustomers();
     </script>
 </body>
 
