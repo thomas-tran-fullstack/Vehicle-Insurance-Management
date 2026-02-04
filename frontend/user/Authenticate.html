@@ -406,7 +406,7 @@
                                     <div class="flex justify-between items-center">
                                         <label
                                             class="text-[#0d141b] dark:text-white text-sm font-medium leading-normal">Password</label>
-                                        <a class="text-xs text-primary font-medium hover:underline" href="#">Forgot
+                                        <a class="text-xs text-primary font-medium hover:underline" href="ForgotPassword.html">Forgot
                                             password?</a>
                                     </div>
                                     <div class="relative flex w-full items-center">
@@ -1161,21 +1161,23 @@
                         sessionStorage.setItem('user', JSON.stringify(user));
                         showPopMessage('Logged in successfully!', 'success', 1000);
 
-                        // Redirect based on role
+                        // Redirect based on roleId
                         setTimeout(() => {
-                            if (data.roleName === 'CUSTOMER') {
-                                window.location.href = 'Home.html';
-                            } else if (data.roleName === 'STAFF' || data.roleName === 'ADMIN') {
+                            if (data.roleId === 1) { // ADMIN
                                 window.location.href = '../admin/Dashboard.html';
+                            } else if (data.roleId === 2) { // STAFF
+                                window.location.href = '../staff/Dashboard.html';
+                            } else { // CUSTOMER (3)
+                                window.location.href = 'Home.html';
                             }
                         }, 800);
                     } else {
-                        // New user - redirect to OTP verification (no message, instant redirect)
+                        // New user - store info and redirect to OTP verification
                         sessionStorage.setItem('googleEmail', googleUser.email);
                         sessionStorage.setItem('googleName', googleUser.name);
                         sessionStorage.setItem('googleToken', response.credential);
                         
-                        // Redirect immediately without message or delay
+                        // Redirect immediately to OTP verification
                         window.location.href = 'VerifyOTP.html';
                     }
                 } else {

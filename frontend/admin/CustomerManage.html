@@ -119,7 +119,7 @@
 
                 <!-- Customer Table -->
                 <div
-                    class="bg-white dark:bg-slate-900 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm overflow-hidden">
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead class="bg-slate-50 dark:bg-slate-800">
@@ -147,6 +147,11 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-800">
+                        <span id="paginationInfo" class="text-xs text-slate-600 dark:text-slate-400">Page 1 of 1</span>
+                        <div id="paginationControls" class="flex gap-1"></div>
                     </div>
                 </div>
             </div>
@@ -294,6 +299,9 @@
         const API_URL = 'http://localhost:5169/api';
         let currentCustomerId = null;
         let isEditMode = false;
+        let currentPage = 1;
+        let allCustomers = [];
+        const itemsPerPage = 10;
 
         // Declare modal elements in global scope so they're accessible from HTML onclick handlers
         let customerModal;
@@ -550,29 +558,47 @@
                 if (params.toString()) url += '?' + params.toString();
 
                 const response = await fetch(url);
-                let customers = await response.json();
+                allCustomers = await response.json();
 
                 // Apply sorting
                 if (sort === 'name-asc') {
-                    customers.sort((a, b) => (a.customerName || '').localeCompare(b.customerName || ''));
+                    allCustomers.sort((a, b) => (a.customerName || '').localeCompare(b.customerName || ''));
                 } else if (sort === 'name-desc') {
-                    customers.sort((a, b) => (b.customerName || '').localeCompare(a.customerName || ''));
+                    allCustomers.sort((a, b) => (b.customerName || '').localeCompare(a.customerName || ''));
                 } else if (sort === 'id-asc') {
-                    customers.sort((a, b) => a.customerId - b.customerId);
+                    allCustomers.sort((a, b) => a.customerId - b.customerId);
                 } else if (sort === 'id-desc') {
-                    customers.sort((a, b) => b.customerId - a.customerId);
+                    allCustomers.sort((a, b) => b.customerId - a.customerId);
                 } else {
                     // Default - newest first
-                    customers.sort((a, b) => b.customerId - a.customerId);
+                    allCustomers.sort((a, b) => b.customerId - a.customerId);
                 }
 
-                const tbody = document.getElementById('customersTableBody');
-                if (!customers || customers.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No customers found</td></tr>';
-                    return;
-                }
+                currentPage = 1;
+                renderPaginatedCustomers();
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                document.getElementById('customersTableBody').innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-red-500">Error loading customers</td></tr>';
+            }
+        }
 
-                tbody.innerHTML = customers.map(c => `
+        function renderPaginatedCustomers() {
+            const tbody = document.getElementById('customersTableBody');
+            
+            if (!allCustomers || allCustomers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No customers found</td></tr>';
+                renderPagination(0);
+                return;
+            }
+
+            // Calculate pagination
+            const totalPages = Math.ceil(allCustomers.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedCustomers = allCustomers.slice(startIndex, endIndex);
+
+            // Render table rows
+            tbody.innerHTML = paginatedCustomers.map(c => `
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 border-b border-[#e7edf3] dark:border-slate-800">
                         <td class="px-6 py-4">
                             <span class="text-sm font-bold text-[#0d141b] dark:text-white">${c.customerName || '-'}</span>
@@ -601,10 +627,46 @@
                         </td>
                     </tr>
                 `).join('');
-            } catch (error) {
-                console.error('Error loading customers:', error);
-                document.getElementById('customersTableBody').innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-red-500">Error loading customers</td></tr>';
+
+            // Render pagination controls
+            renderPagination(totalPages);
+
+            // Update pagination info
+            const start = startIndex + 1;
+            const end = Math.min(endIndex, allCustomers.length);
+            document.getElementById('paginationInfo').textContent = `Showing ${start}-${end} of ${allCustomers.length}`;
+        }
+
+        function renderPagination(totalPages) {
+            const container = document.getElementById('paginationControls');
+            
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
             }
+
+            let html = '';
+
+            // Page numbers only
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded-md text-sm font-semibold transition-all
+                        ${i === currentPage 
+                            ? 'bg-primary text-white' 
+                            : 'border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                        }">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span class="px-2 text-slate-400">...</span>`;
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderPaginatedCustomers();
+            document.getElementById('customersTableBody').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         function showToast(message, type = 'success') {

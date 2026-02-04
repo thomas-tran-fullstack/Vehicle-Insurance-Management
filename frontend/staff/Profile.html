@@ -73,32 +73,29 @@
                 <div
                     class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 shadow-sm">
                     <div class="relative group">
-                        <div class="size-32 rounded-full border-4 border-primary/20 bg-center bg-no-repeat bg-cover"
+                        <div id="headerStaffAvatar" class="size-32 rounded-full border-4 border-primary/20 bg-center bg-no-repeat bg-cover cursor-pointer transition-all group-hover:opacity-75"
                             data-alt="Employee profile headshot portrait"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGYGH3OGXLuSPMoNxpKA9rkzsolScvuSqcxtM3zwcIkUSJmuuXIMbXUJ-U_PyyuOxV7Qrhd_IeAqI0IIhxoM2NqaDEFIWrVHg7lm1p5AXiYN0IeB_U4mKW_qy2UUuhYLRXqrXyd3lJZCyaS0WvF4Pbv1y57hQXaxCbWY2493SW56cqaet04N5MxQsy7dcLjT199hjFi04O1kuL58Z21K5Fut155UsZ6zAZjL1nV3_oqccZ2yz4S_66xmRgY49bvIZzGoXU8BYkOcx_");'>
+                            style='background-image: url("/images/default-avatar.png");'>
+                            <div class="hidden group-hover:flex absolute inset-0 rounded-full bg-black/30 items-center justify-center gap-4">
+                                <button id="viewAvatarBtn" class="bg-white text-slate-900 p-2 rounded-full hover:bg-slate-100 transition-colors" type="button" title="View avatar">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </button>
+                                <button id="changeAvatarBtn" class="bg-white text-slate-900 p-2 rounded-full hover:bg-slate-100 transition-colors" type="button" title="Change avatar">
+                                    <span class="material-symbols-outlined">photo_camera</span>
+                                </button>
+                            </div>
                         </div>
-                        <button
-                            class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-slate-900 hover:scale-105 transition-transform shadow-md">
-                            <span class="material-symbols-outlined text-[16px]">edit</span>
-                        </button>
+                        <input id="avatarFileInput" type="file" accept="image/*" class="hidden" />
                     </div>
                     <div class="flex-1 text-center md:text-left">
                         <div class="flex flex-col md:flex-row md:items-center gap-2 mb-1">
-                            <h2 class="text-[#0d141b] dark:text-white text-2xl font-bold">Johnathan Anderson</h2>
-                            <span
+                            <h2 id="headerStaffName" class="text-[#0d141b] dark:text-white text-2xl font-bold">Loading...</h2>
+                            <span id="headerStaffStatus"
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 w-fit self-center md:self-auto">
                                 Active Staff
                             </span>
                         </div>
-                        <p class="text-primary font-semibold text-lg">Senior Specialist</p>
-                        <p class="text-[#4c739a] dark:text-slate-400">Underwriting / Claims Adjustment � North East
-                            District</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <button
-                            class="px-5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            View Public Bio
-                        </button>
+                        <p id="headerStaffPosition" class="text-primary font-semibold text-lg" style="text-align: center;">Loading position...</p>
                     </div>
                 </div>
                 <!-- Grid Content -->
@@ -121,48 +118,19 @@
                                     <p
                                         class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
                                         Staff ID</p>
-                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">EMP-2023-9941</p>
-                                </div>
-                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
-                                    <p
-                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
-                                        Department</p>
-                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">Underwriting / Claims
-                                        Adjustment</p>
+                                    <p id="staffIdDisplay" class="text-[#0d141b] dark:text-white text-sm font-medium">Loading...</p>
                                 </div>
                                 <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
                                     <p
                                         class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
                                         Position</p>
-                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">Senior Specialist</p>
+                                    <p id="professionalPosition" class="text-[#0d141b] dark:text-white text-sm font-medium">Loading...</p>
                                 </div>
                                 <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
                                     <p
                                         class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
-                                        Performance Rating</p>
-                                    <div class="flex items-center gap-2">
-                                        <p class="text-[#0d141b] dark:text-white text-sm font-bold">4.8/5.0</p>
-                                        <div class="flex text-amber-400">
-                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
-                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
-                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
-                                            <span class="material-symbols-outlined fill text-[16px]">star</span>
-                                            <span class="material-symbols-outlined text-[16px]">star_half</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
-                                    <p
-                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
-                                        Assigned Region</p>
-                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">North East District
-                                    </p>
-                                </div>
-                                <div class="flex flex-col gap-1 border-b border-slate-50 dark:border-slate-800 pb-4">
-                                    <p
-                                        class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wide">
-                                        Hire Date</p>
-                                    <p class="text-[#0d141b] dark:text-white text-sm font-medium">March 12, 2023</p>
+                                        Join Date</p>
+                                    <p id="joinDate" class="text-[#0d141b] dark:text-white text-sm font-medium">Loading...</p>
                                 </div>
                             </div>
                         </section>
@@ -175,41 +143,27 @@
                                     <span class="material-symbols-outlined text-primary">person</span>
                                     Personal Information
                                 </h3>
-                                <button class="text-primary text-sm font-bold hover:underline">Edit Info</button>
                             </div>
                             <div class="p-6">
-                                <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <form class="grid grid-cols-1 md:grid-cols-2 gap-6" id="profileForm">
                                     <div class="flex flex-col gap-2">
-                                        <label
-                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Email
-                                            Address</label>
-                                        <input
-                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            type="email" value="j.anderson@avims-corp.com" />
+                                        <label class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Full Name</label>
+                                        <input id="formFullName" class="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary bg-slate-50 dark:bg-slate-800" type="text" />
                                     </div>
                                     <div class="flex flex-col gap-2">
-                                        <label
-                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Phone
-                                            Number</label>
-                                        <input
-                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            type="tel" value="+1 (555) 123-4567" />
+                                        <label class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Email Address</label>
+                                        <input id="formEmail" class="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary bg-slate-50 dark:bg-slate-800" type="email" />
                                     </div>
-                                    <div class="flex flex-col gap-2 md:col-span-2">
-                                        <label
-                                            class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Primary
-                                            Address</label>
-                                        <input
-                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            type="text" value="742 Evergreen Terrace, Springfield, OR 97403" />
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Phone Number</label>
+                                        <input id="formPhone" class="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary bg-slate-50 dark:bg-slate-800" type="tel" />
                                     </div>
-                                    <div class="flex justify-end md:col-span-2 gap-3 pt-2">
-                                        <button
-                                            class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-                                            type="button">Cancel</button>
-                                        <button
-                                            class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors"
-                                            type="submit">Save Updates</button>
+                                    <div id="formActions" class="flex justify-end md:col-span-2 gap-3 pt-2" style="display: none;">
+                                        <button id="cancelEditBtn" class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-lg" type="button">Cancel</button>
+                                        <button id="saveEditBtn" class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors" type="button">Save Updates</button>
+                                    </div>
+                                    <div id="editInfoBtnContainer" class="flex justify-end md:col-span-2 pt-2">
+                                        <button id="editInfoBtn" class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors" type="button">Edit Information</button>
                                     </div>
                                 </form>
                             </div>
@@ -228,32 +182,31 @@
                                 </h3>
                             </div>
                             <div class="p-6">
-                                <p class="text-[#4c739a] dark:text-slate-400 text-sm mb-6">Update your password to keep
-                                    your employee account secure.</p>
-                                <form class="flex flex-col gap-5">
+                                <p class="text-[#4c739a] dark:text-slate-400 text-sm mb-6">Update your password to keep your account secure.</p>
+                                <form class="flex flex-col gap-5" id="passwordForm">
                                     <div class="flex flex-col gap-1.5">
                                         <label
                                             class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Current
                                             Password</label>
-                                        <input
-                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            placeholder="��������" type="password" />
+                                        <input id="currentPassword"
+                                            class="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            placeholder="Enter your current password" type="password" />
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label
                                             class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">New
                                             Password</label>
-                                        <input
-                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            placeholder="Min. 8 characters" type="password" />
+                                        <input id="newPassword"
+                                            class="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            placeholder="Enter your new password" type="password" />
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label
                                             class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase">Confirm
                                             New Password</label>
-                                        <input
-                                            class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
-                                            placeholder="Re-type password" type="password" />
+                                        <input id="confirmPassword"
+                                            class="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-sm focus:ring-primary focus:border-primary"
+                                            placeholder="Re-type your password" type="password" />
                                     </div>
                                     <div class="pt-4">
                                         <button
@@ -265,61 +218,533 @@
                                 </form>
                             </div>
                         </section>
-                        <!-- Quick Stats/Info Card -->
-                        <div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6">
-                            <h4 class="text-primary font-bold mb-4 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[20px]">info</span>
-                                Employee Resources
-                            </h4>
-                            <ul class="flex flex-col gap-3">
-                                <li>
-                                    <a class="text-sm text-[#0d141b] dark:text-slate-200 hover:text-primary flex items-center justify-between group"
-                                        href="#">
-                                        <span>Employee Handbook</span>
-                                        <span
-                                            class="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="text-sm text-[#0d141b] dark:text-slate-200 hover:text-primary flex items-center justify-between group"
-                                        href="#">
-                                        <span>Benefit Enrollment</span>
-                                        <span
-                                            class="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="text-sm text-[#0d141b] dark:text-slate-200 hover:text-primary flex items-center justify-between group"
-                                        href="#">
-                                        <span>IT Support Desk</span>
-                                        <span
-                                            class="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+    <!-- Avatar Fullscreen Modal -->
+    <div id="avatarModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="max-w-2xl w-full bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl relative flex flex-col items-center justify-center">
+            <button id="closeAvatarBtn" class="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full z-10">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <img id="avatarFullscreen" class="w-full h-auto object-contain max-h-96 max-w-full" src="" alt="Profile avatar" onerror="this.style.display='none'" />
+        </div>
+    </div>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 hidden z-50 max-w-sm">
+        <div class="flex items-start gap-3">
+            <span id="toastIcon" class="material-symbols-outlined text-green-600 flex-shrink-0">check_circle</span>
+            <p id="toastMessage" class="text-sm text-slate-900 dark:text-white"></p>
+        </div>
+    </div>
     <script src="../js/employee-sidebar.js"></script>
     <script>
-        // Load employee sidebar
-        fetch('../templates/employee-sidebar.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.getElementById('sidebar-container');
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const aside = doc.querySelector('aside');
-                if (aside) {
-                    container.appendChild(aside);
-                    if (typeof initializeStaffSidebar === 'function') {
-                        initializeStaffSidebar();
+        const API_URL = 'http://localhost:5169/api';
+        let currentStaff = null;
+        let currentUser = null;
+        let isEditMode = false;
+        let originalData = {};
+
+        // Helper: Show toast notification
+        function showToast(message, type = 'success') {
+            console.log('showToast called:', message, type);
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+            
+            msg.textContent = message;
+            if (type === 'success') {
+                icon.textContent = 'check_circle';
+                icon.className = 'material-symbols-outlined text-green-600 flex-shrink-0';
+            } else {
+                icon.textContent = 'error';
+                icon.className = 'material-symbols-outlined text-red-600 flex-shrink-0';
+            }
+            
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Update sidebar with staff info
+        function updateSidebar() {
+            if (!currentUser) return;
+            
+            const name = currentStaff?.fullName || currentUser?.username || '';
+            const position = currentStaff?.position || '';
+            const avatar = currentStaff?.avatar;
+            
+            // Find sidebar elements and update them
+            const sidebarName = document.querySelector('[data-sidebar-name]');
+            const sidebarPosition = document.querySelector('[data-sidebar-position]');
+            const sidebarAvatar = document.querySelector('[data-sidebar-avatar]');
+            
+            if (sidebarName) sidebarName.textContent = name;
+            if (sidebarPosition) sidebarPosition.textContent = position;
+            if (sidebarAvatar && avatar) {
+                sidebarAvatar.style.backgroundImage = `url('${avatar}')`;
+            }
+        }
+
+        // Helper function to switch edit mode
+        function setEditMode(enabled) {
+            isEditMode = enabled;
+            const fullNameField = document.getElementById('formFullName');
+            const phoneField = document.getElementById('formPhone');
+            const emailField = document.getElementById('formEmail');
+            const editBtnContainer = document.getElementById('editInfoBtnContainer');
+            const formActions = document.getElementById('formActions');
+            
+            console.log('setEditMode called with enabled:', enabled);
+            console.log('editBtnContainer exists:', !!editBtnContainer);
+            console.log('formActions exists:', !!formActions);
+            
+            if (enabled) {
+                // Enable edit mode
+                fullNameField.disabled = false;
+                phoneField.disabled = false;
+                emailField.disabled = false;
+                editBtnContainer.style.display = 'none';
+                formActions.style.display = 'flex';
+                console.log('✅ Edit mode ON - formActions visible, editBtn hidden');
+            } else {
+                // Disable edit mode
+                fullNameField.disabled = true;
+                phoneField.disabled = true;
+                emailField.disabled = true;
+                editBtnContainer.style.display = 'flex';
+                formActions.style.display = 'none';
+                console.log('✅ Edit mode OFF - editBtn visible, formActions hidden');
+            }
+        }
+
+        // Load staff profile data
+        async function loadStaffProfile() {
+            try {
+                const user = JSON.parse(sessionStorage.getItem('user'));
+                if (!user || !user.userId) {
+                    console.error('No user in session');
+                    window.location.href = '../user/Authenticate.html';
+                    return;
+                }
+
+                console.log('Loading profile for user ID:', user.userId);
+
+                // Get staff info via user ID
+                const response = await fetch(`${API_URL}/AdminManagement/users/${user.userId}`);
+                
+                if (!response.ok) {
+                    console.error('API response not OK:', response.status);
+                    showToast('Error loading user data', 'error');
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (!data) {
+                    console.error('No user data found');
+                    showToast('Error loading user data', 'error');
+                    return;
+                }
+
+                console.log('✅ Full API Response:', JSON.stringify(data, null, 2));
+                console.log('Staff data:', data.staff);
+                console.log('Full Name:', data.staff?.fullName);
+                console.log('Position:', data.staff?.position);
+                console.log('Avatar:', data.staff?.avatar);
+
+                currentUser = data;
+                currentStaff = data.staff || null;
+                displayStaffProfile(data);
+                updateSidebar();
+            } catch (error) {
+                console.error('Error loading staff profile:', error);
+                showToast('Error loading profile', 'error');
+            }
+        }
+
+        function displayStaffProfile(data) {
+            console.log('displayStaffProfile called with:', data);
+            const staff = data.staff;
+            const user = data;
+
+            // Header info - Use data or fallback
+            const fullName = staff?.fullName || user?.username || 'Staff User';
+            const position = staff?.position || 'Position not assigned';
+            const avatar = staff?.avatar || '/images/default-avatar.png';
+            
+            console.log('Setting header:', {fullName, position, avatar});
+            
+            // Set header display - use headerStaffName to avoid conflict with sidebar
+            const nameElement = document.getElementById('headerStaffName');
+            const positionElement = document.getElementById('headerStaffPosition');
+            const avatarElement = document.getElementById('headerStaffAvatar');
+            
+            if (nameElement) {
+                nameElement.textContent = fullName;
+                console.log('✅ Updated headerStaffName to:', fullName);
+            }
+            
+            if (positionElement) {
+                positionElement.textContent = position;
+                console.log('✅ Updated headerStaffPosition to:', position);
+            }
+            
+            // Avatar - Always set it even if it's default
+            if (avatarElement) {
+                avatarElement.style.backgroundImage = `url('${avatar}')`;
+                avatarElement.setAttribute('data-avatar-url', avatar);
+                avatarElement.setAttribute('onerror', `this.style.backgroundImage='url(/images/default-avatar.png)'`);
+                console.log('✅ Updated headerStaffAvatar to:', avatar);
+            }
+
+            // Fallback for missing staff data
+            if (!staff) {
+                console.warn('Staff data is null, using defaults');
+                document.getElementById('staffIdDisplay').textContent = 'Not assigned';
+                document.getElementById('professionalPosition').textContent = 'N/A';
+                document.getElementById('joinDate').textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A';
+                document.getElementById('formFullName').value = '';
+                document.getElementById('formEmail').value = user.email || '';
+                document.getElementById('formPhone').value = '';
+                originalData = { fullName: '', email: user.email || '', phone: '' };
+                setEditMode(false);
+                updateSidebar();
+                return;
+            }
+
+            // Professional details
+            document.getElementById('staffIdDisplay').textContent = `EMP-${staff.staffId}`;
+            document.getElementById('professionalPosition').textContent = position;
+            
+            // Join Date
+            const joinDate = new Date(user.createdAt);
+            document.getElementById('joinDate').textContent = joinDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Personal info form
+            document.getElementById('formFullName').value = staff.fullName || '';
+            document.getElementById('formEmail').value = user.email || '';
+            document.getElementById('formPhone').value = staff.phone || '';
+
+            // Store original data for cancel
+            originalData = {
+                fullName: staff.fullName || '',
+                email: user.email || '',
+                phone: staff.phone || ''
+            };
+
+            // Update status badge
+            const statusBadge = document.getElementById('headerStaffStatus');
+            if (statusBadge && user.status === 'ACTIVE') {
+                statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 w-fit self-center md:self-auto';
+                statusBadge.textContent = 'Active Staff';
+            } else if (statusBadge) {
+                statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 w-fit self-center md:self-auto';
+                statusBadge.textContent = 'Inactive';
+            }
+            
+            // Ensure edit mode is disabled
+            setEditMode(false);
+        }
+
+        // Initialize page when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded - Initializing page');
+            
+            // Load sidebar ONLY
+            console.log('Starting to load sidebar...');
+            fetch('../templates/employee-sidebar.html')
+                .then(response => response.text())
+                .then(html => {
+                    console.log('Sidebar HTML fetched');
+                    const container = document.getElementById('sidebar-container');
+                    
+                    // Parse HTML and extract only the aside element
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const aside = doc.querySelector('aside');
+                    
+                    if (aside) {
+                        // Remove the <aside> from parsed doc and inject into container
+                        const clonedAside = aside.cloneNode(true);
+                        container.appendChild(clonedAside);
+                        console.log('✅ Sidebar (aside) injected');
+                        
+                        if (typeof initializeStaffSidebar === 'function') {
+                            initializeStaffSidebar();
+                        }
+                    } else {
+                        console.warn('No aside element found in sidebar template');
                     }
+                    
+                    // NOW load profile after sidebar is safely injected
+                    console.log('Loading profile...');
+                    loadStaffProfile();
+                })
+                .catch(err => {
+                    console.error('Error loading sidebar:', err);
+                    // Even if sidebar fails, load profile
+                    loadStaffProfile();
+                });
+
+        document.getElementById('viewAvatarBtn').addEventListener('click', () => {
+                const avatarElement = document.getElementById('headerStaffAvatar');
+                let avatarUrl = avatarElement.getAttribute('data-avatar-url');
+                
+                console.log('View avatar clicked. data-avatar-url:', avatarUrl);
+                
+                // If no data attribute, extract from backgroundImage
+                if (!avatarUrl && avatarElement.style.backgroundImage) {
+                    const bgImage = avatarElement.style.backgroundImage;
+                    console.log('Background image:', bgImage);
+                    const match = bgImage.match(/url\(["']?([^"']+)["']?\)/);
+                    avatarUrl = match ? match[1] : null;
+                    console.log('Extracted from bgImage:', avatarUrl);
+                }
+            
+            if (!avatarUrl || avatarUrl === '/images/default-avatar.png') {
+                console.log('No custom avatar - showing error');
+                showToast('No custom avatar to view', 'error');
+                return;
+            }
+            
+            console.log('Setting avatar image src to:', avatarUrl);
+            const imgElement = document.getElementById('avatarFullscreen');
+            imgElement.src = avatarUrl;
+            imgElement.style.display = 'block';
+            
+            const modal = document.getElementById('avatarModal');
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+        });
+
+            document.getElementById('closeAvatarBtn').addEventListener('click', () => {
+                const modal = document.getElementById('avatarModal');
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            });
+
+            document.getElementById('avatarModal').addEventListener('click', (e) => {
+                if (e.target.id === 'avatarModal') {
+                    const modal = document.getElementById('avatarModal');
+                    modal.classList.add('hidden');
+                    modal.style.display = 'none';
                 }
             });
+
+            document.getElementById('changeAvatarBtn').addEventListener('click', () => {
+                console.log('Change avatar button clicked');
+                document.getElementById('avatarFileInput').click();
+            });
+
+            document.getElementById('avatarFileInput').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                console.log('Avatar file selected:', file.name);
+
+                // Validate file
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please select an image file', 'error');
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Image size must be less than 5MB', 'error');
+                    return;
+                }
+
+                try {
+                    // Create FormData for file upload
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    // Upload file
+                    const uploadResponse = await fetch(`${API_URL}/AdminManagement/upload/avatar`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!uploadResponse.ok) {
+                        console.error('Upload failed:', uploadResponse.status);
+                        showToast('Error uploading avatar', 'error');
+                        return;
+                    }
+
+                    const uploadData = await uploadResponse.json();
+                    const avatarUrl = uploadData.url || `/uploads/avatars/${file.name}`;
+
+                    console.log('Avatar uploaded successfully:', avatarUrl);
+
+                    // Update staff avatar
+                    const user = JSON.parse(sessionStorage.getItem('user'));
+                    const updateResponse = await fetch(`${API_URL}/AdminManagement/users/${user.userId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            avatar: avatarUrl
+                        })
+                    });
+
+                    if (updateResponse.ok) {
+                        console.log('Avatar updated in database');
+                        if (currentStaff) currentStaff.avatar = avatarUrl;
+                        
+                        // Update header avatar
+                        const headerAvatarEl = document.getElementById('headerStaffAvatar');
+                        if (headerAvatarEl) {
+                            headerAvatarEl.style.backgroundImage = `url('${avatarUrl}')`;
+                            headerAvatarEl.setAttribute('data-avatar-url', avatarUrl);
+                        }
+                        
+                        // Update sidebar avatar by ID
+                        const sidebarAvatarEl = document.getElementById('staffAvatar');
+                        if (sidebarAvatarEl) {
+                            sidebarAvatarEl.style.backgroundImage = `url('${avatarUrl}')`;
+                        }
+                        
+                        // Update sessionStorage with new avatar URL
+                        user.avatar = avatarUrl;
+                        sessionStorage.setItem('user', JSON.stringify(user));
+                        
+                        updateSidebar();
+                        showToast('Avatar updated successfully');
+                    } else {
+                        console.error('Database update failed:', updateResponse.status);
+                        showToast('Error updating avatar', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error uploading avatar:', error);
+                    showToast('Error uploading avatar: ' + error.message, 'error');
+                }
+
+                // Reset input
+                document.getElementById('avatarFileInput').value = '';
+            });
+
+            // Edit mode toggle
+            document.getElementById('editInfoBtn').addEventListener('click', () => {
+                console.log('Edit button clicked');
+                setEditMode(true);
+            });
+
+            document.getElementById('cancelEditBtn').addEventListener('click', () => {
+                console.log('Cancel button clicked');
+                // Restore original values
+                document.getElementById('formFullName').value = originalData.fullName;
+                document.getElementById('formEmail').value = originalData.email;
+                document.getElementById('formPhone').value = originalData.phone;
+                setEditMode(false);
+            });
+
+            document.getElementById('saveEditBtn').addEventListener('click', async () => {
+                console.log('Save button clicked');
+                try {
+                    const user = JSON.parse(sessionStorage.getItem('user'));
+                    const fullName = document.getElementById('formFullName').value.trim();
+                    const phone = document.getElementById('formPhone').value.trim();
+
+                    if (!fullName) {
+                        showToast('Full Name is required', 'error');
+                        return;
+                    }
+
+                    const updateResponse = await fetch(`${API_URL}/AdminManagement/users/${user.userId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            fullName: fullName,
+                            phone: phone
+                        })
+                    });
+
+                    if (updateResponse.ok) {
+                        if (currentStaff) {
+                            currentStaff.fullName = fullName;
+                            currentStaff.phone = phone;
+                        }
+                        // Update both header and sidebar
+                        const headerNameEl = document.getElementById('headerStaffName');
+                        if (headerNameEl) headerNameEl.textContent = fullName;
+                        
+                        const sidebarNameEl = document.querySelector('[data-sidebar-name]');
+                        if (sidebarNameEl) sidebarNameEl.textContent = fullName;
+                        
+                        originalData.fullName = fullName;
+                        originalData.phone = phone;
+                        updateSidebar();
+                        
+                        setEditMode(false);
+                        showToast('Profile updated successfully');
+                    } else {
+                        showToast('Error updating profile', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('Error updating profile', 'error');
+                }
+            });
+
+            // Password change
+            document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const currentPassword = document.getElementById('currentPassword').value.trim();
+                const newPassword = document.getElementById('newPassword').value.trim();
+                const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    showToast('All password fields are required', 'error');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    showToast('New passwords do not match', 'error');
+                    return;
+                }
+
+                if (newPassword.length < 8) {
+                    showToast('New password must be at least 8 characters', 'error');
+                    return;
+                }
+
+                try {
+                    const user = JSON.parse(sessionStorage.getItem('user'));
+                    
+                    // For now, we'll do a PUT request to change password
+                    // You should implement a dedicated password change endpoint
+                    const response = await fetch(`${API_URL}/AdminManagement/users/${user.userId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            currentPassword: currentPassword,
+                            newPassword: newPassword
+                        })
+                    });
+
+                    if (response.ok) {
+                        showToast('Password changed successfully');
+                        document.getElementById('passwordForm').reset();
+                    } else {
+                        const error = await response.json();
+                        showToast(error.message || 'Error changing password', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('Error changing password', 'error');
+                }
+            });
+
+            // Load profile on page load
+            // Profile is now loaded after sidebar loads successfully
+        });
     </script>
     <script src="../js/pageLoader.js"></script>
 

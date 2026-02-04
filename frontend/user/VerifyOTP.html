@@ -398,62 +398,104 @@
                 verifyBtn.disabled = true;
                 spinner.classList.add('active');
 
-                const googleEmail = sessionStorage.getItem('googleEmail');
-                const googleName = sessionStorage.getItem('googleName');
-                const googleToken = sessionStorage.getItem('googleToken');
-
-                if (!googleEmail || !googleName) {
-                    showPopMessage('Session expired. Please try again.', 'error');
-                    setTimeout(() => {
-                        window.location.href = 'Authenticate.html';
-                    }, 2000);
-                    return;
-                }
-
-                const response = await fetch('/api/LoginUserManagement/verify-otp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: googleEmail,
-                        otp: otp,
-                        fullName: googleName,
-                        token: googleToken
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Store user session
-                    const user = {
-                        userId: data.userId,
-                        username: data.username,
-                        email: googleEmail,
-                        roleId: 2, // Customer role
-                        roleName: 'CUSTOMER',
-                        fullName: googleName
-                    };
-
-                    sessionStorage.setItem('user', JSON.stringify(user));
+                // Check for forgot password mode
+                const urlParams = new URLSearchParams(window.location.search);
+                const mode = urlParams.get('mode');
+                
+                if (mode === 'forgot-password') {
+                    // Forgot password flow
+                    const forgotPasswordEmail = sessionStorage.getItem('forgotPasswordEmail');
                     
-                    // Clear Google data
-                    sessionStorage.removeItem('googleEmail');
-                    sessionStorage.removeItem('googleName');
-                    sessionStorage.removeItem('googleToken');
+                    if (!forgotPasswordEmail) {
+                        showPopMessage('Session expired. Please try again.', 'error');
+                        setTimeout(() => {
+                            window.location.href = 'ForgotPassword.html';
+                        }, 2000);
+                        return;
+                    }
 
-                    showPopMessage('Account created successfully!', 'success', 1500);
+                    const verifyResponse = await fetch('/api/LoginUserManagement/verify-otp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: forgotPasswordEmail,
+                            otp: otp
+                        })
+                    });
 
-                    setTimeout(() => {
-                        window.location.href = 'Home.html';
-                    }, 1500);
+                    const verifyData = await verifyResponse.json();
+
+                    if (verifyData.success) {
+                        showPopMessage('OTP verified successfully! Redirecting to reset password...', 'success', 1500);
+
+                        setTimeout(() => {
+                            window.location.href = 'ResetPassword.html';
+                        }, 1500);
+                    } else {
+                        showPopMessage(verifyData.message || 'Invalid OTP', 'error');
+                        otpInputs.forEach(input => input.classList.add('error'));
+                    }
                 } else {
-                    showPopMessage(data.message || 'Invalid OTP', 'error');
-                    otpInputs.forEach(input => input.classList.add('error'));
+                    // Original Google registration flow
+                    const googleEmail = sessionStorage.getItem('googleEmail');
+                    const googleName = sessionStorage.getItem('googleName');
+                    const googleToken = sessionStorage.getItem('googleToken');
+
+                    if (!googleEmail || !googleName) {
+                        showPopMessage('Session expired. Please try again.', 'error');
+                        setTimeout(() => {
+                            window.location.href = 'Authenticate.html';
+                        }, 2000);
+                        return;
+                    }
+
+                    const response = await fetch('/api/LoginUserManagement/verify-otp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: googleEmail,
+                            otp: otp,
+                            fullName: googleName,
+                            token: googleToken
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Store user session
+                        const user = {
+                            userId: data.userId,
+                            username: data.username,
+                            email: googleEmail,
+                            roleId: 2, // Customer role
+                            roleName: 'CUSTOMER',
+                            fullName: googleName
+                        };
+
+                        sessionStorage.setItem('user', JSON.stringify(user));
+                        
+                        // Clear Google data
+                        sessionStorage.removeItem('googleEmail');
+                        sessionStorage.removeItem('googleName');
+                        sessionStorage.removeItem('googleToken');
+
+                        showPopMessage('Account created successfully!', 'success', 1500);
+
+                        setTimeout(() => {
+                            window.location.href = 'Home.html';
+                        }, 1500);
+                    } else {
+                        showPopMessage(data.message || 'Invalid OTP', 'error');
+                        otpInputs.forEach(input => input.classList.add('error'));
+                    }
                 }
             } catch (error) {
                 console.error('OTP verification error:', error);
                 showPopMessage('An error occurred. Please try again.', 'error');
             } finally {
+                const verifyBtn = this.querySelector('button[type="submit"]');
+                const spinner = document.getElementById('verifySpinner');
                 verifyBtn.disabled = false;
                 spinner.classList.remove('active');
             }
@@ -463,12 +505,29 @@
         document.getElementById('resendBtn').addEventListener('click', async function() {
             try {
                 this.disabled = true;
-                const googleEmail = sessionStorage.getItem('googleEmail');
+
+                // Check for mode
+                const urlParams = new URLSearchParams(window.location.search);
+                const mode = urlParams.get('mode');
+
+                // Get email based on mode
+                let email;
+                if (mode === 'forgot-password') {
+                    email = sessionStorage.getItem('forgotPasswordEmail');
+                } else {
+                    email = sessionStorage.getItem('googleEmail');
+                }
+
+                if (!email) {
+                    showPopMessage('Email not found. Please start over.', 'error');
+                    this.disabled = false;
+                    return;
+                }
 
                 const response = await fetch('/api/LoginUserManagement/resend-otp', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: googleEmail })
+                    body: JSON.stringify({ email: email })
                 });
 
                 const data = await response.json();
@@ -527,18 +586,38 @@
 
         // Initialize Page
         document.addEventListener('DOMContentLoaded', function() {
-            const googleEmail = sessionStorage.getItem('googleEmail');
+            // Check for forgot password mode
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
             
-            if (!googleEmail) {
-                showPopMessage('Session expired. Please try again.', 'error');
-                setTimeout(() => {
-                    window.location.href = 'Authenticate.html';
-                }, 2000);
-                return;
-            }
+            if (mode === 'forgot-password') {
+                const forgotPasswordEmail = sessionStorage.getItem('forgotPasswordEmail');
+                
+                if (!forgotPasswordEmail) {
+                    showPopMessage('Session expired. Please try again.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'ForgotPassword.html';
+                    }, 2000);
+                    return;
+                }
+                
+                // Display email
+                document.getElementById('emailDisplay').textContent = forgotPasswordEmail;
+            } else {
+                // Original Google registration mode
+                const googleEmail = sessionStorage.getItem('googleEmail');
+                
+                if (!googleEmail) {
+                    showPopMessage('Session expired. Please try again.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'Authenticate.html';
+                    }, 2000);
+                    return;
+                }
 
-            // Display email
-            document.getElementById('emailDisplay').textContent = googleEmail;
+                // Display email
+                document.getElementById('emailDisplay').textContent = googleEmail;
+            }
             
             // Start timer
             startTimer(5);

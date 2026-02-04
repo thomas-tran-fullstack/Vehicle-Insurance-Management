@@ -267,6 +267,56 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
             return Ok(new { exists = exists });
         }
 
+        [HttpPost("check-user-exists")]
+        public async Task<IActionResult> CheckUserExists([FromBody] CheckUserExistsRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Email))
+            {
+                return BadRequest(new 
+                { 
+                    success = false, 
+                    message = "Email or username is required" 
+                });
+            }
+
+            try
+            {
+                var searchTerm = request.Email.Trim().ToLower();
+                
+                // Search by email or username
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => 
+                        (u.Email != null && u.Email.ToLower() == searchTerm) || 
+                        u.Username.ToLower() == searchTerm);
+
+                if (user == null)
+                {
+                    return Ok(new 
+                    { 
+                        success = true,
+                        userExists = false, 
+                        message = "User not found" 
+                    });
+                }
+
+                return Ok(new 
+                { 
+                    success = true,
+                    userExists = true,
+                    email = user.Email,
+                    username = user.Username
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new 
+                { 
+                    success = false, 
+                    message = $"Error: {ex.Message}" 
+                });
+            }
+        }
+
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
@@ -324,6 +374,118 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
             }
         }
 
+        // ==================== FORGOT PASSWORD ENDPOINTS ====================
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Email))
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Email is required"
+                });
+            }
+
+            try
+            {
+                var email = request.Email.Trim().ToLower();
+                
+                var user = await _context.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == email);
+
+                if (user == null)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "User not found"
+                    });
+                }
+
+                // Generate OTP
+                var otp = GenerateOTP();
+                var otpKey = $"otp_{email}";
+                
+                // Store OTP in memory with 5 minute expiry
+                OtpStorage.Store(otpKey, otp, TimeSpan.FromMinutes(5));
+
+                // Send OTP via email
+                await SendOTPEmail(email, otp, user.Username);
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "OTP sent to your email",
+                    email = email
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = $"An error occurred: {ex.Message}"
+                });
+            }
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.NewPassword))
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Email and new password are required"
+                });
+            }
+
+            try
+            {
+                var email = request.Email.Trim().ToLower();
+                
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == email);
+
+                if (user == null)
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = "User not found"
+                    });
+                }
+
+                // Hash new password and update
+                user.PasswordHash = PasswordHashService.HashPassword(request.NewPassword);
+                
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                // Clear OTP
+                var otpKey = $"otp_{email}";
+                OtpStorage.Remove(otpKey);
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Password reset successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = $"An error occurred: {ex.Message}"
+                });
+            }
+        }
+
         // ==================== GOOGLE SIGN-IN ENDPOINTS ====================
 
         [HttpPost("google-signin")]
@@ -338,16 +500,31 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                 if (string.IsNullOrWhiteSpace(email))
                     return BadRequest(new { success = false, message = "Email is required" });
 
-                // Check if user exists
+                // Check if user exists - Include Role to get role name
                 var user = await _context.Users
+                    .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == email);
 
                 if (user != null)
                 {
-                    // User exists - get customer name if customer record exists
-                    var customer = await _context.Customers
-                        .FirstOrDefaultAsync(c => c.UserId == user.UserId);
-                    var fullName = customer?.CustomerName ?? request.Name ?? user.Username;
+                    // User exists - get customer/staff name based on role
+                    string fullName = request.Name ?? user.Username;
+                    
+                    if (user.RoleId == 2)
+                    {
+                        // Staff
+                        var staff = await _context.Staff.FirstOrDefaultAsync(s => s.UserId == user.UserId);
+                        if (staff != null && !string.IsNullOrWhiteSpace(staff.FullName))
+                            fullName = staff.FullName;
+                    }
+                    else if (user.RoleId == 3)
+                    {
+                        // Customer
+                        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == user.UserId);
+                        if (customer != null && !string.IsNullOrWhiteSpace(customer.CustomerName))
+                            fullName = customer.CustomerName;
+                    }
+                    
                     return Ok(new
                     {
                         success = true,
@@ -401,8 +578,22 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                 if (!OtpStorage.Verify(otpKey, otp))
                     return BadRequest(new { success = false, message = "Invalid or expired OTP" });
 
-                // Create new user (customer)
-                var fullName = request.FullName ?? email.Split('@')[0];
+                // If FullName is empty/null, this is forgot-password flow - just verify OTP
+                if (string.IsNullOrWhiteSpace(request.FullName))
+                {
+                    // Clear OTP after verification
+                    OtpStorage.Remove(otpKey);
+                    
+                    return Ok(new
+                    {
+                        success = true,
+                        email = email,
+                        message = "OTP verified successfully. You can now reset your password."
+                    });
+                }
+
+                // Otherwise, this is registration flow - create new user account
+                var fullName = request.FullName;
                 var username = GenerateUsername(fullName);
                 var password = GenerateRandomPassword();
                 var passwordHash = PasswordHashService.HashPassword(password);
@@ -412,7 +603,7 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                     Username = username,
                     Email = email,
                     PasswordHash = passwordHash,
-                    RoleId = 2, // Customer role
+                    RoleId = 3, // Customer role (1=Admin, 2=Staff, 3=Customer)
                     Status = "ACTIVE",
                     CreatedAt = DateTime.Now
                 };
@@ -578,6 +769,27 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
     {
         public string? Username { get; set; }
         public string? CurrentPassword { get; set; }
+        public string? NewPassword { get; set; }
+    }
+
+    // Request model for checking if user exists
+    public class CheckUserExistsRequest
+    {
+        public string? Email { get; set; }
+    }
+
+    // Request model for forgot password
+    public class ForgotPasswordRequest
+    {
+        public string? Email { get; set; }
+        public string? Username { get; set; }
+    }
+
+    // Request model for reset password
+    public class ResetPasswordRequest
+    {
+        public string? Email { get; set; }
+        public string? Username { get; set; }
         public string? NewPassword { get; set; }
     }
 }

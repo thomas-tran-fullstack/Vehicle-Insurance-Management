@@ -100,14 +100,19 @@ namespace VehicleInsuranceAPI.Data
                 entity.HasKey(e => e.ClaimId).HasName("PK__Claims__EF2E139BA4BC5961");
 
                 entity.Property(e => e.AccidentPlace).HasMaxLength(255);
-                entity.Property(e => e.ClaimAmount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.ClaimableAmount).HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.InsuredAmount).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.Status).HasMaxLength(30);
 
                 entity.HasOne(d => d.Policy).WithMany(p => p.Claims)
                     .HasForeignKey(d => d.PolicyId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Claims__PolicyId__60A75C0F");
+
+                entity.HasOne(d => d.ReviewedByStaff).WithMany()
+                    .HasForeignKey(d => d.ReviewedByStaffId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK__Claims__ReviewedByStaffId");
             });
 
             modelBuilder.Entity<CompanyExpense>(entity =>
