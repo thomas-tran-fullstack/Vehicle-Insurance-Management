@@ -65,6 +65,13 @@ function initializeAdminSidebar() {
 }
 
 function logoutAdmin() {
+    // Clear all user data
     localStorage.removeItem('user');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('staffId');
+    sessionStorage.clear();
+    
+    // Redirect to Authenticate page
     window.location.href = '../user/Authenticate.html';
 }

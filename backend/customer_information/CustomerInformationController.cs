@@ -330,12 +330,6 @@ namespace VehicleInsuranceAPI.Backend.CustomerInformation
                 var policies2 = await _context.Policies.Where(p => p.CustomerId == id).ToListAsync();
                 foreach (var p in policies2) p.IsHidden = true;
 
-                customer.CustomerName = "[DELETED]";
-                customer.Phone = null;
-                customer.Address = null;
-                customer.Avatar = null;
-                customer.UserId = null;
-
                 if (customer.User != null)
                 {
                     var logs = await _context.AuditLogs.Where(l => l.UserId == customer.User.UserId).ToListAsync();
@@ -343,6 +337,11 @@ namespace VehicleInsuranceAPI.Backend.CustomerInformation
                     var notis = await _context.Notifications.Where(n => n.ToUserId == customer.User.UserId).ToListAsync();
                     if (notis.Count > 0) _context.Notifications.RemoveRange(notis);
                     _context.Users.Remove(customer.User);
+                }
+                else
+                {
+                    // If customer has no linked user, just remove customer
+                    _context.Customers.Remove(customer);
                 }
 
                 await _context.SaveChangesAsync();

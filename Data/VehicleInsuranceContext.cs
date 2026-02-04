@@ -78,6 +78,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.User).WithMany(p => p.AuditLogs)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__AuditLogs__UserI__412EB0B6");
             });
 
@@ -90,6 +91,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Policy).WithMany(p => p.Bills)
                     .HasForeignKey(d => d.PolicyId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Bills__PolicyId__5DCAEF64");
             });
 
@@ -104,6 +106,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Policy).WithMany(p => p.Claims)
                     .HasForeignKey(d => d.PolicyId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Claims__PolicyId__60A75C0F");
             });
 
@@ -154,10 +157,12 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Estimates)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Estimates__Custo__5535A963");
 
                 entity.HasOne(d => d.Vehicle).WithMany(p => p.Estimates)
                     .HasForeignKey(d => d.VehicleId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Estimates__Vehic__5629CD9C");
             });
 
@@ -185,6 +190,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Feedback__Custom__6C190EBB");
             });
 
@@ -196,6 +202,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Policy).WithMany(p => p.InsuranceCancellations)
                     .HasForeignKey(d => d.PolicyId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Insurance__Polic__66603565");
             });
 
@@ -223,6 +230,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.User).WithMany(p => p.Notifications)
                     .HasForeignKey(d => d.ToUserId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Notificat__ToUser__778AC167");
             });
 
@@ -236,6 +244,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Policy).WithMany(p => p.Penalties)
                     .HasForeignKey(d => d.PolicyId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Penalties__Polic__6383C8BA");
             });
 
@@ -316,6 +325,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Testimonials)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Testimoni__Custo__6FE99F9F");
             });
 
@@ -358,6 +368,7 @@ namespace VehicleInsuranceAPI.Data
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Vehicles)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Vehicles__Custom__4CA06362");
 
                 entity.HasOne(d => d.Model).WithMany(p => p.Vehicles)
@@ -369,16 +380,18 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.InspectionId).HasName("PK__VehicleI__30B2DC0838F32527");
 
-                entity.Property(e => e.InspectionDate).HasColumnType("datetime");
-                entity.Property(e => e.Result).HasMaxLength(255);
-                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.ScheduledDate).HasColumnType("datetime2");
+                entity.Property(e => e.CompletedDate).HasColumnType("datetime2");
+                entity.Property(e => e.Result).HasMaxLength(1000);
+                entity.Property(e => e.Status).HasMaxLength(30);
 
                 entity.HasOne(d => d.Staff).WithMany(p => p.VehicleInspections)
-                    .HasForeignKey(d => d.StaffId)
-                    .HasConstraintName("FK__VehicleIn__Staff__5165187F");
+                    .HasForeignKey(d => d.AssignedStaffId)
+                    .HasConstraintName("FK__VehicleIn__Assign__5165187F");
 
                 entity.HasOne(d => d.Vehicle).WithMany(p => p.VehicleInspections)
                     .HasForeignKey(d => d.VehicleId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__VehicleIn__Vehic__5070F446");
             });
 

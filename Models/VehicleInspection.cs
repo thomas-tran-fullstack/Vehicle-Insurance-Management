@@ -9,9 +9,11 @@ public partial class VehicleInspection
 
     public int? VehicleId { get; set; }
 
-    public int? StaffId { get; set; }
+    public int? AssignedStaffId { get; set; }
 
-    public DateTime? InspectionDate { get; set; }
+    public DateTime? ScheduledDate { get; set; }
+
+    public DateTime? CompletedDate { get; set; }
 
     public string? Status { get; set; }
 

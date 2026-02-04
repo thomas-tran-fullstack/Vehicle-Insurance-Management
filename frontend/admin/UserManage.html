@@ -477,10 +477,10 @@
                 document.getElementById('formUsername').value = data.username || '';
                 document.getElementById('formEmail').value = data.email || '';
                 document.getElementById('formRole').value = data.roleId || '';
-                document.getElementById('formFullName').value = data.Staff?.fullName || data.Customer?.customerName || '';
-                document.getElementById('formPhone').value = data.Staff?.phone || data.Customer?.phone || '';
-                document.getElementById('formPosition').value = data.Staff?.position || '';
-                document.getElementById('formAddress').value = data.Customer?.address || '';
+                document.getElementById('formFullName').value = data.staff?.fullName || data.customer?.customerName || '';
+                document.getElementById('formPhone').value = data.staff?.phone || data.customer?.phone || '';
+                document.getElementById('formPosition').value = data.staff?.position || '';
+                document.getElementById('formAddress').value = data.customer?.address || '';
                 document.getElementById('formStatus').value = data.status || 'ACTIVE';
 
                 if (data.bannedUntil) {
