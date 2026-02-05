@@ -86,21 +86,40 @@ CREATE TABLE InsuranceTypes (
 );
 GO
 
+/* ---------- VEHICLE MODELS ---------- */
+CREATE TABLE VehicleModels (
+    ModelId INT IDENTITY(1,1) PRIMARY KEY,
+    ModelName NVARCHAR(100) NULL,
+    VehicleClass NVARCHAR(50) NULL,
+    VehicleType NVARCHAR(50) NULL,                  -- Car / Motorbike / Truck
+    Description NVARCHAR(255) NULL
+);
+GO
+
 /* ---------- VEHICLE ---------- */
 CREATE TABLE Vehicles (
     VehicleId INT IDENTITY(1,1) PRIMARY KEY,
     CustomerId INT NOT NULL,
-    VehicleName NVARCHAR(100) NOT NULL,        -- e.g. Toyota Vios / Honda Wave
-    VehicleOwnerName NVARCHAR(150) NULL,       -- can differ from customer
-    Make NVARCHAR(100) NULL,                   -- brand
-    Model NVARCHAR(100) NULL,                  -- merged "Vehicle Model"
-    VehicleVersion NVARCHAR(50) NULL,          -- version/trim
-    VehicleRate DECIMAL(18,2) NOT NULL,        -- insured value / vehicle value
+    ModelId INT NULL,
+    VehicleName NVARCHAR(100) NOT NULL,
+    VehicleType NVARCHAR(MAX) NULL,
+    VehicleBrand NVARCHAR(MAX) NULL,
+    VehicleSegment NVARCHAR(MAX) NULL,
+    VehicleVersion NVARCHAR(50) NULL,
+    VehicleRate DECIMAL(18,2) NULL,
     BodyNumber NVARCHAR(100) NOT NULL,
     EngineNumber NVARCHAR(100) NOT NULL,
-    VehicleNumber NVARCHAR(50) NOT NULL,       -- plate number
-    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    VehicleNumber NVARCHAR(50) NOT NULL,
+    RegistrationDate DATETIME2 NULL,
+    SeatCount INT NULL,
+    VehicleImage NVARCHAR(MAX) NULL,
+    ManufactureYear INT NULL,
+    CreatedDate DATETIME2 NULL,
+    UpdatedDate DATETIME2 NULL,
+    VehicleOwnerName NVARCHAR(150) NULL,
+    VehicleModelName NVARCHAR(100) NULL,
     FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId),
+    FOREIGN KEY (ModelId) REFERENCES VehicleModels(ModelId),
     CONSTRAINT UQ_Vehicles_BodyNumber UNIQUE (BodyNumber),
     CONSTRAINT UQ_Vehicles_EngineNumber UNIQUE (EngineNumber),
     CONSTRAINT UQ_Vehicles_VehicleNumber UNIQUE (VehicleNumber)
@@ -346,12 +365,24 @@ VALUES
 ('COMM_BASIC',  N'Commercial Vehicle',      N'Coverage for commercial vehicles',      3.80, 1);
 GO
 
--- Vehicles
-INSERT INTO Vehicles (CustomerId, VehicleName, VehicleOwnerName, Make, Model, VehicleVersion, VehicleRate, BodyNumber, EngineNumber, VehicleNumber)
+-- Vehicle Models
+INSERT INTO VehicleModels (ModelName, VehicleClass, VehicleType, Description)
 VALUES
-(1, N'Toyota Vios', N'Pham Minh C', N'Toyota', N'Vios', N'G 1.5', 450000000, 'BODY-VIOS-0001', 'ENG-VIOS-0001', '51A-123.45'),
-(1, N'Honda Air Blade', N'Pham Minh C', N'Honda', N'Air Blade', N'150cc', 45000000, 'BODY-AB-0001', 'ENG-AB-0001', '59C1-888.88'),
-(2, N'Ford Ranger', N'Le Thu D', N'Ford', N'Ranger', N'Wildtrak', 850000000, 'BODY-RANGER-0001', 'ENG-RANGER-0001', '30G-678.90');
+(N'Vios', N'Sedan', N'Car', N'Toyota Vios compact sedan'),
+(N'Air Blade', N'Scooter', N'Motorbike', N'Honda Air Blade 150cc'),
+(N'Ranger', N'Pickup', N'Truck', N'Ford Ranger pickup truck'),
+(N'Vision', N'Scooter', N'Motorbike', N'Honda Vision 110cc'),
+(N'Wave Alpha', N'Underbone', N'Motorbike', N'Honda Wave Alpha 110cc'),
+(N'Innova', N'MPV', N'Car', N'Toyota Innova 7 seater'),
+(N'Kia Morning', N'Hatchback', N'Car', N'Kia Morning compact hatchback');
+GO
+
+-- Vehicles
+INSERT INTO Vehicles (CustomerId, ModelId, VehicleName, VehicleType, VehicleBrand, VehicleSegment, VehicleVersion, VehicleRate, BodyNumber, EngineNumber, VehicleNumber, RegistrationDate, SeatCount, ManufactureYear, VehicleOwnerName, CreatedDate, UpdatedDate)
+VALUES
+(1, 1, N'Toyota Vios', N'Sedan', N'Toyota', N'Compact', N'G 1.5', 450000000, 'BODY-VIOS-0001', 'ENG-VIOS-0001', '51A-123.45', '2020-05-15', 5, 2020, N'Pham Minh C', SYSDATETIME(), SYSDATETIME()),
+(1, 2, N'Honda Air Blade', N'Motorbike', N'Honda', N'Scooter', N'150cc', 45000000, 'BODY-AB-0001', 'ENG-AB-0001', '59C1-888.88', '2019-03-20', 2, 2019, N'Pham Minh C', SYSDATETIME(), SYSDATETIME()),
+(2, 3, N'Ford Ranger', N'Pickup', N'Ford', N'Truck', N'Wildtrak', 850000000, 'BODY-RANGER-0001', 'ENG-RANGER-0001', '30G-678.90', '2021-08-10', 5, 2021, N'Le Thu D', SYSDATETIME(), SYSDATETIME());
 GO
 
 -- Vehicle Inspections

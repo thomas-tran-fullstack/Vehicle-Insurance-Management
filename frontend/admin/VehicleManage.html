@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Vehicle Management Admin - AVIMS</title>
+    <link rel="icon" type="image/png" href="../images/logo.png" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -46,472 +40,443 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
+        .success-message {
+            @apply bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg flex items-center gap-2 mb-6;
+        }
+
+        .error-message {
+            @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg flex items-center gap-2 mb-6;
+        }
+
+        .table-row-hover:hover {
+            background-color: rgba(15, 23, 42, 0.03);
+        }
+
+        .dark .table-row-hover:hover {
+            background-color: rgba(51, 65, 85, 0.5);
+        }
     </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-[#0d141b] transition-colors duration-200">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-    <div id="sidebar-container"></div>
-<!-- Main Content -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
         <main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
-            <!-- Top Navigation Header -->
-<div class="p-8 max-w-[1400px] mx-auto">
+            <div class="p-8 max-w-[1400px] mx-auto">
+                <!-- Page Header -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-black text-[#0d141b] dark:text-white mb-2">Vehicle Management</h1>
+                    <p class="text-[#4c739a] dark:text-slate-400">Manage and monitor all vehicles in the system</p>
+                </div>
+
+                <!-- Alert Messages -->
+                <div id="successMessage" class="success-message hidden">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span id="successText">Operation completed successfully!</span>
+                </div>
+                <div id="errorMessage" class="error-message hidden">
+                    <span class="material-symbols-outlined">error</span>
+                    <span id="errorText">An error occurred. Please try again.</span>
+                </div>
+
                 <!-- Stats Summary -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="text-sm font-medium text-[#4c739a] mb-1">Total Vehicles</p>
-                                <p class="text-3xl font-bold text-[#0d141b] dark:text-white">12,845</p>
+                                <p class="text-3xl font-bold text-[#0d141b] dark:text-white" id="totalVehicles">0</p>
                             </div>
                             <div class="p-2 bg-primary/10 rounded-lg text-primary">
                                 <span class="material-symbols-outlined">directions_car</span>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-1">
-                            <span class="text-green-500 font-bold text-xs">+2.4%</span>
-                            <span class="text-[#4c739a] text-xs">from last month</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-[#4c739a] mb-1">Active Policies</p>
+                                <p class="text-3xl font-bold text-[#0d141b] dark:text-white" id="activePolicies">0</p>
+                            </div>
+                            <div class="p-2 bg-green-100 dark:bg-green-500/20 rounded-lg text-green-600 dark:text-green-400">
+                                <span class="material-symbols-outlined">verified_user</span>
+                            </div>
                         </div>
                     </div>
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="text-sm font-medium text-[#4c739a] mb-1">Pending Inspections</p>
-                                <p class="text-3xl font-bold text-[#0d141b] dark:text-white">42</p>
+                                <p class="text-3xl font-bold text-[#0d141b] dark:text-white" id="pendingInspections">0</p>
                             </div>
-                            <div
-                                class="p-2 bg-orange-100 dark:bg-orange-500/20 rounded-lg text-orange-600 dark:text-orange-400">
+                            <div class="p-2 bg-orange-100 dark:bg-orange-500/20 rounded-lg text-orange-600 dark:text-orange-400">
                                 <span class="material-symbols-outlined">fact_check</span>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-1">
-                            <span class="text-green-500 font-bold text-xs">+1.2%</span>
-                            <span class="text-[#4c739a] text-xs">compliance rate steady</span>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-[#4c739a] mb-1">Active Claims</p>
-                                <p class="text-3xl font-bold text-[#0d141b] dark:text-white">156</p>
-                            </div>
-                            <div class="p-2 bg-red-100 dark:bg-red-500/20 rounded-lg text-red-600 dark:text-red-400">
-                                <span class="material-symbols-outlined">warning</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex items-center gap-1">
-                            <span class="text-red-500 font-bold text-xs">-0.5%</span>
-                            <span class="text-[#4c739a] text-xs">incident decrease</span>
-                        </div>
                     </div>
                 </div>
-                <!-- Search & Filters -->
-                <div
-                    class="bg-white dark:bg-slate-900 rounded-xl border border-[#cfdbe7] dark:border-slate-800 mb-6 overflow-hidden shadow-sm">
-                    <div class="p-4 border-b border-[#e7edf3] dark:border-slate-800 flex flex-wrap items-center gap-4">
-                        <div class="flex-1 min-w-[300px]">
-                            <div class="relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c739a]">search</span>
-                                <input
-                                    class="w-full bg-[#f0f2f5] dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 placeholder-[#4c739a]"
-                                    placeholder="Search by License Plate or VIN..." type="text" />
+
+                <!-- Search & Filters & Export -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-[#cfdbe7] dark:border-slate-800 mb-6 overflow-hidden shadow-sm">
+                    <div class="p-6 border-b border-[#e7edf3] dark:border-slate-800">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+                            <!-- Search -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Search</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c739a]">search</span>
+                                    <input id="searchInput" type="text" placeholder="License plate, body number, engine number..." class="w-full bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20">
+                                </div>
+                            </div>
+
+                            <!-- Brand Filter -->
+                            <div>
+                                <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Brand</label>
+                                <select id="brandFilter" class="w-full bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20">
+                                    <option value="">All Brands</option>
+                                </select>
+                            </div>
+
+                            <!-- Segment Filter -->
+                            <div>
+                                <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Segment</label>
+                                <select id="segmentFilter" class="w-full bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20">
+                                    <option value="">All Segments</option>
+                                    <!-- Passenger Vehicles -->
+                                    <option value="A">A (Micro)</option>
+                                    <option value="B">B (Small)</option>
+                                    <option value="C">C (Compact)</option>
+                                    <option value="D">D (Mid-Size)</option>
+                                    <option value="E">E (Large)</option>
+                                    <option value="F">F (Luxury)</option>
+                                    <option value="J">J (SUV)</option>
+                                    <option value="M">M (Multi-Purpose)</option>
+                                    <!-- Commercial & Utility -->
+                                    <option value="Light Commercial">Light Commercial</option>
+                                    <option value="Heavy Commercial">Heavy Commercial</option>
+                                    <option value="Bus">Bus (Coach)</option>
+                                    <option value="Truck">Truck</option>
+                                    <!-- Motorcycles -->
+                                    <option value="Motobike - Scooter">Motobike - Scooter</option>
+                                    <option value="Motobike - Cub">Motobike - Cub</option>
+                                    <option value="Motobike - Sport">Motobike - Sport</option>
+                                    <option value="Motobike - Cruiser">Motobike - Cruiser</option>
+                                    <option value="Motobike - Touring">Motobike - Touring</option>
+                                    <option value="Motobike - Dual-Sport">Motobike - Dual-Sport</option>
+                                    <option value="Motobike - Chopper">Motobike - Chopper</option>
+                                    <option value="Motobike - Naked">Motobike - Naked</option>
+                                    <!-- Special -->
+                                    <option value="Taxi">Taxi</option>
+                                    <option value="Special Service">Special Service</option>
+                                </select>
+                            </div>
+
+                            <!-- Seat Count Filter -->
+                            <div>
+                                <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Seats</label>
+                                <select id="seatFilter" class="w-full bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20">
+                                    <option value="">All</option>
+                                    <option value="2">2 Seats</option>
+                                    <option value="4">4 Seats</option>
+                                    <option value="5">5 Seats</option>
+                                    <option value="7">7 Seats</option>
+                                    <option value="9">9+ Seats</option>
+                                </select>
                             </div>
                         </div>
+
+                        <!-- Action Buttons -->
                         <div class="flex gap-2">
-                            <button
-                                class="flex items-center gap-2 px-4 py-2.5 bg-[#f0f2f5] dark:bg-slate-800 text-sm font-medium text-[#0d141b] dark:text-white rounded-lg hover:bg-slate-200 transition-colors">
-                                <span class="material-symbols-outlined text-lg">filter_alt</span>
-                                Filters
+                            <button id="resetFilters" class="flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-sm font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                <span class="material-symbols-outlined">refresh</span>
+                                <span>Reset</span>
                             </button>
-                            <button
-                                class="flex items-center gap-2 px-4 py-2.5 bg-[#f0f2f5] dark:bg-slate-800 text-sm font-medium text-[#0d141b] dark:text-white rounded-lg hover:bg-slate-200 transition-colors">
-                                <span class="material-symbols-outlined text-lg">download</span>
-                                Export CSV
+                            <button id="exportBtn" class="flex items-center gap-2 px-4 py-2.5 bg-primary text-white text-sm font-bold rounded-lg hover:brightness-110 transition-colors ml-auto">
+                                <span class="material-symbols-outlined">download</span>
+                                <span>Export List</span>
                             </button>
                         </div>
                     </div>
-                    <!-- Database Table -->
+
+                    <!-- Table -->
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr
-                                    class="bg-slate-50 dark:bg-slate-800/50 border-b border-[#e7edf3] dark:border-slate-800">
-                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">
-                                        Vehicle Info</th>
-                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">
-                                        License Plate</th>
-                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">
-                                        VIN Number</th>
-                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">
-                                        Owner</th>
-                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">
-                                        Status</th>
-                                    <th
-                                        class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a] text-right">
-                                        Actions</th>
+                                <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-[#e7edf3] dark:border-slate-800">
+                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">Vehicle</th>
+                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">Plate</th>
+                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">Owner</th>
+                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">Brand</th>
+                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a]">Type</th>
+                                    <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-wider text-[#4c739a] text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#e7edf3] dark:divide-slate-800">
-                                <!-- Row 1 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="bg-primary/10 rounded p-2 text-primary">
-                                                <span class="material-symbols-outlined">directions_car</span>
-                                            </div>
-                                            <div>
-                                                <p
-                                                    class="text-sm font-bold text-[#0d141b] dark:text-white leading-none">
-                                                    Toyota Camry</p>
-                                                <p class="text-xs text-[#4c739a] mt-1">2022 � Hybrid</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded font-mono text-xs font-bold border border-slate-200 dark:border-slate-600">ABC-1234</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-xs font-mono text-[#4c739a]">1T9BE46K2M8012345</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-[#0d141b] dark:text-white">Sarah
-                                                Jenkins</span>
-                                            <span class="text-[10px] text-[#4c739a]">ID: 9940212</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div
-                                            class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button
-                                                class="p-1.5 text-primary hover:bg-primary/10 rounded transition-colors"
-                                                title="Detailed History">
-                                                <span class="material-symbols-outlined text-xl">history</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-[#4c739a] hover:bg-slate-200 rounded transition-colors"
-                                                title="Edit Record">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Row 2 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="bg-primary/10 rounded p-2 text-primary">
-                                                <span class="material-symbols-outlined">directions_car</span>
-                                            </div>
-                                            <div>
-                                                <p
-                                                    class="text-sm font-bold text-[#0d141b] dark:text-white leading-none">
-                                                    Honda Civic</p>
-                                                <p class="text-xs text-[#4c739a] mt-1">2019 � Gasoline</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded font-mono text-xs font-bold border border-slate-200 dark:border-slate-600">XYZ-9081</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-xs font-mono text-[#4c739a]">2HGFB2F5XKH712034</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-[#0d141b] dark:text-white">Robert
-                                                Chen</span>
-                                            <span class="text-[10px] text-[#4c739a]">ID: 8820310</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                                            Inspection Due
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div
-                                            class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button
-                                                class="p-1.5 text-primary hover:bg-primary/10 rounded transition-colors">
-                                                <span class="material-symbols-outlined text-xl">history</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-[#4c739a] hover:bg-slate-200 rounded transition-colors">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Row 3 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="bg-primary/10 rounded p-2 text-primary">
-                                                <span class="material-symbols-outlined">directions_car</span>
-                                            </div>
-                                            <div>
-                                                <p
-                                                    class="text-sm font-bold text-[#0d141b] dark:text-white leading-none">
-                                                    Tesla Model 3</p>
-                                                <p class="text-xs text-[#4c739a] mt-1">2023 � Electric</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded font-mono text-xs font-bold border border-slate-200 dark:border-slate-600">EV-TSLA1</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-xs font-mono text-[#4c739a]">5YJ3E1EB8LF789012</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-[#0d141b] dark:text-white">Marcus
-                                                Sterling</span>
-                                            <span class="text-[10px] text-[#4c739a]">ID: 4410293</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                            Claim Flagged
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div
-                                            class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button
-                                                class="p-1.5 text-primary hover:bg-primary/10 rounded transition-colors">
-                                                <span class="material-symbols-outlined text-xl">history</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-[#4c739a] hover:bg-slate-200 rounded transition-colors">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Row 4 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="bg-primary/10 rounded p-2 text-primary">
-                                                <span class="material-symbols-outlined">directions_car</span>
-                                            </div>
-                                            <div>
-                                                <p
-                                                    class="text-sm font-bold text-[#0d141b] dark:text-white leading-none">
-                                                    Ford F-150</p>
-                                                <p class="text-xs text-[#4c739a] mt-1">2020 � Gasoline</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded font-mono text-xs font-bold border border-slate-200 dark:border-slate-600">TRK-2250</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-xs font-mono text-[#4c739a]">1FTPX1EF5LFA12345</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-[#0d141b] dark:text-white">Linda
-                                                Miller</span>
-                                            <span class="text-[10px] text-[#4c739a]">ID: 3319028</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-400">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-                                            Expired
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div
-                                            class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button
-                                                class="p-1.5 text-primary hover:bg-primary/10 rounded transition-colors">
-                                                <span class="material-symbols-outlined text-xl">history</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-[#4c739a] hover:bg-slate-200 rounded transition-colors">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="vehicleTableBody" class="divide-y divide-[#e7edf3] dark:divide-slate-800">
+                                <!-- Vehicles will be loaded here -->
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="hidden p-8 text-center">
+                        <span class="material-symbols-outlined text-6xl text-[#4c739a] dark:text-slate-400 block mb-4">directions_car</span>
+                        <p class="text-[#4c739a] dark:text-slate-400">No vehicles found</p>
+                    </div>
+
                     <!-- Pagination -->
-                    <div class="p-6 border-t border-[#e7edf3] dark:border-slate-800 flex items-center justify-between">
-                        <p class="text-sm text-[#4c739a]">Showing <span
-                                class="font-bold text-[#0d141b] dark:text-white">1-10</span> of <span
-                                class="font-bold text-[#0d141b] dark:text-white">12,845</span> vehicles</p>
-                        <div class="flex items-center gap-2">
-                            <button
-                                class="p-2 border border-[#cfdbe7] dark:border-slate-800 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
-                                disabled="">
-                                <span class="material-symbols-outlined text-sm">chevron_left</span>
-                            </button>
-                            <button class="px-3 py-1 bg-primary text-white text-sm font-bold rounded-lg">1</button>
-                            <button
-                                class="px-3 py-1 text-sm font-medium text-[#4c739a] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">2</button>
-                            <button
-                                class="px-3 py-1 text-sm font-medium text-[#4c739a] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">3</button>
-                            <span class="text-[#4c739a]">...</span>
-                            <button
-                                class="px-3 py-1 text-sm font-medium text-[#4c739a] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">128</button>
-                            <button
-                                class="p-2 border border-[#cfdbe7] dark:border-slate-800 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
-                                <span class="material-symbols-outlined text-sm">chevron_right</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Detail Panel Section (Preview of vehicle history) -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-                    <!-- Inspection Timeline -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl border border-[#cfdbe7] dark:border-slate-800 shadow-sm overflow-hidden">
-                        <div
-                            class="p-6 border-b border-[#e7edf3] dark:border-slate-800 flex items-center justify-between">
-                            <h3 class="font-bold text-[#0d141b] dark:text-white">Recent System Activity</h3>
-                            <button class="text-primary text-xs font-bold hover:underline">View All Logs</button>
-                        </div>
-                        <div class="p-6 space-y-6">
-                            <div class="flex gap-4">
-                                <div class="relative">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 flex items-center justify-center relative z-10">
-                                        <span class="material-symbols-outlined text-sm">verified</span>
-                                    </div>
-                                    <div
-                                        class="absolute top-8 bottom-[-24px] left-4 w-px bg-slate-200 dark:bg-slate-800">
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-[#0d141b] dark:text-white">Inspection Passed:
-                                        ABC-1234</p>
-                                    <p class="text-xs text-[#4c739a] mt-1">Inspector: Jane Doe � 2 hours ago</p>
-                                    <div
-                                        class="mt-2 py-1 px-3 bg-slate-50 dark:bg-slate-800 rounded text-xs text-[#4c739a]">
-                                        Certificate #INS-90422-X</div>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="relative">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center relative z-10">
-                                        <span class="material-symbols-outlined text-sm">person_add</span>
-                                    </div>
-                                    <div
-                                        class="absolute top-8 bottom-[-24px] left-4 w-px bg-slate-200 dark:bg-slate-800">
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-[#0d141b] dark:text-white">Ownership Transfer:
-                                        XYZ-9081</p>
-                                    <p class="text-xs text-[#4c739a] mt-1">From: Mark Spencer to Robert Chen � 5 hours
-                                        ago</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="relative">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center relative z-10">
-                                        <span class="material-symbols-outlined text-sm">priority_high</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-[#0d141b] dark:text-white">Claim Filed: EV-TSLA1
-                                    </p>
-                                    <p class="text-xs text-[#4c739a] mt-1">Accident report submitted � 1 day ago</p>
-                                    <p class="text-xs text-red-500 font-bold mt-1">Pending Review</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Database Map/Region Stats (Visual Component) -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl border border-[#cfdbe7] dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
-                        <div class="p-6 border-b border-[#e7edf3] dark:border-slate-800">
-                            <h3 class="font-bold text-[#0d141b] dark:text-white">Geographic Registration Density</h3>
-                        </div>
-                        <div class="flex-1 bg-slate-100 dark:bg-slate-800 relative group cursor-crosshair">
-                            <!-- Map Placeholder -->
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                                data-alt="Stylized map showing vehicle density distribution across the city"
-                                data-location="New York"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkf8P9aE3LCp01KWtk1eRMTW7z0gdIVy6Mr2I60RTv_vNRZ4a-l2ao2xNt4PUJkztcHsXJz0VwdTh9iFl8AVRGKRJapGqI8hLgvR0nmOjLlv6ZRArehkPKDqytKAyvZSlqgmzJbEqUclCNoEZz-jULQBICKoho3ZISo1WB1Lw-5h-SexMAm9BdNrkkbfj6BHymqbreUL40gR0uzSen2uvwK8Rfyf5Eg0qbXrDrSNX1V6-FcO_8ruzEJIansgZzpT5d7nRjfWPX9Fj7')">
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-                            <!-- Floating Data Points -->
-                            <div
-                                class="absolute top-1/4 left-1/3 bg-white dark:bg-slate-900 p-2 rounded shadow-xl border border-primary/20 animate-bounce">
-                                <div class="text-[10px] font-bold text-primary">Downtown: 4,102</div>
-                            </div>
-                            <div
-                                class="absolute bottom-1/3 right-1/4 bg-white dark:bg-slate-900 p-2 rounded shadow-xl border border-primary/20">
-                                <div class="text-[10px] font-bold text-primary">Suburbs: 8,743</div>
-                            </div>
-                            <!-- Overlay Controls -->
-                            <div class="absolute bottom-4 left-4 flex gap-1">
-                                <div
-                                    class="bg-white/90 dark:bg-slate-900/90 backdrop-blur p-2 rounded flex flex-col items-center gap-1 shadow-lg">
-                                    <button class="p-1 hover:text-primary transition-colors"><span
-                                            class="material-symbols-outlined">add</span></button>
-                                    <div class="h-px w-full bg-slate-200 dark:bg-slate-800"></div>
-                                    <button class="p-1 hover:text-primary transition-colors"><span
-                                            class="material-symbols-outlined">remove</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4 grid grid-cols-2 gap-4">
-                            <div class="text-center p-2 rounded bg-slate-50 dark:bg-slate-800">
-                                <p class="text-[10px] uppercase font-bold text-[#4c739a]">Most Popular Region</p>
-                                <p class="text-sm font-bold text-[#0d141b] dark:text-white">West Manhattan</p>
-                            </div>
-                            <div class="text-center p-2 rounded bg-slate-50 dark:bg-slate-800">
-                                <p class="text-[10px] uppercase font-bold text-[#4c739a]">Avg. Age</p>
-                                <p class="text-sm font-bold text-[#0d141b] dark:text-white">4.2 Years</p>
-                            </div>
-                        </div>
+                    <div id="paginationContainer" class="p-6 border-t border-[#e7edf3] dark:border-slate-800 hidden">
+                        <p class="text-sm text-[#4c739a] text-center">
+                            Showing <span id="pageInfo">0-0</span> vehicles
+                        </p>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-    <script src="../js/admin-sidebar.js"></script>
+
     <script>
-        // Load admin sidebar dynamically
-        fetch('../templates/admin-sidebar.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.getElementById('sidebar-container');
-                if (container) {
-                    container.innerHTML = html;
-                    if (typeof initializeAdminSidebar === 'function') {
-                        initializeAdminSidebar();
+        let vehicles = [];
+        const API_BASE = '/api/vehicleinformation';
+        const ITEMS_PER_PAGE = 50;
+        let currentFiltered = [];
+
+        // Load sidebar
+        async function loadSidebar() {
+            try {
+                const response = await fetch('../templates/admin-sidebar.html');
+                const html = await response.text();
+                document.getElementById('sidebar-container').innerHTML = html;
+                if (typeof initializeAdminSidebar === 'function') {
+                    initializeAdminSidebar();
+                }
+            } catch (error) {
+                console.error('Error loading sidebar:', error);
+            }
+        }
+
+        loadSidebar();
+
+        // Load vehicles
+        async function loadVehicles() {
+            try {
+                const response = await fetch(`${API_BASE}/all`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    vehicles = data.data;
+                    updateStats();
+                    populateFilters();
+                    renderVehicles(vehicles);
+                } else {
+                    showMessage('error', 'Failed to load vehicles');
+                }
+            } catch (error) {
+                console.error('Error loading vehicles:', error);
+                showMessage('error', 'An error occurred while loading vehicles');
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalVehicles').textContent = vehicles.length;
+            document.getElementById('activePolicies').textContent = vehicles.filter(v => v.policies && v.policies.length > 0).length;
+            document.getElementById('pendingInspections').textContent = Math.floor(vehicles.length * 0.1);
+        }
+
+        function populateFilters() {
+            const brands = [...new Set(vehicles.map(v => v.vehicleBrand).filter(Boolean))].sort();
+            const brandSelect = document.getElementById('brandFilter');
+            
+            // Predefined popular brands
+            const popularBrands = [
+                'Audi', 'BMW', 'Chevrolet', 'Citroen', 'Dacia', 'Daihatsu',
+                'Fiat', 'Ford', 'GAZ', 'Geely', 'Great Wall', 'Hafei',
+                'Haima', 'Haval', 'Honda', 'Hyundai', 'Hyunhdai', 'Jaguar',
+                'JAC', 'Jeep', 'Jianghuai', 'JMC', 'Kia', 'Lada', 'Lamborghini',
+                'Land Rover', 'Lexus', 'Lifan', 'Lincoln', 'Maserati', 'Mazda',
+                'Mercedes-Benz', 'MG', 'Mitsubishi', 'Morgan', 'Nissan', 'Opel',
+                'Peugeot', 'Plymouth', 'Porsche', 'Renault', 'Rolls-Royce', 'Rover',
+                'Saab', 'Samsung', 'Seat', 'Shanghai Volkswagen', 'Smart', 'Skoda',
+                'Subaru', 'Suzuki', 'Tesla', 'Toyota', 'Volkswagen', 'Volvo',
+                'Wuling', 'Xiali', 'Xingfu', 'Yanjing', 'Yunque', 'ZX'
+            ];
+            
+            // Merge with actual brands from vehicles, prioritizing actual data
+            const allBrands = [...new Set([...brands, ...popularBrands])].sort();
+            
+            allBrands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+        }
+
+        function renderVehicles(vehicleList) {
+            const tbody = document.getElementById('vehicleTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const pagination = document.getElementById('paginationContainer');
+
+            if (vehicleList.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                pagination.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            pagination.classList.remove('hidden');
+
+            const sliced = vehicleList.slice(0, ITEMS_PER_PAGE);
+            tbody.innerHTML = sliced.map(vehicle => `
+                <tr class="table-row-hover transition-colors">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-primary">directions_car</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-[#0d141b] dark:text-white">${vehicle.vehicleName}</p>
+                                <p class="text-xs text-[#4c739a] dark:text-slate-400">${vehicle.vehicleType}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded font-mono text-xs font-bold">
+                            ${vehicle.vehicleNumber}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-medium text-[#0d141b] dark:text-white">${vehicle.customerName || 'N/A'}</span>
+                            <span class="text-xs text-[#4c739a]">ID: ${vehicle.customerId || 'N/A'}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-sm text-[#0d141b] dark:text-white font-medium">${vehicle.vehicleBrand}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-sm text-[#4c739a] dark:text-slate-400">${vehicle.vehicleSegment}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="window.location.href='VehicleDetailAdmin.html?id=${vehicle.vehicleId}'" 
+                            class="inline-flex items-center justify-center w-8 h-8 rounded-full text-primary hover:bg-primary/10 transition-colors"
+                            title="View Details">
+                            <span class="material-symbols-outlined text-xl">info</span>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            document.getElementById('pageInfo').textContent = `1-${Math.min(ITEMS_PER_PAGE, vehicleList.length)}`;
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const brand = document.getElementById('brandFilter').value;
+            const segment = document.getElementById('segmentFilter').value;
+            const seats = document.getElementById('seatFilter').value;
+
+            currentFiltered = vehicles.filter(v => {
+                const matchSearch = !search || 
+                    v.vehicleName.toLowerCase().includes(search) ||
+                    v.vehicleNumber.toLowerCase().includes(search) ||
+                    v.bodyNumber.toLowerCase().includes(search) ||
+                    v.engineNumber.toLowerCase().includes(search) ||
+                    (v.customerName && v.customerName.toLowerCase().includes(search));
+
+                const matchBrand = !brand || v.vehicleBrand === brand;
+                const matchSegment = !segment || v.vehicleSegment === segment;
+                const matchSeats = !seats || v.seatCount == seats;
+
+                return matchSearch && matchBrand && matchSegment && matchSeats;
+            });
+
+            renderVehicles(currentFiltered);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('brandFilter').value = '';
+            document.getElementById('segmentFilter').value = '';
+            document.getElementById('seatFilter').value = '';
+            applyFilters();
+        }
+
+        function exportList() {
+            // Call the export API endpoint
+            const token = localStorage.getItem('token');
+            const url = '/api/vehicleinformation/export/excel';
+            
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
             })
-            .catch(error => console.error('Error loading sidebar:', error));
-    </script>
-    <script src="../js/pageLoader.js"></script>
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Export failed');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a temporary URL for the blob
+                const blobUrl = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `Vehicles_${new Date().toISOString().split('T')[0]}.xlsx`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(blobUrl);
+                
+                showMessage('success', 'Vehicle list exported successfully');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('error', 'Failed to export vehicle list');
+            });
+        }
 
+        function showMessage(type, message) {
+            if (type === 'success') {
+                document.getElementById('successText').textContent = message;
+                document.getElementById('successMessage').classList.remove('hidden');
+                document.getElementById('errorMessage').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.add('hidden');
+                }, 5000);
+            } else {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').classList.remove('hidden');
+                document.getElementById('successMessage').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('brandFilter').addEventListener('change', applyFilters);
+        document.getElementById('segmentFilter').addEventListener('change', applyFilters);
+        document.getElementById('seatFilter').addEventListener('change', applyFilters);
+        document.getElementById('resetFilters').addEventListener('click', resetFilters);
+        document.getElementById('exportBtn').addEventListener('click', exportList);
+
+        // Initial load
+        loadVehicles();
+    </script>
+    <script src="../js/admin-sidebar.js"></script>
 </body>
 
 </html>
-

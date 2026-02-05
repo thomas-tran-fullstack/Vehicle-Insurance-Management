@@ -17,7 +17,7 @@ namespace VehicleInsuranceAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -47,7 +47,7 @@ namespace VehicleInsuranceAPI.Migrations
 
                     b.HasKey("ContactId");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.Faq", b =>
@@ -68,7 +68,7 @@ namespace VehicleInsuranceAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faqs");
+                    b.ToTable("Faqs", (string)null);
                 });
 #pragma warning restore 612, 618
         }

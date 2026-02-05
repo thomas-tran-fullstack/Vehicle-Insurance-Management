@@ -13,6 +13,12 @@ public partial class Vehicle
 
     public string? VehicleName { get; set; }
 
+    public string? VehicleType { get; set; }
+
+    public string? VehicleBrand { get; set; }
+
+    public string? VehicleSegment { get; set; }
+
     public string? VehicleVersion { get; set; }
 
     public decimal? VehicleRate { get; set; }
@@ -22,6 +28,22 @@ public partial class Vehicle
     public string? EngineNumber { get; set; }
 
     public string? VehicleNumber { get; set; }
+
+    public DateTime? RegistrationDate { get; set; }
+
+    public int? SeatCount { get; set; }
+
+    public string? VehicleImage { get; set; }
+
+    public int? ManufactureYear { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdatedDate { get; set; }
+
+    public string? VehicleOwnerName { get; set; }
+
+    public string? VehicleModelName { get; set; }
 
     public virtual Customer? Customer { get; set; }
 

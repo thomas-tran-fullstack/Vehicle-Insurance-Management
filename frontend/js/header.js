@@ -51,13 +51,14 @@ function initializeHeader() {
 
 function checkLoginStatus() {
     const user = getValidSessionUser();
+    const token = localStorage.getItem('token');
     
     const authButtonsContainer = document.getElementById('authButtonsContainer');
     const userProfileContainer = document.getElementById('userProfileContainer');
 
     if (!authButtonsContainer || !userProfileContainer) return;
 
-    if (user) {
+    if (user || token) {
         // User is logged in
         authButtonsContainer.style.display = 'none';
         userProfileContainer.style.display = 'flex';
@@ -66,7 +67,7 @@ function checkLoginStatus() {
         const customerNameDisplay = document.getElementById('customerNameDisplay');
         const userAvatar = document.getElementById('userAvatar');
 
-        if (user.roleName === 'CUSTOMER') {
+        if (user && user.roleName === 'CUSTOMER') {
             // Load customer data from database
             loadCustomerData();
             if (userAvatar) {
@@ -76,7 +77,7 @@ function checkLoginStatus() {
                     this.src = '../images/user.png';
                 };
             }
-        } else if (user.roleName === 'ADMIN' && user.username) {
+        } else if (user && user.roleName === 'ADMIN' && user.username) {
             if (customerNameDisplay) customerNameDisplay.textContent = user.username;
             if (userAvatar) {
                 userAvatar.src = '../images/admin.png';
@@ -84,7 +85,7 @@ function checkLoginStatus() {
                     this.src = '../images/user.png';
                 };
             }
-        } else if (user.roleName === 'STAFF' && user.fullName) {
+        } else if (user && user.roleName === 'STAFF' && user.fullName) {
             if (customerNameDisplay) customerNameDisplay.textContent = user.fullName;
             if (userAvatar && user.avatar) {
                 userAvatar.src = user.avatar;
@@ -93,6 +94,17 @@ function checkLoginStatus() {
                 };
             } else if (userAvatar) {
                 userAvatar.src = '../images/user.png';
+            }
+        } else if (token && !user) {
+            // Token exists but user data not loaded - show generic user
+            if (userAvatar) {
+                userAvatar.src = '../images/user.png';
+                userAvatar.onerror = function() {
+                    this.src = '../images/user.png';
+                };
+            }
+            if (customerNameDisplay) {
+                customerNameDisplay.textContent = 'User';
             }
         }
     } else {

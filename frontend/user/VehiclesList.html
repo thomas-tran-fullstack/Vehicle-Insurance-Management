@@ -5,284 +5,313 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/png" href="../images/logo.png">
     <title>My Vehicles List - InsureDrive</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <!-- Material Symbols -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <!-- Theme Configuration -->
-    <script id="tailwind-config">
+
+    <!-- ? Tailwind config MUST be before CDN -->
+    <script>
+        tailwind = window.tailwind || {};
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
+                        primary: "#137fec",
                         "background-light": "#f6f7f8",
                         "background-dark": "#101922",
                     },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
+                    fontFamily: { display: ["Inter"] },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
-        }
+        };
     </script>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
+        .success-message {
+            @apply bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg flex items-center gap-2 mb-6;
+        }
+
+        .error-message {
+            @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg flex items-center gap-2 mb-6;
+        }
+
+        .empty-state {
+            @apply flex flex-col items-center justify-center py-16 px-6;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .modal-overlay.shown {
+            display: flex !important;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            max-width: 32rem;
+            width: 100%;
+        }
+
+        .dark .modal-content {
+            background-color: #1e293b;
+        }
+
+        .modal-overlay.hidden {
+            display: none !important;
+        }
+
+        /* PopMessage Styles */
+        .pop-message {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 350px;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .pop-message.fadeOut {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+
+        .pop-message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .pop-message.error {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            border-left: 4px solid #ef4444;
+        }
+
+        .pop-message.info {
+            background-color: #dbeafe;
+            color: #0c4a6e;
+            border-left: 4px solid #3b82f6;
         }
     </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark min-h-screen text-[#0d141b] dark:text-slate-100">
-    <!-- Header from template -->
-    <div id="header-container"></div>
-    <main class="max-w-[1200px] mx-auto px-6 pb-8 pt-8">
-        <!-- Page Heading Section -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-            <div class="flex flex-col gap-1">
-                <h1 class="text-[#0d141b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">My
-                    Vehicles</h1>
-                <p class="text-[#4c739a] dark:text-slate-400 text-base font-normal">Review coverage, file claims, and
-                    manage your garage.</p>
-            </div>
-            <button onclick="location.href='ClaimRequest.html'"
-                class="flex min-w-[160px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold transition-transform active:scale-95 shadow-lg shadow-primary/20">
-                <span class="material-symbols-outlined">add_circle</span>
-                <span class="truncate">Add New Vehicle</span>
-            </button>
-        </div>
-        <!-- Summary Stats Section -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div
-                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Total Vehicles</p>
-                    <span class="material-symbols-outlined text-primary">directions_car</span>
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+        <main class="max-w-[1200px] mx-auto px-6 pb-8 pt-8 flex-1">
+            <!-- Page Heading Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                <div class="flex flex-col gap-1">
+                    <h1 class="text-[#0d141b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">My
+                        Vehicles</h1>
+                    <p class="text-[#4c739a] dark:text-slate-400 text-base font-normal">Manage and organize your
+                        vehicles</p>
                 </div>
-                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">3</p>
-            </div>
-            <div
-                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Active Policies</p>
-                    <span class="material-symbols-outlined text-green-500">verified_user</span>
-                </div>
-                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">2</p>
-            </div>
-            <div
-                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Expiring Soon</p>
-                    <span class="material-symbols-outlined text-amber-500">warning</span>
-                </div>
-                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">1</p>
-            </div>
-            <div
-                class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Pending Claims</p>
-                    <span class="material-symbols-outlined text-[#4c739a]">history</span>
-                </div>
-                <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight">0</p>
-            </div>
-        </div>
-        <!-- Filter and Search Bar -->
-        <div
-            class="bg-white dark:bg-background-dark p-4 rounded-xl border border-[#cfdbe7] dark:border-slate-800 mb-6 flex flex-col md:flex-row gap-4 items-center">
-            <div class="flex-1 w-full">
-                <label class="flex flex-col h-12 w-full">
-                    <div
-                        class="flex w-full flex-1 items-stretch rounded-lg h-full border border-[#cfdbe7] dark:border-slate-700 bg-white dark:bg-slate-900">
-                        <div class="text-[#4c739a] flex items-center justify-center pl-4 rounded-l-lg border-r-0">
-                            <span class="material-symbols-outlined">search</span>
-                        </div>
-                        <input
-                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141b] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-transparent h-full placeholder:text-[#4c739a] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                            placeholder="Search by license plate, make, or model..." value="" />
-                    </div>
-                </label>
-            </div>
-            <div class="flex gap-2 w-full md:w-auto">
-                <button
-                    class="flex flex-1 md:flex-none items-center justify-center gap-2 px-4 py-2 bg-[#e7edf3] dark:bg-slate-800 rounded-lg text-[#0d141b] dark:text-white font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                    <span class="material-symbols-outlined text-xl">filter_list</span>
-                    <span>Filters</span>
-                </button>
-                <button
-                    class="flex flex-1 md:flex-none items-center justify-center gap-2 px-4 py-2 bg-[#e7edf3] dark:bg-slate-800 rounded-lg text-[#0d141b] dark:text-white font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                    <span class="material-symbols-outlined text-xl">sort</span>
-                    <span>Sort</span>
+                <button onclick="location.href='VehicleAdd.html'"
+                    class="flex min-w-[160px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-6 bg-[#137fec] text-white text-base font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20">
+                    <span class="material-symbols-outlined">add_circle</span>
+                    <span class="truncate">Add New Vehicle</span>
                 </button>
             </div>
-        </div>
-        <!-- Vehicle Grid Section -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Vehicle Card 1 -->
-            <div
-                class="flex flex-col bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover"
-                    data-alt="Modern blue sedan driving on a highway"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmTR66kl9Q8wBV38hcTrK--0xiiCmj7xH5uz7ZWX9I-J3sKCVP1B7WwDL0CUvs79ELPKfd0pJl6L1HeHyMC2dpiCRUbQWMaZbkdwFtLbHqRmuY_sNvbLPo49iFyAxauF7jNaTg0vOllyGEkQe-QxiwOKO24nmHfIyfehkEqKbpdxswYfLXrM-mQO6kxaGOVGszH3mJyNB7aajiL3fr62I-6Ib0ueVJnB4lN3rAgZo6l5X01KD7S1la3WQzE7WzgP5yjvQ-HuM8So1e");'>
-                    <div class="absolute top-3 right-3">
-                        <span
-                            class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 backdrop-blur-sm">
-                            <span class="material-symbols-outlined text-xs">check_circle</span>
-                            ACTIVE
-                        </span>
+            <!-- Alert Messages -->
+            <div id="successMessage" class="success-message hidden">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span id="successText">Operation completed successfully!</span>
+            </div>
+            <div id="errorMessage" class="error-message hidden">
+                <span class="material-symbols-outlined">error</span>
+                <span id="errorText">An error occurred. Please try again.</span>
+            </div>
+
+            <!-- Summary Stats Section -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Total Vehicles</p>
+                        <span class="material-symbols-outlined text-primary">directions_car</span>
                     </div>
+                    <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight"
+                        id="totalVehicles">0</p>
                 </div>
-                <div class="p-5 flex flex-col flex-1">
-                    <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">2022 Toyota Camry
-                            </h3>
-                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Plate: <span
-                                    class="font-mono text-primary font-bold">ABC-1234</span></p>
-                        </div>
-                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </button>
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Sedan</p>
+                        <span class="material-symbols-outlined text-blue-500">directions_car</span>
                     </div>
-                    <div class="space-y-2 mt-4 flex-1">
-                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
-                            <span class="material-symbols-outlined text-lg">calendar_today</span>
-                            <span>Policy expires: Dec 12, 2024</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
-                            <span class="material-symbols-outlined text-lg">build</span>
-                            <span>Last service: Oct 2023</span>
-                        </div>
+                    <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight"
+                        id="sedanCount">0</p>
+                </div>
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">SUV</p>
+                        <span class="material-symbols-outlined text-amber-500">directions_car</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-3 mt-6">
-                        <button onclick="location.href='VehicleDetail.html'"
-                            class="flex items-center justify-center px-4 py-2 border border-primary text-primary text-sm font-bold rounded-lg hover:bg-primary/5 transition-colors">
-                            View Details
-                        </button>
-                        <button onclick="location.href='Claim.html'"
-                            class="flex items-center justify-center px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-colors">
-                            File Claim
+                    <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight"
+                        id="suvCount">0</p>
+                </div>
+                <div
+                    class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-[#4c739a] dark:text-slate-400 text-sm font-medium">Other Types</p>
+                        <span class="material-symbols-outlined text-green-500">local_shipping</span>
+                    </div>
+                    <p class="text-[#0d141b] dark:text-white tracking-light text-3xl font-bold leading-tight"
+                        id="otherCount">0</p>
+                </div>
+            </div>
+
+            <!-- Filter and Search Bar -->
+            <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-800 mb-6 shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Search Input -->
+                    <div>
+                        <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Search</label>
+                        <input type="text" id="searchInput" placeholder="License plate, brand, model..."
+                            class="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg text-[#0d141b] dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    </div>
+
+                    <!-- Brand Filter -->
+                    <div>
+                        <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Brand</label>
+                        <select id="brandFilter"
+                            class="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg text-[#0d141b] dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            <option value="">All Brands</option>
+                        </select>
+                    </div>
+
+                    <!-- Segment Filter -->
+                    <div>
+                        <label class="block text-sm font-bold text-[#0d141b] dark:text-white mb-2">Segment</label>
+                        <select id="segmentFilter"
+                            class="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-[#cfdbe7] dark:border-slate-700 rounded-lg text-[#0d141b] dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            <option value="">All Segments</option>
+                            <option value="A">A (Micro)</option>
+                            <option value="B">B (Small)</option>
+                            <option value="C">C (Compact)</option>
+                            <option value="D">D (Mid-Size)</option>
+                            <option value="E">E (Large)</option>
+                            <option value="F">F (Luxury)</option>
+                            <option value="J">J (SUV)</option>
+                        </select>
+                    </div>
+
+                    <!-- Reset Button -->
+                    <div class="flex items-end">
+                        <button id="resetFilters"
+                            class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white rounded-lg font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">refresh</span>
+                            <span>Reset</span>
                         </button>
                     </div>
                 </div>
             </div>
-            <!-- Vehicle Card 2 -->
-            <div
-                class="flex flex-col bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover"
-                    data-alt="Dark gray SUV parked in a suburban driveway"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWElQReIyIlhQBLs-Ak4mZVLdu7xjql7qiABERoNgBY7afRtkovQ5YDXnewqF-qjpPK-7YffljXAYx2dZYrj5D1WebWWWHBrP9yINbGV0VNYBr2BZpTJTOmHMl5lD9DmSRMLqz5YksefPq95n886BWWNijnQqCvsuA9Gn00qgCelyXOMGHxaf7JVK_8o6YnVnu0fNiHhIkMIVwS01lqhJWvxoXgfJc0MQRldYRDDaJMJF1Js6_0pMJ_3IvMwMlHP_3EVl5nAiqchMB");'>
-                    <div class="absolute top-3 right-3">
-                        <span
-                            class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 backdrop-blur-sm">
-                            <span class="material-symbols-outlined text-xs">check_circle</span>
-                            ACTIVE
-                        </span>
-                    </div>
-                </div>
-                <div class="p-5 flex flex-col flex-1">
-                    <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">2020 Honda CR-V
-                            </h3>
-                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Plate: <span
-                                    class="font-mono text-primary font-bold">XYZ-9876</span></p>
-                        </div>
-                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </button>
-                    </div>
-                    <div class="space-y-2 mt-4 flex-1">
-                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
-                            <span class="material-symbols-outlined text-lg">calendar_today</span>
-                            <span>Policy expires: Jan 15, 2025</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
-                            <span class="material-symbols-outlined text-lg">build</span>
-                            <span>Last service: Jan 2024</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 mt-6">
-                        <button onclick="location.href='VehicleDetail.html'"
-                            class="flex items-center justify-center px-4 py-2 border border-primary text-primary text-sm font-bold rounded-lg hover:bg-primary/5 transition-colors">
-                            View Details
-                        </button>
-                        <button onclick="location.href='Claim.html'"
-                            class="flex items-center justify-center px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-colors">
-                            File Claim
-                        </button>
-                    </div>
-                </div>
+            <!-- Vehicle Grid Section -->
+            <div id="vehicleGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Vehicles will be loaded here -->
             </div>
-            <!-- Vehicle Card 3 -->
-            <div
-                class="flex flex-col bg-white dark:bg-background-dark rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover grayscale"
-                    data-alt="Rugged white pickup truck offroading"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCW2uiAe-YQ1h92pWHreVRi5_2exu01SAjDZuvzK9fcWrQbp-oTox12bK6a_C7hWktHZG6oot6JxqRMJIn-NFiWvhFqxv1WkK_gbJQY3T9Vh9KHiLh5XjWULuScQo4jhjbm0Cn9AXxNcMqjW5dCkVJvUwZGeoQTL82WVTqDjqRQkXKlAIyKTsvJaHVwvSlQoSCoyWUGEJC8PKbeyOCQ2rUW-Q2g0CORi7uRpU7QuKDtJXW5jXDH83s7uqB1r3TS4Xgj_OehtoWf_FTO");'>
-                    <div class="absolute inset-0 bg-black/20"></div>
-                    <div class="absolute top-3 right-3">
-                        <span
-                            class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1 backdrop-blur-sm">
-                            <span class="material-symbols-outlined text-xs">error</span>
-                            EXPIRED
-                        </span>
-                    </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state hidden">
+                <span
+                    class="material-symbols-outlined text-6xl text-[#4c739a] dark:text-slate-400 mb-4">directions_car</span>
+                <h3 class="text-2xl font-bold text-[#0d141b] dark:text-white mb-2">No Vehicles Found</h3>
+                <p class="text-[#4c739a] dark:text-slate-400 text-center mb-6">You haven't added any vehicles yet. Start
+                    by adding your first vehicle.</p>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Delete Confirmation Modal (Outside main container for proper fixed positioning) -->
+    <div id="deleteModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="p-6">
+                <div
+                    class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
+                    <span class="material-symbols-outlined text-red-600 dark:text-red-400">delete</span>
                 </div>
-                <div class="p-5 flex flex-col flex-1">
-                    <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <h3 class="text-[#0d141b] dark:text-white text-xl font-bold leading-tight">2018 Ford F-150
-                            </h3>
-                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Plate: <span
-                                    class="font-mono text-primary font-bold">LMN-4567</span></p>
-                        </div>
-                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </button>
-                    </div>
-                    <div class="space-y-2 mt-4 flex-1">
-                        <div class="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 font-medium">
-                            <span class="material-symbols-outlined text-lg">event_busy</span>
-                            <span>Policy expired on Nov 01, 2023</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-[#4c739a] dark:text-slate-400">
-                            <span class="material-symbols-outlined text-lg">info</span>
-                            <span>Renewal required for coverage</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 mt-6">
-                        <button
-                            class="flex items-center justify-center px-4 py-2 border border-[#cfdbe7] dark:border-slate-700 text-[#4c739a] dark:text-slate-400 text-sm font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            View History
-                        </button>
-                        <button
-                            class="flex items-center justify-center px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-colors">
-                            Renew Now
-                        </button>
-                    </div>
+                <h3 class="text-xl font-bold text-[#0d141b] dark:text-white text-center mb-2">Delete Vehicle?</h3>
+                <p class="text-[#4c739a] dark:text-slate-400 text-center mb-6">This action cannot be undone. All
+                    associated data will be deleted.</p>
+                <p id="deleteModalVehicleName"
+                    class="text-[#0d141b] dark:text-white font-bold text-center mb-6 text-lg"></p>
+                <div class="flex gap-3">
+                    <button onclick="closeDeleteModal()"
+                        class="flex-1 px-4 py-2.5 border border-[#cfdbe7] dark:border-slate-700 text-[#0d141b] dark:text-white rounded-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="confirmDelete()"
+                        class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-colors">
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
-        <!-- Pagination or Load More (Optional) -->
-        <div class="mt-12 flex justify-center">
-            <button
-                class="px-8 py-3 bg-[#e7edf3] dark:bg-slate-800 text-[#0d141b] dark:text-white font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                Load More Vehicles
-            </button>
-        </div>
-    </main>
+    </div>
+
     <!-- Footer from template -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
@@ -299,14 +328,7 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
 
         if (footerFrame) {
             footerFrame.onload = function () {
@@ -314,30 +336,296 @@
             };
         }
 
-        // Resize on window resize
         window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
             if (footerFrame) resizeIframe(footerFrame);
         });
     </script>
+
     <script>
         // Load header fragment
         fetch('../templates/header.html')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('header-container').innerHTML = html;
-                // Ensure DOM is updated before initializing
-                setTimeout(() => {
-                    if (window.initializeHeader) {
-                        window.initializeHeader();
-                    }
-                }, 100);
+
+                // Load header.js script file
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                script.onload = () => {
+                    let retries = 0;
+                    const checkAndInitialize = () => {
+                        retries++;
+                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
+                            window.initializeHeader();
+                        } else if (retries < 10) {
+                            setTimeout(checkAndInitialize, 100);
+                        }
+                    };
+                    checkAndInitialize();
+                };
+                document.head.appendChild(script);
             })
             .catch(error => console.error('Error loading header:', error));
+        let vehicles = [];
+        let deleteVehicleId = null;
+        const API_BASE = '/api/vehicleinformation';
+
+        // Load vehicles
+        async function loadVehicles() {
+            try {
+                const user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || 'null');
+
+                if (!user) {
+                    showMessage('error', 'Please login to view your vehicles');
+                    document.getElementById('vehicleGrid').classList.add('hidden');
+                    document.getElementById('emptyState').classList.remove('hidden');
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE}/customer`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-User-Id': user.userId.toString()
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    vehicles = data.data || [];
+                    populateBrandFilter();
+                    updateStats();
+                    renderVehicles(vehicles);
+                } else {
+                    showMessage('error', data.message || 'Failed to load vehicles');
+                }
+            } catch (error) {
+                console.error('Error loading vehicles:', error);
+                showMessage('error', 'An error occurred while loading vehicles');
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalVehicles').textContent = vehicles.length;
+            document.getElementById('sedanCount').textContent = vehicles.filter(v => v.vehicleType === 'Sedan').length;
+            document.getElementById('suvCount').textContent = vehicles.filter(v => v.vehicleType === 'SUV').length;
+            document.getElementById('otherCount').textContent = vehicles.filter(v => v.vehicleType !== 'Sedan' && v.vehicleType !== 'SUV').length;
+        }
+
+        function renderVehicles(vehicleList) {
+            const grid = document.getElementById('vehicleGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (vehicleList.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = vehicleList.map(vehicle => `
+                <div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative w-full aspect-video bg-center bg-no-repeat bg-cover bg-slate-200 dark:bg-slate-800">
+                        ${vehicle.vehicleImage ? `<img src="${vehicle.vehicleImage}" class="w-full h-full object-cover" alt="${vehicle.vehicleName}">` : '<span class="material-symbols-outlined text-6xl text-[#4c739a] dark:text-slate-400 absolute inset-0 flex items-center justify-center">directions_car</span>'}
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-[#0d141b] dark:text-white text-lg font-bold leading-tight">${vehicle.vehicleName}</h3>
+                                <p class="text-[#4c739a] dark:text-slate-400 text-sm">
+                                    <span class="font-mono text-primary font-bold">${vehicle.vehicleNumber}</span>
+                                </p>
+                                <p class="text-[#4c739a] dark:text-slate-400 text-xs mt-1">${vehicle.vehicleType} • ${vehicle.vehicleSegment}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mt-4 flex-1 text-sm text-[#4c739a] dark:text-slate-400">
+                            <div>Brand: <span class="font-bold text-[#0d141b] dark:text-white">${vehicle.vehicleBrand}</span></div>
+                            <div>Model: <span class="font-bold text-[#0d141b] dark:text-white">${vehicle.vehicleModelName || 'N/A'}</span></div>
+                            <div>Seats: <span class="font-bold text-[#0d141b] dark:text-white">${vehicle.seatCount || 'N/A'}</span></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mt-6">
+                            <button onclick="window.location.href='VehicleEdit.html?id=${vehicle.vehicleId}'" title="Edit"
+                                class="flex items-center justify-center px-3 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors font-bold text-sm">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button class="delete-btn flex items-center justify-center px-3 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors font-bold text-sm" data-id="${vehicle.vehicleId}" data-name="${vehicle.vehicleName.replace(/"/g, '&quot;')}" title="Delete">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                            <button onclick="window.location.href='EstimateRequest.html?vehicleId=${vehicle.vehicleId}'" title="Get Quote"
+                                class="flex items-center justify-center px-3 py-2 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors font-bold text-sm">
+                                <span class="material-symbols-outlined">description</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const vehicleId = parseInt(btn.getAttribute('data-id'));
+                    const vehicleName = btn.getAttribute('data-name');
+                    deleteVehicle(vehicleId, vehicleName);
+                });
+            });
+        }
+
+        function showMessage(type, message) {
+            if (type === 'success') {
+                document.getElementById('successText').textContent = message;
+                document.getElementById('successMessage').classList.remove('hidden');
+                document.getElementById('errorMessage').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.add('hidden');
+                }, 5000);
+            } else {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').classList.remove('hidden');
+                document.getElementById('successMessage').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // PopMessage Function
+        function showPopMessage(message, type = 'info', duration = 3000) {
+            const messageContainer = document.createElement('div');
+            messageContainer.className = `pop-message ${type}`;
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                info: 'ℹ'
+            };
+            
+            messageContainer.innerHTML = `
+                <span style="font-size: 18px;">${icons[type] || icons.info}</span>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(messageContainer);
+            
+            setTimeout(() => {
+                messageContainer.classList.add('fadeOut');
+                setTimeout(() => {
+                    messageContainer.remove();
+                }, 300);
+            }, duration);
+        }
+
+        function deleteVehicle(vehicleId, vehicleName) {
+            console.log('deleteVehicle called:', vehicleId, vehicleName);
+            deleteVehicleId = vehicleId;
+            document.getElementById('deleteModalVehicleName').textContent = vehicleName;
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('shown');
+            modal.style.display = 'flex';
+            console.log('Modal display set to flex, class:', modal.classList);
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('shown');
+            modal.style.display = 'none';
+            deleteVehicleId = null;
+        }
+
+        async function confirmDelete() {
+            if (!deleteVehicleId) return;
+
+            const user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || 'null');
+            
+            try {
+                const response = await fetch(`${API_BASE}/${deleteVehicleId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-User-Id': user.userId.toString()
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showPopMessage('Vehicle deleted successfully!', 'success', 3000);
+                    closeDeleteModal();
+                    loadVehicles();
+                } else {
+                    showPopMessage(data.message || 'Failed to delete vehicle', 'error', 3000);
+                }
+            } catch (error) {
+                console.error('Error deleting vehicle:', error);
+                showPopMessage('An error occurred while deleting the vehicle', 'error', 3000);
+            }
+        }
+
+        // Filter and Search
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const brand = document.getElementById('brandFilter').value.toLowerCase();
+            const segment = document.getElementById('segmentFilter').value;
+
+            let filtered = vehicles.filter(v => {
+                const matchSearch = !search ||
+                    (v.vehicleName && v.vehicleName.toLowerCase().includes(search)) ||
+                    (v.vehicleNumber && v.vehicleNumber.toLowerCase().includes(search)) ||
+                    (v.modelName && v.modelName.toLowerCase().includes(search)) ||
+                    (v.vehicleBrand && v.vehicleBrand.toLowerCase().includes(search));
+
+                const matchBrand = !brand || (v.vehicleBrand && v.vehicleBrand.toLowerCase().includes(brand));
+                const matchSegment = !segment || v.vehicleSegment === segment;
+
+                return matchSearch && matchBrand && matchSegment;
+            });
+
+            renderVehicles(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('brandFilter').value = '';
+            document.getElementById('segmentFilter').value = '';
+            renderVehicles(vehicles);
+        }
+
+        function populateBrandFilter() {
+            const brands = [...new Set(vehicles.map(v => v.vehicleBrand).filter(Boolean))].sort();
+            const select = document.getElementById('brandFilter');
+            const current = select.value;
+
+            brands.forEach(brand => {
+                if (!select.querySelector(`option[value="${brand}"]`)) {
+                    const option = document.createElement('option');
+                    option.value = brand;
+                    option.textContent = brand;
+                    select.appendChild(option);
+                }
+            });
+
+            select.value = current;
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('brandFilter').addEventListener('change', applyFilters);
+        document.getElementById('segmentFilter').addEventListener('change', applyFilters);
+        document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+        // Close modal when clicking outside
+        document.getElementById('deleteModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('deleteModal')) {
+                closeDeleteModal();
+            }
+        });
+
+        // Initial load
+        loadVehicles();
     </script>
-    <script src="../js/pageLoader.js"></script>
-
-</body>
-
-</html>
-
+    

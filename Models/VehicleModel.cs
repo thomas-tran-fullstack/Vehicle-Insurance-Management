@@ -11,7 +11,10 @@ public partial class VehicleModel
 
     public string? VehicleClass { get; set; }
 
+    public string? VehicleType { get; set; }
+
     public string? Description { get; set; }
 
     public virtual ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 }
+

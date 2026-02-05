@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vehicle Details - Admin</title>
+    <link rel="icon" type="image/png" href="../images/logo.png" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #4c739a;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: bold;
+        }
+
+        .dark .info-label {
+            color: #cbd5e1;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0d141b;
+        }
+
+        .dark .info-value {
+            color: white;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 0.75rem;
+            border: 1px solid #cfdbe7;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .section-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e7edf3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dark .section-header {
+            border-color: #334155;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0d141b;
+        }
+
+        .dark .section-title {
+            color: white;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2col {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .loading-skeleton {
+            background: #e2e8f0;
+            border-radius: 0.25rem;
+            animation: pulse 2s infinite;
+        }
+
+        .dark .loading-skeleton {
+            background: #334155;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-100">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
+            <div class="p-4 md:p-8">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Back Button -->
+                    <a href="VehicleManage.html" class="inline-flex items-center gap-2 text-primary hover:text-blue-600 font-medium mb-6 transition-colors">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        <span>Back to Vehicle Management</span>
+                    </a>
+
+                    <!-- Loading State -->
+                    <div id="loadingState" class="space-y-6">
+                        <div class="section-card">
+                            <div class="section-header">
+                                <div class="loading-skeleton h-6 w-32"></div>
+                            </div>
+                            <div class="section-content grid-2col">
+                                <div class="loading-skeleton h-20"></div>
+                                <div class="loading-skeleton h-20"></div>
+                                <div class="loading-skeleton h-20"></div>
+                                <div class="loading-skeleton h-20"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div id="contentContainer" class="hidden space-y-6">
+                        <!-- Driver Information -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-2xl text-primary">person</span>
+                                    <h2 class="section-title">Driver Information</h2>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div id="driverInfo" class="grid-2col">
+                                    <!-- Populated from JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Information -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-2xl text-primary">directions_car</span>
+                                    <h2 class="section-title">Vehicle Information</h2>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <!-- Vehicle Image -->
+                                <div class="mb-6 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center" style="height: 300px; min-height: 300px;">
+                                    <img id="vehicleImage" src="" alt="Vehicle" class="w-full h-full object-contain p-4">
+                                </div>
+
+                                <!-- Vehicle Details Grid -->
+                                <div id="vehicleInfo" class="grid-2col">
+                                    <!-- Populated from JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Policy & Insurance Information -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-2xl text-primary">description</span>
+                                    <h2 class="section-title">Policy & Insurance Information</h2>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div id="policiesInfo">
+                                    <!-- Populated from JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const vehicleId = new URLSearchParams(window.location.search).get('id');
+        const API_BASE = '/api/vehicleinformation';
+
+        // Load sidebar
+        async function loadSidebar() {
+            try {
+                const response = await fetch('../templates/admin-sidebar.html');
+                const html = await response.text();
+                document.getElementById('sidebar-container').innerHTML = html;
+                if (typeof initializeAdminSidebar === 'function') {
+                    initializeAdminSidebar();
+                }
+            } catch (error) {
+                console.error('Error loading sidebar:', error);
+            }
+        }
+
+        loadSidebar();
+
+        // Load vehicle details
+        async function loadVehicleDetail() {
+            if (!vehicleId) {
+                document.getElementById('loadingState').classList.add('hidden');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/${vehicleId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    const vehicle = data.data;
+                    renderDetail(vehicle);
+                    document.getElementById('loadingState').classList.add('hidden');
+                    document.getElementById('contentContainer').classList.remove('hidden');
+                } else {
+                    throw new Error(data.message || 'Failed to load vehicle');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingState').classList.add('hidden');
+                document.getElementById('contentContainer').innerHTML = `
+                    <div class="section-card">
+                        <div class="section-content text-center py-12">
+                            <span class="material-symbols-outlined text-6xl text-red-500 block mb-4">error</span>
+                            <p class="text-lg font-bold text-red-600">Failed to load vehicle details</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('contentContainer').classList.remove('hidden');
+            }
+        }
+
+        function renderDetail(vehicle) {
+            // Driver Information
+            const driverHtml = vehicle.customer ? `
+                <div class="info-group">
+                    <div class="info-label">Name</div>
+                    <div class="info-value">${vehicle.customer.customerName}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Email</div>
+                    <div class="info-value text-base">${vehicle.customer.email || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value text-base">${vehicle.customer.phone || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Address</div>
+                    <div class="info-value text-base">${vehicle.customer.address || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Customer ID</div>
+                    <div class="info-value text-base">${vehicle.customer.customerId}</div>
+                </div>
+                <div class="info-group">
+                    ${vehicle.customer.avatar ? `
+                        <div class="info-label">Avatar</div>
+                        <img src="${vehicle.customer.avatar}" alt="Avatar" class="w-20 h-20 rounded-lg object-cover">
+                    ` : ''}
+                </div>
+            ` : `
+                <div class="col-span-2 text-center py-6 text-[#4c739a] dark:text-slate-400">
+                    No owner information available
+                </div>
+            `;
+            document.getElementById('driverInfo').innerHTML = driverHtml;
+
+            // Vehicle Information
+            const vehicleHtml = `
+                <div class="info-group">
+                    <div class="info-label">Vehicle Name</div>
+                    <div class="info-value">${vehicle.vehicleName}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Type</div>
+                    <div class="info-value">${vehicle.vehicleType}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Brand</div>
+                    <div class="info-value">${vehicle.vehicleBrand}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Model</div>
+                    <div class="info-value">${vehicle.vehicleModelName || vehicle.modelName || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Segment</div>
+                    <div class="info-value">${vehicle.vehicleSegment}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Version</div>
+                    <div class="info-value">${vehicle.vehicleVersion || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">License Plate</div>
+                    <div class="info-value font-mono text-primary">${vehicle.vehicleNumber}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Body Number</div>
+                    <div class="info-value font-mono text-base">${vehicle.bodyNumber}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Engine Number</div>
+                    <div class="info-value font-mono text-base">${vehicle.engineNumber}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Manufacture Year</div>
+                    <div class="info-value">${vehicle.manufactureYear || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Seats Count</div>
+                    <div class="info-value">${vehicle.seatCount || 'N/A'}</div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Insurance Rate</div>
+                    <div class="info-value text-primary">$${vehicle.vehicleRate || '0'}</div>
+                </div>
+                ${vehicle.registrationDate ? `
+                    <div class="info-group">
+                        <div class="info-label">Registration Date</div>
+                        <div class="info-value">${new Date(vehicle.registrationDate).toLocaleDateString()}</div>
+                    </div>
+                ` : ''}
+                ${vehicle.createdDate ? `
+                    <div class="info-group">
+                        <div class="info-label">Added Date</div>
+                        <div class="info-value">${new Date(vehicle.createdDate).toLocaleDateString()}</div>
+                    </div>
+                ` : ''}
+            `;
+            document.getElementById('vehicleInfo').innerHTML = vehicleHtml;
+
+            // Vehicle Image
+            if (vehicle.vehicleImage) {
+                document.getElementById('vehicleImage').src = vehicle.vehicleImage;
+            } else {
+                document.getElementById('vehicleImage').src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23f3f4f6" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20" fill="%239ca3af"%3ENo Image Available%3C/text%3E%3C/svg%3E';
+            }
+
+            // Policies & Insurance
+            const policiesHtml = vehicle.policies && vehicle.policies.length > 0 ? `
+                <div class="space-y-4">
+                    ${vehicle.policies.map(policy => `
+                        <div class="p-4 border border-[#cfdbe7] dark:border-slate-800 rounded-lg">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h4 class="font-bold text-[#0d141b] dark:text-white">${policy.policyNumber}</h4>
+                                    <p class="text-sm text-[#4c739a] dark:text-slate-400">Policy ID: ${policy.policyId}</p>
+                                </div>
+                                <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-bold">
+                                    ${policy.status}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div>
+                                    <div class="text-xs text-[#4c739a] dark:text-slate-400">Start Date</div>
+                                    <div class="font-bold text-[#0d141b] dark:text-white">${new Date(policy.startDate).toLocaleDateString()}</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-[#4c739a] dark:text-slate-400">End Date</div>
+                                    <div class="font-bold text-[#0d141b] dark:text-white">${new Date(policy.endDate).toLocaleDateString()}</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-[#4c739a] dark:text-slate-400">Premium</div>
+                                    <div class="font-bold text-[#0d141b] dark:text-white">$${policy.premiumAmount || '0'}</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-[#4c739a] dark:text-slate-400">Coverage</div>
+                                    <div class="font-bold text-[#0d141b] dark:text-white">$${policy.coverageAmount || '0'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : `
+                <div class="text-center py-12">
+                    <span class="material-symbols-outlined text-6xl text-[#4c739a] dark:text-slate-400 block mb-4">policy</span>
+                    <p class="text-lg text-[#4c739a] dark:text-slate-400 font-medium">This vehicle doesn't sign in any insurance policies</p>
+                </div>
+            `;
+            document.getElementById('policiesInfo').innerHTML = policiesHtml;
+        }
+
+        // Initial load
+        loadVehicleDetail();
+    </script>
+    <script src="../js/admin-sidebar.js"></script>
+</body>
+
+</html>

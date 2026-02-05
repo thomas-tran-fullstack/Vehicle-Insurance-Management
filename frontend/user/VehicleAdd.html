@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/png" href="../images/logo.png">
+    <title>Add Vehicle - InsureDrive</title>
+
+    <!-- Tailwind config MUST be before CDN -->
+    <script>
+        tailwind = window.tailwind || {};
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: { display: ["Inter"] },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        };
+    </script>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #0d141b;
+        }
+
+        .dark .form-label {
+            color: white;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.625rem 1rem;
+            background-color: white;
+            border: 1px solid #cfdbe7;
+            border-radius: 0.5rem;
+            color: #0d141b;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .dark .form-input, .dark .form-select {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #137fec;
+            box-shadow: 0 0 0 3px rgba(19, 127, 236, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.625rem 1rem;
+            background-color: white;
+            border: 1px solid #cfdbe7;
+            border-radius: 0.5rem;
+            color: #0d141b;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .dark .form-textarea {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #137fec;
+            box-shadow: 0 0 0 3px rgba(19, 127, 236, 0.1);
+        }
+
+        .error-text {
+            color: #dc2626;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        .success-message {
+            background-color: #f0fdf4;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dark .success-message {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-color: #16a34a;
+            color: #86efac;
+        }
+
+        .error-message {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dark .error-message {
+            background-color: rgba(220, 38, 38, 0.1);
+            border-color: #f87171;
+            color: #fecaca;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 10rem;
+            background-color: #f1f5f9;
+            border: 2px dashed #cfdbe7;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark .image-preview {
+            background-color: #1e293b;
+            border-color: #475569;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#0d141b] dark:text-slate-100">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+        
+        <main class="max-w-[1000px] mx-auto px-6 py-8 flex-1">
+        <!-- Page Heading -->
+        <div class="mb-8">
+            <a href="VehiclesList.html" class="inline-flex items-center gap-1 text-[#137fec] hover:text-blue-600 font-medium mb-4">
+                <span class="material-symbols-outlined text-xl">arrow_back</span>
+                <span>Back to My Vehicles</span>
+            </a>
+            <h1 class="text-[#0d141b] dark:text-white text-5xl font-black leading-tight tracking-tight mb-2">Add New Vehicle</h1>
+            <p class="text-[#4c739a] dark:text-slate-400">Please provide your vehicle information to register it in our system.</p>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="successMessage" class="success-message hidden">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span id="successText">Vehicle added successfully!</span>
+        </div>
+        <div id="errorMessage" class="error-message hidden">
+            <span class="material-symbols-outlined">error</span>
+            <span id="errorText">An error occurred. Please try again.</span>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-[#cfdbe7] dark:border-slate-800 shadow-sm p-8">
+            <form id="vehicleForm" enctype="multipart/form-data">
+                <!-- Section: Basic Information -->
+                <div class="mb-8 pb-8 border-b border-[#cfdbe7] dark:border-slate-800">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                            <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">info</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white">Basic Information</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Name <span class="text-red-600">*</span></label>
+                            <input type="text" id="vehicleName" class="form-input" placeholder="e.g., Toyota Camry" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Type <span class="text-red-600">*</span></label>
+                            <select id="vehicleType" class="form-select" required>
+                                <option value="">Select type...</option>
+                                <optgroup label="Car">
+                                    <option value="Sedan">Sedan</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="Coupe">Coupe</option>
+                                    <option value="Hatchback">Hatchback</option>
+                                    <option value="Wagon">Wagon</option>
+                                    <option value="Convertible">Convertible</option>
+                                    <option value="Van">Van</option>
+                                    <option value="Pickup">Pickup</option>
+                                    <option value="Minivan">Minivan</option>
+                                    <option value="Truck">Truck</option>
+                                    <option value="Bus">Bus</option>
+                                </optgroup>
+                                <optgroup label="Motorbike">
+                                    <option value="Scooter">Scooter</option>
+                                    <option value="Sport">Sport</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Cruiser">Cruiser</option>
+                                    <option value="Touring">Touring</option>
+                                    <option value="Dirt Bike">Dirt Bike</option>
+                                    <option value="Adventure">Adventure</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Brand <span class="text-red-600">*</span></label>
+                            <input type="text" id="vehicleBrand" class="form-input" placeholder="e.g., Toyota" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Model <span class="text-red-600">*</span></label>
+                            <input type="text" id="vehicleModel" class="form-input" placeholder="e.g., Camry, Air Blade" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Class <span class="text-red-600">*</span></label>
+                            <select id="vehicleSegment" class="form-select" required>
+                                <option value="">Select class...</option>
+                                <optgroup label="Cars">
+                                    <option value="A">A (Micro)</option>
+                                    <option value="B">B (Small)</option>
+                                    <option value="C">C (Compact)</option>
+                                    <option value="D">D (Mid-Size)</option>
+                                    <option value="E">E (Large)</option>
+                                    <option value="F">F (Luxury)</option>
+                                    <option value="J">J (SUV/Crossover)</option>
+                                </optgroup>
+                                <optgroup label="Motorbikes">
+                                    <option value="Scooter">Scooter</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Sport">Sport</option>
+                                    <option value="Cruiser">Cruiser</option>
+                                    <option value="Adventure">Adventure</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Version</label>
+                            <input type="text" id="vehicleVersion" class="form-input" placeholder="e.g., 2.5L Automatic">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Identification & Registration -->
+                <div class="mb-8 pb-8 border-b border-[#cfdbe7] dark:border-slate-800">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                            <span class="material-symbols-outlined text-purple-600 dark:text-purple-400">badge</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white">Identification & Registration</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label class="form-label">Registration Number (Plate) <span class="text-red-600">*</span></label>
+                            <input type="text" id="vehicleNumber" class="form-input" placeholder="e.g., 29A-12345" required>
+                            <span class="text-xs text-[#4c739a] dark:text-slate-400">Must be unique</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Body Number (Chassis Number) <span class="text-red-600">*</span></label>
+                            <input type="text" id="bodyNumber" class="form-input" placeholder="e.g., JT2BF22K0M0024234" required>
+                            <span class="text-xs text-[#4c739a] dark:text-slate-400">Must be unique</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Engine Number <span class="text-red-600">*</span></label>
+                            <input type="text" id="engineNumber" class="form-input" placeholder="e.g., 2T1BF1K60CC200001" required>
+                            <span class="text-xs text-[#4c739a] dark:text-slate-400">Must be unique</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Manufacture Year</label>
+                            <input type="number" id="manufactureYear" class="form-input" placeholder="e.g., 2023" min="1900" max="2099">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Registration Date</label>
+                            <input type="date" id="registrationDate" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Number of Seats</label>
+                            <select id="seatCount" class="form-select">
+                                <option value="">Select...</option>
+                                <option value="2">2 Seats</option>
+                                <option value="4">4 Seats</option>
+                                <option value="5">5 Seats</option>
+                                <option value="7">7 Seats</option>
+                                <option value="8">8 Seats</option>
+                                <option value="9">9+ Seats</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Insurance Information -->
+                <div class="mb-8 pb-8 border-b border-[#cfdbe7] dark:border-slate-800">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30">
+                            <span class="material-symbols-outlined text-green-600 dark:text-green-400">policy</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white">Insurance Information</h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Vehicle Rate (Estimated Insurance Rate) <span class="text-red-600">*</span></label>
+                        <input type="number" id="vehicleRate" class="form-input" placeholder="0.00" step="0.01" min="0" required>
+                        <span class="text-xs text-[#4c739a] dark:text-slate-400">Used for insurance premium calculation</span>
+                    </div>
+                </div>
+
+                <!-- Section: Vehicle Image -->
+                <div class="mb-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/30">
+                            <span class="material-symbols-outlined text-orange-600 dark:text-orange-400">image</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-[#0d141b] dark:text-white">Vehicle Image</h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload Vehicle Photo (Optional)</label>
+                        <div class="border-2 border-dashed border-[#cfdbe7] dark:border-slate-700 rounded-lg p-6 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" id="imageUploadArea">
+                            <input type="file" id="vehicleImageFile" accept="image/*" class="hidden">
+                            <span class="material-symbols-outlined text-4xl text-[#4c739a] dark:text-slate-400 mb-2 block">image</span>
+                            <p class="text-[#4c739a] dark:text-slate-400 font-medium mb-1">Click to upload or drag and drop</p>
+                            <p class="text-xs text-[#4c739a] dark:text-slate-500">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                        <div id="imagePreview" class="mt-4 hidden">
+                            <img id="previewImage" src="" alt="Preview" class="w-full h-40 object-cover rounded-lg">
+                            <button type="button" id="removeImageBtn" class="mt-2 text-red-600 hover:text-red-700 text-sm font-medium">Remove Image</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-4">
+                    <button type="submit" class="flex-1 flex items-center justify-center gap-2 bg-[#137fec] text-white py-3 px-6 rounded-lg font-bold hover:brightness-110 transition-all active:scale-95 shadow-lg" style="box-shadow: 0 10px 15px -3px rgba(19, 127, 236, 0.2);">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        <span>Add Vehicle</span>
+                    </button>
+                    <button type="reset" class="flex-1 flex items-center justify-center gap-2 bg-slate-200 dark:bg-slate-700 text-[#0d141b] dark:text-white py-3 px-6 rounded-lg font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
+                        <span class="material-symbols-outlined">refresh</span>
+                        <span>Clear</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer from template -->
+    <iframe id="footer-frame" src="../templates/footer.html"
+        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+        frameborder="0"></iframe>
+
+    <script>
+        // Auto-adjust iframe heights
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        window.addEventListener('resize', function () {
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                
+                // Load header.js script file
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                script.onload = () => {
+                    let retries = 0;
+                    const checkAndInitialize = () => {
+                        retries++;
+                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
+                            window.initializeHeader();
+                        } else if (retries < 10) {
+                            setTimeout(checkAndInitialize, 100);
+                        }
+                    };
+                    checkAndInitialize();
+                };
+                document.head.appendChild(script);
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        // Image upload handling
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const vehicleImageFile = document.getElementById('vehicleImageFile');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+
+        imageUploadArea.addEventListener('click', () => vehicleImageFile.click());
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.add('bg-primary/5');
+        });
+        imageUploadArea.addEventListener('dragleave', () => {
+            imageUploadArea.classList.remove('bg-primary/5');
+        });
+        imageUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.remove('bg-primary/5');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                vehicleImageFile.files = files;
+                handleImageChange();
+            }
+        });
+
+        vehicleImageFile.addEventListener('change', handleImageChange);
+
+        function handleImageChange() {
+            const file = vehicleImageFile.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    imageUploadArea.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        removeImageBtn.addEventListener('click', () => {
+            vehicleImageFile.value = '';
+            imagePreview.classList.add('hidden');
+            imageUploadArea.classList.remove('hidden');
+        });
+
+        // Vehicle models are now free text input, no need to load from API
+
+        // Show/hide messages
+        function showMessage(type, message) {
+            if (type === 'success') {
+                document.getElementById('successText').textContent = message;
+                document.getElementById('successMessage').classList.remove('hidden');
+                document.getElementById('errorMessage').classList.add('hidden');
+            } else {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').classList.remove('hidden');
+                document.getElementById('successMessage').classList.add('hidden');
+            }
+        }
+
+        function hideMessages() {
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('errorMessage').classList.add('hidden');
+        }
+
+        // Form submission
+        document.getElementById('vehicleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || 'null');
+            if (!user) {
+                showMessage('error', 'Please login to add a vehicle.');
+                setTimeout(() => window.location.href = './Authenticate.html', 2000);
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('vehicleName', document.getElementById('vehicleName').value);
+            formData.append('vehicleType', document.getElementById('vehicleType').value);
+            formData.append('vehicleBrand', document.getElementById('vehicleBrand').value);
+            formData.append('vehicleSegment', document.getElementById('vehicleSegment').value);
+            formData.append('vehicleVersion', document.getElementById('vehicleVersion').value);
+            formData.append('vehicleModel', document.getElementById('vehicleModel').value);
+            formData.append('vehicleRate', document.getElementById('vehicleRate').value);
+            formData.append('bodyNumber', document.getElementById('bodyNumber').value);
+            formData.append('engineNumber', document.getElementById('engineNumber').value);
+            formData.append('vehicleNumber', document.getElementById('vehicleNumber').value);
+            formData.append('registrationDate', document.getElementById('registrationDate').value);
+            formData.append('seatCount', document.getElementById('seatCount').value);
+            formData.append('manufactureYear', document.getElementById('manufactureYear').value);
+            
+            if (vehicleImageFile.files.length > 0) {
+                formData.append('vehicleImageFile', vehicleImageFile.files[0]);
+            }
+
+            try {
+                const response = await fetch('/api/vehicleinformation', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-User-Id': user.userId.toString()
+                    }
+                });
+
+                let data;
+                try {
+                    data = await response.json();
+                } catch (parseError) {
+                    console.error('JSON parse error:', parseError);
+                    if (response.status === 401) {
+                        showMessage('error', 'Please login again to add a vehicle.');
+                        setTimeout(() => window.location.href = './Authenticate.html', 2000);
+                    } else {
+                        showMessage('error', 'Invalid response from server. Status: ' + response.status);
+                    }
+                    return;
+                }
+
+                if (response.ok && data.success) {
+                    showMessage('success', data.message || 'Vehicle added successfully!');
+                    document.getElementById('vehicleForm').reset();
+                    imagePreview.classList.add('hidden');
+                    imageUploadArea.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'VehiclesList.html';
+                    }, 1500);
+                } else {
+                    showMessage('error', data.message || 'Failed to add vehicle');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('error', 'An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>
