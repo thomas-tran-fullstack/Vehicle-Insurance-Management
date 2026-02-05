@@ -267,7 +267,7 @@ namespace VehicleInsuranceAPI.Backend.AgentStaffManagement
                 {
                     var logs = await _context.AuditLogs.Where(l => l.UserId == user.UserId).ToListAsync();
                     if (logs.Count > 0) _context.AuditLogs.RemoveRange(logs);
-                    var notis = await _context.Notifications.Where(n => n.ToUserId == user.UserId).ToListAsync();
+                    var notis = await _context.Notifications.Where(n => n.UserId == user.UserId).ToListAsync();
                     if (notis.Count > 0) _context.Notifications.RemoveRange(notis);
                     _context.Users.Remove(user);
                 }

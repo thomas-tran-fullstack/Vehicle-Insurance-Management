@@ -144,18 +144,32 @@ CREATE TABLE Estimates (
     EstimateId INT IDENTITY(1,1) PRIMARY KEY,
     EstimateNumber BIGINT NOT NULL UNIQUE,
     CustomerId INT NOT NULL,
+    CustomerNameSnapshot NVARCHAR(150) NULL,
+    CustomerPhoneSnapshot NVARCHAR(20) NULL,
     VehicleId INT NOT NULL,
+    VehicleNameSnapshot NVARCHAR(100) NULL,
+    VehicleModelSnapshot NVARCHAR(100) NULL,
     InsuranceTypeId INT NOT NULL,
+    PolicyTypeSnapshot NVARCHAR(30) NULL,
     VehicleRate DECIMAL(18,2) NOT NULL,
     Warranty NVARCHAR(100) NULL,
+    BasePremium DECIMAL(18,2) NULL,
+    Surcharge DECIMAL(18,2) NULL,
+    TaxAmount DECIMAL(18,2) NULL,
     EstimatedPremium DECIMAL(18,2) NOT NULL,
+    Status NVARCHAR(30) NOT NULL DEFAULT 'DRAFT', -- DRAFT/SUBMITTED/APPROVED/REJECTED/CONVERTED
+    ValidUntil DATETIME2 NULL,
     Notes NVARCHAR(500) NULL,
     CreatedByStaffId INT NULL,
+    ApprovedByStaffId INT NULL,
+    DecisionAt DATETIME2 NULL,
+    DecisionNote NVARCHAR(500) NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId),
     FOREIGN KEY (VehicleId) REFERENCES Vehicles(VehicleId),
     FOREIGN KEY (InsuranceTypeId) REFERENCES InsuranceTypes(InsuranceTypeId),
-    FOREIGN KEY (CreatedByStaffId) REFERENCES Staff(StaffId)
+    FOREIGN KEY (CreatedByStaffId) REFERENCES Staff(StaffId),
+    FOREIGN KEY (ApprovedByStaffId) REFERENCES Staff(StaffId)
 );
 GO
 
@@ -164,15 +178,33 @@ CREATE TABLE Policies (
     PolicyId INT IDENTITY(1,1) PRIMARY KEY,
     PolicyNumber BIGINT NOT NULL UNIQUE,
     CustomerId INT NOT NULL,
+    CustomerNameSnapshot NVARCHAR(150) NULL,
+    CustomerAddressSnapshot NVARCHAR(255) NULL,
+    CustomerPhoneSnapshot NVARCHAR(20) NULL,
     VehicleId INT NOT NULL,
+    VehicleNumberSnapshot NVARCHAR(50) NULL,
+    VehicleNameSnapshot NVARCHAR(100) NULL,
+    VehicleModelSnapshot NVARCHAR(100) NULL,
+    VehicleVersionSnapshot NVARCHAR(50) NULL,
+    VehicleRateSnapshot DECIMAL(18,2) NULL,
+    VehicleWarrantySnapshot NVARCHAR(100) NULL,
+    VehicleBodyNumberSnapshot NVARCHAR(100) NULL,
+    VehicleEngineNumberSnapshot NVARCHAR(100) NULL,
     InsuranceTypeId INT NOT NULL,
+    PolicyTypeSnapshot NVARCHAR(30) NULL,
     PolicyStartDate DATE NOT NULL,
     PolicyEndDate DATE NOT NULL,
     DurationMonths INT NOT NULL,               -- duration in months
     Warranty NVARCHAR(100) NULL,
     AddressProofPath NVARCHAR(255) NULL,       -- file path/url
+    PaymentDueDate DATE NULL,
     PremiumAmount DECIMAL(18,2) NOT NULL,
-    Status NVARCHAR(30) NOT NULL DEFAULT 'ACTIVE',  -- DRAFT/ACTIVE/CANCELLED/LAPSED
+    Status NVARCHAR(30) NOT NULL DEFAULT 'WAITING_PAYMENT',  -- DRAFT/WAITING_PAYMENT/ACTIVE/CANCELLED/LAPSED
+    PendingRenewalMonths INT NULL,
+    PendingRenewalStartDate DATE NULL,
+    PendingRenewalEndDate DATE NULL,
+    CancelEffectiveDate DATE NULL,
+    CancellationReason NVARCHAR(500) NULL,
     IsHidden BIT NOT NULL DEFAULT 0,
     CreatedByStaffId INT NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
@@ -189,6 +221,21 @@ CREATE TABLE PolicyDocuments (
     DocType NVARCHAR(50) NOT NULL DEFAULT 'POLICY_PDF', -- POLICY_PDF/RECEIPT/ENDORSEMENT
     FilePath NVARCHAR(255) NOT NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    FOREIGN KEY (PolicyId) REFERENCES Policies(PolicyId)
+);
+GO
+
+/* ---------- BILLS ---------- */
+CREATE TABLE Bills (
+    BillId INT IDENTITY(1,1) PRIMARY KEY,
+    PolicyId INT NOT NULL,
+    BillDate DATE NOT NULL,
+    DueDate DATE NULL,
+    BillType NVARCHAR(20) NOT NULL DEFAULT 'INITIAL',  -- INITIAL/RENEWAL/ADDITIONAL
+    Amount DECIMAL(18,2) NOT NULL,
+    Paid BIT NOT NULL DEFAULT 0,
+    Status NVARCHAR(20) NOT NULL DEFAULT 'UNPAID',    -- UNPAID/PAID
+    PaidAt DATETIME2 NULL,
     FOREIGN KEY (PolicyId) REFERENCES Policies(PolicyId)
 );
 GO
@@ -248,6 +295,29 @@ CREATE TABLE CompanyExpenses (
 );
 GO
 
+/* ---------- INSURANCE CANCELLATION ---------- */
+CREATE TABLE InsuranceCancellations (
+    CancellationId INT IDENTITY(1,1) PRIMARY KEY,
+    PolicyId INT NOT NULL,
+    CancelDate DATE NOT NULL,
+    RefundAmount DECIMAL(18,2) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    FOREIGN KEY (PolicyId) REFERENCES Policies(PolicyId)
+);
+GO
+
+/* ---------- PENALTIES ---------- */
+CREATE TABLE Penalties (
+    PenaltyId INT IDENTITY(1,1) PRIMARY KEY,
+    PolicyId INT NOT NULL,
+    PenaltyDate DATE NOT NULL,
+    Amount DECIMAL(18,2) NOT NULL,
+    Reason NVARCHAR(500) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    FOREIGN KEY (PolicyId) REFERENCES Policies(PolicyId)
+);
+GO
+
 /* ---------- PUBLIC/CONTENT ---------- */
 CREATE TABLE Feedback (
     FeedbackId INT IDENTITY(1,1) PRIMARY KEY,
@@ -292,14 +362,16 @@ GO
 
 CREATE TABLE Notifications (
     NotificationId INT IDENTITY(1,1) PRIMARY KEY,
-    ToUserId INT NULL,                   -- NULL => broadcast
+    UserId INT NULL,                     -- NULL => broadcast
     Title NVARCHAR(200) NOT NULL,
     Message NVARCHAR(1000) NOT NULL,
+    Type NVARCHAR(50) NULL,              -- RENEWAL_REMINDER, PAYMENT_DUE, etc
     Channel NVARCHAR(30) NOT NULL DEFAULT 'IN_APP', -- IN_APP/EMAIL/SMS
     Status NVARCHAR(20) NOT NULL DEFAULT 'QUEUED',  -- QUEUED/SENT/FAILED
-    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    IsRead BIT NOT NULL DEFAULT 0,
+    CreatedDate DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     SentAt DATETIME2 NULL,
-    FOREIGN KEY (ToUserId) REFERENCES Users(UserId)
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
 GO
 
@@ -393,19 +465,27 @@ VALUES
 GO
 
 -- Estimates (EstimateNumber: use big numbers for realism)
-INSERT INTO Estimates (EstimateNumber, CustomerId, VehicleId, InsuranceTypeId, VehicleRate, Warranty, EstimatedPremium, Notes, CreatedByStaffId)
+INSERT INTO Estimates (EstimateNumber, CustomerId, CustomerNameSnapshot, CustomerPhoneSnapshot, VehicleId, VehicleNameSnapshot, VehicleModelSnapshot, InsuranceTypeId, PolicyTypeSnapshot, VehicleRate, Warranty, BasePremium, Surcharge, TaxAmount, EstimatedPremium, Status, ValidUntil, Notes, CreatedByStaffId)
 VALUES
-(2026000001, 1, 1, 1, 450000000, N'12 months', 11250000, N'Basic car estimate', 1),
-(2026000002, 1, 2, 3, 45000000,  N'6 months',   810000,  N'Motorbike estimate', 1),
-(2026000003, 2, 3, 2, 850000000, N'12 months', 27200000, N'Plus package quote',  1);
+(2026000001, 1, N'Pham Minh C', '0912345678', 1, N'Toyota Vios', N'Vios', 1, 'CAR_BASIC', 450000000, N'12 months', 11250000, 0, 1125000, 12375000, 'SUBMITTED', DATEADD(day, 7, SYSDATETIME()), N'Basic car estimate', 1),
+(2026000002, 1, N'Pham Minh C', '0912345678', 2, N'Honda Air Blade', N'Air Blade', 3, 'MOTO_BASIC', 45000000, N'6 months', 405000, 0, 40500, 445500, 'APPROVED', DATEADD(day, 7, SYSDATETIME()), N'Motorbike estimate', 1),
+(2026000003, 2, N'Le Thu D', '0912345679', 3, N'Ford Ranger', N'Ranger', 2, 'CAR_PLUS', 850000000, N'12 months', 27200000, 5440000, 3264000, 35904000, 'SUBMITTED', DATEADD(day, 7, SYSDATETIME()), N'Plus package quote', 1);
 GO
 
 -- Policies
-INSERT INTO Policies (PolicyNumber, CustomerId, VehicleId, InsuranceTypeId, PolicyStartDate, PolicyEndDate, DurationMonths, Warranty, AddressProofPath, PremiumAmount, Status, CreatedByStaffId)
+INSERT INTO Policies (PolicyNumber, CustomerId, CustomerNameSnapshot, CustomerAddressSnapshot, CustomerPhoneSnapshot, VehicleId, VehicleNumberSnapshot, VehicleNameSnapshot, VehicleModelSnapshot, VehicleVersionSnapshot, VehicleRateSnapshot, VehicleWarrantySnapshot, VehicleBodyNumberSnapshot, VehicleEngineNumberSnapshot, InsuranceTypeId, PolicyTypeSnapshot, PolicyStartDate, PolicyEndDate, DurationMonths, Warranty, AddressProofPath, PaymentDueDate, PremiumAmount, Status, CreatedByStaffId)
 VALUES
-(2026100001, 1, 1, 1, '2026-01-01', '2026-12-31', 12, N'12 months', '/uploads/proofs/phamc_addr.pdf', 11250000, 'ACTIVE', 1),
-(2026100002, 1, 2, 3, '2026-01-15', '2026-07-14', 6,  N'6 months',  '/uploads/proofs/phamc_addr.pdf',   810000, 'ACTIVE', 1),
-(2026100003, 2, 3, 2, '2026-02-01', '2027-01-31', 12, N'12 months', '/uploads/proofs/lethud_addr.pdf', 27200000, 'ACTIVE', 1);
+(2026100001, 1, N'Pham Minh C', N'123 Main St, Ho Chi Minh City', '0912345678', 1, '51A-123.45', N'Toyota Vios', N'Vios', N'G 1.5', 450000000, N'12 months', 'BODY-VIOS-0001', 'ENG-VIOS-0001', 1, 'CAR_BASIC', '2026-01-01', '2026-12-31', 12, N'12 months', '/uploads/proofs/phamc_addr.pdf', '2026-01-07', 12375000, 'ACTIVE', 1),
+(2026100002, 1, N'Pham Minh C', N'123 Main St, Ho Chi Minh City', '0912345678', 2, '59C1-888.88', N'Honda Air Blade', N'Air Blade', N'150cc', 45000000, N'6 months', 'BODY-AB-0001', 'ENG-AB-0001', 3, 'MOTO_BASIC', '2026-01-15', '2026-07-14', 6, N'6 months', '/uploads/proofs/phamc_addr.pdf', '2026-01-20', 445500, 'ACTIVE', 1),
+(2026100003, 2, N'Le Thu D', N'456 Oak Ave, Hanoi', '0912345679', 3, '30G-678.90', N'Ford Ranger', N'Ranger', N'Wildtrak', 850000000, N'12 months', 'BODY-RANGER-0001', 'ENG-RANGER-0001', 2, 'CAR_PLUS', '2026-02-01', '2027-01-31', 12, N'12 months', '/uploads/proofs/lethud_addr.pdf', '2026-02-10', 35904000, 'ACTIVE', 1);
+GO
+
+-- Bills
+INSERT INTO Bills (PolicyId, BillDate, DueDate, BillType, Amount, Paid, Status, PaidAt)
+VALUES
+(1, '2026-01-01', '2026-01-07', 'INITIAL', 12375000, 1, 'PAID', '2026-01-01T10:15:00'),
+(2, '2026-01-15', '2026-01-20', 'INITIAL', 445500, 1, 'PAID', '2026-01-15T15:05:00'),
+(3, '2026-02-01', '2026-02-10', 'INITIAL', 35904000, 0, 'UNPAID', NULL);
 GO
 
 -- Policy Documents
@@ -475,7 +555,7 @@ VALUES
 GO
 
 -- Notifications
-INSERT INTO Notifications (ToUserId, Title, Message, Channel, Status, SentAt)
+INSERT INTO Notifications (UserId, Title, Message, Channel, Status, SentAt)
 VALUES
 (3, N'Renewal reminder', N'Your policy 2026100001 will expire soon. Please renew before end date.', 'IN_APP', 'SENT', SYSDATETIME()),
 (NULL, N'System maintenance', N'The portal will be maintained on Sunday 01:00-03:00.', 'IN_APP', 'QUEUED', NULL);

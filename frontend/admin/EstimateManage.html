@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Estimate Management - AVIMS</title>
+    <title>Estimate Management - Admin</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap"
@@ -17,12 +17,12 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#176782",
-                        "background-light": "#f7f7f8",
-                        "background-dark": "#18181b",
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
                     },
                     fontFamily: {
-                        "display": ["Manrope"]
+                        "display": ["Inter"]
                     },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
@@ -31,7 +31,7 @@
     </script>
     <style>
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .material-symbols-outlined {
@@ -48,7 +48,7 @@
                 <div class="flex flex-wrap items-end justify-between gap-4">
                     <div>
                         <h1 class="text-3xl font-black">Estimate Management</h1>
-                        <p class="text-slate-500 text-sm">Review customer estimates and approve or reject.</p>
+                        <p class="text-slate-500 text-sm">Admin oversight of all estimates.</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <input id="estimateSearch" type="text" placeholder="Search estimate or vehicle"
@@ -68,11 +68,11 @@
             </div>
 
             <div class="px-8 pb-12">
-                <div class="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm overflow-hidden">
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 dark:bg-zinc-800/50 border-b border-slate-200 dark:border-zinc-800">
+                                <tr class="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
                                     <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Estimate #</th>
                                     <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Customer</th>
                                     <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Vehicle</th>
@@ -82,7 +82,7 @@
                                     <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="estimateTableBody" class="divide-y divide-slate-100 dark:divide-zinc-800"></tbody>
+                            <tbody id="estimateTableBody" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
                         </table>
                     </div>
                 </div>
@@ -91,35 +91,35 @@
     </div>
 
     <div id="createEstimateModal" class="hidden fixed inset-0 z-50 bg-black/50 p-4">
-        <div class="max-w-2xl mx-auto mt-8 bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-xl">
-            <div class="px-5 py-4 border-b border-slate-200 dark:border-zinc-800 flex items-center justify-between">
+        <div class="max-w-2xl mx-auto mt-8 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <h3 class="text-lg font-bold">Create Estimate</h3>
                 <button id="closeCreateModalBtn" class="text-slate-500 hover:text-slate-700">✕</button>
             </div>
             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="text-sm font-semibold">Customer</label>
-                    <select id="createCustomer" class="mt-1 w-full rounded-lg border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 h-10"></select>
+                    <select id="createCustomer" class="mt-1 w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-10"></select>
                 </div>
                 <div>
                     <label class="text-sm font-semibold">Vehicle</label>
-                    <select id="createVehicle" class="mt-1 w-full rounded-lg border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 h-10"></select>
+                    <select id="createVehicle" class="mt-1 w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-10"></select>
                 </div>
                 <div>
                     <label class="text-sm font-semibold">Insurance Type</label>
-                    <select id="createType" class="mt-1 w-full rounded-lg border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 h-10"></select>
+                    <select id="createType" class="mt-1 w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-10"></select>
                 </div>
                 <div>
                     <label class="text-sm font-semibold">Duration (months)</label>
-                    <input id="createDuration" type="number" min="1" value="12" class="mt-1 w-full rounded-lg border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 h-10" />
+                    <input id="createDuration" type="number" min="1" value="12" class="mt-1 w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-10" />
                 </div>
                 <div>
                     <label class="text-sm font-semibold">Warranty</label>
-                    <input id="createWarranty" type="text" placeholder="12 months / Yes" class="mt-1 w-full rounded-lg border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 h-10" />
+                    <input id="createWarranty" type="text" placeholder="12 months / Yes" class="mt-1 w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 h-10" />
                 </div>
                 <div class="md:col-span-2">
                     <label class="text-sm font-semibold">Notes</label>
-                    <textarea id="createNotes" class="mt-1 w-full rounded-lg border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 min-h-[80px]"></textarea>
+                    <textarea id="createNotes" class="mt-1 w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 min-h-[80px]"></textarea>
                 </div>
             </div>
             <div class="px-5 pb-5 flex justify-end gap-2">
@@ -129,9 +129,9 @@
         </div>
     </div>
 
-    <script src="../js/employee-sidebar.js"></script>
+    <script src="../js/admin-sidebar.js"></script>
     <script>
-        fetch('../templates/employee-sidebar.html')
+        fetch('../templates/admin-sidebar.html')
             .then(response => response.text())
             .then(html => {
                 const container = document.getElementById('sidebar-container');
@@ -140,8 +140,8 @@
                 const aside = doc.querySelector('aside');
                 if (aside) {
                     container.appendChild(aside);
-                    if (typeof initializeStaffSidebar === 'function') {
-                        initializeStaffSidebar();
+                    if (typeof initializeAdminSidebar === 'function') {
+                        initializeAdminSidebar();
                     }
                 }
             });
@@ -155,18 +155,6 @@
             vehicles: [],
             insuranceTypes: []
         };
-
-        function getSessionUser() {
-            const sessionStr = sessionStorage.getItem('user');
-            const localStr = localStorage.getItem('user');
-            const userStr = sessionStr || localStr;
-            if (!userStr) return null;
-            try {
-                return JSON.parse(userStr);
-            } catch {
-                return null;
-            }
-        }
 
         function formatCurrency(value) {
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
@@ -248,10 +236,10 @@
             });
             const data = await response.json();
             if (!data.success) {
-                alert(data.message || 'Create estimate failed.');
+                showPopMessage(data.message || 'Create estimate failed.', 'error');
                 return;
             }
-            alert('Estimate created successfully.');
+            showPopMessage('Estimate created successfully.', 'success');
             toggleCreateModal(false);
             loadEstimates();
         }
@@ -280,7 +268,7 @@
                 const status = (est.status || '').toUpperCase();
                 const canDecide = status === 'SUBMITTED';
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors';
+                tr.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors';
                 tr.innerHTML = `
                     <td class="px-6 py-4 font-semibold text-primary">${est.estimateNumber || est.estimateId}</td>
                     <td class="px-6 py-4">${est.customerName || '-'}</td>
@@ -311,17 +299,27 @@
             });
         }
 
-        async function handleDecision(event) {
-            const user = getSessionUser();
-            if (!user) return;
+        function getSessionUser() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            if (!userStr) return null;
+            try {
+                return JSON.parse(userStr);
+            } catch {
+                return null;
+            }
+        }
 
+        async function handleDecision(event) {
             const action = event.currentTarget.getAttribute('data-action');
             const estimateId = event.currentTarget.getAttribute('data-id');
             const note = prompt(`Enter ${action === 'approve' ? 'approval' : 'rejection'} note:`) || '';
             if (!note.trim()) {
-                alert('Note is required.');
+                showPopMessage('Note is required.', 'error');
                 return;
             }
+            const user = getSessionUser();
 
             const endpoint = action === 'approve' ? 'approve' : 'reject';
             const response = await fetch(`/api/InsuranceEstimate/${estimateId}/${endpoint}`, {
@@ -329,14 +327,14 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     note,
-                    staffUserId: user.userId,
-                    actorUserId: user.userId
+                    staffUserId: user?.userId || null,
+                    actorUserId: user?.userId || null
                 })
             });
 
             const data = await response.json();
             if (!data.success) {
-                alert(data.message || 'Unable to update estimate.');
+                showPopMessage(data.message || 'Unable to update estimate.', 'error');
                 return;
             }
 
@@ -383,6 +381,7 @@
 
         loadEstimates();
     </script>
+    <script src="../js/popMessage.js"></script>
     <script src="../js/pageLoader.js"></script>
 </body>
 

@@ -82,7 +82,7 @@
                                     <div class="text-slate-400 flex items-center justify-center pl-4 pr-1">
                                         <span class="material-symbols-outlined text-[22px]">search</span>
                                     </div>
-                                    <input
+                                    <input id="estimateSearch"
                                         class="form-input flex w-full border-none bg-transparent text-slate-900 dark:text-slate-100 focus:ring-0 px-4 text-sm font-normal"
                                         placeholder="Search by Request ID or Vehicle..." value="" />
                                 </div>
@@ -92,22 +92,22 @@
                         <div class="flex gap-2 flex-wrap items-center">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Filter
                                 Status:</span>
-                            <button
+                            <button data-status="ALL"
                                 class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-primary/10 text-primary px-4 border border-primary/20 hover:bg-primary/20 transition-colors">
                                 <span class="text-sm font-semibold">All</span>
                                 <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
                             </button>
-                            <button
+                            <button data-status="SUBMITTED"
                                 class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                                 <span class="text-sm font-medium">Pending</span>
                                 <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
                             </button>
-                            <button
+                            <button data-status="APPROVED"
                                 class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                                 <span class="text-sm font-medium">Approved</span>
                                 <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
                             </button>
-                            <button
+                            <button data-status="EXPIRED"
                                 class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                                 <span class="text-sm font-medium">Expired</span>
                                 <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
@@ -133,6 +133,9 @@
                                         class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                         Vehicle</th>
                                     <th
+                                        class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        Type</th>
+                                    <th
                                         class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">
                                         Estimated Amount</th>
                                     <th
@@ -143,129 +146,15 @@
                                         Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <!-- Row 1 - Approved -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-primary font-bold text-sm">EST-90210</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400 text-sm">Oct 24, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-slate-900 dark:text-white">2022 Tesla Model
-                                            3</div>
-                                        <div class="text-xs text-slate-400">VIN: 5YJ3E1EB7NF...</div>
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 text-right text-slate-900 dark:text-white font-semibold text-sm">
-                                        $1,250.00</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                                            <span class="size-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
-                                            Approved
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="inline-flex items-center px-4 py-2 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-colors shadow-sm">
-                                            Apply for Policy
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Row 2 - Pending -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-primary font-bold text-sm">EST-88451</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400 text-sm">Oct 15, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-slate-900 dark:text-white">2019 Toyota
-                                            Camry</div>
-                                        <div class="text-xs text-slate-400">VIN: 4T1B11HK5JU...</div>
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 text-right text-slate-900 dark:text-white font-semibold text-sm">
-                                        $980.00</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/30 px-2.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-400">
-                                            <span class="size-1.5 rounded-full bg-amber-500 mr-1.5"></span>
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="inline-flex items-center text-primary hover:underline text-xs font-bold">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Row 3 - Expired -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-primary font-bold text-sm">EST-75642</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400 text-sm">Sep 12, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-slate-900 dark:text-white">2021 Ford F-150
-                                        </div>
-                                        <div class="text-xs text-slate-400">VIN: 1FTFW1E86MF...</div>
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 text-right text-slate-900 dark:text-white font-semibold text-sm">
-                                        $1,500.00</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 text-xs font-bold text-slate-600 dark:text-slate-400">
-                                            <span class="size-1.5 rounded-full bg-slate-400 mr-1.5"></span>
-                                            Expired
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                                            Re-evaluate
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Row 4 - Approved -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-primary font-bold text-sm">EST-70129</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400 text-sm">Aug 05, 2023</td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-slate-900 dark:text-white">2018 Honda Civic
-                                        </div>
-                                        <div class="text-xs text-slate-400">VIN: 19XFC2F85JE...</div>
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 text-right text-slate-900 dark:text-white font-semibold text-sm">
-                                        $850.00</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                                            <span class="size-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
-                                            Approved
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="inline-flex items-center px-4 py-2 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-colors shadow-sm">
-                                            Apply for Policy
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tbody id="estimateTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
                             </tbody>
                         </table>
                     </div>
                     <!-- Pagination Footer -->
                     <div
                         class="flex items-center justify-between px-6 py-4 bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800">
-                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Showing <span
-                                class="text-slate-900 dark:text-white font-bold">1</span> to <span
-                                class="text-slate-900 dark:text-white font-bold">4</span> of <span
-                                class="text-slate-900 dark:text-white font-bold">24</span> results</p>
+                        <p id="estimateCount" class="text-sm text-slate-500 dark:text-slate-400 font-medium">Showing 0
+                            results</p>
                         <div class="flex gap-2">
                             <button
                                 class="flex items-center justify-center rounded-lg h-9 px-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -291,13 +180,24 @@
                     <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">info</span>
                     <div class="text-sm text-blue-800 dark:text-blue-300">
                         <p class="font-bold">Did you know?</p>
-                        <p>Estimates are valid for 30 days from the date of issue. Approved estimates can be converted
+                        <p>Estimates are valid for 7 days from the date of issue. Approved estimates can be converted
                             into an insurance policy instantly using the "Apply for Policy" button.</p>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <div id="estimateDetailModal" class="hidden fixed inset-0 z-50 bg-black/50 p-4">
+        <div class="max-w-xl mx-auto mt-12 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <h3 class="text-lg font-bold">Estimate Detail</h3>
+                <button id="closeEstimateModalBtn" class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-200">✕</button>
+            </div>
+            <div id="estimateDetailBody" class="p-5 text-sm text-slate-700 dark:text-slate-300"></div>
+        </div>
+    </div>
+
     <!-- Footer from template -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
@@ -371,6 +271,229 @@
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
+    <script>
+        const estimateState = {
+            estimates: [],
+            filterStatus: 'ALL',
+            search: ''
+        };
+
+        function getSessionUser() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            if (!userStr) return null;
+            try {
+                return JSON.parse(userStr);
+            } catch {
+                return null;
+            }
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        }
+
+        function formatDate(value) {
+            if (!value) return '-';
+            const date = new Date(value);
+            return date.toLocaleDateString();
+        }
+
+        function isExpired(estimate) {
+            if (!estimate.validUntil) return false;
+            return new Date(estimate.validUntil).getTime() < Date.now();
+        }
+
+        function renderEstimates() {
+            const tbody = document.getElementById('estimateTableBody');
+            tbody.innerHTML = '';
+
+            const filtered = estimateState.estimates.filter(est => {
+                const status = (est.status || '').toUpperCase();
+                if (estimateState.filterStatus === 'EXPIRED') {
+                    return isExpired(est);
+                }
+                if (estimateState.filterStatus !== 'ALL' && status !== estimateState.filterStatus) {
+                    return false;
+                }
+                if (!estimateState.search) return true;
+                const term = estimateState.search.toLowerCase();
+                return (
+                    String(est.estimateNumber || '').includes(term) ||
+                    (est.vehicleName || '').toLowerCase().includes(term) ||
+                    (est.vehicleModel || '').toLowerCase().includes(term) ||
+                    (est.policyTypeSnapshot || '').toLowerCase().includes(term)
+                );
+            });
+
+            filtered.forEach(est => {
+                const status = (est.status || 'DRAFT').toUpperCase();
+                const statusLabel = isExpired(est) ? 'EXPIRED' : status;
+                const statusClass = statusLabel === 'APPROVED'
+                    ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                    : statusLabel === 'REJECTED'
+                        ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
+                        : statusLabel === 'EXPIRED'
+                            ? 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                            : 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400';
+
+                let actionHtml = `<button data-estimate="${est.estimateId}" class="viewEstimateBtn inline-flex items-center text-primary hover:underline text-xs font-bold">
+                                    View Details
+                                   </button>`;
+
+                if (status === 'APPROVED' && !isExpired(est)) {
+                    actionHtml = `<button data-estimate="${est.estimateId}" class="applyPolicyBtn inline-flex items-center px-4 py-2 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-colors shadow-sm">
+                                    Apply for Policy
+                                  </button>`;
+                } else if (status === 'DRAFT') {
+                    actionHtml = `<button data-estimate="${est.estimateId}" class="submitEstimateBtn inline-flex items-center px-4 py-2 rounded-lg bg-amber-500 text-white text-xs font-bold hover:bg-amber-600 transition-colors shadow-sm">
+                                    Submit
+                                  </button>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group';
+                tr.innerHTML = `
+                    <td class="px-6 py-4">
+                        <span class="text-primary font-bold text-sm">${est.estimateNumber || est.estimateId}</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400 text-sm">${formatDate(est.createdAt)}</td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm font-medium text-slate-900 dark:text-white">${est.vehicleName || 'Vehicle'}</div>
+                        <div class="text-xs text-slate-400">${est.vehicleModel || '-'}</div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">${est.policyTypeSnapshot || '-'}</td>
+                    <td class="px-6 py-4 text-right text-slate-900 dark:text-white font-semibold text-sm">
+                        <div>${formatCurrency(est.estimatedPremium)}</div>
+                        <div class="text-[11px] font-normal text-slate-400">Base ${formatCurrency(est.basePremium)} + Tax ${formatCurrency(est.taxAmount)}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold ${statusClass}">
+                            <span class="size-1.5 rounded-full bg-current mr-1.5"></span>
+                            ${statusLabel}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        ${actionHtml}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('estimateCount').textContent = `Showing ${filtered.length} results`;
+
+            document.querySelectorAll('.applyPolicyBtn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const estimateId = btn.getAttribute('data-estimate');
+                    window.location.href = `InsurancePoliciesAdd.html?estimateId=${estimateId}`;
+                });
+            });
+
+            document.querySelectorAll('.viewEstimateBtn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const estimateId = Number(btn.getAttribute('data-estimate'));
+                    const est = estimateState.estimates.find(x => x.estimateId === estimateId);
+                    if (!est) return;
+                    openEstimateDetail(est);
+                });
+            });
+
+            document.querySelectorAll('.submitEstimateBtn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const estimateId = btn.getAttribute('data-estimate');
+                    const user = getSessionUser();
+                    const response = await fetch(`/api/InsuranceEstimate/${estimateId}/submit`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ actorUserId: user?.userId || null })
+                    });
+                    const data = await response.json();
+                    if (!data.success) {
+                        showPopMessage(data.message || 'Unable to submit estimate.', 'error');
+                        return;
+                    }
+                    loadEstimates();
+                });
+            });
+        }
+
+        async function loadEstimates() {
+            const user = getSessionUser();
+            if (!user || !user.userId) {
+                window.location.href = './Login.html';
+                return;
+            }
+
+            const customerRes = await fetch(`/api/customerinformation/${user.userId}`);
+            const customerData = await customerRes.json();
+            if (!customerData.success) {
+                showPopMessage('Unable to load customer profile.', 'error');
+                return;
+            }
+
+            const customerId = customerData.data.customerId;
+            const response = await fetch(`/api/InsuranceEstimate?customerId=${customerId}`);
+            const data = await response.json();
+            estimateState.estimates = data.data || [];
+            renderEstimates();
+        }
+
+        document.querySelectorAll('[data-status]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                estimateState.filterStatus = btn.getAttribute('data-status') || 'ALL';
+                renderEstimates();
+            });
+        });
+
+        document.getElementById('estimateSearch').addEventListener('input', (event) => {
+            estimateState.search = event.target.value.trim();
+            renderEstimates();
+        });
+
+        function openEstimateDetail(est) {
+            const body = document.getElementById('estimateDetailBody');
+            body.innerHTML = `
+                <div class="grid grid-cols-2 gap-3">
+                    <div><span class="text-slate-400">Estimate #:</span> <b>${est.estimateNumber || '-'}</b></div>
+                    <div><span class="text-slate-400">Status:</span> <b>${est.status || '-'}</b></div>
+                    <div><span class="text-slate-400">Customer:</span> <b>${est.customerName || '-'}</b></div>
+                    <div><span class="text-slate-400">Phone:</span> <b>${est.customerPhone || '-'}</b></div>
+                    <div><span class="text-slate-400">Vehicle:</span> <b>${est.vehicleName || '-'}</b></div>
+                    <div><span class="text-slate-400">Model:</span> <b>${est.vehicleModel || '-'}</b></div>
+                    <div><span class="text-slate-400">Policy Type:</span> <b>${est.policyTypeSnapshot || '-'}</b></div>
+                    <div><span class="text-slate-400">Warranty:</span> <b>${est.warranty || '-'}</b></div>
+                    <div><span class="text-slate-400">Base:</span> <b>${formatCurrency(est.basePremium)}</b></div>
+                    <div><span class="text-slate-400">Surcharge:</span> <b>${formatCurrency(est.surcharge)}</b></div>
+                    <div><span class="text-slate-400">Tax:</span> <b>${formatCurrency(est.taxAmount)}</b></div>
+                    <div><span class="text-slate-400">Total:</span> <b>${formatCurrency(est.estimatedPremium)}</b></div>
+                    <div><span class="text-slate-400">Valid Until:</span> <b>${formatDate(est.validUntil)}</b></div>
+                    <div><span class="text-slate-400">Created:</span> <b>${formatDate(est.createdAt)}</b></div>
+                </div>
+                <div class="mt-4">
+                    <div><span class="text-slate-400">Notes:</span></div>
+                    <div>${est.notes || '-'}</div>
+                </div>
+                <div class="mt-2">
+                    <div><span class="text-slate-400">Decision Note:</span></div>
+                    <div>${est.decisionNote || '-'}</div>
+                </div>
+            `;
+            document.getElementById('estimateDetailModal').classList.remove('hidden');
+        }
+
+        document.getElementById('closeEstimateModalBtn').addEventListener('click', () => {
+            document.getElementById('estimateDetailModal').classList.add('hidden');
+        });
+        document.getElementById('estimateDetailModal').addEventListener('click', (event) => {
+            if (event.target.id === 'estimateDetailModal') {
+                document.getElementById('estimateDetailModal').classList.add('hidden');
+            }
+        });
+
+        loadEstimates();
+    </script>
+    <script src="../js/popMessage.js"></script>
     <script src="../js/pageLoader.js"></script>
 
 </body>

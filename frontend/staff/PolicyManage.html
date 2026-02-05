@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Policy Management Dashboard - AVIMS</title>
+    <title>Policy Management - AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -21,12 +17,12 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#101922",
+                        "primary": "#176782",
+                        "background-light": "#f7f7f8",
+                        "background-dark": "#18181b",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
+                        "display": ["Manrope"]
                     },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
@@ -35,400 +31,65 @@
     </script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
         }
 
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-
-        .material-symbols-outlined.fill {
-            font-variation-settings: 'FILL' 1;
-        }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-100 min-h-screen">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
     <div class="flex h-screen overflow-hidden">
-        <!-- Employee Sidebar -->
         <div id="sidebar-container"></div>
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col overflow-y-auto pt-8">
-            <!-- Header Section -->
-            <div class="p-8 pb-4">
-                <div class="flex flex-wrap justify-between items-end gap-4">
-                    <div class="flex flex-col gap-2">
-                        <h2 class="text-[#0d141b] dark:text-white text-4xl font-black tracking-tight">Policy Management
-                        </h2>
-                        <p class="text-[#4c739a] text-base">Oversee vehicle insurance lifecycle, renewals, and pending
-                            issuances.</p>
+        <main class="flex-1 overflow-y-auto pt-8">
+            <div class="px-8 pb-6">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <h1 class="text-3xl font-black">Policy Management</h1>
+                        <p class="text-slate-500 text-sm">Track policy status, renewals, and payments.</p>
                     </div>
-                    <div class="flex gap-3">
-                        <button
-                            class="flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg font-bold text-sm hover:bg-primary/90 transition-all">
-                            <span class="material-symbols-outlined text-sm">add</span>
-                            Issue New Policy
-                        </button>
-                    </div>
-                </div>
-                <!-- Stats Grid -->
-                <div class="flex flex-wrap gap-4 mt-8">
-                    <div
-                        class="flex min-w-[200px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800">
-                        <div class="flex justify-between items-start">
-                            <p class="text-[#4c739a] text-sm font-medium uppercase tracking-wider">Expiring This Month
-                            </p>
-                            <span class="material-symbols-outlined text-primary">event_busy</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-3xl font-bold">124</p>
-                        <p class="text-[#078838] text-sm font-bold flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">trending_up</span>
-                            +12% from last month
-                        </p>
-                    </div>
-                    <div
-                        class="flex min-w-[200px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800">
-                        <div class="flex justify-between items-start">
-                            <p class="text-[#4c739a] text-sm font-medium uppercase tracking-wider">New Policies</p>
-                            <span class="material-symbols-outlined text-primary">fiber_new</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-3xl font-bold">45</p>
-                        <p class="text-[#e73908] text-sm font-bold flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">trending_down</span>
-                            -5% from last month
-                        </p>
-                    </div>
-                    <div
-                        class="flex min-w-[200px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800">
-                        <div class="flex justify-between items-start">
-                            <p class="text-[#4c739a] text-sm font-medium uppercase tracking-wider">Pending Renewals</p>
-                            <span class="material-symbols-outlined text-primary">history</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-3xl font-bold">38</p>
-                        <p class="text-[#078838] text-sm font-bold flex items-center gap-1">
-                            <span class="material-symbols-outlined text-xs">trending_up</span>
-                            +8% recovery rate
-                        </p>
+                    <div class="flex items-center gap-3">
+                        <input id="policySearch" type="text" placeholder="Search policy or customer"
+                            class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm" />
+                        <select id="policyFilter"
+                            class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm">
+                            <option value="ALL">All</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="WAITING_PAYMENT">Waiting Payment</option>
+                            <option value="CANCELLED">Cancelled</option>
+                            <option value="LAPSED">Lapsed</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <!-- Dashboard Content -->
-            <div class="px-8 pb-8 flex flex-col flex-1">
-                <!-- Tabs and Search -->
-                <div
-                    class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#cfdbe7] dark:border-slate-800 mt-4 mb-6">
-                    <div class="flex gap-8">
-                        <a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4"
-                            href="#">
-                            <p class="text-sm font-bold tracking-tight">Active Policies</p>
-                        </a>
-                        <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#4c739a] pb-[13px] pt-4 hover:text-primary transition-colors"
-                            href="#">
-                            <div class="flex items-center gap-1.5">
-                                <p class="text-sm font-bold tracking-tight">Pending Issuance</p>
-                                <span
-                                    class="bg-[#1380ec]/10 text-primary text-[10px] px-1.5 py-0.5 rounded-full">12</span>
-                            </div>
-                        </a>
-                        <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#4c739a] pb-[13px] pt-4 hover:text-primary transition-colors"
-                            href="#">
-                            <p class="text-sm font-bold tracking-tight">Renewals</p>
-                        </a>
-                    </div>
-                    <div class="pb-3 lg:pb-0 lg:w-96">
-                        <label class="flex flex-col min-w-40 h-10 w-full">
-                            <div
-                                class="flex w-full flex-1 items-stretch rounded-lg h-full bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800 px-3">
-                                <div class="text-[#4c739a] flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-lg">search</span>
-                                </div>
-                                <input
-                                    class="form-input flex w-full border-none bg-transparent focus:ring-0 text-sm placeholder:text-[#4c739a] text-[#0d141b] dark:text-white"
-                                    placeholder="Search Policy ID, Customer, VIN..." value="" />
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                <!-- Data Table -->
-                <div
-                    class="bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800 rounded-xl overflow-hidden flex-1 flex flex-col">
+
+            <div class="px-8 pb-12">
+                <div class="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr
-                                    class="bg-slate-50 dark:bg-slate-800/50 border-b border-[#cfdbe7] dark:border-slate-800">
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase">Policy ID</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase">Customer</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase">Vehicle / VIN</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase">Coverage</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase">Expiry Date</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase">Status</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-[#4c739a] uppercase text-right">Actions
-                                    </th>
+                                <tr class="bg-slate-50 dark:bg-zinc-800/50 border-b border-slate-200 dark:border-zinc-800">
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Policy #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Vehicle</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">End Date</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Payment Due</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#cfdbe7] dark:divide-slate-800">
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-sm text-primary font-bold">POL-882391</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-full bg-slate-200 bg-cover"
-                                                data-alt="Portrait of policy holder male customer"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6eNCjljQ3LvOThOvX7Qk_9xRYaY1KJpmRPrbdZGArQ2O4z6nIC8vWMQZTUJXAUREoBltRn1vDraGcz04wdPiRQIKEWJiRwWw4tM4gqSscPoUXrCiRq0kAs_fEpt0y3y-sYJn8aq0jESd_McPCCrhMG4lA_cgBaMOs0uASlNuUpmaUyGJEptb0_nTnWfSBgeNLSmMDADT5Rj5WxkuTwl0jgmtyR-bSkGseho4S_51l_8A8xGUxJyz-onfrJaxizzu4cNIJGErkUStl')">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-semibold">David Richardson</p>
-                                                <p class="text-xs text-[#4c739a]">Premium Member</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-medium">2023 Tesla Model 3</p>
-                                        <p class="text-xs font-mono text-[#4c739a]">5YJ3E1EB9PF...</p>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-[10px] font-bold uppercase">Comprehensive</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm font-medium">Oct 12, 2024</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                            <span
-                                                class="text-sm font-medium text-green-700 dark:text-green-500">Active</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-sm text-primary font-bold">POL-449102</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-full bg-slate-200 bg-cover"
-                                                data-alt="Portrait of policy holder female customer"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAY1nbhKEA7VnaK4gNHDG3vK0kiTWkKabknh_lxt3517j617KRs_5YjHKY4ekMs7kkuf2owsBFtU6OR9F080DBW0XjHhSYEXYfBhI_oYCtBVKQ2u0PtEL8DlT2OYb1oTzkYuiqRlweEeCF1jQS753XqJmv3u29bbsTGbAm0yhkbJguB7ncM8Ylsh1Kj-BX_1abiDdwHwBhbJuxH9KJpL5heybl1GILf1Wj-XivLvUcrH9ViJ8CNWvWgTJUadlFbiWiePuGdfi0JO-Ce')">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-semibold">Sarah Jenkins</p>
-                                                <p class="text-xs text-[#4c739a]">Standard Tier</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-medium">2021 BMW X5</p>
-                                        <p class="text-xs font-mono text-[#4c739a]">WBAJU2C54L...</p>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded text-[10px] font-bold uppercase">Third
-                                            Party</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm font-medium">Sep 28, 2024</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                                            <span
-                                                class="text-sm font-medium text-amber-700 dark:text-amber-500">Expiring
-                                                Soon</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-sm text-primary font-bold">POL-332910</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-full bg-slate-200 bg-cover"
-                                                data-alt="Portrait of policy holder male customer professional"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKb7C_UchEyGS-43UKENSVOYovqjbmAgGlSpCBP_UO0PvL3veHeaM-nzsfW4ZD8lO9GOIZLRxUOv305I_zQm9L2Z5nxy1-YzSJ6V64MskQZU_P4ByGj3BLiy2oWyUHOtnAOpIJrCH9JBbQDbQze-1aOrKdT2yoQCbLNQy47RI1cnDvYz77IQnUbN9KvIaREWLksJfWQ4ZjMLrtQPY_rJ4fKB9aannKycQCTEFSiritUWXsBFW-kr4NPIKkO2m2V2TF1-c3Dt6LynXe')">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-semibold">Marcus Webb</p>
-                                                <p class="text-xs text-[#4c739a]">Premium Member</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-medium">2022 Ford F-150</p>
-                                        <p class="text-xs font-mono text-[#4c739a]">1FTFW1E87N...</p>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-[10px] font-bold uppercase">Comprehensive</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm font-medium">Nov 05, 2024</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                            <span
-                                                class="text-sm font-medium text-green-700 dark:text-green-500">Active</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-sm text-primary font-bold">POL-221098</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-full bg-slate-200 bg-cover"
-                                                data-alt="Portrait of policy holder female client"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAB6sdgCIPdl9HTXzk3CmKaEJsnD029pJMsLadKRC2yKZWm_o5ARNgoTHkAqwVBDRIH6XIf1fw9DGTs3NuW6GFIXeA7VM0wLNxNK5Ukincuvhb6SxcMp-JGfqiRTgS6U2jiuyyQHAd0DwBn3qoFv0Erf1BjJTxdU1bQQQnHXouHuv2ZnrdFG5Kf3TYn_mxoI8BeP0ZN3jyTOuraQeClaJhzaXwcTeY7ZvZ2P2zlAIhFGmzTG3Ec9UgSLjExASbTssVtuuLrgkRmR725')">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-semibold">Linda Martinez</p>
-                                                <p class="text-xs text-[#4c739a]">Standard Tier</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-medium">2020 Honda CR-V</p>
-                                        <p class="text-xs font-mono text-[#4c739a]">7FARW2H5XL...</p>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded text-[10px] font-bold uppercase">Third
-                                            Party</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm font-medium">Aug 15, 2024</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                                            <span
-                                                class="text-sm font-medium text-red-700 dark:text-red-500">Lapsed</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-sm text-primary font-bold">POL-991023</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-full bg-slate-200 bg-cover"
-                                                data-alt="Portrait of policy holder business male customer"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZMusalCKhFl2KOfHAuAurXTNXomehPIDKbGsbo__PjHNiBs-Zo0K1Pm3XZX7EqeN6pHlYOCjW_qaNs_zyb0Sklc_ayZNZ2zI9vny69kvLmFgL5zf_ke8DzIAmSZVpcETZJudBHK_xi1p2VQwmhagrlcP2R8_HxicFRtgH3lbUwHNHTRIz4O-zvPd8Owy-OR0u5Kj1KOLYaI1giIewvxKB_voYDQRnMUTpOsbuvAyrP2RXcU3rM9euPaUgjIgHHgdVqV2orN5l4Oys')">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-semibold">Robert Chen</p>
-                                                <p class="text-xs text-[#4c739a]">Premium Member</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-medium">2024 Porsche Taycan</p>
-                                        <p class="text-xs font-mono text-[#4c739a]">WP0AC2Y1SP...</p>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-[10px] font-bold uppercase">Comprehensive</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm font-medium">Dec 18, 2024</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                            <span
-                                                class="text-sm font-medium text-green-700 dark:text-green-500">Active</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_vert</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="policyTableBody" class="divide-y divide-slate-100 dark:divide-zinc-800"></tbody>
                         </table>
-                    </div>
-                    <!-- Pagination -->
-                    <div class="p-4 border-t border-[#cfdbe7] dark:border-slate-800 flex items-center justify-between">
-                        <p class="text-xs text-[#4c739a] font-medium">Showing 1 to 5 of 124 results</p>
-                        <div class="flex gap-2">
-                            <button
-                                class="px-3 py-1 border border-[#cfdbe7] dark:border-slate-800 rounded text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Previous</button>
-                            <button class="px-3 py-1 bg-primary text-white rounded text-xs font-bold">1</button>
-                            <button
-                                class="px-3 py-1 border border-[#cfdbe7] dark:border-slate-800 rounded text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">2</button>
-                            <button
-                                class="px-3 py-1 border border-[#cfdbe7] dark:border-slate-800 rounded text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">3</button>
-                            <button
-                                class="px-3 py-1 border border-[#cfdbe7] dark:border-slate-800 rounded text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Next</button>
-                        </div>
                     </div>
                 </div>
             </div>
         </main>
-        <!-- Right Side Task Panel -->
-        <aside
-            class="w-80 flex-shrink-0 border-l border-[#cfdbe7] dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col hidden xl:flex">
-            <div class="p-6">
-                <h3 class="text-sm font-bold uppercase tracking-widest text-[#4c739a] mb-6">Upcoming Actions</h3>
-                <div class="flex flex-col gap-4">
-                    <!-- Action Card -->
-                    <div
-                        class="p-4 bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800 rounded-lg flex flex-col gap-3">
-                        <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-amber-500 text-sm">notifications_active</span>
-                            <span class="text-xs font-bold text-amber-600 dark:text-amber-400">Renewal Alert</span>
-                        </div>
-                        <p class="text-sm font-semibold">Sarah Jenkins - POL-449102</p>
-                        <p class="text-xs text-[#4c739a]">Policy expires in 4 days. Customer has not responded to email
-                            alerts.</p>
-                        <button
-                            class="w-full py-2 bg-primary/10 text-primary text-xs font-bold rounded hover:bg-primary/20 transition-all">
-                            Contact Customer
-                        </button>
-                    </div>
-                    <!-- Action Card -->
-                    <div
-                        class="p-4 bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800 rounded-lg flex flex-col gap-3">
-                        <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary text-sm">assignment_turned_in</span>
-                            <span class="text-xs font-bold text-primary">Pending Issuance</span>
-                        </div>
-                        <p class="text-sm font-semibold">New Estimate Approved</p>
-                        <p class="text-xs text-[#4c739a]">Estimate #EST-1992 for Thomas Mueller ready for policy
-                            generation.</p>
-                        <button
-                            class="w-full py-2 bg-primary text-white text-xs font-bold rounded hover:bg-primary/90 transition-all">
-                            Review &amp; Issue
-                        </button>
-                    </div>
-                    <!-- Action Card -->
-                    <div
-                        class="p-4 bg-white dark:bg-[#16222c] border border-[#cfdbe7] dark:border-slate-800 rounded-lg flex flex-col gap-3">
-                        <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-green-500 text-sm">task_alt</span>
-                            <span class="text-xs font-bold text-green-600 dark:text-green-400">System Task</span>
-                        </div>
-                        <p class="text-sm font-semibold">Daily Report Ready</p>
-                        <p class="text-xs text-[#4c739a]">August policy performance report has been generated.</p>
-                        <button
-                            class="w-full py-2 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-white text-xs font-bold rounded hover:bg-slate-200 transition-all">
-                            Download PDF
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </aside>
     </div>
+
     <script src="../js/employee-sidebar.js"></script>
     <script>
-        // Load employee sidebar
         fetch('../templates/employee-sidebar.html')
             .then(response => response.text())
             .then(html => {
@@ -444,9 +105,173 @@
                 }
             });
     </script>
-    <script src="../js/pageLoader.js"></script>
+    <script>
+        const policyState = {
+            policies: [],
+            filter: 'ALL',
+            search: ''
+        };
 
+        function getSessionUser() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            if (!userStr) return null;
+            try {
+                return JSON.parse(userStr);
+            } catch {
+                return null;
+            }
+        }
+
+        function formatDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleDateString();
+        }
+
+        function renderPolicies() {
+            const tbody = document.getElementById('policyTableBody');
+            tbody.innerHTML = '';
+
+            const filtered = policyState.policies.filter(policy => {
+                const status = (policy.status || '').toUpperCase();
+                if (policyState.filter !== 'ALL' && status !== policyState.filter) {
+                    return false;
+                }
+                if (!policyState.search) return true;
+                const term = policyState.search.toLowerCase();
+                return (
+                    String(policy.policyNumber || '').includes(term) ||
+                    (policy.customerName || '').toLowerCase().includes(term) ||
+                    (policy.vehicleName || '').toLowerCase().includes(term) ||
+                    (policy.vehicleModel || '').toLowerCase().includes(term) ||
+                    (policy.policyTypeSnapshot || '').toLowerCase().includes(term)
+                );
+            });
+
+            filtered.forEach(policy => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors';
+                const status = (policy.status || '').toUpperCase();
+                const showPay = status === 'WAITING_PAYMENT';
+                const showRenew = status === 'ACTIVE' || status === 'LAPSED';
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-semibold text-primary">${policy.policyNumber || policy.policyId}</td>
+                    <td class="px-6 py-4">${policy.customerName || '-'}</td>
+                    <td class="px-6 py-4">
+                        <div>${policy.vehicleName || '-'}</div>
+                        <div class="text-xs text-slate-400">${policy.vehicleModel || '-'}</div>
+                    </td>
+                    <td class="px-6 py-4">${formatDate(policy.policyEndDate)}</td>
+                    <td class="px-6 py-4">${formatDate(policy.paymentDueDate)}</td>
+                    <td class="px-6 py-4">
+                        <div>${policy.status || '-'}</div>
+                        ${(policy.cancellationReason || policy.pendingRenewalEndDate) ? `<div class="text-xs text-slate-400">${policy.cancellationReason || ('Renew to ' + formatDate(policy.pendingRenewalEndDate))}</div>` : ''}
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-2">
+                            ${showPay ? `<button data-action="markPaid" data-id="${policy.policyId}" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-white text-xs font-bold">Mark Paid</button>` : ''}
+                            ${showRenew ? `<button data-action="renew" data-id="${policy.policyId}" class="px-3 py-1.5 rounded-lg bg-blue-500 text-white text-xs font-bold">Renew</button>` : ''}
+                            <button data-action="cancel" data-id="${policy.policyId}"
+                                class="px-3 py-1.5 rounded-lg bg-red-500 text-white text-xs font-bold">Cancel</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.querySelectorAll('button[data-action]').forEach(btn => {
+                btn.addEventListener('click', handleAction);
+            });
+        }
+
+        async function handleAction(event) {
+            const action = event.currentTarget.getAttribute('data-action');
+            const policyId = event.currentTarget.getAttribute('data-id');
+            const user = getSessionUser();
+
+            if (action === 'markPaid') {
+                const response = await fetch(`/api/PolicyManagement/${policyId}/payment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ success: true, method: 'ONLINE', transactionRef: `STAFF-${Date.now()}`, actorUserId: user?.userId || null })
+                });
+                const data = await response.json();
+                if (!data.success) {
+                    alert(data.message || 'Unable to mark payment.');
+                }
+                loadPolicies();
+                return;
+            }
+
+            if (action === 'renew') {
+                const months = prompt('Renew for how many months?', '12');
+                if (!months) return;
+                const durationMonths = Number(months);
+                if (!durationMonths || durationMonths <= 0) {
+                    alert('Invalid duration.');
+                    return;
+                }
+                const response = await fetch(`/api/PolicyManagement/${policyId}/renew`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ durationMonths, createBill: true, actorUserId: user?.userId || null })
+                });
+                const data = await response.json();
+                if (!data.success) {
+                    alert(data.message || 'Unable to renew policy.');
+                }
+                loadPolicies();
+                return;
+            }
+
+            if (action === 'cancel') {
+                const confirmCancel = confirm('Cancel this policy?');
+                if (!confirmCancel) return;
+                const reason = prompt('Cancellation reason (required):');
+                if (!reason || !reason.trim()) {
+                    alert('Cancellation reason is required.');
+                    return;
+                }
+                const dateInput = prompt('Cancel effective date (YYYY-MM-DD). Leave empty for today:', '');
+                const payload = {
+                    reason: reason.trim(),
+                    cancelDate: dateInput && dateInput.trim() ? `${dateInput.trim()}T00:00:00` : null,
+                    actorUserId: user?.userId || null
+                };
+                const response = await fetch(`/api/PolicyManagement/${policyId}/cancel`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                if (!data.success) {
+                    alert(data.message || 'Unable to cancel policy.');
+                }
+                loadPolicies();
+            }
+        }
+
+        async function loadPolicies() {
+            const response = await fetch('/api/PolicyManagement');
+            const data = await response.json();
+            policyState.policies = data.data || [];
+            renderPolicies();
+        }
+
+        document.getElementById('policyFilter').addEventListener('change', (event) => {
+            policyState.filter = event.target.value;
+            renderPolicies();
+        });
+
+        document.getElementById('policySearch').addEventListener('input', (event) => {
+            policyState.search = event.target.value.trim();
+            renderPolicies();
+        });
+
+        loadPolicies();
+    </script>
+    <script src="../js/pageLoader.js"></script>
 </body>
 
 </html>
-

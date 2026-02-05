@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Policy Detail - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-slate-100 flex flex-col">
+    <div id="header-container"></div>
+    <main class="flex-1 max-w-[1000px] mx-auto w-full px-4 lg:px-10 py-8">
+        <div class="flex items-center justify-between mb-6">
+            <button onclick="window.location.href='InsurancePoliciesList.html'"
+                class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Back to policies
+            </button>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 id="policyNumber" class="text-2xl font-black text-slate-900 dark:text-white">Policy</h1>
+                    <p id="policyStatus" class="text-sm text-slate-500 dark:text-slate-400">Status</p>
+                </div>
+                <div class="flex gap-2">
+                    <button id="downloadPdfBtn"
+                        class="bg-sky-600 text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-sky-700 transition-colors">
+                        Download Policy PDF
+                    </button>
+                    <button id="renewBtn"
+                        class="bg-primary text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">
+                        Renew Policy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <h2 class="text-lg font-bold mb-4">Policy Information</h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Coverage Type</span>
+                        <span id="policyCoverage" class="font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Start Date</span>
+                        <span id="policyStart" class="font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">End Date</span>
+                        <span id="policyEnd" class="font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Premium</span>
+                        <span id="policyPremium" class="font-semibold">-</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <h2 class="text-lg font-bold mb-4">Vehicle Information</h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Vehicle</span>
+                        <span id="policyVehicle" class="font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Plate Number</span>
+                        <span id="policyVehicleNumber" class="font-semibold">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Warranty</span>
+                        <span id="policyWarranty" class="font-semibold">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 mt-6">
+            <h2 class="text-lg font-bold mb-4">Billing</h2>
+            <div id="billList" class="space-y-2 text-sm text-slate-500">No bills available.</div>
+        </div>
+    </main>
+
+    <script>
+        function formatDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleDateString();
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        }
+
+        // PopMessage utility
+        function showPopMessage(message, type = 'success') {
+            const messageEl = document.createElement('div');
+            messageEl.className = `pop-message ${type}`;
+            messageEl.innerHTML = `
+                <span class="icon">${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(messageEl);
+
+            setTimeout(() => {
+                messageEl.style.animation = 'slideOut 0.3s ease-out forwards';
+                setTimeout(() => messageEl.remove(), 300);
+            }, 3000);
+        }
+
+        // Add PopMessage styles if not exist
+        if (!document.getElementById('popMessageStyles')) {
+            const style = document.createElement('style');
+            style.id = 'popMessageStyles';
+            style.innerHTML = `
+                .pop-message {
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    max-width: 400px;
+                    padding: 16px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease-out;
+                }
+                .pop-message.success {
+                    background-color: #dcfce7;
+                    color: #166534;
+                    border-left: 4px solid #22c55e;
+                }
+                .pop-message.error {
+                    background-color: #fee2e2;
+                    color: #991b1b;
+                    border-left: 4px solid #ef4444;
+                }
+                .pop-message.info {
+                    background-color: #dbeafe;
+                    color: #0c2340;
+                    border-left: 4px solid #3b82f6;
+                }
+                .pop-message .icon {
+                    font-size: 20px;
+                    flex-shrink: 0;
+                }
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function getSessionUser() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            if (!userStr) return null;
+            try {
+                return JSON.parse(userStr);
+            } catch {
+                return null;
+            }
+        }
+
+        async function loadPolicyDetail() {
+            const params = new URLSearchParams(window.location.search);
+            // Accept both 'id' and 'policyId' query parameters
+            const policyId = Number(params.get('id') || params.get('policyId') || 0);
+            if (!policyId) {
+                showPopMessage('Policy ID is missing.', 'error');
+                return;
+            }
+
+            const response = await fetch(`/api/PolicyManagement/${policyId}`);
+            const data = await response.json();
+            if (!data.success) {
+                showPopMessage(data.message || 'Unable to load policy detail.', 'error');
+                return;
+            }
+
+            const policy = data.data;
+            document.getElementById('policyNumber').textContent = `Policy #${policy.policyNumber || policy.policyId}`;
+            document.getElementById('policyStatus').textContent = `Status: ${policy.status || '-'}`;
+            document.getElementById('policyCoverage').textContent = policy.insuranceType?.typeName || '-';
+            document.getElementById('policyStart').textContent = formatDate(policy.policyStartDate);
+            document.getElementById('policyEnd').textContent = formatDate(policy.policyEndDate);
+            document.getElementById('policyPremium').textContent = formatCurrency(policy.premiumAmount);
+            document.getElementById('policyVehicle').textContent = policy.vehicleNameSnapshot || '-';
+            document.getElementById('policyVehicleNumber').textContent = policy.vehicleNumberSnapshot || '-';
+            document.getElementById('policyWarranty').textContent = policy.warranty || '-';
+
+            const status = (policy.status || '').toUpperCase();
+            const downloadBtn = document.getElementById('downloadPdfBtn');
+            downloadBtn.disabled = status !== 'ACTIVE';
+            if (status === 'ACTIVE') {
+                downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                downloadBtn.onclick = () => window.open(`/api/PolicyManagement/${policy.policyId}/policy-pdf`, '_blank');
+            } else {
+                downloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                downloadBtn.onclick = () => alert('PDF chỉ có sau khi policy đã ACTIVE.');
+            }
+
+            const billList = document.getElementById('billList');
+            billList.innerHTML = '';
+            if (policy.bills && policy.bills.length) {
+                policy.bills.forEach(bill => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between';
+                    div.innerHTML = `
+                        <span>Bill ${bill.billId} - ${formatDate(bill.billDate)}</span>
+                        <span class="font-semibold">${formatCurrency(bill.amount)} (${bill.paid ? 'Paid' : 'Unpaid'})</span>
+                    `;
+                    billList.appendChild(div);
+                });
+            } else {
+                billList.textContent = 'No bills available.';
+            }
+
+            document.getElementById('renewBtn').addEventListener('click', async () => {
+                const user = getSessionUser();
+                const renewResponse = await fetch(`/api/PolicyManagement/${policy.policyId}/renew`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ durationMonths: policy.durationMonths || 12, markPaid: false, actorUserId: user?.userId || null })
+                });
+                const renewData = await renewResponse.json();
+                if (!renewData.success) {
+                    alert(renewData.message || 'Unable to renew policy.');
+                    return;
+                }
+                alert('Renewal created. Please proceed to payment.');
+                loadPolicyDetail();
+            }, { once: true });
+        }
+
+        loadPolicyDetail();
+    </script>
+    <footer>
+        <iframe id="footer-frame" src="../templates/footer.html"
+            style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+            frameborder="0"></iframe>
+    </footer>
+    <script>
+        function resizeIframe(iframe) {
+            try {
+                const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                iframe.style.height = height + 'px';
+            } catch (err) {
+                console.log('Cannot access iframe content');
+            }
+        }
+
+        const headerFrame = document.getElementById('header-frame');
+        const footerFrame = document.getElementById('footer-frame');
+
+        if (headerFrame) {
+            headerFrame.onload = function () {
+                resizeIframe(headerFrame);
+            };
+        }
+
+        if (footerFrame) {
+            footerFrame.onload = function () {
+                resizeIframe(footerFrame);
+            };
+        }
+
+        window.addEventListener('resize', function () {
+            if (headerFrame) resizeIframe(headerFrame);
+            if (footerFrame) resizeIframe(footerFrame);
+        });
+    </script>
+    <script>
+        // Load header fragment
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                const headerContainer = document.getElementById('header-container');
+                headerContainer.innerHTML = html;
+                
+                // Load header.js script
+                const headerScript = document.createElement('script');
+                headerScript.src = '../js/header.js';
+                headerScript.onload = function() {
+                    setTimeout(() => {
+                        if (window.initializeHeader) {
+                            window.initializeHeader();
+                        }
+                        if (window.highlightActiveNav) {
+                            window.highlightActiveNav();
+                        }
+                        if (window.setupSearch) {
+                            window.setupSearch();
+                        }
+                    }, 50);
+                };
+                document.head.appendChild(headerScript);
+            })
+            .catch(err => console.log('Error loading header:', err));
+    </script>
+    <script src="../js/pageLoader.js"></script>
+</body>
+
+</html>

@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Policy History - AVIMS</title>
+    <title>My Policies - AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -25,9 +21,14 @@
                         "background-dark": "#101922",
                     },
                     fontFamily: {
-                        "display": ["Inter"]
+                        "display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
                 },
             },
         }
@@ -43,236 +44,68 @@
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
-    <!-- Header from template -->
+<body class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-slate-100 flex flex-col">
     <div id="header-container"></div>
-    <main class="max-w-[1200px] mx-auto px-4 lg:px-10 pb-8 pt-8">
-        <!-- Page Heading -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-            <div class="max-w-2xl">
-                <h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Policy
-                    History</h1>
-                <p class="text-slate-600 dark:text-slate-400">View and manage your active, expired, and canceled vehicle
-                    insurance policies.</p>
-            </div> 
-            <button onclick="location.href='InsurancePoliciesAdd.html'"
-                class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 transition-colors">
-                <span class="material-symbols-outlined">add</span>
-                Get New Quote
+
+    <main class="flex-1 max-w-[1200px] mx-auto w-full px-4 lg:px-10 py-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-black mb-2">My Active Policies</h1>
+            <p class="text-slate-600 dark:text-slate-400 text-lg">Track active policies and download certificates.</p>
+        </div>
+
+        <!-- Search Component -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 mb-6">
+            <div class="flex flex-col md:flex-row gap-3">
+                <label class="flex flex-col flex-1">
+                    <div class="flex w-full items-stretch rounded-lg h-14 bg-slate-100 dark:bg-slate-800 border border-transparent focus-within:border-primary transition-all">
+                        <div class="text-slate-400 flex items-center justify-center pl-4 pr-2">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input id="policySearchInput"
+                            class="form-input w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 text-base font-normal leading-normal"
+                            placeholder="Enter Policy No or License Plate (e.g., ABC-1234)" />
+                    </div>
+                </label>
+                <button onclick="searchPolicies()"
+                    class="bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 h-14">
+                    <span class="material-symbols-outlined">find_in_page</span>
+                    Search Policy
+                </button>
+            </div>
+            <button onclick="location.href='InsurancePoliciesList.html'" style="color: blue;"
+                class="mt-4 text-sm text-slate-500 dark:text-slate-400 underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+                Go to all Policies List
             </button>
         </div>
-        <!-- Stats Overview -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            <div
-                class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Total Policies</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-2xl font-bold text-slate-900 dark:text-white">12</span>
-                    <span
-                        class="text-xs font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-1.5 py-0.5 rounded">All-time</span>
-                </div>
-            </div>
-            <div
-                class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Active Policies</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-2xl font-bold text-slate-900 dark:text-white">3</span>
-                    <span class="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded">Current</span>
-                </div>
-            </div>
-            <div
-                class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Lifetime Premium</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-2xl font-bold text-slate-900 dark:text-white">$14,250</span>
-                    <span
-                        class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">USD</span>
-                </div>
-            </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="policiesGrid">
+            <!-- Policy cards will be generated here -->
         </div>
-        <!-- Filter Bar -->
-        <div
-            class="bg-white dark:bg-slate-900 p-4 rounded-t-xl border border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row gap-4">
-            <div class="flex-1">
-                <div class="relative">
-                    <span
-                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                    <input
-                        class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-primary focus:border-primary"
-                        placeholder="Search by vehicle or policy number..." type="text" />
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center gap-3">
-                <select
-                    class="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
-                    <option>All Statuses</option>
-                    <option>Active</option>
-                    <option>Expired</option>
-                    <option>Canceled</option>
-                </select>
-                <select
-                    class="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
-                    <option>Last 12 Months</option>
-                    <option>2023</option>
-                    <option>2022</option>
-                    <option>Older</option>
-                </select>
-                <button
-                    class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 transition-colors">Apply
-                    Filters</button>
-            </div>
-        </div>
-        <!-- Policy Table -->
-        <div
-            class="bg-white dark:bg-slate-900 border-x border-b border-slate-200 dark:border-slate-800 rounded-b-xl overflow-x-auto shadow-sm">
-            <table class="w-full text-left border-collapse min-w-[800px]">
-                <thead>
-                    <tr
-                        class="border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider bg-slate-50/50 dark:bg-slate-800/30">
-                        <th class="px-6 py-4">Policy Number</th>
-                        <th class="px-6 py-4">Vehicle</th>
-                        <th class="px-6 py-4">Duration</th>
-                        <th class="px-6 py-4">Premium</th>
-                        <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4 text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                    <!-- Row 1: Active -->
-                    <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group">
-                        <td class="px-6 py-5">
-                            <span class="font-bold text-slate-900 dark:text-white">POL-98234-AX</span>
-                        </td>
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-3">
-                                <div class="size-8 rounded bg-primary/10 flex items-center justify-center text-primary">
-                                    <span class="material-symbols-outlined text-lg">directions_car</span>
-                                </div>
-                                <span class="font-medium text-slate-700 dark:text-slate-200 text-sm">2022 Tesla Model
-                                    3</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">
-                            May 12, 2023 - May 12, 2024
-                        </td>
-                        <td class="px-6 py-5 font-semibold text-slate-900 dark:text-white text-sm">
-                            $1,240.00
-                        </td>
-                        <td class="px-6 py-5">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-                                <span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                Active
-                            </span>
-                        </td>
-                        <td class="px-6 py-5 text-right">
-                            <button onclick="location.href='PolicyDetail.html'"
-                                class="text-primary hover:text-primary/80 font-bold text-sm inline-flex items-center gap-1">
-                                Details <span class="material-symbols-outlined text-sm">open_in_new</span>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Row 2: Expired -->
-                    <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group">
-                        <td class="px-6 py-5">
-                            <span class="font-bold text-slate-900 dark:text-white">POL-77211-BS</span>
-                        </td>
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="size-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                                    <span class="material-symbols-outlined text-lg">directions_car</span>
-                                </div>
-                                <span class="font-medium text-slate-700 dark:text-slate-200 text-sm">2018 BMW X5</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">
-                            Jan 01, 2022 - Jan 01, 2023
-                        </td>
-                        <td class="px-6 py-5 font-semibold text-slate-900 dark:text-white text-sm">
-                            $1,850.00
-                        </td>
-                        <td class="px-6 py-5">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-                                <span class="size-1.5 rounded-full bg-slate-400"></span>
-                                Expired
-                            </span>
-                        </td>
-                        <td class="px-6 py-5 text-right">
-                            <button
-                                class="bg-primary/10 text-primary hover:bg-primary/20 px-3 py-1.5 rounded font-bold text-xs transition-colors">
-                                Renew Policy
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Row 3: Canceled -->
-                    <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group">
-                        <td class="px-6 py-5">
-                            <span class="font-bold text-slate-900 dark:text-white">POL-12093-XC</span>
-                        </td>
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="size-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                                    <span class="material-symbols-outlined text-lg">motorcycle</span>
-                                </div>
-                                <span class="font-medium text-slate-700 dark:text-slate-200 text-sm">2020 Honda
-                                    CBR</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">
-                            Mar 15, 2021 - Sep 10, 2021
-                        </td>
-                        <td class="px-6 py-5 font-semibold text-slate-900 dark:text-white text-sm">
-                            $420.00
-                        </td>
-                        <td class="px-6 py-5">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400">
-                                <span class="size-1.5 rounded-full bg-red-500"></span>
-                                Canceled
-                            </span>
-                        </td>
-                        <td class="px-6 py-5 text-right">
-                            <button
-                                class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 font-bold text-sm inline-flex items-center gap-1">
-                                History <span class="material-symbols-outlined text-sm">history</span>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- Pagination -->
-        <div class="flex items-center justify-between mt-6 px-2">
-            <p class="text-sm text-slate-500 dark:text-slate-400">Showing 1 to 3 of 12 results</p>
-            <div class="flex items-center gap-1">
-                <button
-                    class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
-                    disabled="">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
-                <button class="size-10 rounded-lg bg-primary text-white font-bold text-sm">1</button>
-                <button
-                    class="size-10 rounded-lg text-slate-600 dark:text-slate-400 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800">2</button>
-                <button
-                    class="size-10 rounded-lg text-slate-600 dark:text-slate-400 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800">3</button>
-                <button
-                    class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
-            </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-12 hidden">
+            <span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-600 mb-4 block">
+                description
+            </span>
+            <h3 class="text-xl font-bold text-slate-600 dark:text-slate-400 mb-2">No Active Policies</h3>
+            <p class="text-slate-500 dark:text-slate-400 mb-6">
+                You don't have any active policies at the moment.
+            </p>
+            <a href="EstimateRequest.html" class="inline-flex items-center gap-2 text-primary font-bold hover:underline">
+                <span class="material-symbols-outlined text-[20px]">add_circle</span>
+                Get a Quote
+            </a>
         </div>
     </main>
-    <!-- Footer from template -->
-    <iframe id="footer-frame" src="../templates/footer.html"
-        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
-        frameborder="0"></iframe>
+
+    <footer>
+        <iframe id="footer-frame" src="../templates/footer.html"
+            style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
+            frameborder="0"></iframe>
+    </footer>
 
     <script>
-        // Auto-adjust iframe heights
+        // Auto-adjust iframe height
         function resizeIframe(iframe) {
             try {
                 const height = iframe.contentWindow.document.documentElement.scrollHeight;
@@ -282,44 +115,267 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
-
         if (footerFrame) {
             footerFrame.onload = function () {
                 resizeIframe(footerFrame);
             };
         }
 
-        // Resize on window resize
         window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
             if (footerFrame) resizeIframe(footerFrame);
         });
     </script>
+
+    <script>
+        const policyState = {
+            policies: [],
+            user: null
+        };
+
+        function getSessionUser() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            if (!userStr) return null;
+            try {
+                return JSON.parse(userStr);
+            } catch {
+                return null;
+            }
+        }
+
+        function formatDate(date) {
+            if (!date) return 'N/A';
+            const d = new Date(date);
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        }
+
+        function getStatusBadge(status) {
+            const statusMap = {
+                'ACTIVE': { bg: 'bg-green-100', text: 'text-green-700', darkBg: 'dark:bg-green-900/30', darkText: 'dark:text-green-400' },
+                'WAITING_PAYMENT': { bg: 'bg-yellow-100', text: 'text-yellow-700', darkBg: 'dark:bg-yellow-900/30', darkText: 'dark:text-yellow-400' },
+                'CANCELLED': { bg: 'bg-red-100', text: 'text-red-700', darkBg: 'dark:bg-red-900/30', darkText: 'dark:text-red-400' },
+                'LAPSED': { bg: 'bg-slate-100', text: 'text-slate-700', darkBg: 'dark:bg-slate-900/30', darkText: 'dark:text-slate-400' }
+            };
+            return statusMap[status] || statusMap['LAPSED'];
+        }
+
+        async function loadPolicies() {
+            const user = getSessionUser();
+            console.log('Current user:', user);
+            console.log('User properties:', Object.keys(user || {}));
+            
+            if (!user) {
+                console.error('No valid user found');
+                document.getElementById('emptyState').classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                // Load all policies
+                const response = await fetch('/api/PolicyManagement');
+                if (!response.ok) throw new Error(`Failed to load policies: ${response.status}`);
+                
+                const data = await response.json();
+                console.log('API response:', data);
+                
+                // Handle different API response formats
+                let policies = [];
+                if (Array.isArray(data)) {
+                    policies = data;
+                } else if (data && Array.isArray(data.data)) {
+                    // API response is { success: true, data: [...] }
+                    policies = data.data;
+                } else if (data && Array.isArray(data.value)) {
+                    policies = data.value;
+                } else if (data && Array.isArray(data.policies)) {
+                    policies = data.policies;
+                } else {
+                    console.error('Cannot extract array from API response:', data);
+                    document.getElementById('emptyState').classList.remove('hidden');
+                    return;
+                }
+                
+                console.log('Total policies extracted:', policies.length);
+                
+                // Debug: Log first policy structure
+                if (policies.length > 0) {
+                    console.log('First policy structure:', JSON.stringify(policies[0], null, 2));
+                }
+                
+                // Filter by ACTIVE status and customer name
+                const userName = user.customerName || user.name || user.userName || '';
+                console.log('Filtering by customerName:', userName);
+                
+                policyState.policies = policies.filter(p => {
+                    const isActive = p.status === 'ACTIVE';
+                    const nameMatch = p.customerName === userName; // Exact match only
+                    
+                    console.log(`Policy ${p.policyNumber}: status=${p.status}, customerName=${p.customerName}, userName=${userName}, match=${nameMatch}`);
+                    
+                    return isActive && nameMatch;
+                });
+                
+                console.log(`Found ${policyState.policies.length} ACTIVE policies`);
+                console.log('Filtered policies:', policyState.policies);
+                
+                if (policyState.policies.length === 0) {
+                    document.getElementById('emptyState').classList.remove('hidden');
+                    document.getElementById('policiesGrid').innerHTML = '';
+                } else {
+                    document.getElementById('emptyState').classList.add('hidden');
+                    renderPolicies();
+                }
+            } catch (err) {
+                console.error('Error loading policies:', err);
+                document.getElementById('emptyState').classList.remove('hidden');
+            }
+        }
+
+
+
+        function searchPolicies() {
+            const searchInput = document.getElementById('policySearchInput').value.toLowerCase();
+            if (!searchInput) {
+                renderPolicies();
+                return;
+            }
+
+            const filtered = policyState.policies.filter(p => {
+                const policyNum = p.policyNumber?.toLowerCase() || '';
+                const licensePlate = p.vehicleSnapshot?.licensePlate?.toLowerCase() || '';
+                return policyNum.includes(searchInput) || licensePlate.includes(searchInput);
+            });
+
+            const grid = document.getElementById('policiesGrid');
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="col-span-2 text-center py-12"><p class="text-slate-500">No policies found matching your search.</p></div>';
+            } else {
+                grid.innerHTML = filtered.map(policy => renderPolicyCard(policy)).join('');
+            }
+        }
+
+        function renderPolicyCard(policy) {
+            const badge = getStatusBadge(policy.status);
+            // API uses policyStartDate/policyEndDate
+            const startDate = formatDate(policy.policyStartDate);
+            const endDate = formatDate(policy.policyEndDate);
+            
+            // API uses vehicleName, vehicleModel, vehicleNumber instead of vehicleSnapshot
+            const vehicleInfo = policy.vehicleName ? `${policy.vehicleName}` : 'N/A';
+            const licensePlate = policy.vehicleNumber || 'N/A';
+            const coverageType = policy.insuranceType?.typeName || policy.coverageType || 'N/A';
+
+            return `
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${badge.bg} ${badge.text} ${badge.darkBg} ${badge.darkText} mb-2">
+                                    <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                    ${policy.status}
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white">${vehicleInfo}</h3>
+                                <p class="text-slate-500 dark:text-slate-400 text-sm">Policy No: <span class="text-slate-900 dark:text-slate-200 font-semibold uppercase">${policy.policyNumber}</span></p>
+                            </div>
+                            <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg">
+                                <span class="material-symbols-outlined text-primary text-[32px]">directions_car</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3 py-4 border-y border-slate-100 dark:border-slate-800">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500 dark:text-slate-400">Validity Period</span>
+                                <span class="font-medium text-slate-900 dark:text-slate-200">${startDate} - ${endDate}</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500 dark:text-slate-400">Coverage Type</span>
+                                <span class="font-medium text-slate-900 dark:text-slate-200">${coverageType}</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500 dark:text-slate-400">License Plate</span>
+                                <span class="font-medium text-slate-900 dark:text-slate-200">${licensePlate}</span>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex gap-3">
+                            <button onclick="downloadCertificate('${policy.policyId}')"
+                                class="flex-1 bg-primary text-white text-sm font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">download</span>
+                                Certificate
+                            </button>
+                            <a href="PolicyDetailView.html?id=${policy.policyId}"
+                                class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold py-3 px-4 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPolicies() {
+            const grid = document.getElementById('policiesGrid');
+            grid.innerHTML = policyState.policies.map(policy => renderPolicyCard(policy)).join('');
+        }
+
+        function downloadCertificate(policyId) {
+            // Download PDF from API endpoint
+            fetch(`/api/PolicyManagement/${policyId}/policy-pdf`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to download certificate');
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `policy-${policyId}.pdf`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(err => {
+                    console.error('Error downloading certificate:', err);
+                    alert('Failed to download certificate. Please try again.');
+                });
+        }
+
+        // Load on page ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadPolicies);
+        } else {
+            loadPolicies();
+        }
+    </script>
+
     <script>
         // Load header fragment
         fetch('../templates/header.html')
             .then(response => response.text())
             .then(html => {
-                document.getElementById('header-container').innerHTML = html;
-                // Ensure DOM is updated before initializing
-                setTimeout(() => {
-                    if (window.initializeHeader) {
-                        window.initializeHeader();
-                    }
-                }, 100);
+                const headerContainer = document.getElementById('header-container');
+                headerContainer.innerHTML = html;
+                
+                // Load header.js script
+                const headerScript = document.createElement('script');
+                headerScript.src = '../js/header.js';
+                headerScript.onload = function() {
+                    setTimeout(() => {
+                        if (window.initializeHeader) {
+                            window.initializeHeader();
+                        }
+                        if (window.highlightActiveNav) {
+                            window.highlightActiveNav();
+                        }
+                    }, 50);
+                };
+                document.head.appendChild(headerScript);
             })
-            .catch(error => console.error('Error loading header:', error));
+            .catch(err => console.log('Error loading header:', err));
     </script>
-    <script src="../js/pageLoader.js"></script>
 
+    <script src="../js/pageLoader.js"></script>
 </body>
 
 </html>

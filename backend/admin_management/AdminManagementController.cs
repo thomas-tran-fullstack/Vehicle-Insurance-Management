@@ -452,7 +452,7 @@ namespace VehicleInsuranceAPI.Backend.AdminManagement
                     try
                     {
                         await _context.Database.ExecuteSqlRawAsync(
-                            "DELETE FROM [Notifications] WHERE [ToUserId] = {0}",
+                            "DELETE FROM [Notifications] WHERE [UserId] = {0}",
                             id);
                     }
                     catch { /* Notifications deletion failed */ }

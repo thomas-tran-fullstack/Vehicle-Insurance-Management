@@ -85,45 +85,48 @@
                     </div>
                     <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex flex-col gap-2">
-                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Vehicle Type</label>
-                            <select
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Select Vehicle</label>
+                            <select id="vehicleSelect"
                                 class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12">
-                                <option>Private Car</option>
-                                <option>Motorcycle</option>
-                                <option>Commercial Vehicle</option>
-                                <option>SUV/4x4</option>
+                                <option value="">Choose your vehicle</option>
                             </select>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Vehicle
-                                Brand</label>
-                            <input
-                                class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12"
-                                placeholder="e.g. Toyota, BMW" type="text" />
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Insurance Type</label>
+                            <select id="insuranceTypeSelect"
+                                class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12">
+                                <option value="">Select coverage plan</option>
+                            </select>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Manufacture
-                                Year</label>
-                            <input
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Duration (months)</label>
+                            <input id="durationMonths" value="12"
                                 class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12"
-                                placeholder="YYYY" type="number" />
+                                placeholder="12" type="number" min="1" />
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">License
-                                Plate</label>
-                            <input
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Warranty</label>
+                            <input id="warranty"
                                 class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12"
-                                placeholder="ABC-1234" type="text" />
+                                placeholder="e.g. 12 months / Yes" type="text" />
+                        </div>
+                        <div class="md:col-span-2 flex flex-col gap-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Notes (optional)</label>
+                            <textarea id="estimateNotes"
+                                class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary min-h-[96px]"
+                                placeholder="Additional requests or notes"></textarea>
                         </div>
                     </div>
                     <div class="px-8 pb-8 pt-4 flex justify-end gap-3">
                         <button
+                            id="saveDraftBtn"
                             class="px-6 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-bold hover:bg-slate-50 dark:hover:bg-slate-800">
                             Save Draft
                         </button>
                         <button
+                            id="submitEstimateBtn"
                             class="px-8 py-3 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-all flex items-center gap-2">
-                            Next Step
+                            Submit Estimate
                             <span class="material-symbols-outlined text-sm">arrow_forward</span>
                         </button>
                     </div>
@@ -159,18 +162,26 @@
                         <p class="text-primary-foreground/80 text-sm mb-1 uppercase tracking-wider font-semibold">
                             Monthly Payment</p>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-4xl font-black">$142.50</span>
+                            <span id="premiumMonthly" class="text-4xl font-black">$0.00</span>
                             <span class="text-sm opacity-80">/ mo</span>
                         </div>
                     </div>
                     <div class="space-y-4 border-t border-white/20 pt-6">
                         <div class="flex justify-between text-sm">
                             <span class="opacity-80">Base Plan (Private)</span>
-                            <span class="font-semibold">$120.00</span>
+                            <span id="premiumBase" class="font-semibold">$0.00</span>
                         </div>
                         <div class="flex justify-between text-sm">
-                            <span class="opacity-80">Estimated Taxes (15%)</span>
-                            <span class="font-semibold">$22.50</span>
+                            <span class="opacity-80">Surcharge</span>
+                            <span id="premiumSurcharge" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="opacity-80">Estimated Taxes (10%)</span>
+                            <span id="premiumTax" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-semibold border-t border-white/20 pt-3">
+                            <span class="opacity-90">Total</span>
+                            <span id="premiumTotal" class="font-semibold">$0.00</span>
                         </div>
                         <div class="flex justify-between text-sm italic">
                             <span class="opacity-80">Liability Cover</span>
@@ -178,6 +189,7 @@
                         </div>
                     </div>
                     <button
+                        id="lockRateBtn"
                         class="w-full bg-white text-primary mt-8 py-3 rounded-lg font-bold hover:bg-slate-50 transition-colors">
                         Lock This Rate
                     </button>
@@ -277,6 +289,202 @@
                 document.head.appendChild(script);
             })
             .catch(error => console.error('Error loading header:', error));
+    </script>
+    <script>
+        const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+        const state = {
+            customerId: null,
+            vehicles: [],
+            insuranceTypes: [],
+            selectedVehicle: null,
+            selectedType: null,
+            preview: null
+        };
+
+        function getSessionUser() {
+            const sessionStr = sessionStorage.getItem('user');
+            const localStr = localStorage.getItem('user');
+            const userStr = sessionStr || localStr;
+            if (!userStr) return null;
+            try {
+                return JSON.parse(userStr);
+            } catch {
+                return null;
+            }
+        }
+
+        function formatCurrency(value) {
+            const amount = Number(value || 0);
+            return currencyFormatter.format(amount);
+        }
+
+        function getTypeFactor(typeCode) {
+            const code = String(typeCode || '').toUpperCase();
+            if (code.includes('PLUS')) return 1.2;
+            if (code.includes('COMM')) return 1.3;
+            return 1;
+        }
+
+        function getModelFactor(vehicle) {
+            const modelClass = String(vehicle?.vehicleClass || vehicle?.vehicleModel || '').toUpperCase();
+            if (modelClass.includes('SUV') || modelClass.includes('TRUCK')) return 1.15;
+            if (modelClass.includes('MOTORBIKE')) return 0.9;
+            return 1;
+        }
+
+        function updatePremiumPreview() {
+            const vehicleId = Number(document.getElementById('vehicleSelect').value || 0);
+            const typeId = Number(document.getElementById('insuranceTypeSelect').value || 0);
+            const duration = Number(document.getElementById('durationMonths').value || 12);
+
+            const vehicle = state.vehicles.find(v => v.vehicleId === vehicleId);
+            const insuranceType = state.insuranceTypes.find(t => t.insuranceTypeId === typeId);
+            const vehicleRate = vehicle?.vehicleRate || 0;
+            const baseRate = insuranceType?.baseRatePercent || 2.5;
+            const basePremium = vehicleRate * (baseRate / 100);
+            const durationFactor = duration / 12;
+            const compositeFactor = durationFactor * getTypeFactor(insuranceType?.typeCode) * getModelFactor(vehicle);
+            const surcharge = basePremium * Math.max(compositeFactor - 1, 0);
+            const subTotal = basePremium + surcharge;
+            const tax = subTotal * 0.10;
+            const total = subTotal + tax;
+            const monthly = duration > 0 ? total / duration : total;
+            state.preview = { basePremium, surcharge, tax, total };
+
+            document.getElementById('premiumBase').textContent = formatCurrency(basePremium);
+            document.getElementById('premiumSurcharge').textContent = formatCurrency(surcharge);
+            document.getElementById('premiumTax').textContent = formatCurrency(tax);
+            document.getElementById('premiumMonthly').textContent = formatCurrency(monthly);
+            document.getElementById('premiumTotal').textContent = formatCurrency(total);
+        }
+
+        async function loadEstimateFormData() {
+            const user = getSessionUser();
+            if (!user || !user.userId) {
+                window.location.href = './Login.html';
+                return;
+            }
+
+            const customerRes = await fetch(`/api/customerinformation/${user.userId}`);
+            const customerData = await customerRes.json();
+            if (!customerData.success) {
+                alert('Unable to load customer profile.');
+                return;
+            }
+
+            state.customerId = customerData.data.customerId;
+
+            const [vehiclesRes, typesRes] = await Promise.all([
+                fetch(`/api/InsuranceEstimate/vehicles?customerId=${state.customerId}`),
+                fetch('/api/InsuranceEstimate/insurance-types')
+            ]);
+
+            const vehiclesData = await vehiclesRes.json();
+            const typesData = await typesRes.json();
+            state.vehicles = vehiclesData.data || [];
+            state.insuranceTypes = typesData.data || [];
+
+            const vehicleSelect = document.getElementById('vehicleSelect');
+            state.vehicles.forEach(vehicle => {
+                const option = document.createElement('option');
+                option.value = vehicle.vehicleId;
+                option.textContent = `${vehicle.vehicleName || 'Vehicle'} (${vehicle.vehicleNumber || 'N/A'})`;
+                vehicleSelect.appendChild(option);
+            });
+
+            if (!state.vehicles.length) {
+                alert('No vehicles found. Please add a vehicle first.');
+            }
+
+            const insuranceSelect = document.getElementById('insuranceTypeSelect');
+            state.insuranceTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.insuranceTypeId;
+                option.textContent = `${type.typeName} (${type.baseRatePercent}% base)`;
+                insuranceSelect.appendChild(option);
+            });
+
+            if (!state.insuranceTypes.length) {
+                alert('No insurance types available.');
+            }
+
+            updatePremiumPreview();
+        }
+
+        async function submitEstimate(submit) {
+            const vehicleId = Number(document.getElementById('vehicleSelect').value || 0);
+            const insuranceTypeId = Number(document.getElementById('insuranceTypeSelect').value || 0);
+            const duration = Number(document.getElementById('durationMonths').value || 12);
+            let warranty = document.getElementById('warranty').value.trim();
+            const notes = document.getElementById('estimateNotes').value.trim();
+
+            if (!vehicleId || !insuranceTypeId) {
+                alert('Please select a vehicle and insurance type.');
+                return;
+            }
+
+            const user = getSessionUser();
+            if (!warranty) {
+                warranty = `${duration} months`;
+            }
+
+            const payload = {
+                customerId: state.customerId,
+                vehicleId,
+                insuranceTypeId,
+                durationMonths: duration,
+                warranty,
+                notes,
+                submit,
+                actorUserId: user?.userId || null
+            };
+
+            const response = await fetch('/api/InsuranceEstimate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const rawText = await response.text();
+            let data = null;
+            try {
+                data = JSON.parse(rawText);
+            } catch (err) {
+                data = null;
+            }
+
+            if (!response.ok || !data || !data.success) {
+                alert(data?.message || rawText || 'Unable to submit estimate.');
+                return;
+            }
+
+            const validUntil = data?.data?.validUntil
+                ? new Date(data.data.validUntil).toLocaleString()
+                : 'N/A';
+            alert(`Estimate saved successfully.\nStatus: ${data?.data?.status || '-'}\nValid Until: ${validUntil}`);
+            window.location.href = './EstimateList.html';
+        }
+
+        document.getElementById('vehicleSelect').addEventListener('change', updatePremiumPreview);
+        document.getElementById('insuranceTypeSelect').addEventListener('change', updatePremiumPreview);
+        document.getElementById('durationMonths').addEventListener('input', updatePremiumPreview);
+
+        document.getElementById('saveDraftBtn').addEventListener('click', (event) => {
+            event.preventDefault();
+            submitEstimate(false);
+        });
+
+        document.getElementById('submitEstimateBtn').addEventListener('click', (event) => {
+            event.preventDefault();
+            submitEstimate(true);
+        });
+
+        document.getElementById('lockRateBtn').addEventListener('click', (event) => {
+            event.preventDefault();
+            submitEstimate(true);
+        });
+
+        loadEstimateFormData();
     </script>
     <script src="../js/pageLoader.js"></script>
 

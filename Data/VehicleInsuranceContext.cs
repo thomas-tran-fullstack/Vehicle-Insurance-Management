@@ -36,6 +36,8 @@ namespace VehicleInsuranceAPI.Data
 
         public virtual DbSet<InsuranceCancellation> InsuranceCancellations { get; set; }
 
+        public virtual DbSet<InsuranceType> InsuranceTypes { get; set; }
+
         public virtual DbSet<Notification> Notifications { get; set; }
 
         public virtual DbSet<Penalty> Penalties { get; set; }
@@ -153,12 +155,23 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.EstimateId).HasName("PK__Estimate__ABEBF4B5C276F608");
 
-                entity.Property(e => e.CreatedDate)
+                entity.Property(e => e.EstimateNumber);
+                entity.Property(e => e.CustomerNameSnapshot).HasMaxLength(255);
+                entity.Property(e => e.CustomerPhoneSnapshot).HasMaxLength(20);
+                entity.Property(e => e.VehicleNameSnapshot).HasMaxLength(255);
+                entity.Property(e => e.VehicleModelSnapshot).HasMaxLength(100);
+                entity.Property(e => e.PolicyTypeSnapshot).HasMaxLength(100);
+                entity.Property(e => e.VehicleRate).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.BasePremium).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.Surcharge).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.TaxAmount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.EstimatedPremium).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.Warranty).HasMaxLength(100);
+                entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.Notes).HasMaxLength(500);
+                entity.Property(e => e.CreatedAt)
                     .HasDefaultValueSql("(getdate())")
                     .HasColumnType("datetime");
-                entity.Property(e => e.EstimateAmount).HasColumnType("decimal(18, 2)");
-                entity.Property(e => e.PolicyType).HasMaxLength(100);
-                entity.Property(e => e.Warranty).HasMaxLength(100);
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Estimates)
                     .HasForeignKey(d => d.CustomerId)
@@ -221,6 +234,8 @@ namespace VehicleInsuranceAPI.Data
                 entity.Property(e => e.Message)
                     .IsRequired()
                     .HasMaxLength(1000);
+                entity.Property(e => e.Type)
+                    .HasMaxLength(50);
                 entity.Property(e => e.Channel)
                     .IsRequired()
                     .HasMaxLength(30)
@@ -229,14 +244,16 @@ namespace VehicleInsuranceAPI.Data
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasDefaultValue("QUEUED");
-                entity.Property(e => e.CreatedAt)
+                entity.Property(e => e.IsRead)
+                    .HasDefaultValue(false);
+                entity.Property(e => e.CreatedDate)
                     .IsRequired()
                     .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.User).WithMany(p => p.Notifications)
-                    .HasForeignKey(d => d.ToUserId)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Notificat__ToUser__778AC167");
+                    .HasConstraintName("FK__Notificat__UserId__778AC167");
             });
 
             modelBuilder.Entity<Penalty>(entity =>

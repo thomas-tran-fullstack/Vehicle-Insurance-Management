@@ -1,278 +1,187 @@
-<!DOCTYPE html>
-
+ï»¿<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Secure Payment | AVIMS Insurance</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#137fec",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#101922",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                },
-            },
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - AVIMS</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+  <style>body{font-family:Inter,sans-serif;}</style>
 </head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <div id="header-container"></div>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
-    <!-- Header from template -->
-    <div id="header-container"></div>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 pt-8">
-        <!-- Page Heading -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2">Secure Checkout</h1>
-            <p class="text-slate-600 dark:text-slate-400">Complete your insurance premium payment to activate coverage
-                for Policy #POL-88210-XC.</p>
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div class="mb-6">
+      <h1 class="text-3xl font-extrabold">Checkout</h1>
+      <p class="text-slate-500">Complete payment to activate your policy.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <section class="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-6">
+        <h2 class="text-lg font-bold mb-4">Payment Details</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Payment Method</label>
+            <select id="paymentMethod" class="w-full rounded-lg border-slate-300 h-11">
+              <option value="ONLINE">Online</option>
+              <option value="CARD">Card</option>
+              <option value="BANK_TRANSFER">Bank Transfer</option>
+              <option value="CASH">Cash</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Transaction Reference</label>
+            <input id="transactionRef" class="w-full rounded-lg border-slate-300 h-11" placeholder="Auto-generated if blank" />
+          </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Column: Payment Details -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Payment Method Section -->
-                <section
-                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
-                        Payment Method
-                    </h2>
-                    <!-- Segmented Buttons -->
-                    <div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg mb-8">
-                        <label class="flex-1 cursor-pointer">
-                            <input checked="" class="sr-only peer" name="payment_method" type="radio" />
-                            <div
-                                class="text-center py-2 rounded-md transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:shadow-sm peer-checked:text-primary text-slate-600 dark:text-slate-400 text-sm font-medium">
-                                Credit/Debit Card
-                            </div>
-                        </label>
-                        <label class="flex-1 cursor-pointer">
-                            <input class="sr-only peer" name="payment_method" type="radio" />
-                            <div
-                                class="text-center py-2 rounded-md transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:shadow-sm peer-checked:text-primary text-slate-600 dark:text-slate-400 text-sm font-medium">
-                                Bank Transfer
-                            </div>
-                        </label>
-                        <label class="flex-1 cursor-pointer">
-                            <input class="sr-only peer" name="payment_method" type="radio" />
-                            <div
-                                class="text-center py-2 rounded-md transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:shadow-sm peer-checked:text-primary text-slate-600 dark:text-slate-400 text-sm font-medium">
-                                E-wallet
-                            </div>
-                        </label>
-                    </div>
-                    <!-- Card Form -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2">
-                            <label
-                                class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-300">Cardholder
-                                Name</label>
-                            <input
-                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary"
-                                placeholder="Johnathan Doe" type="text" />
-                        </div>
-                        <div class="md:col-span-2 relative">
-                            <label class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-300">Card
-                                Number</label>
-                            <div class="relative">
-                                <input
-                                    class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary pr-12"
-                                    placeholder="0000 0000 0000 0000" type="text" />
-                                <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                                    <span class="material-symbols-outlined text-slate-400">credit_card</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-300">Expiry
-                                Date</label>
-                            <input
-                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary"
-                                placeholder="MM / YY" type="text" />
-                        </div>
-                        <div>
-                            <label
-                                class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-300">CVV</label>
-                            <input
-                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary"
-                                placeholder="•••" type="password" />
-                        </div>
-                    </div>
-                    <div class="mt-6 flex items-center gap-3">
-                        <input class="rounded text-primary focus:ring-primary border-slate-300" id="save_card"
-                            type="checkbox" />
-                        <label class="text-sm text-slate-600 dark:text-slate-400" for="save_card">Save card for future
-                            payments</label>
-                    </div>
-                </section>
-                <!-- Secure Indicators -->
-                <div class="flex flex-wrap items-center justify-between gap-4 py-4 px-2">
-                    <div class="flex items-center gap-2 text-slate-500 text-sm">
-                        <span class="material-symbols-outlined text-green-500">lock</span>
-                        Your payment is secured with 256-bit SSL encryption
-                    </div>
-                    <div class="flex gap-4 grayscale opacity-60">
-                        <div class="h-6 w-10 bg-slate-200 dark:bg-slate-700 rounded" data-alt="Visa Logo"></div>
-                        <div class="h-6 w-10 bg-slate-200 dark:bg-slate-700 rounded" data-alt="Mastercard Logo"></div>
-                        <div class="h-6 w-10 bg-slate-200 dark:bg-slate-700 rounded" data-alt="PCI DSS Compliant Logo">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Right Column: Order Summary -->
-            <div class="lg:col-span-1">
-                <div
-                    class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm sticky top-8">
-                    <h3 class="text-lg font-bold mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">Order
-                        Summary</h3>
-                    <div class="space-y-4 mb-6">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Policy Type</span>
-                            <span class="font-medium">Comprehensive Auto</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Vehicle</span>
-                            <span class="font-medium">2023 Tesla Model 3</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Coverage Period</span>
-                            <span class="font-medium">12 Months</span>
-                        </div>
-                    </div>
-                    <div class="space-y-3 py-4 border-t border-slate-100 dark:border-slate-800">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Base Premium</span>
-                            <span>$1,240.00</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Service Fee</span>
-                            <span>$15.00</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Taxes (8%)</span>
-                            <span>$99.20</span>
-                        </div>
-                    </div>
-                    <div class="pt-4 mt-4 border-t-2 border-dashed border-slate-100 dark:border-slate-800">
-                        <div class="flex justify-between items-baseline mb-6">
-                            <span class="text-lg font-bold">Total Amount</span>
-                            <span class="text-2xl font-black text-primary">$1,354.20</span>
-                        </div>
-                        <button
-                            class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 transition-all flex items-center justify-center gap-2">
-                            <span>Pay $1,354.20</span>
-                            <span class="material-symbols-outlined">arrow_forward</span>
-                        </button>
-                    </div>
-                    <p class="text-[10px] text-center text-slate-400 mt-4 leading-relaxed">
-                        By clicking "Pay Now", you agree to AVIMS terms of service and insurance policy conditions.
-                    </p>
-                </div>
-            </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="block text-sm font-medium mb-1">Cardholder Name</label>
+            <input id="cardholderName" class="w-full rounded-lg border-slate-300 h-11" placeholder="Required for CARD" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Card Number</label>
+            <input id="cardNumber" class="w-full rounded-lg border-slate-300 h-11" placeholder="Required for CARD" />
+          </div>
         </div>
-    </main>
-    <!-- Footer from template -->
-    <iframe id="footer-frame" src="../templates/footer.html"
-        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
-        frameborder="0"></iframe>
 
-    <script>
-        // Auto-adjust iframe heights
-        function resizeIframe(iframe) {
-            try {
-                const height = iframe.contentWindow.document.documentElement.scrollHeight;
-                iframe.style.height = height + 'px';
-            } catch (err) {
-                console.log('Cannot access iframe content');
-            }
+        <button id="payNowBtn" class="px-6 py-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700">Pay Now</button>
+        <button id="backBtn" class="ml-2 px-6 py-3 rounded-lg border border-slate-300 font-bold hover:bg-slate-100">Back</button>
+      </section>
+
+      <aside class="bg-white border border-slate-200 rounded-xl p-6">
+        <h2 class="text-lg font-bold mb-4">Order Summary</h2>
+        <div class="space-y-2 text-sm">
+          <div><span class="text-slate-500">Policy #:</span> <b id="policyNumber">-</b></div>
+          <div><span class="text-slate-500">Vehicle:</span> <b id="vehicleName">-</b></div>
+          <div><span class="text-slate-500">Policy Type:</span> <b id="policyType">-</b></div>
+          <div><span class="text-slate-500">End Date:</span> <b id="policyEndDate">-</b></div>
+          <div><span class="text-slate-500">Payment Due:</span> <b id="paymentDueDate">-</b></div>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-200">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold">Total</span>
+            <span id="totalAmount" class="text-xl font-extrabold text-blue-600">$0.00</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <iframe id="footer-frame" src="../templates/footer.html" style="border:none;width:100%;display:block;"></iframe>
+
+  <script>
+    fetch('../templates/header.html').then(r=>r.text()).then(html=>{
+      document.getElementById('header-container').innerHTML = html;
+      const script = document.createElement('script');
+      script.src = '../js/header.js';
+      document.head.appendChild(script);
+    });
+
+    const state = { policyId: 0, policy: null };
+
+    function getSessionUser() {
+      const raw = sessionStorage.getItem('user') || localStorage.getItem('user');
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch { return null; }
+    }
+
+    function fmtDate(value) {
+      if (!value) return '-';
+      return new Date(value).toLocaleDateString();
+    }
+
+    function fmtMoney(value) {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+    }
+
+    function validatePaymentForm() {
+      const method = document.getElementById('paymentMethod').value;
+      if (method === 'CARD') {
+        const name = document.getElementById('cardholderName').value.trim();
+        const card = document.getElementById('cardNumber').value.trim();
+        if (!name || !card) {
+          alert('Cardholder name and card number are required for CARD payment.');
+          return false;
         }
+      }
+      return true;
+    }
 
-        const headerFrame = document.getElementById('header-frame');
-        const footerFrame = document.getElementById('footer-frame');
+    async function loadPolicy() {
+      const params = new URLSearchParams(window.location.search);
+      state.policyId = Number(params.get('policyId') || 0);
+      if (!state.policyId) {
+        alert('Missing policyId.');
+        window.location.href = './InsurancePoliciesList.html';
+        return;
+      }
 
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
+      const response = await fetch(`/api/PolicyManagement/${state.policyId}`);
+      const result = await response.json();
+      if (!result.success) {
+        alert(result.message || 'Unable to load policy.');
+        window.location.href = './InsurancePoliciesList.html';
+        return;
+      }
 
-        if (footerFrame) {
-            footerFrame.onload = function () {
-                resizeIframe(footerFrame);
-            };
-        }
+      state.policy = result.data;
+      document.getElementById('policyNumber').textContent = state.policy.policyNumber || '-';
+      document.getElementById('vehicleName').textContent = state.policy.vehicleNameSnapshot || '-';
+      document.getElementById('policyType').textContent = state.policy.policyTypeSnapshot || '-';
+      document.getElementById('policyEndDate').textContent = fmtDate(state.policy.policyEndDate);
+      document.getElementById('paymentDueDate').textContent = fmtDate(state.policy.paymentDueDate);
+      document.getElementById('totalAmount').textContent = fmtMoney(state.policy.premiumAmount);
 
-        // Resize on window resize
-        window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
-            if (footerFrame) resizeIframe(footerFrame);
-        });
-    </script>
-    <script>
-        // Load header fragment
-        fetch('../templates/header.html')
-            .then(response => {
-                console.log('Header fetch response:', response.status);
-                return response.text();
-            })
-            .then(html => {
-                console.log('Header HTML loaded, inserting into DOM');
-                document.getElementById('header-container').innerHTML = html;
-                
-                // Load header.js script file
-                const script = document.createElement('script');
-                script.src = '../js/header.js';
-                script.onload = () => {
-                    console.log('header.js loaded successfully');
-                    // Now check for initializeHeader
-                    let retries = 0;
-                    const checkAndInitialize = () => {
-                        retries++;
-                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
-                            console.log('Calling window.initializeHeader()');
-                            window.initializeHeader();
-                        } else if (retries < 10) {
-                            setTimeout(checkAndInitialize, 100);
-                        }
-                    };
-                    checkAndInitialize();
-                };
-                script.onerror = () => {
-                    console.error('Failed to load header.js');
-                };
-                document.head.appendChild(script);
-            })
-            .catch(error => console.error('Error loading header:', error));
-    </script>
-    <script src="../js/pageLoader.js"></script>
+      if ((state.policy.status || '').toUpperCase() !== 'WAITING_PAYMENT') {
+        document.getElementById('payNowBtn').disabled = true;
+        document.getElementById('payNowBtn').classList.add('opacity-50', 'cursor-not-allowed');
+        alert('This policy is not in WAITING_PAYMENT status.');
+      }
+    }
 
+    async function payNow() {
+      if (!validatePaymentForm()) return;
+      const user = getSessionUser();
+      if (!user) {
+        window.location.href = './Login.html';
+        return;
+      }
+
+      const method = document.getElementById('paymentMethod').value;
+      const ref = document.getElementById('transactionRef').value.trim() || `PAY-${Date.now()}`;
+
+      const response = await fetch(`/api/PolicyManagement/${state.policyId}/payment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          success: true,
+          method,
+          transactionRef: ref,
+          actorUserId: user.userId
+        })
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        alert(data.message || 'Payment failed.');
+        return;
+      }
+
+      alert(data.message || 'Payment successful.');
+      window.location.href = './InsurancePoliciesList.html';
+    }
+
+    document.getElementById('payNowBtn').addEventListener('click', payNow);
+    document.getElementById('backBtn').addEventListener('click', () => {
+      window.location.href = './InsurancePoliciesList.html';
+    });
+
+    loadPolicy();
+  </script>
+  <script src="../js/pageLoader.js"></script>
 </body>
-
 </html>
-

@@ -7,13 +7,22 @@ public partial class Bill
 {
     public int BillId { get; set; }
 
-    public int? PolicyId { get; set; }
+    public int PolicyId { get; set; }
 
-    public DateOnly? BillDate { get; set; }
+    public DateOnly BillDate { get; set; }
 
-    public decimal? Amount { get; set; }
+    public DateOnly? DueDate { get; set; }
+
+    public string? BillType { get; set; }
+
+    public decimal Amount { get; set; }
 
     public bool? Paid { get; set; }
 
+    public string? Status { get; set; }
+
+    public DateTime? PaidAt { get; set; }
+
     public virtual Policy? Policy { get; set; }
 }
+

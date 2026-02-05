@@ -334,7 +334,7 @@ namespace VehicleInsuranceAPI.Backend.CustomerInformation
                 {
                     var logs = await _context.AuditLogs.Where(l => l.UserId == customer.User.UserId).ToListAsync();
                     if (logs.Count > 0) _context.AuditLogs.RemoveRange(logs);
-                    var notis = await _context.Notifications.Where(n => n.ToUserId == customer.User.UserId).ToListAsync();
+                    var notis = await _context.Notifications.Where(n => n.UserId == customer.User.UserId).ToListAsync();
                     if (notis.Count > 0) _context.Notifications.RemoveRange(notis);
                     _context.Users.Remove(customer.User);
                 }
