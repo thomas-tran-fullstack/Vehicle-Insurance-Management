@@ -13,16 +13,26 @@ if (document.documentElement.classList.contains('dark')) {
     function ensureFavicon() {
         try {
             // Use a relative path that works for all current pages (all HTML files are inside /user, /staff, /admin, /templates)
-            const faviconHref = '../images/logo.png';
-            let link = document.querySelector("link[rel~='icon']");
+            const faviconHref = '../images/title-logo.png';
+            
+            // Add or update icon link
+            let link = document.querySelector("link[rel='icon']");
             if (!link) {
                 link = document.createElement('link');
                 link.rel = 'icon';
-                link.type = 'image/png';
                 document.head.appendChild(link);
             }
-            // Always set (in case an old favicon was cached)
+            link.type = 'image/png';
             link.href = faviconHref;
+            
+            // Also add shortcut icon for IE compatibility
+            let shortcutLink = document.querySelector("link[rel='shortcut icon']");
+            if (!shortcutLink) {
+                shortcutLink = document.createElement('link');
+                shortcutLink.rel = 'shortcut icon';
+                document.head.appendChild(shortcutLink);
+            }
+            shortcutLink.href = faviconHref;
         } catch (_) {
             // Ignore favicon errors (non-blocking)
         }
@@ -217,7 +227,7 @@ if (document.documentElement.classList.contains('dark')) {
 
         // All pages are one directory deep under /frontend (user/, staff/, admin/, templates/)
         // so "../images/logo.png" is the correct relative path.
-        iconLink.href = '../images/logo.png';
+        iconLink.href = '../images/title-logo.png';
     }
     
     let loadingTimeout;

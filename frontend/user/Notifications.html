@@ -1,289 +1,257 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Customer Notifications - AVIMS</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <script id="tailwind-config">
+    <title>My Notifications | AutoGuard Insurance</title>
+
+    <script>
+        tailwind = window.tailwind || {};
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
+                        primary: "#137fec",
                         "background-light": "#f6f7f8",
                         "background-dark": "#101922",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { display: ["Inter"] },
                 },
             },
-        }
+        };
     </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        #footer-frame {
-            border: none;
-            width: 100vw;
-            height: auto;
-            margin-left: calc(-50vw + 50%);
-            padding: 0;
-            display: block;
+        /* Animation cho việc mở rộng thông báo */
+        .notification-detail {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
             overflow: hidden;
         }
+
+            .notification-detail.open {
+                max-height: 500px;
+                opacity: 1;
+                margin-top: 10px;
+            }
     </style>
+    <script src="../js/config.js"></script>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col transition-colors duration-300">
-    <!-- TopNavBar -->
-    <div id="header-container"></div>
-    <main class="flex-grow py-8 pt-8">
-        <div class="max-w-[960px] mx-auto px-4 py-8">
-            <!-- PageHeading -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-50 transition-colors duration-200">
+
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+
+        <main class="max-w-[1000px] mx-auto px-4 pb-12 flex-1 pt-8 w-full">
+
+            <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h1 class="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-tight">
-                        Notifications</h1>
-                    <p class="text-[#4c739a] dark:text-slate-400 text-sm mt-1">You have 3 unread updates waiting for
-                        your attention.</p>
+                    <h1 class="text-3xl font-black text-[#0d141b] dark:text-white">Notifications</h1>
+                    <p class="text-[#4c739a] dark:text-slate-400 mt-1">Updates on your policies and claims</p>
                 </div>
-                <button
-                    class="flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all shadow-sm">
-                    <span class="material-symbols-outlined text-[18px] mr-2">done_all</span>
-                    <span>Mark all as read</span>
+                <button onclick="loadNotifications()" class="flex items-center gap-2 text-sm font-bold text-primary hover:bg-blue-50 px-3 py-2 rounded-lg transition">
+                    <span class="material-symbols-outlined text-lg">refresh</span> Refresh
                 </button>
             </div>
-            <!-- Chips / Filters -->
-            <div class="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-                <button
-                    class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-primary px-6 text-white shadow-md shadow-primary/20">
-                    <p class="text-sm font-semibold">All</p>
-                </button>
-                <button
-                    class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 text-[#0d141b] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                    <p class="text-sm font-medium">Unread</p>
-                    <span class="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded font-bold">3</span>
-                </button>
-                <button
-                    class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 text-[#0d141b] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                    <p class="text-sm font-medium">Policy</p>
-                </button>
-                <button
-                    class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 text-[#0d141b] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                    <p class="text-sm font-medium">Claims</p>
-                </button>
-                <button
-                    class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 text-[#0d141b] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                    <p class="text-sm font-medium">System</p>
-                </button>
-            </div>
-            <!-- Notification List Container -->
-            <div class="space-y-3">
-                <!-- Today Section Header -->
-                <p class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wider px-2 mb-2">Today
-                </p>
-                <!-- ListItem: Urgent Policy Reminder (Unread) -->
-                <div
-                    class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border-l-4 border-primary hover:shadow-md transition-shadow">
-                    <div class="flex items-center gap-4 flex-1">
-                        <div
-                            class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-12">
-                            <span class="material-symbols-outlined text-2xl">event_busy</span>
-                        </div>
-                        <div class="flex flex-col justify-center overflow-hidden">
-                            <div class="flex items-center gap-2">
-                                <p class="text-[#0d141b] dark:text-white text-base font-bold leading-normal truncate">
-                                    Your Comprehensive Policy expires in 5 days</p>
-                                <span class="size-2 rounded-full bg-primary shrink-0"></span>
-                            </div>
-                            <p
-                                class="text-[#4c739a] dark:text-slate-400 text-sm font-normal leading-normal line-clamp-1">
-                                Policy #AV-99021. Renew now to avoid a gap in coverage.</p>
-                            <p class="text-[#4c739a] dark:text-slate-500 text-xs mt-1">2 hours ago</p>
-                        </div>
-                    </div>
-                    <div class="shrink-0 flex gap-2">
-                        <button
-                            class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">
-                            Renew Now
-                        </button>
-                    </div>
-                </div>
-                <!-- ListItem: Claim Update (Unread) -->
-                <div
-                    class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border-l-4 border-primary hover:shadow-md transition-shadow">
-                    <div class="flex items-center gap-4 flex-1">
-                        <div
-                            class="text-[#0d141b] dark:text-white flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 size-12">
-                            <span class="material-symbols-outlined text-2xl">description</span>
-                        </div>
-                        <div class="flex flex-col justify-center overflow-hidden">
-                            <div class="flex items-center gap-2">
-                                <p class="text-[#0d141b] dark:text-white text-base font-bold leading-normal truncate">
-                                    Update: Claim #CLM-8821 status changed</p>
-                                <span class="size-2 rounded-full bg-primary shrink-0"></span>
-                            </div>
-                            <p
-                                class="text-[#4c739a] dark:text-slate-400 text-sm font-normal leading-normal line-clamp-1">
-                                Status changed to 'Under Review'. Our assessors are looking at your documents.</p>
-                            <p class="text-[#4c739a] dark:text-slate-500 text-xs mt-1">5 hours ago</p>
-                        </div>
-                    </div>
-                    <div class="shrink-0">
-                        <button
-                            class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-100 dark:bg-slate-700 text-[#0d141b] dark:text-white text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-                            View Details
-                        </button>
-                    </div>
-                </div>
-                <!-- Yesterday Section Header -->
-                <p class="text-[#4c739a] dark:text-slate-400 text-xs font-bold uppercase tracking-wider px-2 mb-2 mt-6">
-                    Yesterday</p>
-                <!-- ListItem: Payment Confirmation (Read) -->
-                <div
-                    class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border-l-4 border-transparent hover:shadow-md transition-shadow opacity-90">
-                    <div class="flex items-center gap-4 flex-1">
-                        <div
-                            class="text-green-600 flex items-center justify-center rounded-lg bg-green-50 dark:bg-green-900/20 shrink-0 size-12">
-                            <span class="material-symbols-outlined text-2xl">check_circle</span>
-                        </div>
-                        <div class="flex flex-col justify-center overflow-hidden">
-                            <p class="text-[#0d141b] dark:text-white text-base font-medium leading-normal truncate">
-                                Payment Successful: $450 received</p>
-                            <p
-                                class="text-[#4c739a] dark:text-slate-400 text-sm font-normal leading-normal line-clamp-1">
-                                Payment for Policy #POL-102 was processed successfully. Thank you.</p>
-                            <p class="text-[#4c739a] dark:text-slate-500 text-xs mt-1">Yesterday, 2:15 PM</p>
-                        </div>
-                    </div>
-                    <div class="shrink-0">
-                        <button
-                            class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-100 dark:bg-slate-700 text-[#0d141b] dark:text-white text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-                            Receipt
-                        </button>
-                    </div>
-                </div>
-                <!-- ListItem: System Message (Read) -->
-                <div
-                    class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border-l-4 border-transparent hover:shadow-md transition-shadow opacity-90">
-                    <div class="flex items-center gap-4 flex-1">
-                        <div
-                            class="text-[#4c739a] flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 size-12">
-                            <span class="material-symbols-outlined text-2xl">info</span>
-                        </div>
-                        <div class="flex flex-col justify-center overflow-hidden">
-                            <p class="text-[#0d141b] dark:text-white text-base font-medium leading-normal truncate">
-                                Welcome to the new AVIMS portal</p>
-                            <p
-                                class="text-[#4c739a] dark:text-slate-400 text-sm font-normal leading-normal line-clamp-1">
-                                Explore your new dashboard and managed policies more easily.</p>
-                            <p class="text-[#4c739a] dark:text-slate-500 text-xs mt-1">Yesterday, 9:00 AM</p>
-                        </div>
-                    </div>
-                    <div class="shrink-0">
-                        <button
-                            class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-100 dark:bg-slate-700 text-[#0d141b] dark:text-white text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-                            Tour
-                        </button>
-                    </div>
+
+            <div id="notification-list" class="flex flex-col gap-4">
+                <div class="text-center py-10 text-gray-500">
+                    <span class="material-symbols-outlined animate-spin text-3xl mb-2">progress_activity</span>
+                    <p>Loading notifications...</p>
                 </div>
             </div>
-            <!-- View History Link -->
-            <div class="mt-10 text-center">
-                <button class="text-primary text-sm font-bold hover:underline transition-all">
-                    Load older notifications
-                </button>
-            </div>
-        </div>
-    </main>
-    <!-- Footer from template -->
-    <iframe id="footer-frame" src="../templates/footer.html"
-        style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
-        frameborder="0"></iframe>
+
+            <template id="empty-state">
+                <div class="flex flex-col items-center justify-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-[#e7edf3] dark:border-slate-800 shadow-sm text-center">
+                    <div class="bg-blue-50 dark:bg-slate-800 p-4 rounded-full mb-4">
+                        <span class="material-symbols-outlined text-4xl text-primary">notifications_off</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0d141b] dark:text-white">No notifications yet</h3>
+                    <p class="text-[#4c739a] dark:text-slate-400 max-w-xs mt-2">We'll let you know when there are updates to your account.</p>
+                </div>
+            </template>
+
+        </main>
+    </div>
+
+    <iframe id="footer-frame" src="../templates/footer.html" style="border: none; width: 100%; display: block;" frameborder="0"></iframe>
 
     <script>
-        // Auto-adjust iframe heights
+        // Get userId from the user object in localStorage or sessionStorage
+        let CURRENT_USER_ID = 1; // default to admin
+        const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+        if (userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                CURRENT_USER_ID = user.userId || 1;
+            } catch (e) {
+                console.error('Error parsing user data:', e);
+            }
+        }
+        const API_URL = (typeof API_BASE !== 'undefined') ? `${API_BASE}/notification` : "http://localhost:5169/api/notification";
+
+        // 1. Hàm format thời gian (Ví dụ: "2 hours ago")
+        function timeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const seconds = Math.floor((now - date) / 1000);
+
+            let interval = seconds / 31536000;
+            if (interval > 1) return Math.floor(interval) + " years ago";
+            interval = seconds / 2592000;
+            if (interval > 1) return Math.floor(interval) + " months ago";
+            interval = seconds / 86400;
+            if (interval > 1) return Math.floor(interval) + " days ago";
+            interval = seconds / 3600;
+            if (interval > 1) return Math.floor(interval) + " hours ago";
+            interval = seconds / 60;
+            if (interval > 1) return Math.floor(interval) + " minutes ago";
+            return "Just now";
+        }
+
+        // 2. Hàm gọi API lấy dữ liệu
+        async function loadNotifications() {
+            const container = document.getElementById('notification-list');
+
+            try {
+                const response = await fetch(`${API_URL}/user/${CURRENT_USER_ID}`);
+                if (!response.ok) throw new Error("Failed to fetch");
+
+                const responseData = await response.json();
+                
+                // Handle both array and object responses
+                let notifications = [];
+                if (Array.isArray(responseData)) {
+                    notifications = responseData;
+                } else if (responseData && responseData.notifications) {
+                    notifications = responseData.notifications;
+                }
+                
+                renderNotifications(notifications);
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<div class="text-red-500 text-center py-4">Failed to load notifications. Please try again later.</div>`;
+            }
+        }
+
+        // 3. Hàm render HTML
+        function renderNotifications(data) {
+            const container = document.getElementById('notification-list');
+            const emptyTemplate = document.getElementById('empty-state');
+            container.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                container.appendChild(emptyTemplate.content.cloneNode(true));
+                return;
+            }
+
+            data.forEach(item => {
+                // Tạo thẻ div cho mỗi thông báo
+                const div = document.createElement('div');
+                // Style khác nhau nếu chưa đọc
+                const bgClass = item.isRead ? 'bg-white dark:bg-slate-900 opacity-70' : 'bg-blue-50 dark:bg-slate-800 border-l-4 border-primary';
+                const textClass = item.isRead ? 'font-medium' : 'font-bold';
+                const iconColor = item.isRead ? 'text-gray-400' : 'text-primary';
+
+                div.className = `group relative rounded-xl border border-[#e7edf3] dark:border-slate-800 p-5 cursor-pointer hover:shadow-md transition-all ${bgClass}`;
+
+                div.innerHTML = `
+                    <div class="flex gap-4 items-start" onclick="toggleRead(${item.notificationId}, this, ${item.isRead})">
+                        <div class="mt-1 shrink-0">
+                            <span class="material-symbols-outlined ${iconColor}">${item.isRead ? 'drafts' : 'mail'}</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-[#0d141b] dark:text-white text-lg ${textClass}">${item.title}</h3>
+                                <span class="text-xs text-[#4c739a] font-medium whitespace-nowrap ml-2">${timeAgo(item.createdDate)}</span>
+                            </div>
+                            <p class="text-[#4c739a] dark:text-slate-400 text-sm mt-1 line-clamp-1 group-hover:line-clamp-none transition-all">
+                                Click to read details...
+                            </p>
+
+                            <div id="detail-${item.notificationId}" class="notification-detail text-[#0d141b] dark:text-gray-300 text-sm pt-2 border-t border-gray-200 dark:border-gray-700 mt-2">
+                                ${item.message}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // 4. Hàm xử lý khi click vào thông báo (Mở rộng + Đánh dấu đã đọc)
+        async function toggleRead(id, element, isAlreadyRead) {
+            // Hiệu ứng UI mở rộng
+            const detailBox = document.getElementById(`detail-${id}`);
+            const isOpen = detailBox.classList.contains('open');
+
+            // Toggle mở/đóng
+            document.querySelectorAll('.notification-detail').forEach(el => el.classList.remove('open')); // Đóng cái khác lại
+            if (!isOpen) detailBox.classList.add('open');
+
+            // Gọi API đánh dấu đã đọc (chỉ gọi 1 lần nếu chưa đọc)
+            if (!isAlreadyRead && !element.dataset.markedRead) {
+                try {
+                    await fetch(`${API_URL}/${id}/mark-read`, { method: 'PUT' });
+
+                    // Cập nhật giao diện ngay lập tức
+                    element.classList.remove('bg-blue-50', 'border-l-4', 'border-primary');
+                    element.classList.add('bg-white', 'dark:bg-slate-900', 'opacity-70');
+
+                    // Đổi icon
+                    const icon = element.querySelector('.material-symbols-outlined');
+                    icon.textContent = 'drafts';
+                    icon.classList.remove('text-primary');
+                    icon.classList.add('text-gray-400');
+
+                    // Đánh dấu cờ để không gọi API lại
+                    element.dataset.markedRead = "true";
+                } catch (err) {
+                    console.error("Lỗi đánh dấu đã đọc", err);
+                }
+            }
+        }
+
+        // Chạy khi load trang
+        document.addEventListener('DOMContentLoaded', loadNotifications);
+    </script>
+
+    <script>
         function resizeIframe(iframe) {
             try {
                 const height = iframe.contentWindow.document.documentElement.scrollHeight;
                 iframe.style.height = height + 'px';
-            } catch (err) {
-                console.log('Cannot access iframe content');
-            }
+            } catch (err) {}
         }
-
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
+        if (footerFrame) { footerFrame.onload = function () { resizeIframe(footerFrame); }; }
+        window.addEventListener('resize', function () { if (footerFrame) resizeIframe(footerFrame); });
 
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
-
-        if (footerFrame) {
-            footerFrame.onload = function () {
-                resizeIframe(footerFrame);
-            };
-        }
-
-        // Resize on window resize
-        window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
-            if (footerFrame) resizeIframe(footerFrame);
-        });
-    </script>
-    <script>
-        // Load header fragment
+        // Header Loader
         fetch('../templates/header.html')
-            .then(response => response.text())
+            .then(res => res.text())
             .then(html => {
-                const headerContainer = document.getElementById('header-container');
-                headerContainer.innerHTML = html;
-                
-                // Load header.js script
-                const headerScript = document.createElement('script');
-                headerScript.src = '../js/header.js';
-                headerScript.onload = function() {
-                    setTimeout(() => {
-                        if (window.initializeHeader) {
-                            window.initializeHeader();
-                        }
-                        if (window.highlightActiveNav) {
-                            window.highlightActiveNav();
-                        }
-                        if (window.setupSearch) {
-                            window.setupSearch();
-                        }
-                    }, 50);
+                document.getElementById('header-container').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                script.onload = () => {
+                    if (window.initializeHeader) window.initializeHeader();
                 };
-                document.head.appendChild(headerScript);
-            })
-            .catch(error => console.error('Error loading header:', error));
+                document.head.appendChild(script);
+            });
     </script>
     <script src="../js/pageLoader.js"></script>
-
 </body>
 
 </html>
-

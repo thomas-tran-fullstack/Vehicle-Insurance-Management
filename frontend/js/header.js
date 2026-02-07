@@ -47,6 +47,9 @@ function initializeHeader() {
 
     // Check login status
     checkLoginStatus();
+    
+    // Load notification count
+    loadNotificationCount();
 }
 
 function checkLoginStatus() {
@@ -282,4 +285,37 @@ function updateHeaderAvatar(newAvatarUrl) {
         };
     }
 }
+
+// Load notification count
+async function loadNotificationCount() {
+    try {
+        const user = getValidSessionUser();
+        if (!user || !user.userId) return;
+
+        // Set API_BASE if not already set
+        if (typeof API_BASE === 'undefined' && typeof window.API_BASE === 'undefined') {
+            window.API_BASE = "http://localhost:5169/api";
+        }
+        const apiBase = typeof API_BASE !== 'undefined' ? API_BASE : window.API_BASE;
+
+        const response = await fetch(`${apiBase}/admin-notification/unread-count/${user.userId}`);
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const unreadCount = data.unreadCount || 0;
+
+        const badge = document.getElementById('notificationBadge');
+        if (badge) {
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+    } catch (error) {
+        console.log('Cannot load notification count:', error);
+    }
+}
+
 

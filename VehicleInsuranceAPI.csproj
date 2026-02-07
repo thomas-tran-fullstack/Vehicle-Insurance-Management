@@ -22,5 +22,11 @@
   <Folder Include="Migrations\" />
 </ItemGroup>
 
+<ItemGroup>
+  <Compile Remove="member-code/**" />
+  <EmbeddedResource Remove="member-code/**" />
+  <None Remove="member-code/**" />
+</ItemGroup>
+
 
 </Project>

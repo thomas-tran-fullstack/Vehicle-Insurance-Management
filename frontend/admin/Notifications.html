@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Notification Management - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-out {
+            animation: slideOut 0.3s ease-in-out forwards;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-100">
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        <main class="flex-1 overflow-y-auto flex flex-col bg-background-light dark:bg-background-dark">
+            <div class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+                <!-- Page Heading -->
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <h2 class="text-3xl font-black tracking-tight dark:text-white">Send Notifications</h2>
+                        <p class="text-[#4c739a] dark:text-slate-400 text-base">Create and send notifications to users</p>
+                    </div>
+                </div>
+
+                <!-- Notification Form -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Recipient Selection -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Recipient Type</label>
+                            <select id="recipientType" class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50">
+                                <option value="all_users">All Users</option>
+                                <option value="all_customers">All Customers</option>
+                                <option value="all_staff">All Staff</option>
+                                <option value="specific">Specific User</option>
+                                <option value="broadcast">Broadcast (Everyone)</option>
+                            </select>
+                        </div>
+                        <!-- User Select (Hidden by default) -->
+                        <div id="userSelectContainer" class="hidden">
+                            <label class="block text-sm font-semibold mb-2" id="userSelectLabel">Select User</label>
+                            <select id="userId" class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50">
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Notification Type -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Notification Type</label>
+                            <select id="notificationType" class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50">
+                                <option value="INFO">Information</option>
+                                <option value="WARNING">Warning</option>
+                                <option value="ERROR">Error</option>
+                                <option value="SUCCESS">Success</option>
+                            </select>
+                        </div>
+                        <!-- Channel -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Channel</label>
+                            <select id="channel" class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50">
+                                <option value="IN_APP">In-App</option>
+                                <option value="EMAIL">Email</option>
+                                <option value="SMS">SMS</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Title</label>
+                        <input id="title" type="text" placeholder="Enter notification title..." class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50" />
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Message</label>
+                        <textarea id="message" rows="4" placeholder="Enter notification message..." class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50"></textarea>
+                    </div>
+
+                    <!-- Send Button -->
+                    <div class="flex gap-3">
+                        <button id="sendBtn" class="px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-all shadow-sm flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">send</span>
+                            <span>Send Notification</span>
+                        </button>
+                        <button id="resetBtn" class="px-6 py-2 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-all">
+                            Clear Form
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notification History -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-[#e7edf3] dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                    <div class="p-6 border-b border-[#e7edf3] dark:border-slate-800">
+                        <h3 class="text-lg font-bold">Notification History</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 dark:bg-slate-800">
+                                <tr>
+                                    <th class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Recipient</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Title</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sent Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody" class="divide-y divide-[#e7edf3] dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                    <td colspan="5" class="px-6 py-8 text-center text-slate-500">Loading history...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin-sidebar.js"></script>
+    <script>
+
+        // Load sidebar
+        fetch("../templates/admin-sidebar.html")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("sidebar-container").innerHTML = html;
+                if (typeof initializeAdminSidebar === "function") {
+                    initializeAdminSidebar();
+                }
+            })
+            .catch(err => console.error("Error loading sidebar:", err));
+
+        // Load users/customers/staff on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            loadUsers();
+            loadHistory();
+        });
+
+        // Toggle user select visibility and load appropriate users
+        document.getElementById("recipientType").addEventListener("change", async (e) => {
+            const container = document.getElementById("userSelectContainer");
+            const label = document.getElementById("userSelectLabel");
+            
+            if (e.target.value === "specific") {
+                container.classList.remove("hidden");
+                label.textContent = "Select User";
+                await loadUsers();
+            } else {
+                container.classList.add("hidden");
+            }
+        });
+
+        // Load users based on recipient type
+        async function loadUsers(type = "users") {
+            try {
+                let endpoint = `${API_BASE}/admin-notification/users`;
+                let label = "Select User";
+
+                if (type === "customers") {
+                    endpoint = `${API_BASE}/admin-notification/customers`;
+                    label = "Select Customer";
+                } else if (type === "staff") {
+                    endpoint = `${API_BASE}/admin-notification/staff`;
+                    label = "Select Staff";
+                }
+
+                const response = await fetch(endpoint);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const select = document.getElementById("userId");
+                const users = Array.isArray(data) ? data : [];
+
+                select.innerHTML = '<option value="">Select from list...</option>';
+                
+                users.forEach(user => {
+                    const option = document.createElement("option");
+                    option.value = user.userId;
+                    
+                    // Build display text based on available fields
+                    let displayText = '';
+                    if (user.fullName) {
+                        displayText = user.fullName;
+                    } else if (user.customerName) {
+                        displayText = user.customerName;
+                    } else if (user.username) {
+                        displayText = user.username;
+                    }
+                    
+                    if (user.email) {
+                        displayText += ` (${user.email})`;
+                    }
+                    
+                    option.textContent = displayText || `User #${user.userId}`;
+                    select.appendChild(option);
+                });
+
+                document.getElementById("userSelectLabel").textContent = label;
+            } catch (error) {
+                console.error("Error loading users:", error);
+                showToast(`Error loading users: ${error.message}`, "error");
+                const select = document.getElementById("userId");
+                select.innerHTML = '<option value="">Error loading data</option>';
+            }
+        }
+
+        // Load notification history
+        async function loadHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/admin-notification/history?pageSize=10`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const tbody = document.getElementById("historyTableBody");
+                
+                // Handle both formats: data.notifications or direct array
+                const notifications = data.notifications || data.data || [];
+                
+                if (notifications && notifications.length > 0) {
+                    tbody.innerHTML = notifications.map(notif => {
+                        const createdDate = notif.createdDate ? new Date(notif.createdDate).toLocaleString() : '-';
+                        const sentDate = notif.sentAt ? new Date(notif.sentAt).toLocaleString() : createdDate;
+                        
+                        return `
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                <td class="px-6 py-4">${notif.user?.username || notif.recipientName || "All Users"}</td>
+                                <td class="px-6 py-4 font-medium">${notif.title || '-'}</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold
+                                        ${notif.type === "INFO" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" : ""}
+                                        ${notif.type === "WARNING" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" : ""}
+                                        ${notif.type === "ERROR" ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" : ""}
+                                        ${notif.type === "SUCCESS" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300" : ""}
+                                    ">${notif.type || 'INFO'}</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">${notif.status || 'SENT'}</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-500">${sentDate}</td>
+                            </tr>
+                        `;
+                    }).join("");
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No notifications yet</td></tr>';
+                }
+            } catch (error) {
+                console.error("Error loading history:", error);
+                const tbody = document.getElementById("historyTableBody");
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">Error loading history: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Send notification
+        document.getElementById("sendBtn").addEventListener("click", async () => {
+            const title = document.getElementById("title").value.trim();
+            const message = document.getElementById("message").value.trim();
+            const type = document.getElementById("notificationType").value;
+            const channel = document.getElementById("channel").value;
+            const recipientType = document.getElementById("recipientType").value;
+            const userId = document.getElementById("userId").value;
+
+            if (!title || !message) {
+                showToast("Title and message are required", "error");
+                return;
+            }
+
+            if (recipientType === "specific" && !userId) {
+                showToast("Please select a user", "error");
+                return;
+            }
+
+            try {
+                const payload = {
+                    title,
+                    message,
+                    type,
+                    channel,
+                    recipientType,
+                    userId: recipientType === "specific" ? parseInt(userId) : null
+                };
+
+                const response = await fetch(`${API_BASE}/admin-notification/send`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const responseData = await response.json();
+
+                if (response.ok && responseData.success) {
+                    showToast(responseData.message || "Notification sent successfully", "success");
+                    document.getElementById("title").value = "";
+                    document.getElementById("message").value = "";
+                    loadHistory();
+                } else {
+                    showToast(responseData.message || "Error sending notification", "error");
+                }
+            } catch (error) {
+                console.error("Error sending notification:", error);
+                showToast(`Error: ${error.message}`, "error");
+            }
+        });
+
+        // Reset form
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            document.getElementById("title").value = "";
+            document.getElementById("message").value = "";
+            document.getElementById("notificationType").value = "INFO";
+            document.getElementById("channel").value = "IN_APP";
+            document.getElementById("recipientType").value = "all_users";
+            document.getElementById("userSelectContainer").classList.add("hidden");
+        });
+
+        // Toast notification
+        function showToast(message, type = "info") {
+            const toast = document.createElement("div");
+            toast.className = `toast-notification px-6 py-4 rounded-lg text-white font-semibold
+                ${type === "success" ? "bg-green-500" : ""}
+                ${type === "error" ? "bg-red-500" : ""}
+                ${type === "info" ? "bg-blue-500" : ""}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add("animate-out");
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+    <script src="../js/pageLoader.js"></script>
+</body>
+
+</html>

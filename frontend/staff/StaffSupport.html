@@ -4,377 +4,438 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Employee Support Management - AVIMS</title>
+    <title>Support Tickets - AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#176782",
-                        "background-light": "#f7f7f8",
-                        "background-dark": "#18181b",
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
                     },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-    <style type="text/tailwindcss">
-        .sidebar-scroll::-webkit-scrollbar {
-            width: 4px;
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        .ticket-item {
+            transition: all 0.2s ease;
         }
-        .sidebar-scroll::-webkit-scrollbar-track {
-            background: transparent;
+        .ticket-item:hover {
+            transform: translateX(4px);
         }
-        .sidebar-scroll::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 10px;
+        
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
         }
-        .sidebar-scroll:hover::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+        
+        .modal-content {
+            animation: slideUp 0.3s ease;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 10px;
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased h-screen overflow-hidden text-sm">
-    <div class="flex h-full w-full">
-        <!-- Employee Sidebar -->
-        <div id="sidebar-container"></div>
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col overflow-y-auto pt-8">
-                                style="font-variation-settings: 'FILL' 1">support_agent</span>
-                            <span class="text-sm font-semibold">Support Tickets</span>
-                            <div class="ml-auto w-1 h-5 bg-primary rounded-full"></div>
-                        </a>
-                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                            href="#">
-                            <span
-                                class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">notifications_active</span>
-                            <span
-                                class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Notifications</span>
-                            <span
-                                class="ml-auto bg-primary text-white text-[10px] font-bold h-5 min-w-[20px] px-1.5 flex items-center justify-center rounded-full">4</span>
-                        </a>
-                    </nav>
-                </div>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-100">
+    <div id="sidebar-container" style="position: fixed; left: 0; top: 0; height: 100vh; z-index: 40;"></div>
+    
+    <main class="ml-64 pl-16 overflow-y-auto min-h-screen p-8 space-y-6 max-w-6xl">
+        <!-- Header -->
+        <div class="space-y-1">
+            <h2 class="text-3xl font-black tracking-tight dark:text-white">Support Tickets</h2>
+            <p class="text-[#4c739a] dark:text-slate-400 text-base">Manage customer support requests</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative">
+            <input id="searchTickets" type="text" placeholder="Search tickets by customer name or subject..." class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/50" />
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+        </div>
+
+        <!-- Tickets List -->
+        <div id="ticketsList" class="space-y-2">
+            <div class="text-center py-10 text-slate-500">
+                <span class="material-symbols-outlined animate-spin text-3xl mb-2">progress_activity</span>
+                <p>Loading support tickets...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Ticket Detail Modal -->
+    <div id="ticketModal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none !important;">
+        <div class="modal-overlay fixed inset-0 pointer-events-auto" onclick="closeTicketModal()"></div>
+        <div class="modal-content bg-white dark:bg-slate-900 rounded-xl shadow-2xl max-w-2xl w-full p-6 space-y-4 relative z-10">
+            <!-- Close Button -->
+            <button type="button" onclick="closeTicketModal()" class="absolute top-4 right-4 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 pointer-events-auto">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <!-- Modal Content -->
+            <div class="space-y-4">
                 <div>
-                    <p
-                        class="px-3 text-[11px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em] mb-2">
-                        Account</p>
-                    <nav class="space-y-1">
-                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all"
-                            href="#">
-                            <span
-                                class="material-symbols-outlined text-xl text-slate-400 group-hover:text-primary">account_circle</span>
-                            <span
-                                class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Profile
-                                Settings</span>
-                        </a>
-                    </nav>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-1">Customer</h3>
+                    <div id="modalCustomerName" class="text-2xl font-bold text-[#0d141b] dark:text-white"></div>
                 </div>
-            </div>
-            <div class="p-4 border-t border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/50">
-                <div
-                    class="flex items-center gap-3 p-2 bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-zinc-700">
-                    <div class="h-9 w-9 rounded-lg bg-cover bg-center border border-slate-200 dark:border-zinc-600"
-                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAgj2T3YB6_1NCLQtUmBr6yEI4RlmMOM4oRyLpqXwj19O7lq_esCMIn_kYqZa83EQ3Hk-OivFQupQBxb0gl3yhMYK26kQvBr_tjQrHvqZ3OVbugtLMTj-zEqdCKV8oYy0Js5r3ygfeT4iv5MkU_DCXjhRv2EOtJrOBDsHftu2H8MnMerSTFikjwRJgDFTmudCb-tglKNdu9P2YzCNwf0zPjAzSS6KKVI7XtSIVMwhYYjoEUZsekJfuAyzNlTx5NF5TjyJ1B0wWtVevl');">
-                    </div>
-                    <div class="flex flex-col overflow-hidden">
-                        <p class="text-xs font-bold text-slate-800 dark:text-white truncate">Marcus Wright</p>
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Support Senior</p>
-                    </div>
-                    <button class="ml-auto text-slate-400 hover:text-red-500 transition-colors">
-                        <span class="material-symbols-outlined text-lg">logout</span>
-                    </button>
-                </div>
-            </div>
-        </aside>
-        <main class="flex-1 flex flex-col h-full bg-background-light dark:bg-background-dark overflow-hidden">
-            <header
-                class="h-20 border-b border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-between px-8 shrink-0">
+
                 <div>
-                    <h1 class="text-xl font-extrabold text-slate-900 dark:text-white">Support Management</h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Resolve customer inquiries and policy issues
-                    </p>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-1">Customer Email</h3>
+                    <div id="modalEmail" class="text-sm text-[#4c739a] dark:text-slate-400"></div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="relative">
-                        <input
-                            class="w-64 pl-10 pr-4 py-2 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg text-sm focus:ring-primary focus:border-primary"
-                            placeholder="Search tickets..." type="text" />
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-                    </div>
-                    <button
-                        class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg shadow-primary/20 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">add</span> New Ticket
-                    </button>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-1">Category</h3>
+                    <div id="modalCategory" class="text-sm font-medium text-primary dark:text-primary/80">General Inquiry</div>
                 </div>
-            </header>
-            <div class="flex-1 flex overflow-hidden">
-                <div
-                    class="w-96 border-r border-slate-200 dark:border-zinc-800 flex flex-col bg-white/50 dark:bg-zinc-900/50">
-                    <div
-                        class="p-4 border-b border-slate-200 dark:border-zinc-800 flex items-center justify-between bg-white dark:bg-zinc-900">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tickets (24)</span>
-                        <div class="flex gap-2">
-                            <button class="p-1 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded text-slate-400">
-                                <span class="material-symbols-outlined text-lg">sort</span>
-                            </button>
-                            <button class="p-1 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded text-slate-400">
-                                <span class="material-symbols-outlined text-lg">filter_alt</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="flex-1 overflow-y-auto custom-scrollbar">
-                        <div
-                            class="group p-4 border-b border-slate-100 dark:border-zinc-800 bg-primary/5 border-l-4 border-l-primary cursor-pointer">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">Sarah Jenkins</span>
-                                <span
-                                    class="px-2 py-0.5 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-extrabold rounded">HIGH</span>
-                            </div>
-                            <p class="text-xs font-semibold text-slate-600 dark:text-slate-300 truncate mb-2">Claim
-                                #99281 Status Inquiry</p>
-                            <div class="flex items-center justify-between text-[10px] text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">schedule</span> 12m ago</span>
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">chat</span> 3 messages</span>
-                            </div>
-                        </div>
-                        <div
-                            class="group p-4 border-b border-slate-100 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800/50 cursor-pointer transition-colors">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="text-sm font-bold text-slate-800 dark:text-slate-200">Robert Chen</span>
-                                <span
-                                    class="px-2 py-0.5 bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400 text-[10px] font-extrabold rounded">MEDIUM</span>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate mb-2">Policy renewal discount
-                                issue</p>
-                            <div class="flex items-center justify-between text-[10px] text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">schedule</span> 1h ago</span>
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">chat</span> 1 message</span>
-                            </div>
-                        </div>
-                        <div
-                            class="group p-4 border-b border-slate-100 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800/50 cursor-pointer transition-colors">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="text-sm font-bold text-slate-800 dark:text-slate-200">Elena
-                                    Rodriguez</span>
-                                <span
-                                    class="px-2 py-0.5 bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-extrabold rounded">LOW</span>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate mb-2">Update contact
-                                information</p>
-                            <div class="flex items-center justify-between text-[10px] text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">schedule</span> 4h ago</span>
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">done_all</span> Resolved</span>
-                            </div>
-                        </div>
-                        <div
-                            class="group p-4 border-b border-slate-100 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800/50 cursor-pointer transition-colors">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="text-sm font-bold text-slate-800 dark:text-slate-200">James Wilson</span>
-                                <span
-                                    class="px-2 py-0.5 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-extrabold rounded">HIGH</span>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate mb-2">Accident report
-                                submission error</p>
-                            <div class="flex items-center justify-between text-[10px] text-slate-400">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[12px]">schedule</span> 6h ago</span>
-                            </div>
-                        </div>
-                    </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-1">Subject</h3>
+                    <div id="modalSubject" class="text-xl font-bold text-[#0d141b] dark:text-white"></div>
                 </div>
-                <div class="flex-1 flex flex-col bg-white dark:bg-zinc-950">
-                    <div
-                        class="px-8 py-6 border-b border-slate-100 dark:border-zinc-800 flex items-center justify-between shrink-0">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="h-12 w-12 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center border-2 border-primary/20">
-                                <span class="text-primary font-bold">SJ</span>
-                            </div>
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <h2 class="text-lg font-bold text-slate-900 dark:text-white leading-none">Sarah
-                                        Jenkins</h2>
-                                    <span
-                                        class="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded font-bold uppercase">Customer</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 italic">Policy: #AV-900212 | Claim: #99281</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <button class="p-2 text-slate-400 hover:text-primary transition-colors"><span
-                                    class="material-symbols-outlined">call</span></button>
-                            <button class="p-2 text-slate-400 hover:text-primary transition-colors"><span
-                                    class="material-symbols-outlined">more_vert</span></button>
-                            <div class="h-8 w-[1px] bg-slate-200 dark:border-zinc-800 mx-2"></div>
-                            <button
-                                class="px-3 py-1.5 border border-slate-200 dark:border-zinc-700 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors">Assign
-                                Team</button>
-                            <button
-                                class="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-bold shadow-md shadow-emerald-600/20">Close
-                                Ticket</button>
-                        </div>
-                    </div>
-                    <div
-                        class="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar bg-slate-50/30 dark:bg-zinc-900/20">
-                        <div class="flex flex-col items-center">
-                            <span
-                                class="text-[10px] font-bold text-slate-400 bg-white dark:bg-zinc-900 px-3 py-1 rounded-full border border-slate-100 dark:border-zinc-800 uppercase tracking-widest mb-4">Monday,
-                                Oct 23</span>
-                        </div>
-                        <div class="flex gap-4 max-w-2xl">
-                            <div class="h-8 w-8 rounded-full bg-slate-200 shrink-0 bg-cover bg-center"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCV21IPj4kKbnLqEp9nT5bvw3k5pgxwpnihWAGsVyb6Tdmkf--aoJzHRPH25zDwJTPzgHUMEHJvh7os94osM-zwNBiNPjetbfiOL6bXyyLynvFOspuvmguczJ4UovIjBPm1KR_jSCXXAuO--aoGNf_GUBgNVkEM2VJdutRatDQnKmUtM0cUQiVgDNHo3vfs039eNpF4qx8lG2pYM22ZeP_dqEhyDzW8GB56Pum-WJmBnvCuhxuf7-QoDySI1U08IBGkhV49qGy9Xvdu');">
-                            </div>
-                            <div class="space-y-1">
-                                <div
-                                    class="bg-white dark:bg-zinc-800 p-4 rounded-2xl rounded-tl-none border border-slate-100 dark:border-zinc-700 shadow-sm">
-                                    <p class="text-sm text-slate-700 dark:text-slate-300">Hello, I filed my claim #99281
-                                        three days ago after the minor collision on Main St. I haven't heard back about
-                                        the inspection date yet. Can someone provide an update? I need my car for work.
-                                    </p>
-                                </div>
-                                <span class="text-[10px] text-slate-400 ml-1">10:15 AM</span>
-                            </div>
-                        </div>
-                        <div class="flex justify-center">
-                            <div
-                                class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200/50 dark:border-amber-700/30 p-3 rounded-xl max-w-lg flex items-start gap-3">
-                                <span class="material-symbols-outlined text-amber-500 text-lg">sticky_note_2</span>
-                                <div class="text-xs">
-                                    <p class="text-amber-800 dark:text-amber-400 font-bold mb-0.5">Internal Note: <span
-                                            class="font-medium">Marcus Wright</span></p>
-                                    <p class="text-amber-700/80 dark:text-amber-500/80 italic">Checking with the field
-                                        inspector (Tom). There might be a delay in his area due to the storm last night.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 max-w-2xl ml-auto flex-row-reverse">
-                            <div
-                                class="h-8 w-8 rounded-full bg-primary shrink-0 flex items-center justify-center text-white text-[10px] font-bold">
-                                MW</div>
-                            <div class="space-y-1 items-end flex flex-col">
-                                <div
-                                    class="bg-primary text-white p-4 rounded-2xl rounded-tr-none shadow-sm shadow-primary/10">
-                                    <p class="text-sm">Hi Sarah, I apologize for the delay. We've had a surge of claims
-                                        due to the recent weather conditions. I've contacted your local inspector, and
-                                        we should have a date confirmed for you within the next 2 hours. I'll message
-                                        you back as soon as I have the exact time.</p>
-                                </div>
-                                <span class="text-[10px] text-slate-400 mr-1">10:45 AM</span>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 max-w-2xl">
-                            <div class="h-8 w-8 rounded-full bg-slate-200 shrink-0 bg-cover bg-center"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9pXtYAVftucvxv4QWcHQb3l0__6tZGVsxBm9y8Iy9YmlDZ9L-YavCQI62-KUk-CzWWiiiZ0VGc1Su_ppEkt_MMIJr-2ympnYE2LdUfZbHHzpOzCU4BOOvOYtUZF1PmfUpfp3S3MZPSvhq3yTwjSiVg2ZY7EqgJUNMp6B4g8EQK1X7YSGH3P0U1l_bkk3J5gQS71tPS0yKafx-ZVkJuG8aHbQ549L5nInRB2JyC-3y0nLC9VAowYWXaeqphCLJc6b8eM6oJ__iVz6h');">
-                            </div>
-                            <div class="space-y-1">
-                                <div
-                                    class="bg-white dark:bg-zinc-800 p-4 rounded-2xl rounded-tl-none border border-slate-100 dark:border-zinc-700 shadow-sm">
-                                    <p class="text-sm text-slate-700 dark:text-slate-300">Thank you Marcus. I appreciate
-                                        the quick response! Standing by.</p>
-                                </div>
-                                <span class="text-[10px] text-slate-400 ml-1">10:48 AM</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                        <div class="flex gap-4 mb-4">
-                            <button
-                                class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-bold transition-colors">
-                                <span class="material-symbols-outlined text-sm">reply</span> Customer Reply
-                            </button>
-                            <button
-                                class="flex items-center gap-1.5 px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 rounded-full text-xs font-bold transition-colors">
-                                <span class="material-symbols-outlined text-sm">note_add</span> Internal Note
-                            </button>
-                        </div>
-                        <div
-                            class="relative bg-slate-50 dark:bg-zinc-800/50 rounded-xl border border-slate-200 dark:border-zinc-700 p-2 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-                            <textarea
-                                class="w-full bg-transparent border-none focus:ring-0 text-sm resize-none min-h-[100px] p-2 dark:text-slate-200"
-                                placeholder="Type your reply here..."></textarea>
-                            <div
-                                class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200 dark:border-zinc-700">
-                                <div class="flex gap-1">
-                                    <button
-                                        class="p-2 text-slate-400 hover:text-primary rounded-lg transition-colors"><span
-                                            class="material-symbols-outlined">attach_file</span></button>
-                                    <button
-                                        class="p-2 text-slate-400 hover:text-primary rounded-lg transition-colors"><span
-                                            class="material-symbols-outlined">sentiment_satisfied</span></button>
-                                    <button
-                                        class="p-2 text-slate-400 hover:text-primary rounded-lg transition-colors"><span
-                                            class="material-symbols-outlined">format_bold</span></button>
-                                </div>
-                                <button
-                                    class="px-6 py-2 bg-primary text-white font-bold rounded-lg text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all flex items-center gap-2">
-                                    Send Message <span class="material-symbols-outlined text-sm">send</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-1">Message</h3>
+                    <div id="modalContent" class="text-[#4c739a] dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg"></div>
+                </div>
+
+                <!-- Status Badge -->
+                <div class="flex items-center gap-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <span id="modalStatus" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                        <span class="material-symbols-outlined text-sm">schedule</span>
+                        <span>Open</span>
+                    </span>
                 </div>
             </div>
-        </main>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <button type="button" onclick="replyToTicket()" class="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-2 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">mail</span>
+                    <span>Reply</span>
+                </button>
+                <button type="button" id="markResolvedBtn" onclick="markTicketResolved()" class="flex-1 bg-green-500/10 hover:bg-green-500/20 text-green-600 dark:text-green-400 font-bold py-2 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span>Mark Resolved</span>
+                </button>
+            </div>
+        </div>
     </div>
+
     <script src="../js/employee-sidebar.js"></script>
+    <script src="../js/config.js"></script>
     <script>
-        // Load employee sidebar
+        if (typeof API_BASE === 'undefined') {
+            window.API_BASE = "http://localhost:5169/api";
+        }
+        let allTickets = [];
+        let currentTicketId = null;
+        let currentTicketData = null;
+
+        // Load sidebar
         fetch('../templates/employee-sidebar.html')
-            .then(response => response.text())
+            .then(res => res.text())
             .then(html => {
-                const container = document.getElementById('sidebar-container');
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const aside = doc.querySelector('aside');
                 if (aside) {
-                    container.appendChild(aside);
-                    if (typeof initializeStaffSidebar === 'function') {
+                    document.getElementById('sidebar-container').appendChild(aside);
+                    setTimeout(() => {
                         initializeStaffSidebar();
-                    }
+                        setCurrentPage('StaffSupport.html');
+                    }, 100);
                 }
             });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTickets();
+            document.getElementById('searchTickets').addEventListener('input', filterTickets);
+        });
+
+        // Load support tickets
+        async function loadTickets() {
+            try {
+                const response = await fetch(`${API_BASE}/contacts`);
+                const data = await response.json();
+
+                allTickets = Array.isArray(data) ? data : [];
+                renderTicketsList();
+            } catch (error) {
+                console.error('Error loading tickets:', error);
+                document.getElementById('ticketsList').innerHTML =
+                    '<div class="text-center py-10 text-red-500">Error loading support tickets</div>';
+            }
+        }
+
+        // Render tickets list
+        function renderTicketsList() {
+            const container = document.getElementById('ticketsList');
+
+            if (allTickets.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-[#e7edf3] dark:border-slate-800 shadow-sm text-center">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-4">mail_outline</span>
+                        <h3 class="text-lg font-bold">No support tickets</h3>
+                        <p class="text-slate-500 dark:text-slate-400">There are no pending support requests</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = allTickets.map(ticket => {
+                const statusColor = ticket.isResolved 
+                    ? 'bg-green-50 dark:bg-green-900/10 border-l-4 border-green-500'
+                    : 'bg-amber-50 dark:bg-amber-900/10 border-l-4 border-amber-500';
+                const statusIcon = ticket.isResolved ? 'check_circle' : 'schedule';
+                const statusText = ticket.isResolved ? 'Resolved' : 'Open';
+                const statusClass = ticket.isResolved 
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-amber-600 dark:text-amber-400';
+
+                return `
+                    <div class="ticket-item group rounded-xl border border-[#e7edf3] dark:border-slate-800 p-4 cursor-pointer transition-all ${statusColor}"
+                         onclick="openTicketModal(${ticket.contactId}, '${escapeHtml(ticket.customerName || 'Unknown')}', '${escapeHtml(ticket.email || '')}', '${escapeHtml(ticket.subject || 'No Subject')}', '${escapeHtml(ticket.message || '')}')">
+                        <div class="flex gap-3 items-start justify-between">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start gap-2 mb-2">
+                                    <div class="flex-1">
+                                        <h3 class="text-[#0d141b] dark:text-white font-bold text-sm">${escapeHtml(ticket.customerName || 'Unknown')}</h3>
+                                        <p class="text-xs text-slate-500">${escapeHtml(ticket.email || 'No Email')}</p>
+                                        <p class="text-xs text-slate-500 mt-1">${escapeHtml(ticket.subject || 'No Subject')}</p>
+                                    </div>
+                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusClass} whitespace-nowrap">
+                                        <span class="material-symbols-outlined text-sm">${statusIcon}</span>
+                                        ${statusText}
+                                    </span>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-400 text-xs line-clamp-2">${escapeHtml(ticket.message || '')}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter tickets
+        function filterTickets() {
+            const searchTerm = document.getElementById('searchTickets').value.toLowerCase();
+            const filtered = allTickets.filter(t =>
+                (t.customerName || '').toLowerCase().includes(searchTerm) ||
+                (t.subject || '').toLowerCase().includes(searchTerm) ||
+                (t.message || '').toLowerCase().includes(searchTerm)
+            );
+
+            const container = document.getElementById('ticketsList');
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="text-center py-10 text-slate-500">No tickets found</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(ticket => {
+                const statusColor = ticket.isResolved 
+                    ? 'bg-green-50 dark:bg-green-900/10 border-l-4 border-green-500'
+                    : 'bg-amber-50 dark:bg-amber-900/10 border-l-4 border-amber-500';
+                const statusIcon = ticket.isResolved ? 'check_circle' : 'schedule';
+                const statusText = ticket.isResolved ? 'Resolved' : 'Open';
+                const statusClass = ticket.isResolved 
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-amber-600 dark:text-amber-400';
+
+                return `
+                    <div class="ticket-item group rounded-xl border border-[#e7edf3] dark:border-slate-800 p-4 cursor-pointer transition-all ${statusColor}"
+                         onclick="openTicketModal(${ticket.contactId}, '${escapeHtml(ticket.customerName || 'Unknown')}', '${escapeHtml(ticket.email || '')}', '${escapeHtml(ticket.subject || 'No Subject')}', '${escapeHtml(ticket.message || '')}')">
+                        <div class="flex gap-3 items-start justify-between">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start gap-2 mb-2">
+                                    <div class="flex-1">
+                                        <h3 class="text-[#0d141b] dark:text-white font-bold text-sm">${escapeHtml(ticket.customerName || 'Unknown')}</h3>
+                                        <p class="text-xs text-slate-500">${escapeHtml(ticket.email || 'No Email')}</p>
+                                        <p class="text-xs text-slate-500 mt-1">${escapeHtml(ticket.subject || 'No Subject')}</p>
+                                    </div>
+                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusClass} whitespace-nowrap">
+                                        <span class="material-symbols-outlined text-sm">${statusIcon}</span>
+                                        ${statusText}
+                                    </span>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-400 text-xs line-clamp-2">${escapeHtml(ticket.message || '')}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Modal functions
+        async function openTicketModal(contactId, customerName, email, subject, message) {
+            currentTicketId = contactId;
+            
+            // Find the actual ticket data to get all info including CategoryName
+            const ticket = allTickets.find(t => t.contactId === contactId);
+            
+            if (!ticket) {
+                console.error('Ticket not found');
+                return;
+            }
+            
+            currentTicketData = ticket;
+
+            // Try to fetch user data if UserId is available
+            if (ticket && ticket.userId) {
+                try {
+                    const userResponse = await fetch(`${API_BASE}/notification/users/${ticket.userId}`);
+                    if (userResponse.ok) {
+                        const userData = await userResponse.json();
+                        // Use user's email and username for display
+                        document.getElementById('modalCustomerName').textContent = userData.username || customerName;
+                        document.getElementById('modalEmail').textContent = userData.email || email || 'No Email';
+                    } else {
+                        // Fallback to contact data if user fetch fails
+                        document.getElementById('modalCustomerName').textContent = customerName;
+                        document.getElementById('modalEmail').textContent = email || 'No Email';
+                    }
+                } catch (err) {
+                    console.error('Error fetching user data:', err);
+                    // Fallback to contact data if there's an error
+                    document.getElementById('modalCustomerName').textContent = customerName;
+                    document.getElementById('modalEmail').textContent = email || 'No Email';
+                }
+            } else {
+                // No UserId available, use contact data
+                document.getElementById('modalCustomerName').textContent = customerName;
+                document.getElementById('modalEmail').textContent = email || 'No Email';
+            }
+
+            // Display category
+            document.getElementById('modalCategory').textContent = ticket.categoryName || 'General Inquiry';
+
+            document.getElementById('modalSubject').textContent = subject;
+            document.getElementById('modalContent').textContent = message;
+            
+            // Update status badge based on actual ticket status
+            const statusBadge = document.getElementById('modalStatus');
+            if (ticket.isResolved) {
+                statusBadge.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> <span>Resolved</span>';
+                statusBadge.className = 'inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300';
+                document.getElementById('markResolvedBtn').classList.add('hidden');
+            } else {
+                statusBadge.innerHTML = '<span class="material-symbols-outlined text-sm">schedule</span> <span>Open</span>';
+                statusBadge.className = 'inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300';
+                document.getElementById('markResolvedBtn').classList.remove('hidden');
+            }
+
+            document.getElementById('ticketModal').style.display = 'flex';
+        }
+
+        function closeTicketModal() {
+            document.getElementById('ticketModal').style.display = 'none';
+            currentTicketId = null;
+            currentTicketData = null;
+        }
+
+        function replyToTicket() {
+            if (!currentTicketData) return;
+
+            // Store customer info in localStorage for StaffNotification to use
+            localStorage.setItem('replyToCustomerName', currentTicketData.customerName);
+
+            // Close modal and navigate to StaffNotification with contact ID
+            closeTicketModal();
+            window.location.href = 'StaffNotification.html?reply=' + currentTicketId;
+        }
+
+        async function markTicketResolved() {
+            if (!currentTicketId) return;
+
+            try {
+                // Call API to update status in database
+                const response = await fetch(`${API_BASE}/contacts/${currentTicketId}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: 'Resolved' })
+                });
+
+                if (response.ok) {
+                    // Update local ticket data
+                    const ticket = allTickets.find(t => t.contactId === currentTicketId);
+                    if (ticket) {
+                        ticket.isResolved = true;
+                        ticket.status = 'Resolved';
+                    }
+
+                    showToast('✓ Ticket marked as resolved', 'success');
+                    closeTicketModal();
+                    renderTicketsList();
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to update status');
+                }
+            } catch (error) {
+                console.error('Error marking as resolved:', error);
+                showToast('✗ Error updating ticket status', 'error');
+            }
+        }
+
+        // Utility functions
+        function timeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const seconds = Math.floor((now - date) / 1000);
+
+            if (seconds < 60) return 'Just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return minutes + 'm ago';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + 'h ago';
+            const days = Math.floor(hours / 24);
+            if (days < 7) return days + 'd ago';
+            return date.toLocaleDateString();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-5 right-5 p-4 rounded-lg text-white font-bold z-9999 ${type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
     </script>
     <script src="../js/pageLoader.js"></script>
-
 </body>
 
 </html>
-

@@ -11,6 +11,7 @@
             font-family: 'Manrope', sans-serif;
         }
     </style>
+    <script src="../js/config.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
@@ -61,8 +62,9 @@
             const tableBody = document.getElementById('tableBody');
 
             try {
-                // 1. Gọi API (Lưu ý Port 5169)
-                const response = await fetch('http://localhost:5169/api/Contacts');
+                // Get API base URL from config.js or use fallback
+                const apiBase = (typeof API_BASE !== 'undefined') ? API_BASE : 'http://localhost:5169/api';
+                const response = await fetch(`${apiBase}/Contacts`);
 
                 if (!response.ok) {
                     throw new Error("Cannot connect to server");

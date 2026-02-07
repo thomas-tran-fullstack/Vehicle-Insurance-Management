@@ -6,15 +6,29 @@ function setCurrentPage(pageName) {
 }
 
 function highlightActivePage() {
-    const navLinks = document.querySelectorAll('aside nav a');
-    navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        link.classList.remove('active-nav-item');
-        
-        if (href === currentPageName) {
-            link.classList.add('active-nav-item');
+    if (!currentPageName) {
+        currentPageName = window.location.pathname.split('/').pop() || 'dashboard.html';
+    }
+    
+    // Wait a moment for sidebar to be available if not yet
+    setTimeout(() => {
+        const navLinks = document.querySelectorAll('aside nav a');
+        if (navLinks.length === 0) {
+            // Sidebar not loaded yet, try again
+            setTimeout(highlightActivePage, 100);
+            return;
         }
-    });
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            link.classList.remove('active-nav-item');
+            
+            // Compare filenames case-insensitively
+            if (href && href.toLowerCase() === currentPageName.toLowerCase()) {
+                link.classList.add('active-nav-item');
+            }
+        });
+    }, 50);
 }
 
 function initializeAdminSidebar() {
@@ -54,14 +68,16 @@ function initializeAdminSidebar() {
     }
 
     // Get current page from the document location
-    // This will work when sidebar is loaded via fetch
     const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
     currentPageName = currentPage;
     
     console.log('Current page:', currentPageName);
-    console.log('All nav links:', document.querySelectorAll('aside nav a').length);
     
-    highlightActivePage();
+    // Highlight after a short delay to ensure sidebar is fully loaded
+    setTimeout(() => {
+        console.log('Highlighting page:', currentPageName);
+        highlightActivePage();
+    }, 150);
 }
 
 function logoutAdmin() {

@@ -241,7 +241,7 @@
     </div>
     <script src="../js/employee-sidebar.js"></script>
     <script>
-        const API_URL = 'http://localhost:5169/api';
+        const API_URL = (typeof API_BASE !== 'undefined') ? API_BASE : 'http://localhost:5169/api';
         let currentStaff = null;
         let currentUser = null;
         let isEditMode = false;

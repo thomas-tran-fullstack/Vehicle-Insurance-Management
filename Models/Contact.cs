@@ -13,5 +13,15 @@ public partial class Contact
 
     public string? Message { get; set; }
 
+    public string? Subject { get; set; }
+
+    public int? CategoryId { get; set; }
+
+    public int? UserId { get; set; }
+
     public DateTime? CreatedDate { get; set; }
+
+    public string? Status { get; set; } = "Open"; // "Open" or "Resolved"
+
+    public virtual ContactCategory? Category { get; set; }
 }

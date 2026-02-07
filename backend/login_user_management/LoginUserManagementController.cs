@@ -102,7 +102,8 @@ namespace VehicleInsuranceAPI.Backend.LoginUserManagement
                     UserId = user.UserId,
                     Username = user.Username,
                     RoleId = user.RoleId,
-                    RoleName = user.Role?.RoleName
+                    RoleName = user.Role?.RoleName,
+                    Email = user.Email
                 };
 
                 // Get additional user information based on role

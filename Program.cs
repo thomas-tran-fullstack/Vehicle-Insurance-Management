@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using VehicleInsuranceAPI.Data;
 using VehicleInsuranceAPI.Backend.LoginUserManagement;
+using BCrypt.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,23 +25,83 @@ builder.Services.AddScoped<EmailService>();
 
 // Add DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-try
+Console.WriteLine($"[INFO] Using connection string: {connectionString}");
+
+if (!string.IsNullOrEmpty(connectionString))
 {
-    if (!string.IsNullOrEmpty(connectionString))
+    try
     {
         builder.Services.AddDbContext<VehicleInsuranceContext>(options =>
             options.UseSqlServer(connectionString, sqlOptions =>
             {
-                sqlOptions.EnableRetryOnFailure();
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
             }));
+        Console.WriteLine("[SUCCESS] DbContext initialized successfully");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"[ERROR] Failed to initialize DbContext: {ex.Message}");
+        Console.WriteLine($"[ERROR] Stack: {ex.StackTrace}");
+        throw; // Re-throw để app không chạy nếu database connection fail
+    }
+}
+else
+{
+    Console.WriteLine("[ERROR] No connection string found in appsettings.json");
+    throw new InvalidOperationException("DefaultConnection not configured");
+}
+
+var app = builder.Build();
+
+// Auto-migrate and seed database
+try
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<VehicleInsuranceContext>();
+        Console.WriteLine("[INFO] Starting database initialization...");
+        
+        // Create database if not exists
+        db.Database.EnsureCreated();
+        Console.WriteLine("[SUCCESS] Database created or already exists");
+
+        // Seed initial roles if empty
+        if (!db.Roles.Any())
+        {
+            Console.WriteLine("[INFO] Seeding initial roles...");
+            db.Roles.AddRange(
+                new VehicleInsuranceAPI.Models.Role { RoleId = 1, RoleName = "ADMIN" },
+                new VehicleInsuranceAPI.Models.Role { RoleId = 2, RoleName = "STAFF" },
+                new VehicleInsuranceAPI.Models.Role { RoleId = 3, RoleName = "CUSTOMER" }
+            );
+            db.SaveChanges();
+            Console.WriteLine("[SUCCESS] Roles seeded");
+        }
+
+        // Seed admin user if no users exist
+        if (!db.Users.Any())
+        {
+            Console.WriteLine("[INFO] Seeding admin user...");
+            var adminUser = new VehicleInsuranceAPI.Models.User
+            {
+                Username = "admin",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"), // Default password
+                Email = "admin@avims.local",
+                RoleId = 1,
+                Status = "ACTIVE",
+                CreatedAt = DateTime.UtcNow
+            };
+            db.Users.Add(adminUser);
+            db.SaveChanges();
+            Console.WriteLine("[SUCCESS] Admin user seeded (username: admin, password: admin123)");
+        }
     }
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Warning: Could not add DbContext: {ex.Message}");
+    Console.WriteLine($"[ERROR] Database initialization failed: {ex.Message}");
+    Console.WriteLine($"[ERROR] Please ensure SQL Server is running and AVIMS_DB database can be created");
 }
-
-var app = builder.Build();
 
 // Configure middleware
 if (app.Environment.IsDevelopment())

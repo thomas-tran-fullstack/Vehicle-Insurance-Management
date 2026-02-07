@@ -26,6 +26,8 @@ namespace VehicleInsuranceAPI.Data
 
         public virtual DbSet<Contact> Contacts { get; set; }
 
+        public virtual DbSet<ContactCategory> ContactCategories { get; set; }
+
         public virtual DbSet<Customer> Customers { get; set; }
 
         public virtual DbSet<Estimate> Estimates { get; set; }
@@ -129,12 +131,26 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.ContactId).HasName("PK__Contacts__5C66259B78481A1B");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasDefaultValueSql("(getdate())")
-                    .HasColumnType("datetime");
                 entity.Property(e => e.Email).HasMaxLength(150);
                 entity.Property(e => e.Message).HasMaxLength(500);
                 entity.Property(e => e.Name).HasMaxLength(150);
+                entity.Property(e => e.Subject).HasMaxLength(500);
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime2");
+                entity.Property(e => e.Status).HasMaxLength(50).HasDefaultValue("Open");
+
+                entity.HasOne(d => d.Category).WithMany()
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK__Contacts__Catego__78AE0266");
+            });
+
+            modelBuilder.Entity<ContactCategory>(entity =>
+            {
+                entity.HasKey(e => e.CategoryId).HasName("PK__ContactCat__79621A2E7A25F3F8");
+
+                entity.Property(e => e.CategoryName).HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(255);
+                entity.Property(e => e.IsActive).HasDefaultValue(true);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -186,11 +202,11 @@ namespace VehicleInsuranceAPI.Data
 
             modelBuilder.Entity<Faq>(entity =>
             {
-                entity.HasKey(e => e.Faqid).HasName("PK__FAQs__4B89D182977D75E3");
+                entity.HasKey(e => e.FaqId).HasName("PK__FAQs__4B89D182977D75E3");
 
                 entity.ToTable("FAQs");
 
-                entity.Property(e => e.Faqid).HasColumnName("FAQId");
+                entity.Property(e => e.FaqId).HasColumnName("FAQId");
                 entity.Property(e => e.IsActive).HasDefaultValue(true);
                 entity.Property(e => e.Question).HasMaxLength(500);
             });

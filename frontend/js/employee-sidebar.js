@@ -9,19 +9,30 @@ function highlightActivePage() {
     const navLinks = document.querySelectorAll('aside nav a');
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
+        
         // Remove all active classes
         link.classList.remove('bg-primary/10', 'text-primary');
+        link.classList.remove('text-slate-600', 'dark:text-slate-400');
         link.classList.add('text-slate-600', 'dark:text-slate-400');
         
-        // Remove the vertical line indicator
-        const existingLine = link.querySelector('.ml-auto');
-        if (existingLine && existingLine.classList.contains('w-1')) {
+        // Remove the vertical line indicator if exists
+        const existingLine = link.querySelector('.ml-auto.w-1');
+        if (existingLine && existingLine.classList.contains('bg-primary')) {
             existingLine.remove();
         }
         
-        if (href === currentPageName) {
+        // Check if this link matches the current page
+        // Compare both exact match and filename match
+        if (href === currentPageName || currentPageName.includes(href)) {
             link.classList.remove('text-slate-600', 'dark:text-slate-400');
             link.classList.add('bg-primary/10', 'text-primary');
+            
+            // Update the icon color for the active link
+            const icon = link.querySelector('.material-symbols-outlined');
+            if (icon) {
+                icon.classList.remove('text-slate-400');
+                icon.classList.add('text-primary');
+            }
             
             // Add the vertical line indicator
             const lineEl = document.createElement('div');
@@ -60,6 +71,10 @@ function initializeStaffSidebar() {
         staffNameEl.textContent = user.fullName;
     }
     
+    if (staffPositionEl) {
+        staffPositionEl.textContent = user.roleName || 'Staff';
+    }
+    
     if (staffAvatarEl) {
         if (user.avatar) {
             staffAvatarEl.style.backgroundImage = `url('${user.avatar}')`;
@@ -71,6 +86,12 @@ function initializeStaffSidebar() {
         };
     }
 
+    // Load unread notification count
+    const userId = user.userId || localStorage.getItem('userId');
+    if (userId) {
+        loadUnreadNotificationCount(userId);
+    }
+
     // Get current page from the document location
     // This will work when sidebar is loaded via fetch
     const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
@@ -80,6 +101,37 @@ function initializeStaffSidebar() {
     console.log('All nav links:', document.querySelectorAll('aside nav a').length);
     
     highlightActivePage();
+}
+
+// Load unread notification count from API
+async function loadUnreadNotificationCount(userId) {
+    try {
+        // Use global API_BASE from config.js, fallback to window.location if needed
+        const apiUrl = typeof API_BASE !== 'undefined' ? API_BASE : (window.location.port 
+            ? `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api`
+            : `${window.location.protocol}//${window.location.hostname}/api`);
+        
+        const response = await fetch(`${apiUrl}/notification/unread/${userId}`);
+        const data = await response.json();
+        
+        const badge = document.getElementById('notificationBadge');
+        if (badge) {
+            const count = data.unreadCount || 0;
+            badge.textContent = count > 0 ? count : '0';
+            // Hide badge if no unread notifications
+            if (count === 0) {
+                badge.style.display = 'none';
+            } else {
+                badge.style.display = 'flex';
+            }
+        }
+    } catch (error) {
+        console.error('Error loading notification count:', error);
+        const badge = document.getElementById('notificationBadge');
+        if (badge) {
+            badge.textContent = '0';
+        }
+    }
 }
 
 function logoutStaff() {

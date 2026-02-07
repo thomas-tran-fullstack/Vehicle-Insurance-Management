@@ -291,6 +291,7 @@ CREATE TABLE CompanyExpenses (
     ExpenseId INT IDENTITY(1,1) PRIMARY KEY,
     ExpenseDate DATE NOT NULL,
     ExpenseType NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(MAX) NULL,
     Amount DECIMAL(18,2) NOT NULL CHECK (Amount > 0)
 );
 GO
@@ -340,6 +341,14 @@ CREATE TABLE Testimonials (
 );
 GO
 
+CREATE TABLE ContactCategories (
+    CategoryId INT IDENTITY(1,1) PRIMARY KEY,
+    CategoryName NVARCHAR(100) NOT NULL UNIQUE,
+    Description NVARCHAR(500) NULL,
+    IsActive BIT NOT NULL DEFAULT 1
+);
+GO
+
 CREATE TABLE Contacts (
     ContactId INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(150) NOT NULL,
@@ -347,7 +356,11 @@ CREATE TABLE Contacts (
     Phone NVARCHAR(20) NULL,
     Subject NVARCHAR(200) NULL,
     Message NVARCHAR(1000) NOT NULL,
-    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME()
+    CategoryId INT NULL,
+    UserId INT NULL,
+    CreatedDate DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Open',
+    FOREIGN KEY (CategoryId) REFERENCES ContactCategories(CategoryId)
 );
 GO
 
@@ -357,6 +370,16 @@ CREATE TABLE SupportArticles (
     Content NVARCHAR(MAX) NOT NULL,
     IsPublished BIT NOT NULL DEFAULT 1,
     CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME()
+);
+GO
+
+CREATE TABLE Faqs (
+    FaqId INT IDENTITY(1,1) PRIMARY KEY,
+    Question NVARCHAR(500) NOT NULL,
+    Answer NVARCHAR(MAX) NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 1,
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    UpdatedAt DATETIME2 NULL
 );
 GO
 
@@ -518,13 +541,23 @@ VALUES
 (2026300002, 3, N'Cau Giay, Hanoi',  '2026-03-05', 850000000, 30000000, 'SUBMITTED', NULL, NULL, NULL);
 GO
 
--- Company Expenses
-INSERT INTO CompanyExpenses (ExpenseDate, ExpenseType, Amount)
+-- Contact Categories
+INSERT INTO ContactCategories (CategoryName, Description, IsActive)
 VALUES
-('2026-01-05', N'Office Rent', 15000000),
-('2026-01-10', N'Utilities',    2500000),
-('2026-01-20', N'Staff Salary', 35000000),
-('2026-02-05', N'Marketing',     5000000);
+(N'General Inquiry', N'General questions about our services', 1),
+(N'New Quote', N'Request for a new insurance quote', 1),
+(N'Claim Support', N'Support with an existing claim', 1),
+(N'Policy Update', N'Updates or changes to existing policy', 1),
+(N'Feedback', N'General feedback or suggestions', 1);
+GO
+
+-- Company Expenses
+INSERT INTO CompanyExpenses (ExpenseDate, ExpenseType, Description, Amount)
+VALUES
+('2026-01-05', N'Office Rent', N'Monthly office rent for head office', 15000000),
+('2026-01-10', N'Utilities', N'Electricity and water bills', 2500000),
+('2026-01-20', N'Staff Salary', N'Monthly payroll for staff', 35000000),
+('2026-02-05', N'Marketing', N'Digital marketing campaign', 5000000);
 GO
 
 -- Feedback

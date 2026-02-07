@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,6 +15,7 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <script src="../js/config.js"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -51,6 +52,7 @@
             box-shadow: 0 10px 25px -5px rgba(10, 30, 62, 0.1), 0 8px 10px -6px rgba(10, 30, 62, 0.1);
         }
     </style>
+    <script src="../js/config.js"></script>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-primary dark:text-white min-h-screen">
@@ -91,7 +93,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <h4 class="text-xl font-bold">London Head Office</h4>
-                                <p class="text-sm text-electric-blue font-semibold">Sarah Jenkins — Branch Manager</p>
+                                <p class="text-sm text-electric-blue font-semibold">Sarah Jenkins ï¿½ Branch Manager</p>
                             </div>
                             <span class="bg-primary/10 dark:bg-white/10 text-[10px] uppercase font-bold px-2 py-1 rounded">
                                 Main Hub
@@ -128,7 +130,7 @@
                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5wyjBfQCn0Laz0CMWZFCs5EKEr7iko4_khFuqjJ-3KXqig1W9Dmb0RN_foQhScwW6gsz4wDslFc8FHhEhWxCGO1BSFv0b2exK9z91cEeWIbWjSEGToIHZTnuGw6L_zOFXhE5pCVBqmDULiJLNifXUdKYiOzDk4Kn3P6Iaznqh4kG5VJDPaHSUJm6GOjX8pvL3Dv5fX2M1-2z_SOQD_qJJEoekayNqgPUTGYweLiAmIATaShBgc7ZMROpX4ZuOEuAg897XvIzlpsyY");'>
                         </div>
                         <h4 class="text-lg font-bold mb-1">Manchester Branch</h4>
-                        <p class="text-xs text-electric-blue font-semibold mb-4">Mark Thompson — Manager</p>
+                        <p class="text-xs text-electric-blue font-semibold mb-4">Mark Thompson ï¿½ Manager</p>
                         <div class="space-y-2 text-xs text-primary/70 dark:text-white/70 mb-6">
                             <p class="flex items-center gap-2">
                                 <span class="material-symbols-outlined text-xs">map</span> 45 Deansgate, Manchester
@@ -150,7 +152,7 @@
                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqukhuhVbxdfyObYPenZj9KKjUP8PUPJ58GkMFy2YA3apQiyCyFy9fBvSXsOoA3QavjPn4lcG1GeGXADRgMIiOegVGOim_qkZ_l7GK6Hj5FXRDBsWZmgIxKsCVPKvzk9S5YTxPQGQRHH1TpISMsEhz2RXQ8TzUommuPUBmqvM8B9nfZZYyCcWPHKqbWdc8OXumCT_az3MA6UfjNGFtAeJE_eRbph1QvdAXSbNZKPs6CYazF27Sz_BT74a-59_1iHaZgAOGF8Byyii6");'>
                         </div>
                         <h4 class="text-lg font-bold mb-1">Birmingham Branch</h4>
-                        <p class="text-xs text-electric-blue font-semibold mb-4">Elena Rodriguez — Manager</p>
+                        <p class="text-xs text-electric-blue font-semibold mb-4">Elena Rodriguez ï¿½ Manager</p>
                         <div class="space-y-2 text-xs text-primary/70 dark:text-white/70 mb-6">
                             <p class="flex items-center gap-2">
                                 <span class="material-symbols-outlined text-xs">map</span> 88 Colmore Row, Birmingham
@@ -205,13 +207,23 @@
                                 <label class="block text-xs font-bold uppercase tracking-wider mb-2 opacity-60">
                                     Subject
                                 </label>
-                                <select id="subject"
+                                <input id="subject" required
+                                    class="w-full bg-background-light dark:bg-background-dark/50 border-primary/10 dark:border-white/10 rounded-lg focus:ring-electric-blue focus:border-electric-blue px-4 py-3 outline-none transition-all"
+                                    placeholder="Brief subject of your message" type="text" />
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider mb-2 opacity-60">
+                                    Category
+                                </label>
+                                <select id="category"
                                     class="w-full bg-background-light dark:bg-background-dark/50 border-primary/10 dark:border-white/10 rounded-lg focus:ring-electric-blue focus:border-electric-blue px-4 py-3 outline-none transition-all">
-                                    <option>General Inquiry</option>
-                                    <option>New Quote</option>
-                                    <option>Claim Support</option>
-                                    <option>Policy Update</option>
-                                    <option>Feedback</option>
+                                    <option value="">Select a category...</option>
+                                    <option value="1">General Inquiry</option>
+                                    <option value="2">New Quote</option>
+                                    <option value="3">Claim Support</option>
+                                    <option value="4">Policy Update</option>
+                                    <option value="5">Feedback</option>
                                 </select>
                             </div>
 
@@ -255,6 +267,11 @@
         frameborder="0"></iframe>
 
     <script>
+        // API_BASE is set by config.js in head
+        if (typeof API_BASE === 'undefined') {
+            window.API_BASE = "http://localhost:5169/api";
+        }
+
         // Auto-adjust iframe heights
         function resizeIframe(iframe) {
             try {
@@ -324,48 +341,94 @@
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const subject = document.getElementById("subject").value;
+            const categoryId = document.getElementById("category").value;
             const rawMessage = document.getElementById("message").value;
-
-            // Combine subject into message
-            const fullMessage = `[${subject}] ${rawMessage}`;
 
             const noti = document.getElementById("notification");
             const btn = document.querySelector("#contactForm button[type='submit']");
 
+            // Validation
+            if (!subject || !categoryId) {
+                noti.classList.remove("hidden", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700");
+                noti.classList.add("bg-red-100", "text-red-700");
+                noti.innerText = "âŒ Please fill in all required fields";
+                return;
+            }
+
             // 2. Show sending state
             noti.classList.remove("hidden", "bg-green-100", "text-green-700", "bg-red-100", "text-red-700");
             noti.classList.add("bg-blue-100", "text-blue-700");
-            noti.innerText = "? Sending message...";
+            noti.innerText = "ðŸ“¤ Sending message...";
             btn.disabled = true;
 
             try {
-                const response = await fetch("http://localhost:5169/api/Contacts", {
+                // Get userId from user object in localStorage or sessionStorage
+                let userId = null;
+                const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+                if (userStr) {
+                    try {
+                        const user = JSON.parse(userStr);
+                        userId = user.userId;
+                    } catch (e) {
+                        console.error('Error parsing user data:', e);
+                    }
+                }
+
+                const response = await fetch(`${window.API_BASE}/Contacts`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         name: name,
                         email: email,
-                        message: fullMessage
+                        subject: subject,
+                        message: rawMessage,
+                        categoryId: parseInt(categoryId),
+                        userId: userId
                     })
                 });
+
+                const responseData = await response.json();
 
                 if (response.ok) {
                     noti.classList.remove("bg-blue-100", "text-blue-700");
                     noti.classList.add("bg-green-100", "text-green-700");
-                    noti.innerText = "? Message sent successfully! We will contact you soon.";
-                    document.getElementById("contactForm").reset();
+                    noti.innerText = "âœ… Message sent successfully! We will contact you soon. Your support ticket has been created.";
+                    
+                    // Show success toast
+                    showSuccessToast("Support Ticket Created Successfully!");
+                    
+                    // Reset form after 2 seconds
+                    setTimeout(() => {
+                        document.getElementById("contactForm").reset();
+                        noti.classList.add("hidden");
+                        btn.disabled = false;
+                    }, 2000);
                 } else {
-                    throw new Error("Server Error");
+                    throw new Error(responseData.message || "Server Error");
                 }
             } catch (error) {
                 console.error(error);
                 noti.classList.remove("bg-blue-100", "text-blue-700");
                 noti.classList.add("bg-red-100", "text-red-700");
-                noti.innerText = "? Connection failed. Please check if the server is running.";
+                noti.innerText = "âŒ Connection failed. Please check if the server is running.";
             } finally {
                 btn.disabled = false;
             }
         });
+
+        // Toast notification function
+        function showSuccessToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl font-semibold z-50 animate-bounce';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
     </script>
     <script src="../js/pageLoader.js"></script>
 

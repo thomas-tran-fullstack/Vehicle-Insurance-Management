@@ -5,7 +5,7 @@ namespace VehicleInsuranceAPI.Models;
 
 public partial class Faq
 {
-    public int Faqid { get; set; }
+    public int FaqId { get; set; }
 
     public string? Question { get; set; }
 
