@@ -20,6 +20,8 @@ namespace VehicleInsuranceAPI.Data
 
         public virtual DbSet<Bill> Bills { get; set; }
 
+        public virtual DbSet<Branch> Branches { get; set; }
+
         public virtual DbSet<Claim> Claims { get; set; }
 
         public virtual DbSet<CompanyExpense> CompanyExpenses { get; set; }

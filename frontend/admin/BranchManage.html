@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <script src="../js/config.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -35,6 +36,8 @@
             .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
             .sidebar-item-active { background-color: rgba(46, 103, 184, 0.1); border-right: 3px solid #2e67b8; }
             input:focus, select:focus, textarea:focus { border-color: #2e67b8 !important; ring: 0 !important; outline: none !important; }
+            #branchModal.hidden { display: none !important; }
+            #branchModal:not(.hidden) { display: flex !important; }
         }
     </style>
 </head>
@@ -51,12 +54,14 @@
                         <p class="text-gray-500 dark:text-gray-400 text-sm">Monitor and manage all operational AVIMS
                             hubs globally.</p>
                     </div>
-                    <button
+                    <button id="addBranchBtn"
                         class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-bold shadow-lg shadow-primary/20 transition-all text-sm">
                         <span class="material-symbols-outlined text-xl">add</span>
                         Add New Branch
                     </button>
                 </div>
+
+                <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div
                         class="bg-white dark:bg-[#21242c] p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
@@ -67,7 +72,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Total Branches</p>
-                                <h4 class="text-2xl font-black">24</h4>
+                                <h4 class="text-2xl font-black" id="totalBranches">0</h4>
                             </div>
                         </div>
                     </div>
@@ -79,8 +84,8 @@
                                 <span class="material-symbols-outlined">hub</span>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Active Hubs</p>
-                                <h4 class="text-2xl font-black">21</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Active Branches</p>
+                                <h4 class="text-2xl font-black" id="activeBranches">0</h4>
                             </div>
                         </div>
                     </div>
@@ -89,15 +94,17 @@
                         <div class="flex items-center gap-4">
                             <div
                                 class="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-xl flex items-center justify-center">
-                                <span class="material-symbols-outlined">groups</span>
+                                <span class="material-symbols-outlined">online_prediction</span>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Global Staff Count</p>
-                                <h4 class="text-2xl font-black">482</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Current Online</p>
+                                <h4 class="text-2xl font-black" id="onlineBranches">0</h4>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Table -->
                 <div
                     class="bg-white dark:bg-[#21242c] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
                     <div
@@ -105,28 +112,17 @@
                         <div class="relative w-full md:w-96">
                             <span
                                 class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-                            <input
-                                class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-lg text-sm transition-all focus:bg-white dark:focus:bg-gray-800"
-                                placeholder="Search by branch name or ID..." type="text" />
+                            <input id="searchInput"
+                                class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm transition-all focus:bg-white dark:focus:bg-gray-800"
+                                placeholder="Search by branch name or manager..." type="text" />
                         </div>
                         <div class="flex items-center gap-3 w-full md:w-auto">
-                            <select
-                                class="flex-1 md:flex-none px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-lg text-sm min-w-[140px]">
-                                <option value="">All Cities</option>
-                                <option value="london">London</option>
-                                <option value="manchester">Manchester</option>
-                                <option value="birmingham">Birmingham</option>
+                            <select id="statusFilter"
+                                class="flex-1 md:flex-none px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm min-w-[140px]">
+                                <option value="">All Status</option>
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
                             </select>
-                            <select
-                                class="flex-1 md:flex-none px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-lg text-sm min-w-[140px]">
-                                <option value="">Status</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                            <button
-                                class="p-2.5 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-200 dark:border-gray-700">
-                                <span class="material-symbols-outlined text-xl">filter_list</span>
-                            </button>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
@@ -134,194 +130,322 @@
                             <thead>
                                 <tr
                                     class="bg-gray-50 dark:bg-gray-800/50 text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    <th class="px-6 py-4">Branch ID</th>
-                                    <th class="px-6 py-4">Name</th>
-                                    <th class="px-6 py-4">City</th>
+                                    <th class="px-6 py-4">Branch Name</th>
                                     <th class="px-6 py-4">Manager</th>
-                                    <th class="px-6 py-4">Contact</th>
+                                    <th class="px-6 py-4">Hotline</th>
+                                    <th class="px-6 py-4">Email</th>
+                                    <th class="px-6 py-4">Hours</th>
                                     <th class="px-6 py-4">Status</th>
                                     <th class="px-6 py-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-primary">LON-001</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-bold text-sm">North London Central</span>
-                                            <span class="text-xs text-gray-500">Oxford St Hub</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">London</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <div
-                                                class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                                                <img alt="Manager" class="w-full h-full object-cover"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRVc-JlhC5VY_kfNxGm39W_7mdtfgnfCkpVJpIixnPixB-l5di8AYMSG00zowQWWETg2chOL6h76WTEM0UVmjiwEmpzpT82SVnC1u6DKkGzPmLH1R-wOfkiHlCzvLD3y5J1i0EcrYvo9fPue0N6mJ0LVFqOM4_vueq-uMPo8z3XsxLBFO2H49B6l4XTaubPHjk6kgY54lzByj7CajqMDgq45ceghegfxXbZoPh3NWMUS-9myA59NBX6F7B4OX4W0ngBVx0Ixm7AX34" />
-                                            </div>
-                                            <span class="text-sm font-medium">Felix Morgan</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col text-xs gap-0.5">
-                                            <span class="text-gray-700 dark:text-gray-300 font-medium">+44 20 7946
-                                                0000</span>
-                                            <span class="text-gray-500">london@avims.com</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1 px-2 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase rounded">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
-                                                <span class="material-symbols-outlined text-xl">visibility</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
-                                                <span class="material-symbols-outlined text-xl">delete</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-primary">MAN-002</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-bold text-sm">Manchester North</span>
-                                            <span class="text-xs text-gray-500">Piccadilly Plaza</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">Manchester</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <div
-                                                class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                                                <img alt="Manager" class="w-full h-full object-cover"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk7ajz4XOLsb4-SNVKmZ59FyC_BxDjhQy5k9Vua-sIDbQlpIz1qNDBvZ88bWLQ08gW5BCPt_vld9Hgv2ihtT0X6v8i8Tfvrrx4sn9f0_Th2loWB0yvklWOoZiFvxrMwPuGgM5rFGzl9zAuDgFqHfs9JO7A6ESlzBJnpVHxpzKJukCP8dJaQooNTDmCUJZhrljpEAm7fOg4EZhOo35X0twzefWLq32itXKQvVE3Guxe8aL1FMCO4HCb0zNoejzW-eD6OL9_7LmrH9wI" />
-                                            </div>
-                                            <span class="text-sm font-medium">Sarah Jenkins</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col text-xs gap-0.5">
-                                            <span class="text-gray-700 dark:text-gray-300 font-medium">+44 161 496
-                                                0234</span>
-                                            <span class="text-gray-500">manc@avims.com</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1 px-2 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase rounded">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
-                                                <span class="material-symbols-outlined text-xl">visibility</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
-                                                <span class="material-symbols-outlined text-xl">delete</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-mono text-xs font-semibold text-primary">BHM-014</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-bold text-sm">Birmingham West</span>
-                                            <span class="text-xs text-gray-500">Oldbury Retail Park</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">Birmingham</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <div
-                                                class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                                                <img alt="Manager" class="w-full h-full object-cover"
-                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjGDvTqqq8Rhmhws_Oij3LbWSkIgtCf385aKSvuNLoSbzPaj2FxgXzJlk8THV-c6zA0B-eFVKZFkP1VmHTrCibLmaM2k0DXhsjspQKk77wj2pNAbi8vas82j8svh2uvQixcZhD2jPlDgUFOLbmt0iD_X0rALBcV_XyS4KiFKLJpOGpAfHzGol1JhugO7CJ-SiOGqYR9EMwox9JzS0v2Hg0IK90q-QI-rLdSMP3WAqjDlFqUA1uAnr3t3Sj5npLN7vJ1qwNw7R5LKtY" />
-                                            </div>
-                                            <span class="text-sm font-medium">Thomas Reed</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col text-xs gap-0.5">
-                                            <span class="text-gray-700 dark:text-gray-300 font-medium">+44 121 496
-                                                0888</span>
-                                            <span class="text-gray-500">bhm@avims.com</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-[10px] font-bold uppercase rounded">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                                            Inactive
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
-                                                <span class="material-symbols-outlined text-xl">visibility</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
-                                                <span class="material-symbols-outlined text-xl">edit</span>
-                                            </button>
-                                            <button
-                                                class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
-                                                <span class="material-symbols-outlined text-xl">delete</span>
-                                            </button>
+                            <tbody id="branchTableBody" class="divide-y divide-gray-200 dark:divide-gray-800">
+                                <!-- Data will be loaded here -->
+                                <tr>
+                                    <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                                        <div class="flex flex-col items-center gap-2">
+                                            <span class="material-symbols-outlined text-4xl opacity-20">hourglass_empty</span>
+                                            <p>Loading branches...</p>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div
-                        class="px-6 py-4 bg-gray-50 dark:bg-gray-800/30 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
-                        <p class="text-xs text-gray-500 font-medium">Showing 1 to 10 of 24 entries</p>
-                        <div class="flex items-center gap-1">
-                            <button class="p-2 text-gray-400 hover:text-primary disabled:opacity-50" disabled="">
-                                <span class="material-symbols-outlined text-lg">chevron_left</span>
-                            </button>
-                            <button class="w-8 h-8 rounded bg-primary text-white text-xs font-bold">1</button>
-                            <button
-                                class="w-8 h-8 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-xs font-medium">2</button>
-                            <button
-                                class="w-8 h-8 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-xs font-medium">3</button>
-                            <button class="p-2 text-gray-400 hover:text-primary">
-                                <span class="material-symbols-outlined text-lg">chevron_right</span>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Add/Edit Modal -->
+    <div id="branchModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" style="display: none !important;">
+        <div class="bg-white dark:bg-[#21242c] rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white dark:bg-[#21242c] border-b border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
+                <h3 id="modalTitle" class="text-xl font-bold">Add New Branch</h3>
+                <button onclick="closeBranchModal()" class="text-gray-500 hover:text-gray-700">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <form id="branchForm" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Branch Name *</label>
+                        <input id="branchName" required type="text" 
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900"
+                            placeholder="e.g., London Head Office" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Manager Name *</label>
+                        <input id="managerName" required type="text"
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900"
+                            placeholder="e.g., John Smith" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold mb-2">Address *</label>
+                        <input id="address" required type="text"
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900"
+                            placeholder="e.g., 123 Main Street, London" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Hotline *</label>
+                        <input id="hotline" required type="text"
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900"
+                            placeholder="e.g., +44 20 7123 4567" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Email *</label>
+                        <input id="email" required type="email"
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900"
+                            placeholder="e.g., branch@avims.com" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Opening Time *</label>
+                        <input id="startTime" required type="time"
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Closing Time *</label>
+                        <input id="endTime" required type="time"
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900" />
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-6 border-t border-gray-200 dark:border-gray-800">
+                    <button type="button" onclick="closeBranchModal()"
+                        class="flex-1 px-4 py-2.5 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-blue-700">
+                        Save Branch
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="../js/admin-sidebar.js"></script>
     <script>
-        // Load admin sidebar dynamically
+        const API_BASE = window.API_BASE || "http://localhost:5169/api";
+        let allBranches = [];
+        let editingBranchId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBranches();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('addBranchBtn').addEventListener('click', openAddBranchModal);
+            document.getElementById('branchForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('searchInput').addEventListener('input', filterBranches);
+            document.getElementById('statusFilter').addEventListener('change', filterBranches);
+        }
+
+        function openAddBranchModal() {
+            editingBranchId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Branch';
+            document.getElementById('branchForm').reset();
+            document.getElementById('branchModal').classList.remove('hidden');
+        }
+
+        function openEditBranchModal(branchId) {
+            const branch = allBranches.find(b => b.branchId === branchId);
+            if (!branch) return;
+
+            editingBranchId = branchId;
+            document.getElementById('modalTitle').textContent = 'Edit Branch';
+            document.getElementById('branchName').value = branch.branchName;
+            document.getElementById('managerName').value = branch.managerName;
+            document.getElementById('address').value = branch.address;
+            document.getElementById('hotline').value = branch.hotline;
+            document.getElementById('email').value = branch.email;
+            document.getElementById('startTime').value = branch.operatingStartTime;
+            document.getElementById('endTime').value = branch.operatingEndTime;
+            
+            document.getElementById('branchModal').classList.remove('hidden');
+        }
+
+        function closeBranchModal() {
+            document.getElementById('branchModal').classList.add('hidden');
+            editingBranchId = null;
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const data = {
+                branchName: document.getElementById('branchName').value,
+                managerName: document.getElementById('managerName').value,
+                address: document.getElementById('address').value,
+                hotline: document.getElementById('hotline').value,
+                email: document.getElementById('email').value,
+                operatingStartTime: document.getElementById('startTime').value,
+                operatingEndTime: document.getElementById('endTime').value
+            };
+
+            try {
+                const url = editingBranchId 
+                    ? `${API_BASE}/Branches/${editingBranchId}`
+                    : `${API_BASE}/Branches`;
+                
+                const method = editingBranchId ? 'PUT' : 'POST';
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    showSuccess(editingBranchId ? 'Branch updated successfully!' : 'Branch created successfully!');
+                    closeBranchModal();
+                    loadBranches();
+                } else {
+                    const error = await response.json();
+                    showError(error.message || 'Error saving branch');
+                }
+            } catch (error) {
+                console.error(error);
+                showError('Connection error. Please check if server is running.');
+            }
+        }
+
+        async function loadBranches() {
+            try {
+                const response = await fetch(`${API_BASE}/Branches`);
+                if (response.ok) {
+                    allBranches = await response.json();
+                    renderBranches(allBranches);
+                    updateStats();
+                } else {
+                    showError('Failed to load branches');
+                }
+            } catch (error) {
+                console.error(error);
+                showError('Connection error');
+            }
+        }
+
+        function renderBranches(branches) {
+            const tbody = document.getElementById('branchTableBody');
+            
+            if (branches.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="material-symbols-outlined text-4xl opacity-20">domain_disabled</span>
+                                <p>No branches found</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = branches.map(branch => {
+                const isOnline = branch.isOnline;
+                return `
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                        <td class="px-6 py-4 font-semibold text-sm">${branch.branchName}</td>
+                        <td class="px-6 py-4 text-sm">${branch.managerName}</td>
+                        <td class="px-6 py-4 text-sm">${branch.hotline}</td>
+                        <td class="px-6 py-4 text-sm">${branch.email}</td>
+                        <td class="px-6 py-4 text-xs text-gray-600 dark:text-gray-400">
+                            ${branch.operatingStartTime} - ${branch.operatingEndTime}
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase rounded ${
+                                isOnline 
+                                    ? 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400'
+                                    : 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                            }">
+                                <span class="w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}"></span>
+                                ${isOnline ? 'Online' : 'Offline'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button onclick="openEditBranchModal(${branch.branchId})"
+                                    class="p-1.5 text-gray-500 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+                                    <span class="material-symbols-outlined text-xl">edit</span>
+                                </button>
+                                <button onclick="deleteBranch(${branch.branchId})"
+                                    class="p-1.5 text-gray-500 hover:text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/10 rounded">
+                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterBranches() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+
+            const filtered = allBranches.filter(branch => {
+                const matchesSearch = branch.branchName.toLowerCase().includes(search) ||
+                                     branch.managerName.toLowerCase().includes(search);
+                
+                const matchesStatus = status === '' || (status === 'true' ? branch.isOnline : !branch.isOnline);
+                
+                return matchesSearch && matchesStatus;
+            });
+
+            renderBranches(filtered);
+        }
+
+        async function deleteBranch(branchId) {
+            if (!confirm('Are you sure you want to delete this branch?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/Branches/${branchId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showSuccess('Branch deleted successfully!');
+                    loadBranches();
+                } else {
+                    showError('Failed to delete branch');
+                }
+            } catch (error) {
+                console.error(error);
+                showError('Connection error');
+            }
+        }
+
+        function updateStats() {
+            const total = allBranches.length;
+            const active = allBranches.length; // All are marked active in our data
+            const online = allBranches.filter(b => b.isOnline).length;
+
+            document.getElementById('totalBranches').textContent = total;
+            document.getElementById('activeBranches').textContent = active;
+            document.getElementById('onlineBranches').textContent = online;
+        }
+
+        function showSuccess(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl font-semibold z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function showError(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-red-500 text-white px-6 py-4 rounded-lg shadow-xl font-semibold z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Load sidebar
         fetch('../templates/admin-sidebar.html')
             .then(response => response.text())
             .then(html => {
@@ -340,4 +464,3 @@
 </body>
 
 </html>
-

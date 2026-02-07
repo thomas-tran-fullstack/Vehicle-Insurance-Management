@@ -74,6 +74,22 @@ CREATE TABLE Admins (
 );
 GO
 
+/* ---------- BRANCHES ---------- */
+CREATE TABLE Branches (
+    BranchId INT IDENTITY(1,1) PRIMARY KEY,
+    BranchName NVARCHAR(150) NOT NULL,
+    ManagerName NVARCHAR(150) NOT NULL,
+    Address NVARCHAR(255) NOT NULL,
+    Hotline NVARCHAR(20) NOT NULL,
+    Email NVARCHAR(150) NOT NULL,
+    OperatingStartTime TIME NOT NULL,
+    OperatingEndTime TIME NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 1,
+    CreatedDate DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    UpdatedDate DATETIME2 NULL
+);
+GO
+
 /* ---------- INSURANCE TYPES ---------- */
 CREATE TABLE InsuranceTypes (
     InsuranceTypeId INT IDENTITY(1,1) PRIMARY KEY,
@@ -572,6 +588,16 @@ INSERT INTO Testimonials (CustomerId, Content, Approved)
 VALUES
 (1, N'AutoSure helped me buy insurance quickly online.', 1),
 (2, N'Friendly staff and clear process. Recommended!', 0);
+GO
+
+-- Branches
+INSERT INTO Branches (BranchName, ManagerName, Address, Hotline, Email, OperatingStartTime, OperatingEndTime, IsActive)
+VALUES
+(N'London Head Office', N'Sarah Jenkins', N'123 Financial District, London, EC2V 7NQ', '+44 20 7123 4567', 'london@avims.com', '08:00', '20:00', 1),
+(N'Manchester Branch', N'Mark Thompson', N'45 Deansgate, Manchester', '+44 161 832 1234', 'manchester@avims.com', '09:00', '18:00', 1),
+(N'Birmingham Branch', N'Elena Rodriguez', N'88 Colmore Row, Birmingham', '+44 121 236 5678', 'birmingham@avims.com', '09:00', '18:00', 1),
+(N'Leeds Branch', N'James Morrison', N'123 City Square, Leeds', '+44 113 200 0001', 'leeds@avims.com', '08:30', '17:30', 1),
+(N'Bristol Branch', N'Emma Wilson', N'45 Corn Street, Bristol', '+44 117 927 2000', 'bristol@avims.com', '09:00', '18:00', 1);
 GO
 
 -- Contacts (Contact Us)

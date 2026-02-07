@@ -30,19 +30,6 @@ if (typeof window.API_BASE === 'undefined') {
 }
 
 // Fallback (should rarely be used)
-const API_BASE_FALLBACK = "http://localhost:5169/api";
-
-// Log for debugging (development only)
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    console.log(`[✓ Config] API Base: ${API_BASE}`);
-    console.log(`[✓ Config] Origin: ${window.location.origin}`);
-}
-
-// For pages in subdirectories that need to reference config.js
-// auto-assign API_BASE if not already defined
-if (typeof window.API_BASE === 'undefined') {
-    window.API_BASE = API_BASE;
-}
 if (typeof window.API_BASE_FALLBACK === 'undefined') {
-    window.API_BASE_FALLBACK = API_BASE_FALLBACK;
+    window.API_BASE_FALLBACK = "http://localhost:5169/api";
 }
