@@ -20,6 +20,8 @@ namespace VehicleInsuranceAPI.Data
 
         public virtual DbSet<Bill> Bills { get; set; }
 
+        public virtual DbSet<BillPayment> BillPayments { get; set; }
+
         public virtual DbSet<Branch> Branches { get; set; }
 
         public virtual DbSet<Claim> Claims { get; set; }
@@ -99,6 +101,27 @@ namespace VehicleInsuranceAPI.Data
                     .HasForeignKey(d => d.PolicyId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Bills__PolicyId__5DCAEF64");
+            });
+
+            modelBuilder.Entity<BillPayment>(entity =>
+            {
+                entity.HasKey(e => e.BillPaymentId).HasName("PK__BillPayments__ID");
+
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.Status)
+                    .HasMaxLength(20)
+                    .HasDefaultValue("PENDING");
+                entity.Property(e => e.Method).HasMaxLength(30);
+                entity.Property(e => e.TransactionRef).HasMaxLength(100);
+                entity.Property(e => e.Note).HasMaxLength(500);
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime2")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Bill).WithMany(p => p.BillPayments)
+                    .HasForeignKey(d => d.BillId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__BillPayments__BillId__FEFF4F7C");
             });
 
             modelBuilder.Entity<Claim>(entity =>

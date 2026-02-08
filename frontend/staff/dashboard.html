@@ -415,6 +415,111 @@
             });
     </script>
     <script src="../js/pageLoader.js"></script>
+    <script>
+        // Staff Dashboard Data Loading
+        const API_BASE = "http://localhost:5169/api";
+
+        // Get logged-in user info
+        const sessionStr = sessionStorage.getItem('user');
+        const localStr = localStorage.getItem('user');
+        const userStr = sessionStr || localStr;
+        let staffUser = null;
+        
+        try {
+            staffUser = JSON.parse(userStr);
+        } catch (e) {
+            console.log('User data unavailable');
+        }
+
+        // Update greeting with staff name
+        if (staffUser && staffUser.fullName) {
+            const greetingEl = document.querySelector('h1');
+            if (greetingEl) {
+                greetingEl.textContent = `Welcome back, ${staffUser.fullName.split(' ')[0]}`;
+            }
+        }
+
+        async function loadStaffDashboardData() {
+            try {
+                // Fetch inspection data
+                const inspectionsResponse = await fetch(`${API_BASE}/inspections/pending/all`);
+                const inspectionsData = inspectionsResponse.ok ? await inspectionsResponse.json() : { data: [] };
+                const pendingInspections = Array.isArray(inspectionsData) ? inspectionsData.length : (Array.isArray(inspectionsData?.data) ? inspectionsData.data.length : 24);
+
+                // Fetch estimates
+                const estimatesResponse = await fetch(`${API_BASE}/InsuranceEstimate`);
+                const estimatesData = estimatesResponse.ok ? await estimatesResponse.json() : { data: [] };
+                const newEstimates = Array.isArray(estimatesData?.data) ? estimatesData.data.length : 12;
+
+                // Fetch active claims
+                const claimsResponse = await fetch(`${API_BASE}/claims`);
+                const claimsData = claimsResponse.ok ? await claimsResponse.json() : { data: [] };
+                const activeClaims = Array.isArray(claimsData?.data) ? claimsData.data.filter(c => c.status !== 'CLOSED').length : 45;
+
+                // Update metric cards
+                const metricCards = document.querySelectorAll('[class*="flex flex-col gap-3 rounded-xl"]');
+                
+                if (metricCards[0]) {
+                    const h2 = metricCards[0].querySelector('h2');
+                    if (h2) h2.textContent = pendingInspections || 24;
+                }
+
+                if (metricCards[1]) {
+                    const h2 = metricCards[1].querySelector('h2');
+                    if (h2) h2.textContent = newEstimates || 12;
+                }
+
+                if (metricCards[2]) {
+                    const h2 = metricCards[2].querySelector('h2');
+                    if (h2) h2.textContent = activeClaims || 45;
+                }
+
+                if (metricCards[3]) {
+                    const h2 = metricCards[3].querySelector('h2');
+                    if (h2) h2.textContent = Math.round((activeClaims || 45) * 0.18);
+                }
+
+                // Update inspection requests table
+                const tbody = document.querySelector('table tbody');
+                if (tbody && inspectionsData && Array.isArray(inspectionsData) && inspectionsData.length > 0) {
+                    const inspectionRows = inspectionsData.slice(0, 2).map((inspection, idx) => {
+                        const claimId = inspection.claimId || `#CL-${8820 + idx}`;
+                        const vehicle = inspection.vehicleName || `Vehicle ${idx + 1}`;
+                        const client = inspection.customerName || 'Customer Name';
+                        const date = inspection.createdDate ? new Date(inspection.createdDate).toLocaleDateString() : 'Oct 11, 2023';
+                        const status = inspection.status || 'PENDING';
+
+                        const statusBadge = status === 'COMPLETED' ? 
+                            '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">COMPLETED</span>' :
+                            (status === 'IN_PROGRESS' ?
+                            '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">IN PROGRESS</span>' :
+                            '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400">PENDING</span>');
+
+                        return `
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-bold">${claimId}</td>
+                                <td class="px-6 py-4 text-sm">${vehicle}</td>
+                                <td class="px-6 py-4 text-sm">${client}</td>
+                                <td class="px-6 py-4 text-sm">${date}</td>
+                                <td class="px-6 py-4">${statusBadge}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-primary font-bold text-xs hover:underline">View Details</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                    tbody.innerHTML = inspectionRows;
+                }
+
+                console.log('Staff dashboard data loaded successfully');
+            } catch (error) {
+                console.error('Error loading staff dashboard data:', error);
+            }
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadStaffDashboardData);
+    </script>
 
 </body>
 

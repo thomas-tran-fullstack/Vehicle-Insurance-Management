@@ -60,7 +60,7 @@
                             <p class="text-[#4c739a] text-sm font-medium">Total Revenue (MTD)</p>
                             <span class="material-symbols-outlined text-primary">payments</span>
                         </div>
-                        <h3 class="text-2xl font-bold tracking-tight">$4,250,000</h3>
+                        <h3 class="text-2xl font-bold tracking-tight"><span id="adminRevenue">-</span></h3>
                         <div class="flex items-center gap-1 mt-2">
                             <span class="material-symbols-outlined text-green-600 text-[18px]">trending_up</span>
                             <span class="text-green-600 text-sm font-semibold">+12.4%</span>
@@ -72,7 +72,7 @@
                             <p class="text-[#4c739a] text-sm font-medium">Pending Payments</p>
                             <span class="material-symbols-outlined text-orange-400">pending_actions</span>
                         </div>
-                        <h3 class="text-2xl font-bold tracking-tight">124,500</h3>
+                        <h3 class="text-2xl font-bold tracking-tight"><span id="adminPendingAmount">-</span></h3>
                         <div class="flex items-center gap-1 mt-2">
                             <span class="material-symbols-outlined text-red-500 text-[18px]">trending_down</span>
                             <span class="text-red-500 text-sm font-semibold">-5.2%</span>
@@ -84,7 +84,7 @@
                             <p class="text-[#4c739a] text-sm font-medium">Tax Liabilities</p>
                             <span class="material-symbols-outlined text-[#4c739a]">account_balance</span>
                         </div>
-                        <h3 class="text-2xl font-bold tracking-tight">$380,200</h3>
+                        <h3 class="text-2xl font-bold tracking-tight"><span id="adminTax">-</span></h3>
                         <div class="flex items-center gap-1 mt-2">
                             <span class="material-symbols-outlined text-green-600 text-[18px]">trending_up</span>
                             <span class="text-green-600 text-sm font-semibold">+2.1%</span>
@@ -96,7 +96,7 @@
                             <p class="text-[#4c739a] text-sm font-medium">Gateway Success</p>
                             <span class="material-symbols-outlined text-green-500">check_circle</span>
                         </div>
-                        <h3 class="text-2xl font-bold tracking-tight">99.85%</h3>
+                        <h3 class="text-2xl font-bold tracking-tight"><span id="adminSuccessRate">-</span></h3>
                         <div class="flex items-center gap-1 mt-2">
                             <span class="material-symbols-outlined text-green-600 text-[18px]">add</span>
                             <span class="text-green-600 text-sm font-semibold">0.12%</span>
@@ -184,90 +184,9 @@
                                     <th class="px-6 py-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#e7edf3] dark:divide-slate-800">
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8842</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium">Sarah Jenkins</span>
-                                            <span class="text-xs text-[#4c739a]">Premium Comprehensive (V-9921)</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">Oct 24, 2023</td>
-                                    <td class="px-6 py-4 text-sm font-bold">$1,240.00</td>
-                                    <td class="px-6 py-4 text-sm">$186.00</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 uppercase">Paid</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_horiz</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8843</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium">Liam O'Connor</span>
-                                            <span class="text-xs text-[#4c739a]">Standard Liability (V-4012)</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">Oct 24, 2023</td>
-                                    <td class="px-6 py-4 text-sm font-bold">$890.00</td>
-                                    <td class="px-6 py-4 text-sm">$133.50</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-700 uppercase">Pending</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_horiz</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8844</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium">Global Logistics Inc.</span>
-                                            <span class="text-xs text-[#4c739a]">Fleet Umbrella (F-0012)</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">Oct 23, 2023</td>
-                                    <td class="px-6 py-4 text-sm font-bold">$12,500.00</td>
-                                    <td class="px-6 py-4 text-sm">$1,875.00</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-700 uppercase">Failed</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_horiz</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 text-sm font-semibold text-primary">INV-2023-8845</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium">Elena Rodriguez</span>
-                                            <span class="text-xs text-[#4c739a]">Full Coverage (V-1122)</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm">Oct 22, 2023</td>
-                                    <td class="px-6 py-4 text-sm font-bold">$1,450.00</td>
-                                    <td class="px-6 py-4 text-sm">$217.50</td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 uppercase">Paid</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button class="text-[#4c739a] hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined">more_horiz</span>
-                                        </button>
-                                    </td>
+                            <tbody id="adminBillingRows" class="divide-y divide-[#e7edf3] dark:divide-slate-800">
+                                <tr>
+                                    <td class="px-6 py-6 text-sm text-[#4c739a]" colspan="7">Loading invoices...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -293,80 +212,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Footer Stats: Gateway & Taxes -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                    <!-- Tax Breakdown -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-lg font-bold">Tax Calculation Breakdown</h4>
-                            <span
-                                class="text-xs font-bold text-[#4c739a] bg-background-light dark:bg-slate-800 px-2 py-1 rounded">Q4
-                                LIVE DATA</span>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex flex-col gap-1.5">
-                                <div class="flex justify-between text-sm">
-                                    <span class="font-medium">European Union (VAT 21%)</span>
-                                    <span class="font-bold">$142,500.00</span>
-                                </div>
-                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full">
-                                    <div class="bg-primary h-full rounded-full" style="width: 65%;"></div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <div class="flex justify-between text-sm">
-                                    <span class="font-medium">North America (Sales Tax 8.5%)</span>
-                                    <span class="font-bold">$218,400.00</span>
-                                </div>
-                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full">
-                                    <div class="bg-primary h-full rounded-full" style="width: 82%;"></div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1.5">
-                                <div class="flex justify-between text-sm">
-                                    <span class="font-medium">Australia (GST 10%)</span>
-                                    <span class="font-bold">$19,300.00</span>
-                                </div>
-                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full">
-                                    <div class="bg-primary h-full rounded-full" style="width: 15%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Payment Gateway Logs -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-lg font-bold">Live Gateway Logs</h4>
-                            <button class="text-xs text-primary font-bold">VIEW ALL LOGS</button>
-                        </div>
-                        <div class="space-y-3">
-                            <div
-                                class="flex items-center gap-3 p-2.5 rounded-lg border border-[#e7edf3] dark:border-slate-800">
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                <span class="text-[11px] font-bold text-[#4c739a] uppercase">STRIPE</span>
-                                <span class="text-sm font-medium grow">ch_3Nq2L... Auth Success</span>
-                                <span class="text-[11px] text-[#4c739a]">2m ago</span>
-                            </div>
-                            <div
-                                class="flex items-center gap-3 p-2.5 rounded-lg border border-[#e7edf3] dark:border-slate-800">
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                <span class="text-[11px] font-bold text-[#4c739a] uppercase">PAYPAL</span>
-                                <span class="text-sm font-medium grow">PAY-882X... Payout Completed</span>
-                                <span class="text-[11px] text-[#4c739a]">15m ago</span>
-                            </div>
-                            <div
-                                class="flex items-center gap-3 p-2.5 rounded-lg border border-[#e7edf3] dark:border-slate-800 bg-red-50/50 dark:bg-red-900/10">
-                                <div class="w-2 h-2 rounded-full bg-red-500"></div>
-                                <span class="text-[11px] font-bold text-[#4c739a] uppercase">STRIPE</span>
-                                <span class="text-sm font-medium grow text-red-600 dark:text-red-400">ch_3Nq2M... 402
-                                    Card Declined</span>
-                                <span class="text-[11px] text-[#4c739a]">22m ago</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
@@ -386,9 +231,126 @@
             })
             .catch(error => console.error('Error loading sidebar:', error));
     </script>
+    <script>
+        const adminBillingState = { bills: [] };
+
+        function fmtDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleDateString();
+        }
+
+        function fmtMoney(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        }
+
+        function statusBadge(status, dueDate) {
+            const normalized = (status || 'UNPAID').toUpperCase();
+            if (normalized === 'PAID') {
+                return '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 uppercase">Paid</span>';
+            }
+            const overdue = dueDate && new Date(dueDate) < new Date();
+            if (overdue) {
+                return '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-700 uppercase">Overdue</span>';
+            }
+            if (normalized === 'PARTIALLY_PAID') {
+                return '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-700 uppercase">Partial</span>';
+            }
+            return '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-700 uppercase">Pending</span>';
+        }
+
+        function renderAdminBilling() {
+            const rows = document.getElementById('adminBillingRows');
+            if (!adminBillingState.bills.length) {
+                rows.innerHTML = '<tr><td class="px-6 py-6 text-sm text-[#4c739a]" colspan="7">No invoices found.</td></tr>';
+                return;
+            }
+
+            rows.innerHTML = adminBillingState.bills.map(bill => {
+                const action = (bill.status || '').toUpperCase() === 'PAID'
+                    ? `<a class="text-[#4c739a] hover:text-primary transition-colors" href="/api/BillingPayment/${bill.billId}/invoice-pdf" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span></a>`
+                    : `<button data-bill="${bill.billId}" class="adminConfirmPayment text-primary font-bold text-sm border border-primary/20 hover:bg-primary hover:text-white px-3 py-1 rounded transition-all">Confirm</button>`;
+
+                return `
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4 text-sm font-semibold text-primary">#${bill.billId}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium">${bill.customerName || '-'}</span>
+                                <span class="text-xs text-[#4c739a]">Policy ${bill.policyNumber || '-'}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-sm">${fmtDate(bill.billDate)}</td>
+                        <td class="px-6 py-4 text-sm font-bold">${fmtMoney(bill.amount)}</td>
+                        <td class="px-6 py-4 text-sm">${fmtMoney(0)}</td>
+                        <td class="px-6 py-4">${statusBadge(bill.status, bill.dueDate)}</td>
+                        <td class="px-6 py-4 text-right">${action}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.adminConfirmPayment').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const billId = btn.getAttribute('data-bill');
+                    const ref = prompt('Transaction reference (optional):');
+                    const method = prompt('Payment method (CARD/BANK_TRANSFER/CASH):', 'CASH');
+                    const response = await fetch(`/api/BillingPayment/${billId}/mark-paid`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            transactionRef: ref || null,
+                            method: method || 'CASH'
+                        })
+                    });
+                    const data = await response.json();
+                    alert(data.message || 'Payment updated');
+                    loadAdminBilling();
+                });
+            });
+        }
+
+        function renderAdminBillingStats() {
+            const paidBills = adminBillingState.bills.filter(b => (b.status || '').toUpperCase() === 'PAID');
+            const totalRevenue = paidBills.reduce((sum, b) => sum + (b.amountPaid || b.amount || 0), 0);
+            document.getElementById('adminRevenue').textContent = fmtMoney(totalRevenue);
+
+            const pendingBills = adminBillingState.bills.filter(b => (b.status || '').toUpperCase() !== 'PAID');
+            const pendingAmount = pendingBills.reduce((sum, b) => sum + (b.remainingAmount ?? b.amount ?? 0), 0);
+            document.getElementById('adminPendingAmount').textContent = fmtMoney(pendingAmount);
+
+            document.getElementById('adminTax').textContent = fmtMoney(0);
+
+            const successRate = adminBillingState.bills.length
+                ? Math.round((paidBills.length / adminBillingState.bills.length) * 10000) / 100
+                : 0;
+            document.getElementById('adminSuccessRate').textContent = `${successRate}%`;
+        }
+
+        async function loadAdminBilling() {
+            try {
+                const response = await fetch('/api/BillingPayment');
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error(data.message || 'Unable to load billing data');
+                }
+                adminBillingState.bills = data.data || [];
+                renderAdminBillingStats();
+                renderAdminBilling();
+            } catch (err) {
+                const rows = document.getElementById('adminBillingRows');
+                rows.innerHTML = '<tr><td class="px-6 py-6 text-sm text-[#4c739a]" colspan="7">Không tải được dữ liệu billing.</td></tr>';
+                document.getElementById('adminRevenue').textContent = '-';
+                document.getElementById('adminPendingAmount').textContent = '-';
+                document.getElementById('adminTax').textContent = '-';
+                document.getElementById('adminSuccessRate').textContent = '-';
+            }
+        }
+
+        loadAdminBilling();
+    </script>
     <script src="../js/pageLoader.js"></script>
 
 </body>
 
 </html>
+
 

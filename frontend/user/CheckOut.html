@@ -81,7 +81,7 @@
       document.head.appendChild(script);
     });
 
-    const state = { policyId: 0, policy: null };
+    const state = { billId: 0, bill: null, policy: null };
 
     function getSessionUser() {
       const raw = sessionStorage.getItem('user') || localStorage.getItem('user');
@@ -111,35 +111,54 @@
       return true;
     }
 
-    async function loadPolicy() {
+    async function loadBill() {
       const params = new URLSearchParams(window.location.search);
-      state.policyId = Number(params.get('policyId') || 0);
-      if (!state.policyId) {
-        alert('Missing policyId.');
-        window.location.href = './InsurancePoliciesList.html';
+      state.billId = Number(params.get('billId') || 0);
+      const policyId = Number(params.get('policyId') || 0);
+
+      if (!state.billId && policyId) {
+        const billsRes = await fetch(`/api/BillingPayment?policyId=${policyId}`);
+        const billsData = await billsRes.json();
+        const unpaid = (billsData.data || []).find(b => (b.status || '').toUpperCase() !== 'PAID');
+        if (unpaid) {
+          state.billId = unpaid.billId;
+        }
+      }
+
+      if (!state.billId) {
+        alert('Missing billId.');
+        window.location.href = './BillingList.html';
         return;
       }
 
-      const response = await fetch(`/api/policies/${state.policyId}`);
+      const response = await fetch(`/api/BillingPayment/${state.billId}`);
       const result = await response.json();
       if (!result.success) {
-        alert(result.message || 'Unable to load policy.');
-        window.location.href = './InsurancePoliciesList.html';
+        alert(result.message || 'Unable to load bill.');
+        window.location.href = './BillingList.html';
         return;
       }
 
-      state.policy = result.data;
-      document.getElementById('policyNumber').textContent = state.policy.policyNumber || '-';
-      document.getElementById('vehicleName').textContent = state.policy.vehicleNameSnapshot || '-';
-      document.getElementById('policyType').textContent = state.policy.policyTypeSnapshot || '-';
-      document.getElementById('policyEndDate').textContent = fmtDate(state.policy.policyEndDate);
-      document.getElementById('paymentDueDate').textContent = fmtDate(state.policy.paymentDueDate);
-      document.getElementById('totalAmount').textContent = fmtMoney(state.policy.premiumAmount);
+      state.bill = result.data;
+      document.getElementById('policyNumber').textContent = state.bill.policyNumber || '-';
+      document.getElementById('vehicleName').textContent = state.bill.vehicleName || '-';
+      document.getElementById('policyType').textContent = state.bill.billType || '-';
+      document.getElementById('paymentDueDate').textContent = fmtDate(state.bill.dueDate);
+      document.getElementById('totalAmount').textContent = fmtMoney(state.bill.amount);
 
-      if ((state.policy.status || '').toUpperCase() !== 'WAITING_PAYMENT') {
+      if (state.bill.policyId) {
+        const policyRes = await fetch(`/api/PolicyManagement/${state.bill.policyId}`);
+        const policyData = await policyRes.json();
+        if (policyData.success) {
+          state.policy = policyData.data;
+          document.getElementById('policyEndDate').textContent = fmtDate(state.policy.policyEndDate);
+        }
+      }
+
+      if ((state.bill.status || '').toUpperCase() === 'PAID') {
         document.getElementById('payNowBtn').disabled = true;
         document.getElementById('payNowBtn').classList.add('opacity-50', 'cursor-not-allowed');
-        alert('This policy is not in WAITING_PAYMENT status.');
+        alert('This bill is already paid.');
       }
     }
 
@@ -154,25 +173,40 @@
       const method = document.getElementById('paymentMethod').value;
       const ref = document.getElementById('transactionRef').value.trim() || `PAY-${Date.now()}`;
 
-      const response = await fetch(`/api/policies/${state.policyId}/payment`, {
+      const createRes = await fetch(`/api/BillingPayment/${state.billId}/payments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          success: true,
           method,
           transactionRef: ref,
           actorUserId: user.userId
         })
       });
 
-      const data = await response.json();
-      if (!data.success) {
-        alert(data.message || 'Payment failed.');
+      const createData = await createRes.json();
+      if (!createData.success) {
+        alert(createData.message || 'Unable to create payment.');
         return;
       }
 
-      alert(data.message || 'Payment successful.');
-      window.location.href = './InsurancePoliciesList.html';
+      const paymentId = createData.data?.billPaymentId;
+      const confirmRes = await fetch(`/api/BillingPayment/${state.billId}/payments/${paymentId}/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          success: true,
+          actorUserId: user.userId
+        })
+      });
+
+      const confirmData = await confirmRes.json();
+      if (!confirmData.success) {
+        alert(confirmData.message || 'Payment failed.');
+        return;
+      }
+
+      alert(confirmData.message || 'Payment successful.');
+      window.location.href = './BillingList.html';
     }
 
     document.getElementById('payNowBtn').addEventListener('click', payNow);
@@ -180,7 +214,7 @@
       window.location.href = './InsurancePoliciesList.html';
     });
 
-    loadPolicy();
+    loadBill();
   </script>
   <script src="../js/pageLoader.js"></script>
 </body>

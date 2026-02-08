@@ -70,13 +70,13 @@ namespace VehicleInsuranceAPI.Controllers
 
                 return Ok(new
                 {
-                    Revenue = currentMonthRevenue,
-                    RevenueGrowth = Math.Round(growthPercent, 1),
-                    ClaimsPaid = claimsPaid,
-                    ClaimsCount = claimsCount,
-                    LossRatio = Math.Round(lossRatio, 1),
-                    ActivePolicies = activePolicies,
-                    NewPolicies = newPolicies
+                    totalRevenue = currentMonthRevenue,
+                    revenueGrowth = Math.Round(growthPercent, 1),
+                    totalClaimsPaid = claimsPaid,
+                    totalClaims = claimsCount,
+                    lossRatio = Math.Round(lossRatio, 1),
+                    totalPolicies = activePolicies,
+                    newPolicies = newPolicies
                 });
             }
             catch (Exception ex)

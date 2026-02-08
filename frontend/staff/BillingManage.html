@@ -60,10 +60,10 @@
                             <span class="material-symbols-outlined text-amber-500">pending_actions</span>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <h3 class="text-2xl font-bold dark:text-white">$42,500.00</h3>
+                            <h3 id="pendingAmount" class="text-2xl font-bold dark:text-white">$0.00</h3>
                             <span class="text-[#078838] text-xs font-bold">+5.2%</span>
                         </div>
-                        <p class="text-xs text-[#4c739a] mt-1">From 24 active invoices</p>
+                        <p class="text-xs text-[#4c739a] mt-1">From <span id="pendingCount">0</span> active invoices</p>
                     </div>
                     <div
                         class="bg-white dark:bg-background-dark p-6 rounded-xl border border-[#cfdbe7] dark:border-slate-700 shadow-sm">
@@ -72,7 +72,7 @@
                             <span class="material-symbols-outlined text-green-500">account_balance_wallet</span>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <h3 class="text-2xl font-bold dark:text-white">$128,400.00</h3>
+                            <h3 id="collectedMonth" class="text-2xl font-bold dark:text-white">$0.00</h3>
                             <span class="text-[#078838] text-xs font-bold">+12.8%</span>
                         </div>
                         <p class="text-xs text-[#4c739a] mt-1">Target: $150,000.00</p>
@@ -84,7 +84,7 @@
                             <span class="material-symbols-outlined text-red-500">error</span>
                         </div>
                         <div class="flex items-baseline gap-2">
-                            <h3 class="text-2xl font-bold dark:text-white">14</h3>
+                            <h3 id="overdueCount" class="text-2xl font-bold dark:text-white">0</h3>
                             <span class="text-red-500 text-xs font-bold">-2.1%</span>
                         </div>
                         <p class="text-xs text-[#4c739a] mt-1">Requires urgent follow-up</p>
@@ -129,132 +129,9 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#cfdbe7] dark:divide-slate-700">
-                            <!-- Row 1: Overdue -->
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8821</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
-                                            JD</div>
-                                        <div class="text-sm font-medium dark:text-slate-300">Johnathan Doe</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Premium Comprehensive</td>
-                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$1,450.00</td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 12, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">OVERDUE</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-2">
-                                        <button
-                                            class="p-1.5 text-primary hover:bg-primary/10 rounded-md transition-colors"
-                                            title="Confirm Payment">
-                                            <span class="material-symbols-outlined text-lg">check_circle</span>
-                                        </button>
-                                        <button
-                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors"
-                                            title="View PDF">
-                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 2: Pending (Manual Bank Transfer) -->
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8904</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
-                                            AM</div>
-                                        <div class="text-sm font-medium dark:text-slate-300">Alice Miller</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Third Party Only</td>
-                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$450.00</td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 28, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400 uppercase tracking-wide">Pending
-                                        Transfer</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-2">
-                                        <button
-                                            class="bg-primary text-white px-3 py-1 rounded text-xs font-bold hover:bg-primary/90 transition-all flex items-center gap-1">
-                                            <span class="material-symbols-outlined text-sm">verified</span>
-                                            Confirm Payment
-                                        </button>
-                                        <button
-                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors">
-                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 3: Paid -->
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8912</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
-                                            RK</div>
-                                        <div class="text-sm font-medium dark:text-slate-300">Robert King</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Standard Auto</td>
-                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$890.00</td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Oct 25, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">PAID</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-2">
-                                        <span
-                                            class="text-xs text-green-600 font-medium px-2 py-1 italic">Confirmed</span>
-                                        <button
-                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors">
-                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 4: Pending -->
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#INV-8915</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
-                                            SC</div>
-                                        <div class="text-sm font-medium dark:text-slate-300">Sarah Chen</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">EV Special Cover</td>
-                                <td class="px-6 py-4 text-sm font-bold dark:text-white">$2,100.00</td>
-                                <td class="px-6 py-4 text-sm text-[#4c739a]">Nov 05, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">SCHEDULED</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex gap-2">
-                                        <button
-                                            class="p-1.5 text-primary hover:bg-primary/10 rounded-md transition-colors">
-                                            <span class="material-symbols-outlined text-lg">edit</span>
-                                        </button>
-                                        <button
-                                            class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors">
-                                            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
-                                        </button>
-                                    </div>
-                                </td>
+                        <tbody id="billingManageRows" class="divide-y divide-[#cfdbe7] dark:divide-slate-700">
+                            <tr>
+                                <td class="px-6 py-6 text-sm text-[#4c739a]" colspan="7">Loading invoices...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -280,9 +157,10 @@
                     </div>
                 </div>
                 <!-- Manual Transfer Confirmation Overlay Example (Conceptual State) -->
-                <div class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-                    <div
-                        class="bg-white dark:bg-background-dark rounded-xl shadow-2xl w-full max-w-md p-6 border border-[#cfdbe7] dark:border-slate-700">
+                <div class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50">
+                    <div class="min-h-full flex items-center justify-center p-4">
+                        <div
+                            class="bg-white dark:bg-background-dark rounded-xl shadow-2xl w-full max-w-md p-6 border border-[#cfdbe7] dark:border-slate-700">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-bold">Confirm Manual Payment</h3>
                             <button class="text-[#4c739a] hover:text-[#0d141b]"><span
@@ -322,6 +200,7 @@
                                 &amp; Finalize</button>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -344,9 +223,124 @@
                 }
             });
     </script>
+    <script>
+        const billingManageState = { bills: [] };
+
+        function getSessionUser() {
+            const raw = sessionStorage.getItem('user') || localStorage.getItem('user');
+            if (!raw) return null;
+            try { return JSON.parse(raw); } catch { return null; }
+        }
+
+        function fmtDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleDateString();
+        }
+
+        function fmtMoney(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        }
+
+        function statusBadge(status, dueDate) {
+            const normalized = (status || 'UNPAID').toUpperCase();
+            if (normalized === 'PAID') {
+                return '<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">PAID</span>';
+            }
+            const overdue = dueDate && new Date(dueDate) < new Date();
+            if (overdue) {
+                return '<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">OVERDUE</span>';
+            }
+            if (normalized === 'PARTIALLY_PAID') {
+                return '<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">PARTIAL</span>';
+            }
+            return '<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">UNPAID</span>';
+        }
+
+        function renderStats() {
+            const pendingBills = billingManageState.bills.filter(b => (b.status || '').toUpperCase() !== 'PAID');
+            const pendingAmount = pendingBills.reduce((sum, b) => sum + (b.remainingAmount ?? b.amount ?? 0), 0);
+            document.getElementById('pendingAmount').textContent = fmtMoney(pendingAmount);
+            document.getElementById('pendingCount').textContent = pendingBills.length;
+
+            const now = new Date();
+            const collected = billingManageState.bills
+                .filter(b => b.paidAt && new Date(b.paidAt).getMonth() === now.getMonth() && new Date(b.paidAt).getFullYear() === now.getFullYear())
+                .reduce((sum, b) => sum + (b.amountPaid || 0), 0);
+            document.getElementById('collectedMonth').textContent = fmtMoney(collected);
+
+            const overdueCount = pendingBills.filter(b => b.dueDate && new Date(b.dueDate) < new Date()).length;
+            document.getElementById('overdueCount').textContent = overdueCount;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('billingManageRows');
+            if (!billingManageState.bills.length) {
+                tbody.innerHTML = '<tr><td class="px-6 py-6 text-sm text-[#4c739a]" colspan="7">No invoices found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = billingManageState.bills.map(bill => {
+                const status = (bill.status || '').toUpperCase();
+                const action = status === 'PAID'
+                    ? `<a class="p-1.5 text-[#4c739a] hover:bg-slate-100 rounded-md transition-colors" href="/api/BillingPayment/${bill.billId}/invoice-pdf" target="_blank" title="View PDF"><span class="material-symbols-outlined text-lg">picture_as_pdf</span></a>`
+                    : `<button data-bill="${bill.billId}" class="confirmPaymentBtn bg-primary text-white px-3 py-1 rounded text-xs font-bold hover:bg-primary/90 transition-all flex items-center gap-1"><span class="material-symbols-outlined text-sm">verified</span>Confirm Payment</button>`;
+
+                return `
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4 text-sm font-bold text-[#0d141b] dark:text-white">#${bill.billId}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-primary">
+                                    ${(bill.customerName || 'NA').slice(0, 2).toUpperCase()}
+                                </div>
+                                <div class="text-sm font-medium dark:text-slate-300">${bill.customerName || '-'}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-[#4c739a]">${bill.billType || '-'}</td>
+                        <td class="px-6 py-4 text-sm font-bold dark:text-white">${fmtMoney(bill.amount)}</td>
+                        <td class="px-6 py-4 text-sm text-[#4c739a]">${fmtDate(bill.dueDate)}</td>
+                        <td class="px-6 py-4">${statusBadge(bill.status, bill.dueDate)}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2 items-center">${action}</div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.confirmPaymentBtn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const billId = btn.getAttribute('data-bill');
+                    const user = getSessionUser();
+                    const ref = prompt('Transaction reference (optional):');
+                    const method = prompt('Payment method (CARD/BANK_TRANSFER/CASH):', 'CASH');
+                    const response = await fetch(`/api/BillingPayment/${billId}/mark-paid`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            transactionRef: ref || null,
+                            method: method || 'CASH',
+                            actorUserId: user?.userId || null
+                        })
+                    });
+                    const data = await response.json();
+                    alert(data.message || 'Payment updated');
+                    loadBills();
+                });
+            });
+        }
+
+        async function loadBills() {
+            const response = await fetch('/api/BillingPayment');
+            const data = await response.json();
+            billingManageState.bills = data.data || [];
+            renderStats();
+            renderTable();
+        }
+
+        loadBills();
+    </script>
     <script src="../js/pageLoader.js"></script>
 
 </body>
 
 </html>
-

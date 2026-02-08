@@ -228,20 +228,45 @@ CREATE TABLE PolicyDocuments (
 );
 GO
 
-/* ---------- BILLS ---------- */
 CREATE TABLE Bills (
     BillId INT IDENTITY(1,1) PRIMARY KEY,
     PolicyId INT NOT NULL,
+    CustomerId INT NULL,
+    PolicyNumberSnapshot BIGINT NULL,
+    CustomerNameSnapshot NVARCHAR(150) NULL,
+    CustomerPhoneSnapshot NVARCHAR(20) NULL,
+    CustomerAddressProofSnapshot NVARCHAR(255) NULL,
+    VehicleNameSnapshot NVARCHAR(100) NULL,
+    VehicleModelSnapshot NVARCHAR(100) NULL,
+    VehicleRateSnapshot DECIMAL(18,2) NULL,
+    VehicleBodyNumberSnapshot NVARCHAR(100) NULL,
+    VehicleEngineNumberSnapshot NVARCHAR(100) NULL,
     BillDate DATE NOT NULL,
     DueDate DATE NULL,
-    BillType NVARCHAR(20) NOT NULL DEFAULT 'INITIAL',  -- INITIAL/RENEWAL/ADDITIONAL
+    BillType NVARCHAR(20) NOT NULL DEFAULT 'INITIAL',
     Amount DECIMAL(18,2) NOT NULL,
     Paid BIT NOT NULL DEFAULT 0,
-    Status NVARCHAR(20) NOT NULL DEFAULT 'UNPAID',    -- UNPAID/PAID
+    Status NVARCHAR(20) NOT NULL DEFAULT 'UNPAID',
     PaidAt DATETIME2 NULL,
     FOREIGN KEY (PolicyId) REFERENCES Policies(PolicyId)
 );
 GO
+
+CREATE TABLE BillPayments (
+    BillPaymentId INT IDENTITY(1,1) PRIMARY KEY,
+    BillId INT NOT NULL,
+    Amount DECIMAL(18,2) NOT NULL,
+    Method NVARCHAR(30) NULL,
+    Status NVARCHAR(20) NOT NULL DEFAULT 'PENDING', -- PENDING/SUCCESS/FAILED/CANCELLED
+    TransactionRef NVARCHAR(100) NULL,
+    Note NVARCHAR(500) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    UpdatedAt DATETIME2 NULL,
+    ProcessedAt DATETIME2 NULL,
+    FOREIGN KEY (BillId) REFERENCES Bills(BillId)
+);
+GO
+
 
 /* ---------- BILLING / PAYMENT ---------- */
 CREATE TABLE Invoices (

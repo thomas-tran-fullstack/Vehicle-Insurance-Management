@@ -55,46 +55,40 @@
                 <p class="text-slate-600 dark:text-slate-400">Track your insurance premiums, download invoices, and
                     manage your payment schedule.</p>
             </div>
-            <button
-                class="bg-primary text-white px-6 py-2.5 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:bg-blue-600 transition-all flex items-center gap-2">
-                <span class="material-symbols-outlined">download</span>
-                Export All History
-            </button>
         </div>
-        <!-- Stats Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div
-                class="bg-white dark:bg-background-dark border border-slate-200 dark:border-slate-800 p-6 rounded-xl flex items-center gap-4 shadow-sm">
-                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined">schedule</span>
-                </div>
-                <div>
-                    <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Next
-                        Payment Due</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">$124.50 <span
-                            class="text-sm font-normal text-slate-400">/ Aug 15</span></p>
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wide mb-1">Next Payment</p>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white" id="nextPaymentAmount">-</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" id="nextPaymentDate">-</p>
+                    </div>
                 </div>
             </div>
-            <div
-                class="bg-white dark:bg-background-dark border border-slate-200 dark:border-slate-800 p-6 rounded-xl flex items-center gap-4 shadow-sm">
-                <div class="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center text-green-500">
-                    <span class="material-symbols-outlined">payments</span>
-                </div>
-                <div>
-                    <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Total
-                        Paid (2023)</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">$1,494.00</p>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wide mb-1">Paid This Year</p>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white" id="totalPaidYear">-</p>
+                    </div>
                 </div>
             </div>
-            <div
-                class="bg-white dark:bg-background-dark border border-slate-200 dark:border-slate-800 p-6 rounded-xl flex items-center gap-4 shadow-sm">
-                <div class="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-500">
-                    <span class="material-symbols-outlined">account_balance_wallet</span>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wide mb-1">Default Method</p>
+                        <p class="text-lg font-bold text-slate-900 dark:text-white" id="defaultMethod">-</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Default
-                        Method</p>
-                    <p class="text-lg font-bold text-slate-900 dark:text-white">Visa •••• 4242</p>
+            </div>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wide mb-1">Total Transactions</p>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white" id="totalTransactions">0</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,21 +98,19 @@
             <div
                 class="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex gap-2">
-                    <button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg">All
+                    <button data-filter="ALL" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg">All
                         Transactions</button>
-                    <button
+                    <button data-filter="PAID"
                         class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">Paid</button>
-                    <button
+                    <button data-filter="PENDING"
                         class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">Pending</button>
-                    <button
+                    <button data-filter="FAILED"
                         class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">Failed</button>
                 </div>
                 <div class="relative w-full sm:w-64">
                     <span
                         class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
-                    <input
-                        class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary"
-                        placeholder="Search Invoice ID..." type="text" />
+                    <input id='billingSearch' class='w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary' placeholder='Search Invoice ID...' type='text' />
                 </div>
             </div>
             <!-- Transactions Table -->
@@ -146,134 +138,9 @@
                                 Action</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                        <!-- Row 1 -->
-                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">INV-88291</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-slate-600 dark:text-slate-300">Jul 15, 2023</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">$124.50</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="material-symbols-outlined text-slate-400 text-[18px]">credit_card</span>
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Visa •••• 4242</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400">
-                                    Paid
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a class="text-primary hover:text-blue-700 text-sm font-bold inline-flex items-center gap-1"
-                                    href="invoice.html">
-                                    View Invoice <span
-                                        class="material-symbols-outlined text-[16px]">chevron_right</span>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">INV-88104</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-slate-600 dark:text-slate-300">Jun 15, 2023</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">$124.50</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="material-symbols-outlined text-slate-400 text-[18px]">credit_card</span>
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Visa •••• 4242</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400">
-                                    Paid
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a class="text-primary hover:text-blue-700 text-sm font-bold inline-flex items-center gap-1"
-                                    href="invoice.html">
-                                    View Invoice <span
-                                        class="material-symbols-outlined text-[16px]">chevron_right</span>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- Row 3 -->
-                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">INV-87912</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-slate-600 dark:text-slate-300">May 15, 2023</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">$124.50</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="material-symbols-outlined text-slate-400 text-[18px]">account_balance</span>
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Bank Transfer</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a class="text-primary hover:text-blue-700 text-sm font-bold inline-flex items-center gap-1"
-                                    href="invoice.html">
-                                    View Invoice <span
-                                        class="material-symbols-outlined text-[16px]">chevron_right</span>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- Row 4 -->
-                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">INV-87805</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-slate-600 dark:text-slate-300">Apr 15, 2023</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">$124.50</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="material-symbols-outlined text-slate-400 text-[18px]">credit_card</span>
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Visa •••• 4242</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400">
-                                    Failed
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <a class="text-primary hover:text-blue-700 text-sm font-bold inline-flex items-center gap-1"
-                                    href="invoice.html">
-                                    View Invoice <span
-                                        class="material-symbols-outlined text-[16px]">chevron_right</span>
-                                </a>
-                            </td>
+                    <tbody id="billingRows" class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr>
+                            <td class="px-6 py-6 text-sm text-slate-500" colspan="6">Loading billing history...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -389,9 +256,182 @@
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
+    <script>
+        const billingState = {
+            bills: [],
+            filter: 'ALL',
+            search: ''
+        };
+
+        function getSessionUser() {
+            const raw = sessionStorage.getItem('user') || localStorage.getItem('user');
+            if (!raw) return null;
+            try { return JSON.parse(raw); } catch { return null; }
+        }
+
+        function fmtDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleDateString();
+        }
+
+        function fmtMoney(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        }
+
+        function renderStats() {
+            const unpaid = billingState.bills.filter(b => (b.status || '').toUpperCase() !== 'PAID');
+            unpaid.sort((a, b) => new Date(a.dueDate || 0) - new Date(b.dueDate || 0));
+
+            const nextBill = unpaid[0];
+            const nextAmountEl = document.getElementById('nextPaymentAmount');
+            const nextDateEl = document.getElementById('nextPaymentDate');
+            if (nextAmountEl && nextDateEl) {
+                if (nextBill) {
+                    nextAmountEl.textContent = fmtMoney(nextBill.remainingAmount ?? nextBill.amount);
+                    nextDateEl.textContent = `/ ${fmtDate(nextBill.dueDate)}`;
+                } else {
+                    nextAmountEl.textContent = fmtMoney(0);
+                    nextDateEl.textContent = '/ -';
+                }
+            }
+
+            const currentYear = new Date().getFullYear();
+            const totalPaid = billingState.bills
+                .filter(b => b.paidAt && new Date(b.paidAt).getFullYear() === currentYear)
+                .reduce((sum, b) => sum + (b.amountPaid || 0), 0);
+            const totalPaidEl = document.getElementById('totalPaidYear');
+            if (totalPaidEl) {
+                totalPaidEl.textContent = fmtMoney(totalPaid);
+            }
+
+            const methodCounts = {};
+            billingState.bills.forEach(b => {
+                if (!b.lastPaymentMethod) return;
+                const key = b.lastPaymentMethod;
+                methodCounts[key] = (methodCounts[key] || 0) + 1;
+            });
+            const topMethod = Object.keys(methodCounts).sort((a, b) => methodCounts[b] - methodCounts[a])[0];
+            const defaultMethodEl = document.getElementById('defaultMethod');
+            if (defaultMethodEl) {
+                defaultMethodEl.textContent = topMethod || '-';
+            }
+
+            const totalTransEl = document.getElementById('totalTransactions');
+            if (totalTransEl) {
+                totalTransEl.textContent = billingState.bills.length;
+            }
+        }
+
+        function statusBadge(status) {
+            const normalized = (status || 'UNPAID').toUpperCase();
+            if (normalized === 'PAID') {
+                return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400">Paid</span>';
+            }
+            if (normalized === 'PARTIALLY_PAID') {
+                return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">Partially Paid</span>';
+            }
+            return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400">Unpaid</span>';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('billingRows');
+            const term = billingState.search.toLowerCase();
+            const filtered = billingState.bills.filter(b => {
+                const status = (b.status || '').toUpperCase();
+                if (billingState.filter === 'PAID' && status !== 'PAID') return false;
+                if (billingState.filter === 'PENDING' && status === 'PAID') return false;
+                if (billingState.filter === 'FAILED' && status !== 'FAILED') return false;
+                if (!term) return true;
+                return String(b.billId).includes(term)
+                    || String(b.policyNumber || '').includes(term)
+                    || String(b.vehicleName || '').toLowerCase().includes(term)
+                    || String(b.customerName || '').toLowerCase().includes(term);
+            });
+
+            if (!filtered.length) {
+                tbody.innerHTML = '<tr><td class="px-6 py-6 text-sm text-slate-500" colspan="6">No billing records found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(bill => {
+                const action = (bill.status || '').toUpperCase() === 'PAID'
+                    ? `<a class="text-primary hover:text-blue-700 text-sm font-bold inline-flex items-center gap-1" href="Invoice.html?billId=${bill.billId}">View Invoice <span class="material-symbols-outlined text-[16px]">chevron_right</span></a>`
+                    : `<a class="text-primary hover:text-blue-700 text-sm font-bold inline-flex items-center gap-1" href="CheckOut.html?billId=${bill.billId}">Pay Now <span class="material-symbols-outlined text-[16px]">chevron_right</span></a>`;
+
+                return `
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm font-bold text-slate-900 dark:text-white">#${bill.billId}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm text-slate-600 dark:text-slate-300">${fmtDate(bill.billDate)}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm font-bold text-slate-900 dark:text-white">${fmtMoney(bill.amount)}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-slate-400 text-[18px]">payments</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-300">${bill.lastPaymentMethod || '-'}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            ${statusBadge(bill.status)}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            ${action}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function loadBills() {
+            const user = getSessionUser();
+            if (!user || !user.userId) {
+                window.location.href = './Login.html';
+                return;
+            }
+
+            const customerRes = await fetch(`/api/customerinformation/${user.userId}`);
+            const customerData = await customerRes.json();
+            if (!customerData.success) {
+                alert('Unable to load customer profile.');
+                return;
+            }
+
+            const customerId = customerData.data.customerId;
+            const response = await fetch(`/api/BillingPayment?customerId=${customerId}`);
+            const data = await response.json();
+            billingState.bills = data.data || [];
+            renderStats();
+            renderTable();
+        }
+
+        document.getElementById('billingSearch').addEventListener('input', (event) => {
+            billingState.search = event.target.value.trim();
+            renderTable();
+        });
+
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                billingState.filter = btn.getAttribute('data-filter') || 'ALL';
+                document.querySelectorAll('[data-filter]').forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                });
+                btn.classList.add('bg-primary', 'text-white');
+                btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                renderTable();
+            });
+        });
+
+        loadBills();
+    </script>
     <script src="../js/pageLoader.js"></script>
 
 </body>
 
 </html>
+
 

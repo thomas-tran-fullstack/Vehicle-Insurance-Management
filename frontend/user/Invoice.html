@@ -106,16 +106,16 @@
                     </div>
                     <div class="text-left md:text-right">
                         <h3 class="text-4xl font-bold text-slate-900 dark:text-white mb-2">INVOICE</h3>
-                        <p class="text-slate-500 dark:text-slate-400 font-medium">#INV-2023-001</p>
+                        <p id="invoiceNumber" class="text-slate-500 dark:text-slate-400 font-medium">#-</p>
                         <div class="mt-6 grid grid-cols-2 md:block gap-4">
                             <div>
                                 <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-1">Issue Date
                                 </p>
-                                <p class="font-semibold dark:text-slate-200">October 24, 2023</p>
+                                <p id="issueDate" class="font-semibold dark:text-slate-200">-</p>
                             </div>
                             <div class="mt-4">
                                 <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-1">Due Date</p>
-                                <p class="font-semibold text-primary">November 07, 2023</p>
+                                <p id="dueDate" class="font-semibold text-primary">-</p>
                             </div>
                         </div>
                     </div>
@@ -128,18 +128,14 @@
                         class="text-xs uppercase tracking-widest text-slate-400 font-bold border-b border-slate-100 dark:border-slate-800 pb-2">
                         Billing To</p>
                     <div>
-                        <h4 class="text-lg font-bold text-slate-900 dark:text-white">Johnathan Doe</h4>
-                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mt-2">
-                            456 Residential Ave, Springfield<br />
-                            Building 4, Apt 201<br />
-                            Springfield, IL 62704
-                        </p>
+                        <h4 id="customerName" class="text-lg font-bold text-slate-900 dark:text-white">-</h4>
+                        <p id="customerAddress" class="text-slate-600 dark:text-slate-400 leading-relaxed mt-2">-</p>
                     </div>
                     <div class="pt-2">
                         <p class="text-sm text-slate-500"><span
-                                class="font-medium text-slate-700 dark:text-slate-300">Customer ID:</span> CUST-7721</p>
+                                class="font-medium text-slate-700 dark:text-slate-300">Customer ID:</span> <span id='customerId'>-</span></p>
                         <p class="text-sm text-slate-500"><span
-                                class="font-medium text-slate-700 dark:text-slate-300">Policy No:</span> VEH-99283-X</p>
+                                class="font-medium text-slate-700 dark:text-slate-300">Policy No:</span> <span id='policyNumber'>-</span></p>
                     </div>
                 </div>
                 <div class="space-y-4">
@@ -152,8 +148,8 @@
                             <span class="material-symbols-outlined text-[32px]">directions_car</span>
                         </div>
                         <div>
-                            <p class="font-bold text-slate-900 dark:text-white leading-tight">2022 Tesla Model 3</p>
-                            <p class="text-sm text-slate-500">Reg: ABC-1234 • Silver</p>
+                            <p id="vehicleName" class="font-bold text-slate-900 dark:text-white leading-tight">-</p>
+                            <p id="vehicleReg" class="text-sm text-slate-500">-</p>
                         </div>
                     </div>
                 </div>
@@ -175,35 +171,14 @@
                                     Amount</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tbody id="invoiceItems" class="divide-y divide-slate-100 dark:divide-slate-800">
                             <tr>
                                 <td class="py-6 px-4">
-                                    <p class="font-bold text-slate-900 dark:text-white">Comprehensive Coverage Premium
-                                    </p>
-                                    <p class="text-sm text-slate-500">Annual premium for policy VEH-99283-X</p>
+                                    <p class="font-bold text-slate-900 dark:text-white">Insurance Premium</p>
+                                    <p class="text-sm text-slate-500">Policy premium charge</p>
                                 </td>
                                 <td class="py-6 px-4 text-right text-slate-600 dark:text-slate-400">1</td>
-                                <td class="py-6 px-4 text-right font-semibold text-slate-900 dark:text-white">$1,200.00
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="py-6 px-4">
-                                    <p class="font-bold text-slate-900 dark:text-white">Liability Surcharge</p>
-                                    <p class="text-sm text-slate-500">Standard third-party liability coverage</p>
-                                </td>
-                                <td class="py-6 px-4 text-right text-slate-600 dark:text-slate-400">1</td>
-                                <td class="py-6 px-4 text-right font-semibold text-slate-900 dark:text-white">$50.00
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="py-6 px-4">
-                                    <p class="font-bold text-slate-900 dark:text-white">No-Claim Discount (Level 1)</p>
-                                    <p class="text-sm text-green-600 dark:text-green-400">Reward for 1-year
-                                        accident-free driving</p>
-                                </td>
-                                <td class="py-6 px-4 text-right text-slate-600 dark:text-slate-400">1</td>
-                                <td class="py-6 px-4 text-right font-semibold text-green-600 dark:text-green-400">
-                                    -$100.00</td>
+                                <td id="invoiceItemAmount" class="py-6 px-4 text-right font-semibold text-slate-900 dark:text-white">$0.00</td>
                             </tr>
                         </tbody>
                     </table>
@@ -225,22 +200,22 @@
                 <div class="w-full md:w-80 space-y-3">
                     <div class="flex justify-between items-center py-2">
                         <span class="text-slate-500 dark:text-slate-400">Subtotal</span>
-                        <span class="font-semibold text-slate-900 dark:text-white">$1,150.00</span>
+                        <span id="subtotalAmount" class="font-semibold text-slate-900 dark:text-white">$0.00</span>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800">
                         <span class="text-slate-500 dark:text-slate-400">Govt. Tax (5%)</span>
-                        <span class="font-semibold text-slate-900 dark:text-white">$62.50</span>
+                        <span id="taxAmount" class="font-semibold text-slate-900 dark:text-white">$0.00</span>
                     </div>
                     <div class="flex justify-between items-center py-4">
                         <span class="text-lg font-bold text-slate-900 dark:text-white">Total Amount</span>
-                        <span class="text-2xl font-black text-primary">$1,212.50</span>
+                        <span id="totalAmount" class="text-2xl font-black text-primary">$0.00</span>
                     </div>
                     <div class="pt-4 flex flex-col items-center md:items-end">
                         <div class="relative">
                             <div
                                 class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">
                                 <span
-                                    class="text-4xl font-black rotate-[-30deg] text-green-600 border-4 border-green-600 p-2 uppercase">PAID</span>
+                                    class="text-4xl font-black rotate-[-30deg] text-green-600 border-4 border-green-600 p-2 uppercase" id="invoiceStatusStamp">PAID</span>
                             </div>
                             <div class="size-24 bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
                                 <img alt="QR Code" data-alt="QR code for digital verification of insurance invoice"
@@ -260,9 +235,9 @@
                     <span>Digitally signed and verified by AVIMS Insurance Corp Authority</span>
                 </div>
                 <div class="flex gap-4">
-                    <span>Transaction Ref: 8829-XJ-11</span>
+                    <span><span id="transactionRef">Transaction Ref: -</span></span>
                     <span class="hidden md:inline">|</span>
-                    <span>Server Time: 2023-10-24 14:32 UTC</span>
+                    <span><span id="serverTime">Server Time: -</span></span>
                 </div>
             </div>
         </div>
@@ -327,9 +302,68 @@
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
+    <script>
+        function fmtDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleDateString();
+        }
+
+        function fmtMoney(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        }
+
+        async function loadInvoice() {
+            const params = new URLSearchParams(window.location.search);
+            const billId = Number(params.get('billId') || 0);
+            if (!billId) {
+                return;
+            }
+
+            const response = await fetch(`/api/BillingPayment/${billId}`);
+            const result = await response.json();
+            if (!result.success) {
+                return;
+            }
+
+            const bill = result.data;
+            const amount = bill.amount || 0;
+            const status = (bill.status || 'UNPAID').toUpperCase();
+
+            document.getElementById('invoiceNumber').textContent = `#BILL-${bill.billId}`;
+            document.getElementById('issueDate').textContent = fmtDate(bill.billDate);
+            document.getElementById('dueDate').textContent = fmtDate(bill.dueDate);
+            document.getElementById('customerName').textContent = bill.customerName || '-';
+            document.getElementById('customerAddress').textContent = bill.customerAddressProof || '-';
+            document.getElementById('customerId').textContent = bill.customerId || '-';
+            document.getElementById('policyNumber').textContent = bill.policyNumber || '-';
+            document.getElementById('vehicleName').textContent = bill.vehicleName || '-';
+            document.getElementById('vehicleReg').textContent = bill.vehicleModel || '-';
+
+            document.getElementById('invoiceItemAmount').textContent = fmtMoney(amount);
+            document.getElementById('subtotalAmount').textContent = fmtMoney(amount);
+            document.getElementById('taxAmount').textContent = fmtMoney(0);
+            document.getElementById('totalAmount').textContent = fmtMoney(amount);
+
+            const stamp = document.getElementById('invoiceStatusStamp');
+            if (stamp) {
+                stamp.textContent = status;
+            }
+
+            const payments = bill.payments || [];
+            const lastSuccess = payments.find(p => (p.status || '').toUpperCase() === 'SUCCESS');
+            if (lastSuccess) {
+                document.getElementById('transactionRef').textContent = `Transaction Ref: ${lastSuccess.transactionRef || '-'}`;
+            }
+
+            document.getElementById('serverTime').textContent = `Server Time: ${new Date().toLocaleString()}`;
+        }
+
+        loadInvoice();
+    </script>
     <script src="../js/pageLoader.js"></script>
 
 </body>
 
 </html>
+
 
