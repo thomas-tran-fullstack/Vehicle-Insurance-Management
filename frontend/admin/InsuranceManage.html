@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Insurance Management Admin - AVIMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="../js/config.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .modal-hidden {
+            display: none !important;
+        }
+
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-out {
+            animation: slideOut 0.3s ease-in-out forwards;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-200">
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <div class="bg-white dark:bg-[#15202b] border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+                <div class="max-w-[1200px] mx-auto px-8 py-6">
+                    <div class="flex flex-wrap justify-between items-end gap-4">
+                        <div class="flex flex-col gap-1">
+                            <h2 class="text-[#0d141b] dark:text-white text-3xl font-black tracking-tight">Insurance Management</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm">Manage insurance types and their settings.</p>
+                        </div>
+                        <button id="addInsuranceBtn"
+                            class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-sm shadow-primary/20">
+                            <span class="material-symbols-outlined text-sm">add_circle</span>
+                            <span>Add New Insurance</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-[1200px] mx-auto px-8 py-8 w-full space-y-6">
+                <!-- Search & Filter -->
+                <div class="bg-white dark:bg-[#15202b] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
+                    <input id="searchInput" type="text" placeholder="Search by code or name..."
+                        class="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
+                    <select id="statusFilter"
+                        class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
+                        <option value="">All Status</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="INACTIVE">Inactive</option>
+                    </select>
+                </div>
+
+                <!-- Insurance Table -->
+                <div
+                    class="bg-white dark:bg-[#15202b] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 dark:bg-slate-900/50">
+                                <tr>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Code</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Name</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Base Rate %</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Status</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="insuranceTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                                    <td colspan="5" class="px-6 py-8 text-center text-slate-500">Loading insurances...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ADD/EDIT INSURANCE MODAL -->
+    <div id="insuranceModal" class="modal-hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-[#15202b] rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 flex justify-between items-center p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b]">
+                <h3 id="modalTitle" class="text-xl font-bold text-[#0d141b] dark:text-white">Add New Insurance</h3>
+                <button id="closeInsuranceModal" class="text-slate-400 hover:text-slate-600">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Insurance Information -->
+                <div>
+                    <h4 class="text-sm font-bold text-[#0d141b] dark:text-white mb-4 pb-2 border-b border-slate-200 dark:border-slate-800">
+                        Insurance Information
+                    </h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Insurance Code *</label>
+                            <input id="formTypeCode" type="text" placeholder="e.g., CAR_BASIC"
+                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Insurance Name *</label>
+                            <input id="formTypeName" type="text" placeholder="e.g., Car Insurance - Basic"
+                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Description</label>
+                            <textarea id="formDescription" placeholder="Brief description of this insurance type"
+                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50 resize-none" rows="3"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Base Rate Percent (%)</label>
+                            <input id="formBaseRatePercent" type="number" placeholder="e.g., 2.50" step="0.01"
+                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Status (Edit Only) -->
+                <div id="statusSection" class="hidden">
+                    <h4 class="text-sm font-bold text-[#0d141b] dark:text-white mb-4 pb-2 border-b border-slate-200 dark:border-slate-800">
+                        Status
+                    </h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Status</label>
+                            <select id="formStatus"
+                                class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary/50">
+                                <option value="ACTIVE">Active</option>
+                                <option value="INACTIVE">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sticky bottom-0 flex justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b]">
+                <button id="cancelInsuranceModal"
+                    class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    Cancel
+                </button>
+                <button id="saveInsuranceBtn"
+                    class="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all">
+                    Save Insurance
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div id="deleteModal" class="modal-hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-[#15202b] rounded-xl max-w-sm w-full mx-4">
+            <div class="p-6">
+                <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
+                    <span class="material-symbols-outlined text-red-600">warning</span>
+                </div>
+                <h3 id="deleteTitle" class="text-lg font-bold text-center text-[#0d141b] dark:text-white mb-2">Deactivate Insurance?</h3>
+                <p id="deleteMessage" class="text-sm text-slate-500 text-center mb-4">This action will mark the insurance as inactive.</p>
+            </div>
+
+            <div class="flex gap-3 p-6 border-t border-slate-200 dark:border-slate-800">
+                <button id="cancelDelete"
+                    class="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    Cancel
+                </button>
+                <button id="confirmDelete"
+                    class="flex-1 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="modal-hidden toast-notification px-6 py-4 bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-3">
+            <span id="toastIcon" class="material-symbols-outlined text-green-600">check_circle</span>
+            <p id="toastMessage" class="text-sm font-semibold text-slate-700 dark:text-slate-300"></p>
+        </div>
+    </div>
+
+    <script src="../js/admin-sidebar.js"></script>
+    <script src="../js/pageLoader.js"></script>
+    <script>
+        // Use API_BASE from config.js (loaded in head)
+        const API_URL = window.API_BASE || 'http://localhost:5169/api';
+        console.log('InsuranceManage using API_URL:', API_URL);
+        
+        let currentInsuranceId = null;
+        let isEditMode = false;
+
+        // Load sidebar
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Modal controls
+        const insuranceModal = document.getElementById('insuranceModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const addInsuranceBtn = document.getElementById('addInsuranceBtn');
+        const closeInsuranceModal = document.getElementById('closeInsuranceModal');
+        const cancelInsuranceModal = document.getElementById('cancelInsuranceModal');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const saveInsuranceBtn = document.getElementById('saveInsuranceBtn');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+
+        // Initialize: ensure modals are hidden on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            insuranceModal.classList.add('modal-hidden');
+            deleteModal.classList.add('modal-hidden');
+            document.getElementById('toast').classList.add('modal-hidden');
+        });
+
+        // Open add insurance modal
+        addInsuranceBtn.addEventListener('click', () => {
+            isEditMode = false;
+            resetForm();
+            document.getElementById('modalTitle').textContent = 'Add New Insurance';
+            document.getElementById('statusSection').classList.add('hidden');
+            insuranceModal.classList.remove('modal-hidden');
+        });
+
+        // Close modal handlers
+        closeInsuranceModal.addEventListener('click', () => insuranceModal.classList.add('modal-hidden'));
+        cancelInsuranceModal.addEventListener('click', () => insuranceModal.classList.add('modal-hidden'));
+        cancelDelete.addEventListener('click', () => deleteModal.classList.add('modal-hidden'));
+
+        // Save insurance
+        saveInsuranceBtn.addEventListener('click', async () => {
+            const typeCode = document.getElementById('formTypeCode').value.trim();
+            const typeName = document.getElementById('formTypeName').value.trim();
+            const description = document.getElementById('formDescription').value.trim();
+            const baseRatePercent = parseFloat(document.getElementById('formBaseRatePercent').value) || null;
+
+            if (!typeCode || !typeName) {
+                showToast('Insurance Code and Name are required!', false);
+                return;
+            }
+
+            try {
+                let response;
+                if (isEditMode) {
+                    const isActive = document.getElementById('formStatus').value === 'ACTIVE';
+                    response = await fetch(`${API_URL}/InsuranceManagement/${currentInsuranceId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ typeCode, typeName, description, baseRatePercent, isActive })
+                    });
+                } else {
+                    response = await fetch(`${API_URL}/InsuranceManagement`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ typeCode, typeName, description, baseRatePercent })
+                    });
+                }
+
+                if (response.ok) {
+                    showToast(isEditMode ? 'Insurance updated successfully!' : 'Insurance created successfully!');
+                    insuranceModal.classList.add('modal-hidden');
+                    loadInsurances();
+                } else {
+                    const data = await response.json();
+                    showToast(data.message || 'Error saving insurance', false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error saving insurance', false);
+            }
+        });
+
+        // Delete confirmation
+        confirmDelete.addEventListener('click', async () => {
+            try {
+                // Use deactivate endpoint instead of delete
+                const response = await fetch(`${API_URL}/InsuranceManagement/${currentInsuranceId}/deactivate`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.ok) {
+                    showToast('Insurance deactivated successfully!');
+                    deleteModal.classList.add('modal-hidden');
+                    loadInsurances();
+                } else {
+                    showToast('Error deactivating insurance', false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error deactivating insurance', false);
+            }
+        });
+
+        // Load insurances
+        async function loadInsurances() {
+            const search = searchInput.value.trim();
+            const status = statusFilter.value;
+
+            try {
+                let url = `${API_URL}/InsuranceManagement/all`;
+                const params = new URLSearchParams();
+                if (search) params.append('search', search);
+                if (status) params.append('status', status);
+                if (params.toString()) url += '?' + params.toString();
+
+                const response = await fetch(url);
+                const insurances = await response.json();
+
+                const tbody = document.getElementById('insuranceTableBody');
+                if (!insurances || insurances.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No insurances found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = insurances.map(ins => `
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                        <td class="px-6 py-4 text-sm font-semibold text-slate-800 dark:text-white">${ins.typeCode || '-'}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${ins.typeName || '-'}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${ins.baseRatePercent ? ins.baseRatePercent.toFixed(2) : '-'}%</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-1.5">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
+                                    ins.status === 'ACTIVE' 
+                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' 
+                                    : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
+                                }">${ins.status || 'ACTIVE'}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex justify-end gap-2">
+                                <button onclick="editInsurance(${ins.insuranceTypeId})" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold transition-all">
+                                    Edit
+                                </button>
+                                <button onclick="deactivateInsurance(${ins.insuranceTypeId})" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition-all">
+                                    ${ins.status === 'ACTIVE' ? 'Deactivate' : 'Delete'}
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading insurances:', error);
+                document.getElementById('insuranceTableBody').innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-red-500">Error loading insurances</td></tr>';
+            }
+        }
+
+        // Edit insurance
+        window.editInsurance = async (id) => {
+            try {
+                const response = await fetch(`${API_URL}/InsuranceManagement/${id}`);
+                if (!response.ok) throw new Error('Failed to fetch insurance');
+                
+                const result = await response.json();
+                const insurance = result.data;
+
+                currentInsuranceId = id;
+                isEditMode = true;
+
+                document.getElementById('formTypeCode').value = insurance.typeCode;
+                document.getElementById('formTypeName').value = insurance.typeName;
+                document.getElementById('formDescription').value = insurance.description || '';
+                document.getElementById('formBaseRatePercent').value = insurance.baseRatePercent;
+                document.getElementById('formStatus').value = insurance.status || 'ACTIVE';
+
+                document.getElementById('modalTitle').textContent = 'Edit Insurance';
+                document.getElementById('statusSection').classList.remove('hidden');
+                insuranceModal.classList.remove('modal-hidden');
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error loading insurance details', false);
+            }
+        };
+
+        // Deactivate insurance
+        window.deactivateInsurance = (id) => {
+            currentInsuranceId = id;
+            deleteModal.classList.remove('modal-hidden');
+        };
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('formTypeCode').value = '';
+            document.getElementById('formTypeName').value = '';
+            document.getElementById('formDescription').value = '';
+            document.getElementById('formBaseRatePercent').value = '';
+            document.getElementById('formStatus').value = 'ACTIVE';
+        }
+
+        // Show toast notification
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+
+            toast.classList.remove('modal-hidden');
+            icon.textContent = isSuccess ? 'check_circle' : 'error';
+            icon.className = `material-symbols-outlined ${isSuccess ? 'text-green-600' : 'text-red-600'}`;
+            msg.textContent = message;
+
+            setTimeout(() => {
+                toast.classList.add('animate-out');
+                setTimeout(() => {
+                    toast.classList.remove('animate-out', 'modal-hidden');
+                }, 300);
+            }, 2500);
+        }
+
+        // Event listeners for search and filter
+        searchInput.addEventListener('input', loadInsurances);
+        statusFilter.addEventListener('change', loadInsurances);
+
+        // Load insurances on page load
+        loadInsurances();
+    </script>
+</body>
+
+</html>

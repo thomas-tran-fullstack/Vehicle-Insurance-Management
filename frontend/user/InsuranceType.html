@@ -4,12 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Specific Vehicle Insurance Types Guide | AVIMS</title>
+    <title>Insurance Plans | AVIMS - Auto Vehicle Insurance Management System</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <script src="../js/config.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -34,7 +35,15 @@
             },
         }
     </script>
-    <style type="text/tailwindcss">
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
             height: 6px;
         }
@@ -45,312 +54,280 @@
             background: #0e1c44;
             border-radius: 10px;
         }
-        .comparison-row:hover {
-            background-color: rgba(14, 28, 68, 0.03);
+
+        .insurance-card {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .insurance-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.15);
+        }
+
+        .badge-basic {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .badge-plus {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .badge-premium {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .badge-pro {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0e1c44 0%, #1e3a8a 100%);
+        }
+
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
         }
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-primary dark:text-white transition-colors duration-300">
+<body class="bg-background-light dark:bg-background-dark font-display text-primary dark:text-white">
     <div id="header-container"></div>
-    <main class="max-w-7xl mx-auto px-6 lg:px-12 py-12 pt-8">
-        <section class="mb-20">
-            <div
-                class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800">
-                <div class="p-10 lg:p-16">
-                    <span
-                        class="inline-block px-3 py-1 bg-accent/10 text-accent text-xs font-bold uppercase tracking-wider rounded mb-6">Component-Focused
-                        Coverage</span>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white py-20">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <div class="max-w-3xl">
+                    <span class="inline-block px-4 py-2 bg-accent/20 text-accent text-sm font-bold uppercase rounded-full mb-6">
+                        Our Coverage Plans
+                    </span>
                     <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
-                        Insurance Tailored for <span class="text-accent underline decoration-primary/10">Every
-                            Part</span>
+                        Comprehensive Insurance <span class="text-accent">Plans for Every Driver</span>
                     </h1>
-                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                        Explore specific protection plans for your engine, vehicle body, and the people inside. Modular
-                        coverage that adapts to your vehicle's unique value.
+                    <p class="text-lg text-gray-100 mb-8 leading-relaxed">
+                        Choose the perfect insurance plan that matches your vehicle and driving needs. From basic protection to premium coverage, we have options for everyone.
                     </p>
-                    <div class="flex flex-wrap gap-4">
-                        <button
-                            class="bg-primary text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all">View
-                            Detail Plans</button>
-                        <button
-                            class="flex items-center gap-2 border border-primary/20 font-bold px-8 py-4 rounded-xl hover:bg-primary/5 transition-all">
-                            <span class="material-symbols-outlined">play_circle</span>
-                            Process Overview
-                        </button>
-                    </div>
                 </div>
-                <div class="relative h-[400px] lg:h-full min-h-[400px] bg-cover bg-center"
-                    data-alt="Modern vehicle internal view highlighting technical parts"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4Dx5CCBzPbdEGT58tPLlEQzhLg5pgKjbOhmEXAeyA1NTcApjY6wfECrEzhlyERfRjAC4zJLuwHG0Ep4lhH5oGGnECAE3JKkm61-7kZ8dMuvIZwB_zKGP_IKvGo6dgLDC-XccaSKanjXXP_JYEBu9e_de5aesEduqMmtiyeNL-mE41LBu0AGNDht2c4eMcCQW5bA7OU9GCgoSrCb2ih9q1UXsKfxdkK8MYNJWl2qEFTukAMgfZJ8Tpc_7AkyIfmsljkIY1HCV-WcYW");'>
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-white lg:from-transparent dark:from-gray-900 via-transparent to-transparent">
+            </div>
+        </section>
+
+        <!-- Insurance Plans Grid -->
+        <section class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+            <div id="insurancesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Insurance cards will be inserted here by JavaScript -->
+            </div>
+
+            <div id="noPlansMessage" class="text-center py-12 hidden">
+                <span class="material-symbols-outlined text-6xl text-gray-400 mb-4">info</span>
+                <p class="text-gray-600 dark:text-gray-400">No insurance plans available at the moment.</p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="bg-gray-50 dark:bg-gray-900/50 py-16">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <h2 class="text-3xl font-bold text-center mb-12">Why Choose Our Insurance?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-start">
+                        <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-accent text-2xl">verified</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Fast & Easy Claims</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Submit and track your insurance claims in just a few minutes with our streamlined process.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-accent text-2xl">support_agent</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">24/7 Support</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Our dedicated support team is always ready to help with any questions or issues.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-accent text-2xl">shield</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Trusted Protection</h3>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Comprehensive coverage options designed to protect what matters most to you.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
-        <div
-            class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 mb-10 overflow-x-auto custom-scrollbar">
-            <div class="flex gap-10 min-w-max">
-                <a class="border-b-4 border-primary text-primary dark:text-white pb-4 font-bold text-lg flex items-center gap-2"
-                    href="#">
-                    <span class="material-symbols-outlined text-accent">precision_manufacturing</span> Vehicle
-                    Categories
-                </a>
-                <a class="border-b-4 border-transparent text-gray-400 hover:text-primary dark:hover:text-white pb-4 font-bold text-lg flex items-center gap-2 transition-all"
-                    href="#comparison">
-                    <span class="material-symbols-outlined">analytics</span> Comparison Grid
-                </a>
-            </div>
-        </div>
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-            <div>
-                <h2 class="text-3xl font-extrabold tracking-tight mb-2">Specific Protection Categories</h2>
-                <p class="text-gray-500">Precision-engineered insurance for specialized vehicle needs.</p>
-            </div>
-            <div class="flex items-center gap-2 text-sm font-bold text-accent">
-                <span>Specialized Component Rates</span>
-                <span class="material-symbols-outlined text-base">verified</span>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-            <div
-                class="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
-                <div
-                    class="size-14 bg-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-colors text-accent">
-                    <span class="material-symbols-outlined text-3xl">settings_input_component</span>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Engine &amp; Front-end Protection</h3>
-                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                    Specialized coverage for the vehicle's powerhouse and critical front-end components against failure
-                    and impact.
+
+        <!-- CTA Section -->
+        <section class="hero-gradient text-white py-16">
+            <div class="max-w-3xl mx-auto px-6 lg:px-12 text-center">
+                <h2 class="text-3xl font-bold mb-4">Ready to Get Protected?</h2>
+                <p class="text-lg text-gray-100 mb-8">
+                    Select a plan above and start your insurance journey today.
                 </p>
-                <ul class="space-y-3 mb-8">
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Powertrain &amp;
-                        Gearbox
-                    </li>
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Radiator &amp;
-                        Cooling System
-                    </li>
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Steering
-                        Assembly Cover
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between border-t border-gray-50 dark:border-gray-800 pt-6">
-                    <a class="text-accent font-bold text-sm hover:underline" href="#">View Rules &amp; Fees</a>
-                    <button
-                        class="p-2 rounded-full bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                </div>
-            </div>
-            <div
-                class="bg-white dark:bg-gray-900 rounded-xl border-2 border-primary/10 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
-                <div
-                    class="absolute top-0 right-0 bg-primary text-white text-[10px] font-black px-4 py-1 rounded-bl-lg uppercase tracking-widest">
-                    Structural</div>
-                <div
-                    class="size-14 bg-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-colors text-accent">
-                    <span class="material-symbols-outlined text-3xl">directions_car</span>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Body &amp; Chassis Coverage</h3>
-                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                    Comprehensive exterior and structural integrity protection, covering everything from paint to the
-                    frame.
-                </p>
-                <ul class="space-y-3 mb-8">
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Frame &amp;
-                        Chassis Integrity
-                    </li>
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> External Panel
-                        Replacement
-                    </li>
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Paintwork &amp;
-                        Scratch Shield
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between border-t border-gray-50 dark:border-gray-800 pt-6">
-                    <a class="text-accent font-bold text-sm hover:underline" href="#">View Rules &amp; Fees</a>
-                    <button
-                        class="p-2 rounded-full bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                </div>
-            </div>
-            <div
-                class="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
-                <div
-                    class="size-14 bg-accent/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-colors text-accent">
-                    <span class="material-symbols-outlined text-3xl">groups</span>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Complete Vehicle &amp; Passenger</h3>
-                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                    The ultimate safety net covering all mechanical parts, bodywork, and most importantly, everyone on
-                    board.
-                </p>
-                <ul class="space-y-3 mb-8">
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Full 360°
-                        Vehicle Cover
-                    </li>
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Passenger
-                        Medical Coverage
-                    </li>
-                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="material-symbols-outlined text-accent text-sm">check_circle</span> Roadside
-                        Concierge Service
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between border-t border-gray-50 dark:border-gray-800 pt-6">
-                    <a class="text-accent font-bold text-sm hover:underline" href="#">View Rules &amp; Fees</a>
-                    <button
-                        class="p-2 rounded-full bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <section class="pt-20 border-t border-gray-200 dark:border-gray-800" id="comparison">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-extrabold mb-4">Component Coverage Comparison</h2>
-                <p class="text-gray-500 max-w-2xl mx-auto italic">Detailed comparison of what's covered under each
-                    specific vehicle protection plan.</p>
-            </div>
-            <div
-                class="overflow-x-auto rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm bg-white dark:bg-gray-900">
-                <table class="w-full text-left border-collapse min-w-[800px]">
-                    <thead>
-                        <tr class="bg-gray-50 dark:bg-gray-800/50">
-                            <th class="p-6 font-bold text-sm border-b border-gray-100 dark:border-gray-800 w-1/4">
-                                Feature / Coverage</th>
-                            <th class="p-6 font-bold text-sm border-b border-gray-100 dark:border-gray-800 text-center">
-                                Engine &amp; Front-end</th>
-                            <th
-                                class="p-6 font-bold text-sm border-b border-gray-100 dark:border-gray-800 text-center bg-primary/5">
-                                Body &amp; Chassis</th>
-                            <th class="p-6 font-bold text-sm border-b border-gray-100 dark:border-gray-800 text-center">
-                                Complete &amp; Passenger</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm">
-                        <tr class="comparison-row">
-                            <td class="p-6 font-semibold border-b border-gray-50 dark:border-gray-800">Mechanical
-                                Protection</td>
-                            <td
-                                class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-primary font-bold">
-                                Comprehensive</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-gray-400">
-                                Limited</td>
-                            <td
-                                class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-primary font-bold">
-                                Unlimited</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-6 font-semibold border-b border-gray-50 dark:border-gray-800">Chassis &amp;
-                                Body Panel</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-gray-400">—
-                            </td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center"><span
-                                    class="material-symbols-outlined text-green-500">check_circle</span></td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center"><span
-                                    class="material-symbols-outlined text-green-500">check_circle</span></td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-6 font-semibold border-b border-gray-50 dark:border-gray-800">Passenger Safety
-                                Cover</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-gray-400">—
-                            </td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-gray-400">—
-                            </td>
-                            <td
-                                class="p-6 border-b border-gray-50 dark:border-gray-800 text-center font-bold text-accent">
-                                VIP Premium</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-6 font-semibold border-b border-gray-50 dark:border-gray-800">Front Collision
-                                Assist</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center"><span
-                                    class="material-symbols-outlined text-green-500">check_circle</span></td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-gray-400">—
-                            </td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center"><span
-                                    class="material-symbols-outlined text-green-500">check_circle</span></td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-6 font-semibold border-b border-gray-50 dark:border-gray-800">Theft &amp;
-                                Vandalism</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center text-gray-400">—
-                            </td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center"><span
-                                    class="material-symbols-outlined text-green-500">check_circle</span></td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center"><span
-                                    class="material-symbols-outlined text-green-500">check_circle</span></td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-6 font-semibold border-b border-gray-50 dark:border-gray-800">Coverage Limit
-                            </td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center">Up to $40k</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center font-bold">Up to
-                                $100k</td>
-                            <td class="p-6 border-b border-gray-50 dark:border-gray-800 text-center">Full Vehicle Value
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-6"></td>
-                            <td class="p-6 text-center">
-                                <button
-                                    class="text-xs font-bold px-4 py-2 border border-gray-200 rounded hover:bg-gray-50">Select
-                                    Plan</button>
-                            </td>
-                            <td class="p-6 text-center bg-primary/5">
-                                <button
-                                    class="text-xs font-bold px-4 py-2 bg-primary text-white rounded hover:opacity-90">Select
-                                    Plan</button>
-                            </td>
-                            <td class="p-6 text-center">
-                                <button
-                                    class="text-xs font-bold px-4 py-2 border border-gray-200 rounded hover:bg-gray-50">Select
-                                    Plan</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-        <section class="mt-24 bg-primary rounded-2xl p-10 lg:p-20 text-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
-                style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;">
-            </div>
-            <div class="relative z-10">
-                <h2 class="text-3xl lg:text-4xl font-extrabold text-white mb-6">Need a Specialized Component Audit?</h2>
-                <p class="text-white/70 max-w-xl mx-auto mb-10 text-lg">Our experts can provide a detailed assessment of
-                    your vehicle's engine and structural health to suggest the optimal protection mix.</p>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button
-                        class="bg-accent text-primary font-black px-10 py-4 rounded-xl hover:scale-105 transition-transform">Schedule
-                        Assessment</button>
-                    <button
-                        class="bg-white/10 text-white font-bold px-10 py-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all">Download
-                        Technical Specs (PDF)</button>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="Support.html"
+                        class="px-8 py-3 bg-white/20 border-2 border-white rounded-xl font-bold hover:bg-white/30 transition-all">
+                        Need Help?
+                    </a>
                 </div>
             </div>
         </section>
     </main>
+
     <!-- Footer from template -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
         frameborder="0"></iframe>
 
     <script>
-        // Auto-adjust iframe heights
+        const API_URL = window.API_BASE || 'http://localhost:5169/api';
+
+        // Get insurance icon by type code
+        function getInsuranceIcon(typeCode) {
+            const icons = {
+                'CAR_BASIC': 'car_crash',
+                'CAR_PLUS': 'directions_car',
+                'MOTO_BASIC': 'two_wheeler',
+                'COMM_BASIC': 'local_shipping',
+                'BIKE': 'pedal_bike',
+                'TRUCK': 'local_shipping'
+            };
+            return icons[typeCode] || 'verified_user';
+        }
+
+        // Get badge color by type code
+        function getBadgeClass(typeCode) {
+            const badges = {
+                'CAR_BASIC': 'badge-basic',
+                'CAR_PLUS': 'badge-plus',
+                'MOTO_BASIC': 'badge-premium',
+                'COMM_BASIC': 'badge-pro'
+            };
+            return badges[typeCode] || 'badge-basic';
+        }
+
+        // Check if user is logged in
+        function isUserLoggedIn() {
+            try {
+                const user = JSON.parse(localStorage.getItem('user') || 'null');
+                return user && user.userId ? true : false;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Get apply button link based on login status
+        function getApplyLink() {
+            return isUserLoggedIn() ? 'EstimateRequest.html' : 'Authenticate.html';
+        }
+
+        // Load insurances from API
+        async function loadInsurances() {
+            try {
+                const response = await fetch(`${API_URL}/InsuranceManagement/all?status=ACTIVE`);
+                if (!response.ok) throw new Error('Failed to fetch insurances');
+
+                const insurances = await response.json();
+                displayInsurances(insurances);
+            } catch (error) {
+                console.error('Error loading insurances:', error);
+                document.getElementById('insurancesLoader').classList.add('hidden');
+                document.getElementById('noPlansMessage').classList.remove('hidden');
+            }
+        }
+
+        // Display insurances on page
+        function displayInsurances(insurances) {
+            const container = document.getElementById('insurancesContainer');
+            const noPlans = document.getElementById('noPlansMessage');
+
+            if (!insurances || insurances.length === 0) {
+                noPlans.classList.remove('hidden');
+                container.innerHTML = '';
+                return;
+            }
+
+            const applyLink = getApplyLink();
+            const cardsHtml = insurances.map(ins => `
+                <div class="insurance-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <!-- Card Header with Icon -->
+                    <div class="p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 flex items-start justify-between">
+                        <div class="icon-container ${getBadgeClass(ins.typeCode)} text-white">
+                            <span class="material-symbols-outlined" style="font-size: 40px;">
+                                ${getInsuranceIcon(ins.typeCode)}
+                            </span>
+                        </div>
+                        <span class="text-xs font-bold bg-accent/20 text-accent px-3 py-1 rounded-full">
+                            ${ins.status === 'ACTIVE' ? 'Active' : 'Inactive'}
+                        </span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold mb-2">${ins.typeName || 'Insurance Plan'}</h3>
+                        
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-1">
+                            ${ins.description || 'Comprehensive insurance coverage for your vehicle.'}
+                        </p>
+
+                        <!-- Rate Info -->
+                        <div class="mb-6 p-4 bg-accent/5 rounded-lg border border-accent/10">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Base Rate</span>
+                                <span class="text-2xl font-bold text-accent">${ins.baseRatePercent.toFixed(2)}%</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Premium based on vehicle value</p>
+                        </div>
+
+                        <!-- Code Badge -->
+                        <div class="mb-6 inline-block">
+                            <span class="text-xs font-mono bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg">
+                                ${ins.typeCode}
+                            </span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <a href="Support.html"
+                                class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-base">help</span>
+                                Support
+                            </a>
+                            <a href="${applyLink}"
+                                class="flex-1 px-4 py-2.5 bg-accent text-primary dark:text-white rounded-lg font-semibold text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-base">arrow_forward</span>
+                                Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = cardsHtml;
+            noPlans.classList.add('hidden');
+        }
+
+        // Load header
+        fetch('../templates/header.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                // Load header.js to initialize header functionality
+                const headerScript = document.createElement('script');
+                headerScript.src = '../js/header.js';
+                document.head.appendChild(headerScript);
+            })
+            .catch(err => console.error('Error loading header:', err));
+
+        // Auto-adjust footer iframe height
         function resizeIframe(iframe) {
             try {
                 const height = iframe.contentWindow.document.documentElement.scrollHeight;
@@ -360,66 +337,22 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
-
         if (footerFrame) {
             footerFrame.onload = function () {
                 resizeIframe(footerFrame);
             };
         }
 
-        // Resize on window resize
         window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
             if (footerFrame) resizeIframe(footerFrame);
         });
+
+        // Load insurances on page load
+        window.addEventListener('DOMContentLoaded', loadInsurances);
     </script>
-    <script>
-        // Load header fragment
-        fetch('../templates/header.html')
-            .then(response => {
-                console.log('Header fetch response:', response.status);
-                return response.text();
-            })
-            .then(html => {
-                console.log('Header HTML loaded, inserting into DOM');
-                document.getElementById('header-container').innerHTML = html;
-                
-                // Load header.js script file
-                const script = document.createElement('script');
-                script.src = '../js/header.js';
-                script.onload = () => {
-                    console.log('header.js loaded successfully');
-                    // Now check for initializeHeader
-                    let retries = 0;
-                    const checkAndInitialize = () => {
-                        retries++;
-                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
-                            console.log('Calling window.initializeHeader()');
-                            window.initializeHeader();
-                        } else if (retries < 10) {
-                            setTimeout(checkAndInitialize, 100);
-                        }
-                    };
-                    checkAndInitialize();
-                };
-                script.onerror = () => {
-                    console.error('Failed to load header.js');
-                };
-                document.head.appendChild(script);
-            })
-            .catch(error => console.error('Error loading header:', error));
-    </script>
+
     <script src="../js/pageLoader.js"></script>
 
-</body>
-
 </html>
-
+        
