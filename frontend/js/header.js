@@ -294,7 +294,7 @@ async function loadNotificationCount() {
 
         // Set API_BASE if not already set
         if (typeof API_BASE === 'undefined' && typeof window.API_BASE === 'undefined') {
-            window.API_BASE = "http://localhost:5169/api";
+            window.API_BASE = "/api";
         }
         const apiBase = typeof API_BASE !== 'undefined' ? API_BASE : window.API_BASE;
 

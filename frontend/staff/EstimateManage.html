@@ -317,11 +317,7 @@
 
             const action = event.currentTarget.getAttribute('data-action');
             const estimateId = event.currentTarget.getAttribute('data-id');
-            const note = prompt(`Enter ${action === 'approve' ? 'approval' : 'rejection'} note:`) || '';
-            if (!note.trim()) {
-                alert('Note is required.');
-                return;
-            }
+            const note = action === 'approve' ? 'Approved by staff' : 'Rejected by staff';
 
             const endpoint = action === 'approve' ? 'approve' : 'reject';
             const response = await fetch(`/api/InsuranceEstimate/${estimateId}/${endpoint}`, {
@@ -336,7 +332,6 @@
 
             const data = await response.json();
             if (!data.success) {
-                alert(data.message || 'Unable to update estimate.');
                 return;
             }
 

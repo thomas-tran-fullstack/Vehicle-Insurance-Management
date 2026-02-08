@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Manage Testimonials - AVIMS Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: { "display": ["Inter"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .status-published { background: #d8b4fe; color: #6b21a8; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-denied { background: #fecaca; color: #991b1b; }
+        #detailModal { display: none !important; }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-50 min-h-screen">
+    <div id="header-container"></div>
+    <div class="flex">
+        <div id="admin-sidebar-container"></div>
+        <main class="flex-grow max-w-[1400px] mx-auto w-full px-6 py-8">
+        <!-- Page Heading -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-black">Manage Testimonials</h1>
+                <p class="text-[#4c739a] dark:text-slate-400">Review and approve customer testimonials</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-[#e7edf3] dark:border-slate-800 p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <select id="statusFilter"
+                    class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Published">Published</option>
+                    <option value="Denied">Denied</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-[#e7edf3] dark:border-slate-800 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-slate-800 border-b border-[#e7edf3] dark:border-slate-700">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">STT</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Customer Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Rating</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Content</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Date</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialTableBody">
+                        <tr><td colspan="7" class="px-6 py-4 text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-frame" src="../templates/footer.html"></div>
+
+    <!-- Modal Detail -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-slate-900 rounded-xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold mb-6">Testimonial Detail</h2>
+            <div id="modalContent" class="space-y-4">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="flex gap-3 mt-8">
+                <button onclick="closeModal()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <p id="toastMessage"></p>
+    </div>
+
+    <script src="../js/pageLoader.js"></script>
+    <script>
+        // Initialize modal
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('detailModal').style.setProperty('display', 'none', 'important');
+        });
+        // Load admin sidebar
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('admin-sidebar-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                document.head.appendChild(script);
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        // Get current user info
+        const userStr = sessionStorage.getItem('user') || localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        if (!user || !user.userId) {
+            window.location.href = '../user/Authenticate.html';
+        }
+
+        // Load testimonials
+        async function loadTestimonials() {
+            try {
+                const statusFilter = document.getElementById('statusFilter').value;
+                const url = statusFilter ? `/api/testimonials/list?status=${statusFilter}` : '/api/testimonials/list';
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const tbody = document.getElementById('testimonialTableBody');
+
+                if (!data.testimonials || data.testimonials.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 text-center">No testimonials found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = data.testimonials.map((t, idx) => `
+                    <tr class="border-b border-[#e7edf3] dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                        <td class="px-6 py-4 text-sm">${t.stt}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${t.customerName || 'N/A'}</td>
+                        <td class="px-6 py-4 text-sm">${'⭐'.repeat(t.rating || 0)}</td>
+                        <td class="px-6 py-4 text-sm max-w-xs truncate">${t.content || 'N/A'}</td>
+                        <td class="px-6 py-4 text-sm">${new Date(t.createdDate).toLocaleDateString()}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <span class="px-3 py-1 rounded text-xs font-bold status-${t.status.toLowerCase()}">${t.status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm flex gap-2">
+                            ${t.status === 'Pending' ? `
+                                <button onclick="approveTestimonial(${t.testimonialId})" title="Approve"
+                                    class="p-2 text-green-600 hover:bg-green-100 rounded transition">
+                                    <span class="material-symbols-outlined text-lg">check_circle</span>
+                                </button>
+                                <button onclick="rejectTestimonial(${t.testimonialId})" title="Reject"
+                                    class="p-2 text-red-600 hover:bg-red-100 rounded transition">
+                                    <span class="material-symbols-outlined text-lg">cancel</span>
+                                </button>
+                            ` : ''}
+                            <button onclick="viewDetail(${t.testimonialId})" title="View Detail"
+                                class="p-2 text-blue-600 hover:bg-blue-100 rounded transition">
+                                <span class="material-symbols-outlined text-lg">info</span>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                document.getElementById('testimonialTableBody').innerHTML = 
+                    '<tr><td colspan="7" class="px-6 py-4 text-center text-red-500">Error loading testimonials</td></tr>';
+            }
+        }
+
+        // View detail
+        async function viewDetail(testimonialId) {
+            try {
+                const response = await fetch(`/api/testimonials/${testimonialId}/detail`);
+                const data = await response.json();
+
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Customer Name</p>
+                            <p class="font-bold">${data.customerName}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Rating</p>
+                            <p class="text-2xl">${'⭐'.repeat(data.rating)}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Content</p>
+                            <p class="mt-2 p-4 bg-gray-100 dark:bg-slate-800 rounded">${data.content}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Date</p>
+                            <p>${new Date(data.createdDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Status</p>
+                            <p class="font-bold">${data.status}</p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('detailModal').style.setProperty('display', 'flex', 'important');
+            } catch (error) {
+                console.error('Error fetching detail:', error);
+                showToast('Error loading detail');
+            }
+        }
+
+        // Approve testimonial
+        async function approveTestimonial(testimonialId) {
+            if (!confirm('Approve this testimonial?')) return;
+
+            try {
+                const response = await fetch(`/api/testimonials/${testimonialId}/approve`, { method: 'PATCH' });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('Testimonial approved successfully');
+                    loadTestimonials();
+                } else {
+                    showToast(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error approving testimonial');
+            }
+        }
+
+        // Reject testimonial
+        async function rejectTestimonial(testimonialId) {
+            if (!confirm('Reject this testimonial?')) return;
+
+            try {
+                const response = await fetch(`/api/testimonials/${testimonialId}/reject`, { method: 'PATCH' });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('Testimonial rejected successfully');
+                    loadTestimonials();
+                } else {
+                    showToast(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error rejecting testimonial');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailModal').style.setProperty('display', 'none', 'important');
+        }
+
+        // Show toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Filter change
+        document.getElementById('statusFilter').addEventListener('change', loadTestimonials);
+
+        // Load testimonials on page load
+        window.addEventListener('load', loadTestimonials);
+    </script>
+</body>
+
+</html>

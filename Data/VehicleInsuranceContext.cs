@@ -360,8 +360,9 @@ namespace VehicleInsuranceAPI.Data
             {
                 entity.HasKey(e => e.TestimonialId).HasName("PK__Testimon__91A23E73186D8690");
 
-                entity.Property(e => e.Approved).HasDefaultValue(false);
+                entity.Property(e => e.Status).HasDefaultValue("Pending");
                 entity.Property(e => e.Content).HasMaxLength(500);
+                entity.Property(e => e.Rating).HasDefaultValue(5);
 
                 entity.HasOne(d => d.Customer).WithMany(p => p.Testimonials)
                     .HasForeignKey(d => d.CustomerId)

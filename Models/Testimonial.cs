@@ -11,7 +11,11 @@ public partial class Testimonial
 
     public string? Content { get; set; }
 
-    public bool? Approved { get; set; }
+    public int? Rating { get; set; }
+
+    public string Status { get; set; } = "Pending"; // Published, Pending, Denied
+
+    public DateTime? CreatedDate { get; set; } 
 
     public virtual Customer? Customer { get; set; }
 }

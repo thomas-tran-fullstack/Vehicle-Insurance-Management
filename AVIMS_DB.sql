@@ -340,9 +340,9 @@ CREATE TABLE Feedback (
     FeedbackId INT IDENTITY(1,1) PRIMARY KEY,
     CustomerId INT NOT NULL,
     Rating INT NULL CHECK (Rating BETWEEN 1 AND 5),
-    Content NVARCHAR(500) NOT NULL,
-    Status NVARCHAR(20) NOT NULL DEFAULT 'NEW', -- NEW/IN_PROGRESS/RESOLVED
-    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    Content NVARCHAR(500) NULL,
+    IsPinned BIT NOT NULL DEFAULT 0,
+    CreatedDate DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId)
 );
 GO
@@ -350,9 +350,10 @@ GO
 CREATE TABLE Testimonials (
     TestimonialId INT IDENTITY(1,1) PRIMARY KEY,
     CustomerId INT NOT NULL,
-    Content NVARCHAR(500) NOT NULL,
-    Approved BIT NOT NULL DEFAULT 0,
-    CreatedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    Content NVARCHAR(500) NULL,
+    Rating INT NULL CHECK (Rating BETWEEN 1 AND 5),
+    Status NVARCHAR(30) NOT NULL DEFAULT 'Pending', -- Published, Pending, Denied
+    CreatedDate DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId)
 );
 GO
@@ -577,17 +578,17 @@ VALUES
 GO
 
 -- Feedback
-INSERT INTO Feedback (CustomerId, Rating, Content, Status)
+INSERT INTO Feedback (CustomerId, Rating, Content, IsPinned, CreatedDate)
 VALUES
-(1, 5, N'Service was fast and clear. Great!', 'RESOLVED'),
-(2, 4, N'Website is easy to use, but payment page could be improved.', 'NEW');
+(1, 5, N'Service was fast and clear. Great!', 1, GETDATE()),
+(2, 4, N'Website is easy to use, but payment page could be improved.', 0, GETDATE());
 GO
 
 -- Testimonials
-INSERT INTO Testimonials (CustomerId, Content, Approved)
+INSERT INTO Testimonials (CustomerId, Content, Rating, Status, CreatedDate)
 VALUES
-(1, N'AutoSure helped me buy insurance quickly online.', 1),
-(2, N'Friendly staff and clear process. Recommended!', 0);
+(1, N'AutoSure helped me buy insurance quickly online.', 5, 'Published', GETDATE()),
+(2, N'Friendly staff and clear process. Recommended!', 4, 'Pending', GETDATE());
 GO
 
 -- Branches

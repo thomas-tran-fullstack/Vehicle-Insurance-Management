@@ -61,8 +61,8 @@
                             <option value="CANCELLED">Cancelled</option>
                             <option value="LAPSED">Lapsed</option>
                         </select>
-                        <button id="runReminderBtn" class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold">Run Reminders</button>
-                        <button id="runLifecycleBtn" class="px-3 py-2 rounded-lg bg-amber-600 text-white text-xs font-bold">Run Lifecycle</button>
+                        <button id="runReminderBtn" class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold hidden">Run Reminders</button>
+                        <button id="runLifecycleBtn" class="px-3 py-2 rounded-lg bg-amber-600 text-white text-xs font-bold hidden">Run Lifecycle</button>
                     </div>
                 </div>
             </div>
@@ -88,6 +88,47 @@
                 </div>
             </div>
         </main>
+        <!-- Renew Modal -->
+        <div id="renewModal" class="hidden fixed inset-0 z-50 bg-black/50 p-4" style="display: none !important">
+            <div class="max-w-md mx-auto mt-20 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <h3 class="text-lg font-bold">Renew Policy</h3>
+                    <button class="closeRenewModal text-slate-500 hover:text-slate-700">✕</button>
+                </div>
+                <div class="p-5">
+                    <label class="block text-sm font-semibold mb-2">Renew for how many months?</label>
+                    <input id="renewMonths" type="number" value="12" min="1" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2" />
+                </div>
+                <div class="px-5 pb-5 flex justify-end gap-2">
+                    <button class="closeRenewModal px-4 py-2 rounded-lg border border-slate-300 text-sm font-bold">Cancel</button>
+                    <button id="confirmRenewBtn" class="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm font-bold">Renew</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancel Confirmation Modal -->
+        <div id="cancelConfirmModal" class="hidden fixed inset-0 z-50 bg-black/50 p-4" style="display: none !important">
+            <div class="max-w-md mx-auto mt-20 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+                <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <h3 class="text-lg font-bold">Cancel Policy</h3>
+                    <button class="closeCancelModal text-slate-500 hover:text-slate-700">✕</button>
+                </div>
+                <div class="p-5 space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Cancellation Reason</label>
+                        <input id="cancelReason" type="text" placeholder="Enter reason" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Cancel Effective Date (optional)</label>
+                        <input id="cancelDate" type="date" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2" />
+                    </div>
+                </div>
+                <div class="px-5 pb-5 flex justify-end gap-2">
+                    <button class="closeCancelModal px-4 py-2 rounded-lg border border-slate-300 text-sm font-bold">Cancel</button>
+                    <button id="confirmCancelBtn" class="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-bold">Confirm Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="../js/admin-sidebar.js"></script>
@@ -187,6 +228,9 @@
             }
         }
 
+        let pendingRenewalPolicyId = null;
+        let pendingCancelPolicyId = null;
+
         async function handleAction(event) {
             const action = event.currentTarget.getAttribute('data-action');
             const policyId = event.currentTarget.getAttribute('data-id');
@@ -207,51 +251,85 @@
             }
 
             if (action === 'renew') {
-                const months = prompt('Renew for how many months?', '12');
-                if (!months) return;
-                const durationMonths = Number(months);
-                if (!durationMonths || durationMonths <= 0) {
-                    alert('Invalid duration.');
-                    return;
-                }
-                const response = await fetch(`/api/PolicyManagement/${policyId}/renew`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ durationMonths, createBill: true, actorUserId: user?.userId || null })
-                });
-                const data = await response.json();
-                if (!data.success) {
-                    alert(data.message || 'Unable to renew policy.');
-                }
-                loadPolicies();
+                pendingRenewalPolicyId = policyId;
+                document.getElementById('renewMonths').value = '12';
+                const renewModal = document.getElementById('renewModal');
+                renewModal.classList.remove('hidden');
+                renewModal.style.display = 'block';
                 return;
             }
 
             if (action === 'cancel') {
-                const confirmCancel = confirm('Cancel this policy?');
-                if (!confirmCancel) return;
-                const reason = prompt('Cancellation reason (required):');
-                if (!reason || !reason.trim()) {
-                    alert('Cancellation reason is required.');
-                    return;
-                }
-                const dateInput = prompt('Cancel effective date (YYYY-MM-DD). Leave empty for today:', '');
-                const payload = {
-                    reason: reason.trim(),
-                    cancelDate: dateInput && dateInput.trim() ? `${dateInput.trim()}T00:00:00` : null,
-                    actorUserId: user?.userId || null
-                };
-                const response = await fetch(`/api/PolicyManagement/${policyId}/cancel`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await response.json();
-                if (!data.success) {
-                    alert(data.message || 'Unable to cancel policy.');
-                }
-                loadPolicies();
+                pendingCancelPolicyId = policyId;
+                document.getElementById('cancelReason').value = '';
+                document.getElementById('cancelDate').value = '';
+                const cancelModal = document.getElementById('cancelConfirmModal');
+                cancelModal.classList.remove('hidden');
+                cancelModal.style.display = 'block';
+                return;
             }
+        }
+
+        async function processRenewal() {
+            const user = getSessionUser();
+            const durationMonths = Number(document.getElementById('renewMonths').value);
+            if (!durationMonths || durationMonths <= 0) {
+                alert('Invalid duration.');
+                return;
+            }
+            const response = await fetch(`/api/PolicyManagement/${pendingRenewalPolicyId}/renew`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ durationMonths, createBill: true, actorUserId: user?.userId || null })
+            });
+            const data = await response.json();
+            if (!data.success) {
+                alert(data.message || 'Unable to renew policy.');
+                return;
+            }
+            closeRenewModal();
+            loadPolicies();
+        }
+
+        async function processCancel() {
+            const user = getSessionUser();
+            const reason = document.getElementById('cancelReason').value.trim();
+            if (!reason) {
+                alert('Cancellation reason is required.');
+                return;
+            }
+            const dateInput = document.getElementById('cancelDate').value.trim();
+            const payload = {
+                reason: reason,
+                cancelDate: dateInput ? `${dateInput}T00:00:00` : null,
+                actorUserId: user?.userId || null
+            };
+            const response = await fetch(`/api/PolicyManagement/${pendingCancelPolicyId}/cancel`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!data.success) {
+                alert(data.message || 'Unable to cancel policy.');
+                return;
+            }
+            closeCancelModal();
+            loadPolicies();
+        }
+
+        function closeRenewModal() {
+            const renewModal = document.getElementById('renewModal');
+            renewModal.classList.add('hidden');
+            renewModal.style.display = 'none';
+            pendingRenewalPolicyId = null;
+        }
+
+        function closeCancelModal() {
+            const cancelModal = document.getElementById('cancelConfirmModal');
+            cancelModal.classList.add('hidden');
+            cancelModal.style.display = 'none';
+            pendingCancelPolicyId = null;
         }
 
         async function runMaintenance(endpoint) {
@@ -292,6 +370,24 @@
         });
         document.getElementById('runLifecycleBtn').addEventListener('click', () => {
             runMaintenance('/api/PolicyManagement/maintenance/lifecycle');
+        });
+
+        // Renew Modal event listeners
+        document.getElementById('confirmRenewBtn').addEventListener('click', processRenewal);
+        document.querySelectorAll('.closeRenewModal').forEach(btn => {
+            btn.addEventListener('click', closeRenewModal);
+        });
+        document.getElementById('renewModal').addEventListener('click', (e) => {
+            if (e.target.id === 'renewModal') closeRenewModal();
+        });
+
+        // Cancel Modal event listeners
+        document.getElementById('confirmCancelBtn').addEventListener('click', processCancel);
+        document.querySelectorAll('.closeCancelModal').forEach(btn => {
+            btn.addEventListener('click', closeCancelModal);
+        });
+        document.getElementById('cancelConfirmModal').addEventListener('click', (e) => {
+            if (e.target.id === 'cancelConfirmModal') closeCancelModal();
         });
 
         loadPolicies();

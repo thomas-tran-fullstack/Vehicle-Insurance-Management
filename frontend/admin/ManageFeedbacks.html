@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Manage Feedbacks - AVIMS Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: { "display": ["Inter"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tab-active { background-color: #137fec; color: white; border-bottom: 3px solid #137fec; padding-bottom: calc(0.75rem - 3px); }
+        .tab-inactive { background-color: transparent; color: #0d141b; }
+        #detailModal { display: none !important; }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-50 min-h-screen">
+    <div id="header-container"></div>
+    <div class="flex">
+        <div id="admin-sidebar-container"></div>
+        <main class="flex-grow max-w-[1400px] mx-auto w-full px-6 py-8">
+        <!-- Page Heading -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-black">Manage Feedbacks</h1>
+                <p class="text-[#4c739a] dark:text-slate-400">View all customer feedbacks and manage pins</p>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-[#e7edf3] dark:border-slate-800 p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input id="searchInput" type="text" placeholder="Search by customer name or content..."
+                    class="col-span-1 md:col-span-2 rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4" />
+                <select id="ratingFilter"
+                    class="w-full rounded-lg border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4">
+                    <option value="">All Ratings</option>
+                    <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+                    <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+                    <option value="3">⭐⭐⭐ (3 Stars)</option>
+                    <option value="2">⭐⭐ (2 Stars)</option>
+                    <option value="1">⭐ (1 Star)</option>
+                </select>
+                <button onclick="searchFeedbacks()"
+                    class="bg-primary hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition">
+                    Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-4 mb-6 border-b border-[#e7edf3] dark:border-slate-800">
+            <button id="tabAll" onclick="switchTab('all')"
+                class="tab-active px-6 py-3 font-semibold rounded-t-lg transition">
+                <span class="material-symbols-outlined inline mr-2">list</span>All Feedbacks
+            </button>
+            <button id="tabPinned" onclick="switchTab('pinned')"
+                class="tab-inactive px-6 py-3 font-semibold rounded-t-lg transition">
+                <span class="material-symbols-outlined inline mr-2">push_pin</span>Pinned
+            </button>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-[#e7edf3] dark:border-slate-800 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-slate-800 border-b border-[#e7edf3] dark:border-slate-700">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">STT</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Customer Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Rating</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Content</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Date</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackTableBody">
+                        <tr><td colspan="6" class="px-6 py-4 text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-frame" src="../templates/footer.html"></div>
+
+    <!-- Modal Detail -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-slate-900 rounded-xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold mb-6">Feedback Detail</h2>
+            <div id="modalContent" class="space-y-4">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="flex gap-3 mt-8">
+                <button onclick="closeModal()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <p id="toastMessage"></p>
+    </div>
+
+    <script src="../js/pageLoader.js"></script>
+    <script>
+        // Initialize modal
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('detailModal').style.setProperty('display', 'none', 'important');
+        });
+        // Load admin sidebar
+        fetch('../templates/admin-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('admin-sidebar-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('../templates/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                document.head.appendChild(script);
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        // Get current user info
+        const userStr = sessionStorage.getItem('user') || localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        if (!user || !user.userId) {
+            window.location.href = '../user/Authenticate.html';
+        }
+
+        let currentTab = 'all';
+
+        // Load feedbacks
+        async function loadFeedbacks() {
+            try {
+                const search = document.getElementById('searchInput').value;
+                const rating = document.getElementById('ratingFilter').value;
+                const pinnedOnly = currentTab === 'pinned';
+
+                let url = '/api/feedback/list';
+                const params = new URLSearchParams();
+                if (rating) params.append('ratingFilter', rating);
+                if (search) params.append('search', search);
+                if (pinnedOnly) params.append('pinnedOnly', 'true');
+
+                if (params.toString()) {
+                    url += '?' + params.toString();
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const tbody = document.getElementById('feedbackTableBody');
+
+                if (!data.feedbacks || data.feedbacks.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center">No feedbacks found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = data.feedbacks.map((f, idx) => `
+                    <tr class="border-b border-[#e7edf3] dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                        <td class="px-6 py-4 text-sm">${f.stt}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${f.customerName || 'N/A'}</td>
+                        <td class="px-6 py-4 text-sm">${'⭐'.repeat(f.rating || 0)}</td>
+                        <td class="px-6 py-4 text-sm max-w-xs truncate">${f.content || 'N/A'}</td>
+                        <td class="px-6 py-4 text-sm">${new Date(f.createdDate).toLocaleDateString()}</td>
+                        <td class="px-6 py-4 text-sm flex gap-2">
+                            <button onclick="viewDetail(${f.feedbackId})" title="View Detail"
+                                class="p-2 text-blue-600 hover:bg-blue-100 rounded transition">
+                                <span class="material-symbols-outlined text-lg">info</span>
+                            </button>
+                            <button onclick="togglePin(${f.feedbackId}, ${f.isPinned})" 
+                                title="${f.isPinned ? 'Unpin' : 'Pin'}"
+                                class="p-2 ${f.isPinned ? 'text-yellow-600' : 'text-gray-400'} hover:bg-yellow-100 rounded transition">
+                                <span class="material-symbols-outlined text-lg">${f.isPinned ? 'push_pin' : 'pin'}</span>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading feedbacks:', error);
+                document.getElementById('feedbackTableBody').innerHTML = 
+                    '<tr><td colspan="6" class="px-6 py-4 text-center text-red-500">Error loading feedbacks</td></tr>';
+            }
+        }
+
+        // View detail
+        async function viewDetail(feedbackId) {
+            try {
+                const response = await fetch(`/api/feedback/${feedbackId}/detail`);
+                const data = await response.json();
+
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Customer Name</p>
+                            <p class="font-bold">${data.customerName}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Rating</p>
+                            <p class="text-2xl">${'⭐'.repeat(data.rating)}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Content</p>
+                            <p class="mt-2 p-4 bg-gray-100 dark:bg-slate-800 rounded">${data.content}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Date</p>
+                            <p>${new Date(data.createdDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Status</p>
+                            <p class="font-bold">${data.isPinned ? '📌 Pinned' : 'Normal'}</p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('detailModal').style.setProperty('display', 'flex', 'important');
+            } catch (error) {
+                console.error('Error fetching detail:', error);
+                showToast('Error loading detail');
+            }
+        }
+
+        // Toggle pin
+        async function togglePin(feedbackId, isPinned) {
+            try {
+                const response = await fetch(`/api/feedback/${feedbackId}/pin`, { method: 'PATCH' });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast(data.message);
+                    loadFeedbacks();
+                } else {
+                    showToast(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error toggling pin');
+            }
+        }
+
+        // Switch tab
+        function switchTab(tab) {
+            currentTab = tab;
+            document.getElementById('tabAll').classList.toggle('tab-active', tab === 'all');
+            document.getElementById('tabAll').classList.toggle('tab-inactive', tab === 'all');
+            document.getElementById('tabPinned').classList.toggle('tab-active', tab === 'pinned');
+            document.getElementById('tabPinned').classList.toggle('tab-inactive', tab === 'pinned');
+            loadFeedbacks();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailModal').style.setProperty('display', 'none', 'important');
+        }
+
+        // Show toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Search feedbacks
+        function searchFeedbacks() {
+            loadFeedbacks();
+        }
+
+        // Load feedbacks on page load
+        window.addEventListener('load', loadFeedbacks);
+    </script>
+</body>
+
+</html>

@@ -66,6 +66,10 @@
             display: block;
             overflow: hidden;
         }
+        .star-filled {
+            font-variation-settings: 'FILL' 1 !important;
+            color: #fbbf24 !important;
+        }
     </style>
 </head>
 
@@ -74,6 +78,7 @@
     <div class="relative flex min-h-screen flex-col overflow-x-hidden">
         <div id="header-container"></div>
         <main class="flex-1 pt-8">
+            <!-- Banner Section -->
             <section class="relative bg-navy-custom overflow-hidden">
                 <div
                     class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-custom via-transparent to-transparent">
@@ -89,267 +94,22 @@
                         Discover why thousands of drivers choose AVIMS for their vehicle protection. Real stories, real
                         speed, real support.
                     </p>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <div class="flex -space-x-3">
-                            <img class="size-10 rounded-full border-2 border-navy-custom"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhsBilxKOcZ_Nycx3Nj1EyyTu1ROuAoZ4b6RPW93E1MVFAjUc5Vx_E2z5X95GEvPuiUMv5vtnswiRwqwa4ANcfuwv5TV387ge7Q6OVCiovG1jR40Sj01CwHdDSaZh7nBYeZ5vcQ0eCc-ojaPZ9cc4OM6kRe5YZn5zHvNBPFmitOxPwaTOp9EC926R7xKxUKKOHk3_7rZBnh5OJeRQ8zetatGTPndvdrUZzqyx8uzxk-9cZJvIZFG-Z_GgZndHxHdk-rrLn3QazUYmD" />
-                            <img class="size-10 rounded-full border-2 border-navy-custom"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDequKZBcql9Bs_S2XpUx05MZgW8OCyrAc_6ktSMPE6zI_y1TmNYEJ4xRVez4uQWZz3ydz3cBFVQQRUhJRSkAwlAWtBWsn_KxONFDckoE6IX91ZHD1ehsIewyRIDmemTi2GRVwX_huYV-8bc4Wi3FxS8Q6Bl7FzsMY19lWe59N6OXQU3ScJDE6Zn23ZBBslSJTCyyhyrcZtv1nEEoYuTXAqK3acLegfiSmgxrKRPkDaT4_Iei3H11NX2Grefp0mdg7e82YVShJBL_W_" />
-                            <img class="size-10 rounded-full border-2 border-navy-custom"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfxsFe2nI-4NDuai_Up7o9bF2_kNlkMOca_ONPpNUvOkoWo7Btk8396QMZuv4I2FgZPraP4SE6mhwJ0LRLCyqc7vodCssj6GYUzWg08D7rAsG_3Y3Sc7NcWRv49Nr-QwKuyONJvuqBIuXk_8wOc-5sEWysRZNnY3ApCs-mRUS8EUhICEVgu5D2RRUe3r2QXd44EBZdTWN2mb7NVOzqgPYUral2KNqXzUST43yXsB_XJagQAJ5227RkMR1kYL_wjEVRei4HpwWXVwsq" />
-                            <div
-                                class="size-10 rounded-full border-2 border-navy-custom bg-blue-custom flex items-center justify-center text-[10px] font-bold text-white">
-                                5k+</div>
-                        </div>
-                        <p class="text-white/60 text-sm mt-2">Joined by over 5,000 satisfied drivers</p>
-                    </div>
                 </div>
             </section>
-            <section
-                class="px-4 md:px-40 py-8 bg-white dark:bg-background-dark/50 border-b border-gray-100 dark:border-white/5">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 max-w-[1200px] mx-auto">
-                    <h3 class="text-lg font-bold text-navy-custom dark:text-white">Filter Experiences</h3>
-                    <div class="flex gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                        <button
-                            class="h-10 px-6 rounded-full bg-blue-custom text-white text-sm font-bold shadow-lg shadow-blue-custom/20 whitespace-nowrap">All
-                            Stories</button>
-                        <button
-                            class="h-10 px-6 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-navy-custom dark:text-white/70 text-sm font-semibold whitespace-nowrap transition-colors">Fast
-                            Claims</button>
-                        <button
-                            class="h-10 px-6 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-navy-custom dark:text-white/70 text-sm font-semibold whitespace-nowrap transition-colors">Easy
-                            Registration</button>
-                        <button
-                            class="h-10 px-6 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-navy-custom dark:text-white/70 text-sm font-semibold whitespace-nowrap transition-colors">Support</button>
-                    </div>
-                </div>
-            </section>
+
+            <!-- Testimonials Section -->
             <section class="px-4 md:px-40 py-16 bg-background-light dark:bg-background-dark">
                 <div class="max-w-[1200px] mx-auto">
-                    <div class="masonry-grid">
-                        <div
-                            class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1vbmm2WnEr36-AodMfjeZVHltYZcU-MYO5ncO3kRzpQc5gOYP8K89QiXKHu9EHBisAA703hv6qEOROA3Tsw73ATiwKVoihNNklbA_w2g5AEhs8WmwQc_sFLni87UHMnl_D8tWGivAcj72c0x8Wx3rBjWRvrIOLVq3GsJ_iiou6RmO11jUtLQjiuMlNw4jNJQns4KioD7YRreu4v4B1dANjbgDnO5dmRYSGf6aRJ-iAxj7vZDozDWNq7sQ_sCmjFsO4alD7562CA89')">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold leading-tight text-navy-custom dark:text-white">Sarah J.</p>
-                                        <p class="text-blue-custom text-xs font-semibold">Tesla Model 3 Owner</p>
-                                    </div>
-                                </div>
-                                <span
-                                    class="bg-blue-custom/10 text-blue-custom text-[10px] font-black px-2 py-1 rounded uppercase tracking-tighter">Verified</span>
-                            </div>
-                            <div class="flex gap-0.5 mb-4 text-blue-custom">
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                            </div>
-                            <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6 italic">
-                                "The automated claims process saved me hours of stress. I had an incident on Tuesday
-                                morning, and by Wednesday afternoon, the repair was authorized and scheduled."
-                            </p>
-                            <div
-                                class="pt-4 border-t border-gray-50 dark:border-white/5 flex items-center justify-between">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase">Fast Claims</span>
-                                <div class="flex items-center gap-3 text-gray-400">
-                                    <button class="hover:text-blue-custom flex items-center gap-1"><span
-                                            class="material-symbols-outlined text-sm">thumb_up</span> <span
-                                            class="text-xs">24</span></button>
-                                    <button class="hover:text-blue-custom"><span
-                                            class="material-symbols-outlined text-sm">share</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB7gZmSz5taT5DTw6mz1E_fRTFul3BV5RdOz1p-5HIliFsjHePKPVS-SPXerJR0NAzpBqUNyrJu5Q_q_inqAeHliDUmltp-t6ky7drycklvqdtmySPhpazef8EawJUEiAYKj92sLJI8MUIuwHyvE1_dJgPCiDg3quDmIdIsaRMXY2VxnSu77XDx8aTESs6VXH1yNUei-QYRuhk4eRN4BkgakGtykwlf0u7lPdT-AdoCj_cXEeOdk7cj9gtEvatzOfI44HfA8jWZ_ZhW')">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold leading-tight text-navy-custom dark:text-white">Michael R.
-                                        </p>
-                                        <p class="text-blue-custom text-xs font-semibold">Ford F-150 Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-0.5 mb-4 text-blue-custom">
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                            </div>
-                            <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6 italic">
-                                "Registration was done in minutes. Easiest insurance experience ever. I uploaded my docs
-                                and had my temporary cards in my digital wallet before I got home."
-                            </p>
-                            <div
-                                class="pt-4 border-t border-gray-50 dark:border-white/5 flex items-center justify-between">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase">Easy Registration</span>
-                                <div class="flex items-center gap-3 text-gray-400">
-                                    <button class="hover:text-blue-custom flex items-center gap-1"><span
-                                            class="material-symbols-outlined text-sm">thumb_up</span> <span
-                                            class="text-xs">18</span></button>
-                                    <button class="hover:text-blue-custom"><span
-                                            class="material-symbols-outlined text-sm">share</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmDJQ00mvh6RRVujlQANmUvtZUJfEMTJaijShyARtAaxKcwFVFwR00pKrSefRRq5j8KqU1KSzhA4qdGGet6xY_Gx-DqwFLfFDn4-KuCTs9DzqKIJVi-CaUdA0W357sP11GBOI_vyA-meA5mtiueOHQMoJQ89Wq34Ta6SW2U3rm9kwHRadS9uTodB0DELOfdnouV04oqS2I81x7oK9__lUivrHxVMcXe2mJYRon8aShHTaATZ2ZfMs3fwyHdSB_201VmQi1uFIDvUhw')">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold leading-tight text-navy-custom dark:text-white">Elena K.</p>
-                                        <p class="text-blue-custom text-xs font-semibold">Rivian R1S Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-0.5 mb-4 text-blue-custom">
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                            </div>
-                            <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6 italic">
-                                "Finally, a company that understands EV owners! The coverage options for my Rivian were
-                                way better than traditional carriers."
-                            </p>
-                            <div
-                                class="pt-4 border-t border-gray-50 dark:border-white/5 flex items-center justify-between">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase">Specialized Coverage</span>
-                                <div class="flex items-center gap-3 text-gray-400">
-                                    <button class="hover:text-blue-custom flex items-center gap-1"><span
-                                            class="material-symbols-outlined text-sm">thumb_up</span> <span
-                                            class="text-xs">31</span></button>
-                                    <button class="hover:text-blue-custom"><span
-                                            class="material-symbols-outlined text-sm">share</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAvB6Wx82W-9Cs8PPFOjSKokDAR2FAi1_vktaS5sWe_zCrLGX9wgFtLe4cIOUPXBMXwCsvYQ1orzCYkYSyvOMYrCjXN7CKu5duCVpyNv1JM5Dypm3CLYN98QIzQpsfn87xGBvHOCNu1-PH0RvaUgDFopLmGU0eiGL1ueQkQxdwvrDEsVHq-vfFm-o5gvP1j2v0wK-YA7gJH9tMHgdCCtxX7kYwzzApHg7OJPtVc5NB7K2CDllnw_yGgcFQuGKAFHyVlLUbltZKH5ZrQ')">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold leading-tight text-navy-custom dark:text-white">David L.</p>
-                                        <p class="text-blue-custom text-xs font-semibold">BMW i4 Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-0.5 mb-4 text-blue-custom">
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                            </div>
-                            <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6 italic">
-                                "The support team was incredibly responsive. They guided me through every step of the
-                                policy setup and helped me find the best rate."
-                            </p>
-                            <div
-                                class="pt-4 border-t border-gray-50 dark:border-white/5 flex items-center justify-between">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase">Support</span>
-                                <div class="flex items-center gap-3 text-gray-400">
-                                    <button class="hover:text-blue-custom flex items-center gap-1"><span
-                                            class="material-symbols-outlined text-sm">thumb_up</span> <span
-                                            class="text-xs">12</span></button>
-                                    <button class="hover:text-blue-custom"><span
-                                            class="material-symbols-outlined text-sm">share</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPTwiRwFdZqbsFXlHWJAvC2fh9DhPGjnlcK4Nfwy5zyP_yY0q_TFwaXZZOVEA09b5YLRxb5Q0LxxH5zIF8QBllPdq7gnLBdxQH1S6ccaFP3GV4Gm1GJ_iiZJSp9o1HQDIs59lmME4biWCVvF4_6JLABuaec9Q-2LZc8eB0-nOztJfJhiOjE7dwZ6HaCZpDO4kgaAj40VFhh315FljtRhLVgrFBXakOuGCy3cpcQk4ePmYyJctIFjIFxx-9FJr5I0qva0fJE9DwK3vB')">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold leading-tight text-navy-custom dark:text-white">Marcus W.
-                                        </p>
-                                        <p class="text-blue-custom text-xs font-semibold">Jeep Wrangler Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-0.5 mb-4 text-blue-custom">
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star_half</span>
-                            </div>
-                            <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6 italic">
-                                "Great app, super transparent pricing. For daily driving, the automated features are
-                                unbeatable and save so much time."
-                            </p>
-                            <div
-                                class="pt-4 border-t border-gray-50 dark:border-white/5 flex items-center justify-between">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase">App Experience</span>
-                                <div class="flex items-center gap-3 text-gray-400">
-                                    <button class="hover:text-blue-custom flex items-center gap-1"><span
-                                            class="material-symbols-outlined text-sm">thumb_up</span> <span
-                                            class="text-xs">5</span></button>
-                                    <button class="hover:text-blue-custom"><span
-                                            class="material-symbols-outlined text-sm">share</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB-XfvVuobuOVOYikXEqyViLAECgAuvyhNuL32cAHYz3xqilmc24PuYpsFRw6PiUfxWvC96yUPCapYtYghrnUnjfdM4Wd3N-J-cqogrpz5JoF1HHB509k0sHDmCRf9AgEyW59iz1Ll8NoGrwaOWY9b78OFls1BHI_BGMm2TR1fuM0WmgvHmdekkbXqUsYTYlarU50Leoz24zTWcZyT4vnELjq-G6uT22uh0npOZj2m9jx0nNi-NbFXYBSbB69kJU0tk2hmszxZFqrLK')">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold leading-tight text-navy-custom dark:text-white">Linda P.</p>
-                                        <p class="text-blue-custom text-xs font-semibold">Audi e-tron Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex gap-0.5 mb-4 text-blue-custom">
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                                <span class="material-symbols-outlined text-lg">star</span>
-                            </div>
-                            <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6 italic">
-                                "Seamless. From the moment I downloaded the app to my first claim, everything worked
-                                exactly as advertised. This is the future of insurance."
-                            </p>
-                            <div
-                                class="pt-4 border-t border-gray-50 dark:border-white/5 flex items-center justify-between">
-                                <span class="text-[10px] font-bold text-gray-400 uppercase">Fast Claims</span>
-                                <div class="flex items-center gap-3 text-gray-400">
-                                    <button class="hover:text-blue-custom flex items-center gap-1"><span
-                                            class="material-symbols-outlined text-sm">thumb_up</span> <span
-                                            class="text-xs">42</span></button>
-                                    <button class="hover:text-blue-custom"><span
-                                            class="material-symbols-outlined text-sm">share</span></button>
-                                </div>
-                            </div>
+                    <div id="testimonialGrid" class="masonry-grid">
+                        <!-- Testimonials will be loaded here -->
+                        <div class="text-center py-12">
+                            <p class="text-gray-500 dark:text-slate-400">Loading testimonials...</p>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <!-- CTA Section -->
             <section class="px-4 md:px-40 py-24 bg-white dark:bg-navy-custom relative overflow-hidden">
                 <div class="max-w-4xl mx-auto text-center relative z-10">
                     <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-navy-custom dark:text-white">Got
@@ -361,21 +121,20 @@
                     <button onclick="location.href='Feedback.html'"
                         class="bg-blue-custom text-white px-12 py-5 rounded-full font-black text-lg hover:bg-blue-custom/90 hover:shadow-xl transition-all shadow-lg flex items-center gap-2 mx-auto active:scale-95">
                         <span class="material-symbols-outlined">edit_note</span>
-                        Share Your Story
+                        Share Your Opinion
                     </button>
                 </div>
                 <div class="absolute -bottom-20 -left-20 size-64 bg-blue-custom/5 rounded-full blur-3xl"></div>
-                <div class="absolute -top-20 -right-20 size-64 bg-blue-custom/5 rounded-full blur-3xl"></div>
             </section>
         </main>
     </div>
-    <!-- Footer from template -->
+
+    <!-- Footer -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
         frameborder="0"></iframe>
 
     <script>
-        // Auto-adjust iframe heights
         function resizeIframe(iframe) {
             try {
                 const height = iframe.contentWindow.document.documentElement.scrollHeight;
@@ -385,58 +144,81 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
-
         if (footerFrame) {
             footerFrame.onload = function () {
                 resizeIframe(footerFrame);
             };
         }
 
-        // Resize on window resize
-        window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
-            if (footerFrame) resizeIframe(footerFrame);
-        });
-    </script>
-    <script>
-        // Load header fragment
+        // Load header
         fetch('../templates/header.html')
             .then(response => response.text())
             .then(html => {
-                const headerContainer = document.getElementById('header-container');
-                headerContainer.innerHTML = html;
-                
-                // Load header.js script
-                const headerScript = document.createElement('script');
-                headerScript.src = '../js/header.js';
-                headerScript.onload = function() {
-                    setTimeout(() => {
-                        if (window.initializeHeader) {
-                            window.initializeHeader();
-                        }
-                        if (window.highlightActiveNav) {
-                            window.highlightActiveNav();
-                        }
-                        if (window.setupSearch) {
-                            window.setupSearch();
-                        }
-                    }, 50);
-                };
-                document.head.appendChild(headerScript);
+                document.getElementById('header-container').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../js/header.js';
+                document.head.appendChild(script);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
-    <script src="../js/pageLoader.js"></script>
 
+    <script src="../js/pageLoader.js"></script>
+    <script>
+        // Load testimonials from API
+        async function loadTestimonials() {
+            try {
+                const response = await fetch('/api/testimonials/published');
+                const data = await response.json();
+
+                const grid = document.getElementById('testimonialGrid');
+
+                if (!data.testimonials || data.testimonials.length === 0) {
+                    grid.innerHTML = `
+                        <div class="text-center py-12 col-span-full">
+                            <p class="text-gray-500 dark:text-slate-400">No testimonials available yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = data.testimonials.map(testimonial => `
+                    <div class="masonry-item group p-6 bg-white dark:bg-navy-custom/40 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:border-blue-custom/30 transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="size-12 rounded-full bg-cover bg-center border-2 border-blue-custom/10"
+                                    style="background-image: url('${testimonial.customerAvatar || 'https://via.placeholder.com/48'}'); background-size: cover; background-position: center;">
+                                </div>
+                                <div>
+                                    <p class="font-bold leading-tight text-navy-custom dark:text-white">${testimonial.customerName}</p>
+                                    <p class="text-blue-custom text-xs font-semibold">Verified Customer</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-0.5 mb-4 text-yellow-400">
+                            ${Array(testimonial.rating).fill('<span class="material-symbols-outlined text-lg">star</span>').join('')}
+                        </div>
+                        <p class="text-navy-custom/80 dark:text-white/80 leading-relaxed mb-6">
+                            ${testimonial.content}
+                        </p>
+                        <div class="pt-4 border-t border-gray-50 dark:border-white/5">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">${testimonial.createdDate}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                document.getElementById('testimonialGrid').innerHTML = `
+                    <div class="text-center py-12 col-span-full">
+                        <p class="text-red-500">Error loading testimonials</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load testimonials on page load
+        window.addEventListener('load', loadTestimonials);
+    </script>
 </body>
 
 </html>
-

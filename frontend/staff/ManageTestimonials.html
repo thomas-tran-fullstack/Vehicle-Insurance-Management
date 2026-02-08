@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Manage Testimonials - AVIMS Staff</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#176782",
+                        "background-light": "#f7f7f8",
+                        "background-dark": "#18181b",
+                    },
+                    fontFamily: { "display": ["Manrope"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .status-published { background: #d8b4fe; color: #6b21a8; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-denied { background: #fecaca; color: #991b1b; }
+        #detailModal { display: none !important; }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="flex">
+        <div id="sidebar-container"></div>
+        <main class="flex-grow w-full px-6 py-8">
+        <!-- Page Heading -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold">Manage Testimonials</h1>
+                <p class="text-slate-500 dark:text-slate-400">Review and approve customer testimonials</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-slate-200 dark:border-zinc-700 p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <select id="statusFilter"
+                    class="w-full rounded-lg border border-slate-300 dark:border-zinc-600 bg-slate-50 dark:bg-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Published">Published</option>
+                    <option value="Denied">Denied</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-slate-200 dark:border-zinc-700 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-zinc-700 border-b border-slate-200 dark:border-zinc-600">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">STT</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Customer Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Rating</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Content</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Date</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialTableBody">
+                        <tr><td colspan="7" class="px-6 py-4 text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <!-- Modal Detail -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">>
+        <div class="bg-white dark:bg-zinc-800 rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold mb-6">Testimonial Detail</h2>
+            <div id="modalContent" class="space-y-4"></div>
+            <div class="flex gap-3 mt-8">
+                <button onclick="closeModal()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <p id="toastMessage"></p>
+    </div>
+
+    <script src="../js/pageLoader.js"></script>
+    <script>
+        // Initialize modal
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('detailModal').style.setProperty('display', 'none', 'important');
+        });
+        // Load employee-sidebar
+        fetch('../templates/employee-sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Get current user info
+        const userStr = sessionStorage.getItem('user') || localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        if (!user || !user.userId) {
+            window.location.href = '../user/Authenticate.html';
+        }
+
+        async function loadTestimonials() {
+            try {
+                const statusFilter = document.getElementById('statusFilter').value;
+                const url = statusFilter ? `/api/testimonials/list?status=${statusFilter}` : '/api/testimonials/list';
+                const response = await fetch(url);
+                const data = await response.json();
+                const tbody = document.getElementById('testimonialTableBody');
+                if (!data.testimonials || data.testimonials.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 text-center">No testimonials found</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = data.testimonials.map((t, idx) => `
+                    <tr class="border-b border-slate-200 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-700">
+                        <td class="px-6 py-4 text-sm">${t.stt}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${t.customerName || 'N/A'}</td>
+                        <td class="px-6 py-4 text-sm">${'⭐'.repeat(t.rating || 0)}</td>
+                        <td class="px-6 py-4 text-sm max-w-xs truncate">${t.content || 'N/A'}</td>
+                        <td class="px-6 py-4 text-sm">${new Date(t.createdDate).toLocaleDateString()}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <span class="px-3 py-1 rounded text-xs font-bold status-${t.status.toLowerCase()}">${t.status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm flex gap-2">
+                            ${t.status === 'Pending' ? `
+                                <button onclick="approveTestimonial(${t.testimonialId})" title="Approve"
+                                    class="p-2 text-green-600 hover:bg-green-100 rounded transition">
+                                    <span class="material-symbols-outlined text-lg">check_circle</span>
+                                </button>
+                                <button onclick="rejectTestimonial(${t.testimonialId})" title="Reject"
+                                    class="p-2 text-red-600 hover:bg-red-100 rounded transition">
+                                    <span class="material-symbols-outlined text-lg">cancel</span>
+                                </button>
+                            ` : ''}
+                            <button onclick="viewDetail(${t.testimonialId})" title="View Detail"
+                                class="p-2 text-blue-600 hover:bg-blue-100 rounded transition">
+                                <span class="material-symbols-outlined text-lg">info</span>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+            }
+        }
+
+        async function viewDetail(testimonialId) {
+            try {
+                const response = await fetch(`/api/testimonials/${testimonialId}/detail`);
+                const data = await response.json();
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="space-y-4">
+                        <div><p class="text-sm text-gray-500">Customer Name</p><p class="font-bold">${data.customerName}</p></div>
+                        <div><p class="text-sm text-gray-500">Rating</p><p class="text-2xl">${'⭐'.repeat(data.rating)}</p></div>
+                        <div><p class="text-sm text-gray-500">Content</p><p class="mt-2 p-4 bg-gray-100 dark:bg-zinc-700 rounded">${data.content}</p></div>
+                        <div><p class="text-sm text-gray-500">Date</p><p>${new Date(data.createdDate).toLocaleDateString()}</p></div>
+                        <div><p class="text-sm text-gray-500">Status</p><p class="font-bold">${data.status}</p></div>
+                    </div>
+                `;
+                document.getElementById('detailModal').style.setProperty('display', 'flex', 'important');
+            } catch (error) {
+                showToast('Error loading detail');
+            }
+        }
+
+        async function approveTestimonial(testimonialId) {
+            if (!confirm('Approve this testimonial?')) return;
+            try {
+                const response = await fetch(`/api/testimonials/${testimonialId}/approve`, { method: 'PATCH' });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Testimonial approved');
+                    loadTestimonials();
+                } else {
+                    showToast(data.message);
+                }
+            } catch (error) {
+                showToast('Error approving testimonial');
+            }
+        }
+
+        async function rejectTestimonial(testimonialId) {
+            if (!confirm('Reject this testimonial?')) return;
+            try {
+                const response = await fetch(`/api/testimonials/${testimonialId}/reject`, { method: 'PATCH' });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Testimonial rejected');
+                    loadTestimonials();
+                } else {
+                    showToast(data.message);
+                }
+            } catch (error) {
+                showToast('Error rejecting testimonial');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.setProperty('display', 'none', 'important');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+        }
+
+        document.getElementById('statusFilter').addEventListener('change', loadTestimonials);
+        window.addEventListener('load', loadTestimonials);
+    </script>
+</body>
+</html>

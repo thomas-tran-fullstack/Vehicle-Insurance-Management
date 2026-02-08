@@ -11,7 +11,11 @@ public partial class Feedback
 
     public string? Content { get; set; }
 
+    public int? Rating { get; set; }
+
     public DateTime? CreatedDate { get; set; }
+
+    public bool IsPinned { get; set; } = false;
 
     public virtual Customer? Customer { get; set; }
 }
