@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -7,14 +6,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Claim History - AVIMS Insurance</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -37,7 +31,6 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -45,256 +38,358 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-    <div class="layout-container flex h-full grow flex-col">
-        <!-- Header from template -->
-    <div id="header-container"></div>
-        <main class="flex flex-col items-center pb-8 px-4 md:px-20 lg:px-40 pt-8 w-full">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+        <main class="flex-1 flex flex-col items-center pb-8 px-4 md:px-20 lg:px-40 pt-8 w-full">
             <div class="max-w-[1000px] w-full flex flex-col gap-8">
                 <!-- Page Heading -->
                 <div class="flex flex-wrap justify-between items-end gap-4">
                     <div class="flex min-w-72 flex-col gap-2">
-                        <p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
-                            Claim History</p>
-                        <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Track and
-                            manage your vehicle insurance claims in real-time.</p>
+                        <p class="text-slate-900 dark:text-white text-4xl font-black leading-tight">Claim History</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-base font-normal">Track and manage your vehicle insurance claims</p>
                     </div>
-                    <button
-                        class="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold transition-colors hover:bg-slate-300 dark:hover:bg-slate-700">
-                        <span class="material-symbols-outlined text-sm">download</span>
-                        <span>Download Report</span>
+                    <button id="newClaimBtn" class="flex items-center gap-2 cursor-pointer justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold transition-opacity hover:opacity-90">
+                        <span class="material-symbols-outlined text-sm">add</span>
+                        <span>New Claim</span>
                     </button>
                 </div>
+
                 <!-- Stats Overview -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div
-                        class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Claims</p>
                         <div class="flex items-baseline gap-2">
-                            <p class="text-slate-900 dark:text-white text-3xl font-bold">14</p>
-                            <span class="text-emerald-600 text-sm font-semibold">+2 this month</span>
+                            <p class="text-slate-900 dark:text-white text-3xl font-bold" id="totalClaims">0</p>
+                            <span class="text-slate-400 text-sm font-semibold" id="newThisMonth">--</span>
                         </div>
                     </div>
-                    <div
-                        class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Claims</p>
                         <div class="flex items-baseline gap-2">
-                            <p class="text-slate-900 dark:text-white text-3xl font-bold">2</p>
+                            <p class="text-slate-900 dark:text-white text-3xl font-bold" id="activeClaims">0</p>
                             <span class="text-slate-400 text-sm font-semibold">Processing</span>
                         </div>
                     </div>
-                    <div
-                        class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Settled Amount</p>
+                    <div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Payouts</p>
                         <div class="flex items-baseline gap-2">
-                            <p class="text-slate-900 dark:text-white text-3xl font-bold">$12,450</p>
-                            <span class="text-emerald-600 text-sm font-semibold">Total Payout</span>
+                            <p class="text-slate-900 dark:text-white text-3xl font-bold" id="totalPayout">$0</p>
+                            <span class="text-emerald-600 text-sm font-semibold">Approved</span>
                         </div>
                     </div>
                 </div>
+
                 <!-- Search & Filters -->
-                <div
-                    class="flex flex-col gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div class="flex flex-col gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
                     <div class="flex flex-wrap gap-3">
                         <div class="flex-1 min-w-[300px]">
-                            <div
-                                class="flex w-full items-stretch rounded-lg h-10 border border-slate-200 dark:border-slate-700">
+                            <div class="flex w-full items-stretch rounded-lg h-10 border border-slate-200 dark:border-slate-700">
                                 <div class="text-slate-400 flex items-center justify-center pl-3">
                                     <span class="material-symbols-outlined text-[20px]">search</span>
                                 </div>
-                                <input
-                                    class="form-input flex-1 border-none bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 px-3 text-sm focus:ring-0"
-                                    placeholder="Search by Claim ID, Policy Number or Vehicle" />
+                                <input id="searchInput" class="form-input flex-1 border-none bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 px-3 text-sm focus:ring-0" placeholder="Search by Claim ID or Policy Number" />
                             </div>
                         </div>
-                        <div class="flex gap-2 flex-wrap">
-                            <button
-                                class="flex h-10 items-center gap-2 rounded-lg bg-primary/10 text-primary px-4 border border-primary/20">
-                                <span class="text-sm font-semibold">All Claims</span>
-                                <span class="material-symbols-outlined text-[18px]">expand_more</span>
-                            </button>
-                            <button
-                                class="flex h-10 items-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 border border-slate-200 dark:border-slate-700">
-                                <span class="text-sm font-medium">Status</span>
-                                <span class="material-symbols-outlined text-[18px]">expand_more</span>
-                            </button>
-                            <button
-                                class="flex h-10 items-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 border border-slate-200 dark:border-slate-700">
-                                <span class="text-sm font-medium">Date Range</span>
-                                <span class="material-symbols-outlined text-[18px]">calendar_today</span>
-                            </button>
-                        </div>
+                        <select id="statusFilter" class="h-10 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-sm font-medium">
+                            <option value="">All Status</option>
+                            <option value="SUBMITTED">Submitted</option>
+                            <option value="UNDER_REVIEW">Under Review</option>
+                            <option value="REQUEST_MORE_INFO">Need More Info</option>
+                            <option value="APPROVED">Approved</option>
+                            <option value="REJECTED">Rejected</option>
+                            <option value="PAID">Paid</option>
+                        </select>
                     </div>
                 </div>
+
                 <!-- Claims List -->
                 <div class="flex flex-col gap-6">
                     <h3 class="text-lg font-bold text-slate-900 dark:text-white">Recent Claims</h3>
-                    <!-- Claim Card 1: Active -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl border-l-4 border-l-primary border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col gap-6">
-                        <div class="flex justify-between items-start flex-wrap gap-4">
-                            <div class="flex gap-4">
-                                <div
-                                    class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-primary">
-                                    <span class="material-symbols-outlined text-3xl">directions_car</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <h4 class="font-bold text-slate-900 dark:text-white">Claim #CLM-882941</h4>
-                                        <span
-                                            class="px-2 py-1 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-bold uppercase tracking-wider">Under
-                                            Review</span>
-                                    </div>
-                                    <p class="text-sm text-slate-500">Tesla Model 3 • Policy: POL-9920-X</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs text-slate-400 font-medium">Submitted Oct 24, 2023</p>
-                                <p class="text-lg font-bold text-slate-900 dark:text-white mt-1">Est. $4,200.00</p>
-                            </div>
-                        </div>
-                        <!-- Status Timeline -->
-                        <div class="relative mt-2">
-                            <div
-                                class="absolute top-1/2 left-0 w-full h-1 bg-slate-100 dark:bg-slate-800 -translate-y-1/2">
-                            </div>
-                            <div class="absolute top-1/2 left-0 w-[40%] h-1 bg-primary -translate-y-1/2"></div>
-                            <div class="relative flex justify-between">
-                                <div class="flex flex-col items-center gap-2">
-                                    <div
-                                        class="size-6 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-white dark:ring-slate-900">
-                                        <span class="material-symbols-outlined text-[14px]">check</span>
-                                    </div>
-                                    <span
-                                        class="text-[11px] font-bold text-slate-900 dark:text-white uppercase">Submitted</span>
-                                </div>
-                                <div class="flex flex-col items-center gap-2">
-                                    <div
-                                        class="size-6 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-white dark:ring-slate-900">
-                                        <span class="material-symbols-outlined text-[14px] animate-pulse">sync</span>
-                                    </div>
-                                    <span class="text-[11px] font-bold text-primary uppercase">Under Review</span>
-                                </div>
-                                <div class="flex flex-col items-center gap-2">
-                                    <div
-                                        class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400 ring-4 ring-white dark:ring-slate-900">
-                                        <span class="material-symbols-outlined text-[14px]">build</span>
-                                    </div>
-                                    <span class="text-[11px] font-bold text-slate-400 uppercase">Inspection</span>
-                                </div>
-                                <div class="flex flex-col items-center gap-2">
-                                    <div
-                                        class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400 ring-4 ring-white dark:ring-slate-900">
-                                        <span class="material-symbols-outlined text-[14px]">assignment_turned_in</span>
-                                    </div>
-                                    <span class="text-[11px] font-bold text-slate-400 uppercase">Final Decision</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center mt-2 border-t border-slate-100 dark:border-slate-800 pt-4">
-                            <p class="text-sm text-slate-500 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[18px]">info</span>
-                                <span>Adjuster assigned: Sarah Jenkins. Expect an update in 24h.</span>
-                            </p>
-                            <div class="flex gap-2">
-                                <button
-                                    class="h-9 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors hover:bg-slate-200 dark:hover:bg-slate-700">View
-                                    Details</button>
-                                <button
-                                    class="h-9 px-4 rounded-lg bg-primary text-white text-xs font-bold transition-opacity hover:opacity-90">Upload
-                                    Photos</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Claim Card 2: Settled -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col gap-6 opacity-90">
-                        <div class="flex justify-between items-start flex-wrap gap-4">
-                            <div class="flex gap-4">
-                                <div
-                                    class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                                    <span class="material-symbols-outlined text-3xl">directions_car</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <h4 class="font-bold text-slate-900 dark:text-white">Claim #CLM-771203</h4>
-                                        <span
-                                            class="px-2 py-1 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold uppercase tracking-wider">Approved</span>
-                                    </div>
-                                    <p class="text-sm text-slate-500">Toyota RAV4 • Policy: POL-9920-X</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs text-slate-400 font-medium">Settled Sep 12, 2023</p>
-                                <p class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mt-1">$2,850.00 Paid
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center border-t border-slate-100 dark:border-slate-800 pt-4">
-                            <p class="text-sm text-slate-500">Incident: Minor rear-end collision at intersection.</p>
-                            <div class="flex gap-2">
-                                <button
-                                    class="h-9 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors hover:bg-slate-200">View
-                                    Settlement</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Claim Card 3: Rejected -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col gap-6 opacity-90">
-                        <div class="flex justify-between items-start flex-wrap gap-4">
-                            <div class="flex gap-4">
-                                <div
-                                    class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                                    <span class="material-symbols-outlined text-3xl">directions_car</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <h4 class="font-bold text-slate-900 dark:text-white">Claim #CLM-551092</h4>
-                                        <span
-                                            class="px-2 py-1 rounded bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-[10px] font-bold uppercase tracking-wider">Rejected</span>
-                                    </div>
-                                    <p class="text-sm text-slate-500">Toyota RAV4 • Policy: POL-9920-X</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs text-slate-400 font-medium">Closed Aug 05, 2023</p>
-                                <p class="text-lg font-bold text-slate-400 mt-1">$0.00</p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center border-t border-slate-100 dark:border-slate-800 pt-4">
-                            <p class="text-sm text-red-500 font-medium">Reason: Damage not covered under current policy
-                                terms.</p>
-                            <div class="flex gap-2">
-                                <button
-                                    class="h-9 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold">Appeal
-                                    Decision</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Footer Section -->
-                <div
-                    class="bg-primary/5 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-primary/10">
-                    <div class="flex flex-col gap-2">
-                        <h4 class="text-xl font-bold text-slate-900 dark:text-white">Need help with a claim?</h4>
-                        <p class="text-slate-500 dark:text-slate-400 max-w-md">Our specialized support team is available
-                            24/7 to assist you with any questions about your ongoing or past claims.</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <button
-                            class="h-12 px-6 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-bold text-sm shadow-sm border border-slate-200 dark:border-slate-700">Call
-                            Support</button>
-                        <button
-                            class="h-12 px-6 rounded-xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20">Chat
-                            With Agent</button>
+                    <div id="claimsList" class="flex flex-col gap-4"></div>
+                    <div id="noClaimsMsg" class="text-center py-12 text-slate-500">
+                        <span class="material-symbols-outlined text-5xl opacity-50 block mb-4">assignment</span>
+                        <p>No claims yet. <a href="#" onclick="goToNewClaim()" class="text-primary font-semibold">Create your first claim</a></p>
                     </div>
                 </div>
             </div>
         </main>
+
+        <!-- Claim Detail Modal -->
+        <div id="claimDetailModal" style="display: none !important;" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Claim Details</h3>
+                    <button onclick="closeClaimDetailModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                        <span class="material-symbols-outlined text-2xl">close</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="px-6 py-6 space-y-6">
+                    <!-- Claim Header -->
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">CLAIM NUMBER</p>
+                            <p class="text-2xl font-bold text-slate-900 dark:text-white" id="detailClaimNumber">--</p>
+                        </div>
+                        <span id="detailClaimStatus" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">--</span>
+                    </div>
+
+                    <!-- Claim Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Policy Details -->
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium mb-2">POLICY</p>
+                            <p class="text-sm text-slate-900 dark:text-white font-semibold" id="detailPolicyNumber">--</p>
+                        </div>
+
+                        <!-- Accident Date -->
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium mb-2">ACCIDENT DATE</p>
+                            <p class="text-sm text-slate-900 dark:text-white" id="detailAccidentDate">--</p>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="md:col-span-2">
+                            <p class="text-xs text-slate-500 font-medium mb-2">DESCRIPTION</p>
+                            <p class="text-sm text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 p-3 rounded-lg" id="detailDescription">--</p>
+                        </div>
+
+                        <!-- Claim Amount -->
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium mb-2">CLAIMABLE AMOUNT</p>
+                            <p class="text-lg font-bold text-slate-900 dark:text-white" id="detailClaimAmount">$0</p>
+                        </div>
+
+                        <!-- Submitted Date -->
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium mb-2">SUBMITTED</p>
+                            <p class="text-sm text-slate-900 dark:text-white" id="detailSubmittedDate">--</p>
+                        </div>
+                    </div>
+
+                    <!-- Review Notes (if available) -->
+                    <div id="reviewSection" style="display: none;">
+                        <p class="text-xs text-slate-500 font-medium mb-2">REVIEW NOTES</p>
+                        <p class="text-sm text-slate-900 dark:text-white bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800" id="detailReviewNote">--</p>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-6">
+                        <p class="text-xs text-slate-500 font-medium mb-4">TIMELINE</p>
+                        <div class="space-y-3" id="detailTimeline">
+                            <div class="flex gap-3">
+                                <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                                <div>
+                                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400">Submitted</p>
+                                    <p class="text-sm text-slate-900 dark:text-white" id="timelineSubmitted">--</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-end gap-3">
+                    <button onclick="closeClaimDetailModal()" class="px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white font-medium hover:bg-slate-300 dark:hover:bg-slate-600 text-sm">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        let userId = null;
+        let allClaims = [];
+
+        async function loadClaims() {
+            try {
+                const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+                if (!userStr) {
+                    console.log('User not authenticated');
+                    return;
+                }
+                const user = JSON.parse(userStr);
+                userId = user.userId;
+                
+                // Load claims directly using userId
+                const response = await fetch(`/api/claims/by-user/${userId}`);
+                const result = await response.json();
+                if (result.success) {
+                    allClaims = result.data || [];
+                    displayClaims(allClaims);
+                    updateStats();
+                } else {
+                    console.log('Failed to load claims');
+                }
+            } catch (error) {
+                console.error('Error loading claims:', error);
+            }
+        }
+
+        function displayClaims(claims) {
+            const claimsList = document.getElementById('claimsList');
+            const noMsg = document.getElementById('noClaimsMsg');
+            
+            if (claims.length === 0) {
+                claimsList.innerHTML = '';
+                noMsg.style.display = 'block';
+                return;
+            }
+            
+            noMsg.style.display = 'none';
+            claimsList.innerHTML = claims.map(claim => `
+                <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex gap-4 flex-1">
+                            <div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">directions_car</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Claim #${claim.claimNumber}</h4>
+                                    <span class="${getStatusBadgeClass(claim.status)}">${getStatusLabel(claim.status)}</span>
+                                </div>
+                                <p class="text-sm text-slate-500">Policy: ${claim.policyNumber || 'N/A'}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-slate-400 font-medium">${formatDate(claim.submittedAt)}</p>
+                            <p class="text-lg font-bold text-slate-900 dark:text-white mt-1">${claim.claimableAmount ? '$' + parseFloat(claim.claimableAmount).toFixed(2) : 'Pending'}</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-4">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3"><strong>Accident:</strong> ${claim.description} (${formatDate(claim.accidentDate)})</p>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-slate-500">
+                                ${claim.reviewNote ? '<p>Review: ' + claim.reviewNote + '</p>' : ''}
+                            </div>
+                            <button onclick="viewClaimDetail(${claim.claimId})" class="h-9 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            const submitted = allClaims.filter(c => c.status === 'SUBMITTED').length;
+            const underReview = allClaims.filter(c => c.status === 'UNDER_REVIEW').length;
+            const requestInfo = allClaims.filter(c => c.status === 'REQUEST_MORE_INFO').length;
+            const activeCnt = submitted + underReview + requestInfo;
+            
+            const approved = allClaims.filter(c => c.status === 'APPROVED').length;
+            const paid = allClaims.filter(c => c.status === 'PAID').length;
+            const totalPayout = allClaims.filter(c => c.status === 'PAID').reduce((sum, c) => sum + (parseFloat(c.claimableAmount) || 0), 0);
+
+            document.getElementById('totalClaims').textContent = allClaims.length;
+            document.getElementById('activeClaims').textContent = activeCnt;
+            document.getElementById('totalPayout').textContent = '$' + totalPayout.toFixed(0);
+        }
+
+        function getStatusBadgeClass(status) {
+            const baseClass = "px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider";
+            const statusClasses = {
+                'SUBMITTED': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300',
+                'UNDER_REVIEW': 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+                'REQUEST_MORE_INFO': 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300',
+                'APPROVED': 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300',
+                'REJECTED': 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300',
+                'PAID': 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+            };
+            return baseClass + ' ' + (statusClasses[status] || statusClasses['SUBMITTED']);
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'SUBMITTED': 'Submitted',
+                'UNDER_REVIEW': 'Under Review',
+                'REQUEST_MORE_INFO': 'Need More Info',
+                'APPROVED': 'Approved',
+                'REJECTED': 'Rejected',
+                'PAID': 'Paid'
+            };
+            return labels[status] || status;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        function viewClaimDetail(claimId) {
+            const claim = allClaims.find(c => c.claimId === claimId);
+            if (!claim) return;
+            
+            // Populate modal with claim data
+            document.getElementById('detailClaimNumber').textContent = '#' + claim.claimNumber;
+            document.getElementById('detailClaimStatus').textContent = getStatusLabel(claim.status);
+            document.getElementById('detailClaimStatus').className = getStatusBadgeClass(claim.status);
+            document.getElementById('detailPolicyNumber').textContent = claim.policyNumber || 'N/A';
+            document.getElementById('detailAccidentDate').textContent = formatDate(claim.accidentDate);
+            document.getElementById('detailDescription').textContent = claim.description || 'N/A';
+            document.getElementById('detailClaimAmount').textContent = '$' + (parseFloat(claim.claimableAmount) || 0).toFixed(2);
+            document.getElementById('detailSubmittedDate').textContent = formatDate(claim.submittedAt);
+            document.getElementById('timelineSubmitted').textContent = formatDate(claim.submittedAt);
+            
+            // Show/hide review section
+            const reviewSection = document.getElementById('reviewSection');
+            if (claim.reviewNote) {
+                reviewSection.style.display = 'block';
+                document.getElementById('detailReviewNote').textContent = claim.reviewNote;
+            } else {
+                reviewSection.style.display = 'none';
+            }
+            
+            // Open modal
+            openClaimDetailModal();
+        }
+
+        function openClaimDetailModal() {
+            document.getElementById('claimDetailModal').style.display = 'flex';
+        }
+
+        function closeClaimDetailModal() {
+            document.getElementById('claimDetailModal').style.display = 'none';
+        }
+
+        function goToNewClaim() {
+            window.location.href = 'ClaimRequest.html';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('claimDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeClaimDetailModal();
+            }
+        });
+
+        document.getElementById('newClaimBtn').addEventListener('click', goToNewClaim);
+        document.getElementById('statusFilter').addEventListener('change', () => {
+            const status = document.getElementById('statusFilter').value;
+            const filtered = status ? allClaims.filter(c => c.status === status) : allClaims;
+            displayClaims(filtered);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allClaims.filter(c => 
+                c.claimNumber.toString().includes(query) || 
+                c.policyNumber?.toString().includes(query)
+            );
+            displayClaims(filtered);
+        });
+
+        // Load data on page load
+        loadClaims();
+    </script>
+
+    </main>
+    </div>
+
     <!-- Footer from template -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
@@ -311,14 +406,7 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
 
         if (footerFrame) {
             footerFrame.onload = function () {
@@ -326,34 +414,24 @@
             };
         }
 
-        // Resize on window resize
         window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
             if (footerFrame) resizeIframe(footerFrame);
         });
     </script>
+
     <script>
         // Load header fragment
         fetch('../templates/header.html')
-            .then(response => {
-                console.log('Header fetch response:', response.status);
-                return response.text();
-            })
+            .then(response => response.text())
             .then(html => {
-                console.log('Header HTML loaded, inserting into DOM');
                 document.getElementById('header-container').innerHTML = html;
-                
-                // Load header.js script file
                 const script = document.createElement('script');
                 script.src = '../js/header.js';
                 script.onload = () => {
-                    console.log('header.js loaded successfully');
-                    // Now check for initializeHeader
                     let retries = 0;
                     const checkAndInitialize = () => {
                         retries++;
-                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
-                            console.log('Calling window.initializeHeader()');
+                        if (window.headerScriptLoaded && typeof window.initializeHeader === 'function') {
                             window.initializeHeader();
                         } else if (retries < 10) {
                             setTimeout(checkAndInitialize, 100);
@@ -361,16 +439,12 @@
                     };
                     checkAndInitialize();
                 };
-                script.onerror = () => {
-                    console.error('Failed to load header.js');
-                };
                 document.head.appendChild(script);
-            })
-            .catch(error => console.error('Error loading header:', error));
+            });
     </script>
-    <script src="../js/pageLoader.js"></script>
 
+    <script src="../js/pageLoader.js"></script>
 </body>
 
 </html>
-
+                

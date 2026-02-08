@@ -72,15 +72,15 @@ namespace VehicleInsuranceAPI.Backend.CustomerInformation
             return Ok(result);
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetCustomerByUserId(int userId)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetCustomerByUserId(int id)
         {
             try
             {
                 var customer = await _context.Customers
                     .AsNoTracking()
                     .Include(c => c.User)
-                    .FirstOrDefaultAsync(c => c.UserId == userId);
+                    .FirstOrDefaultAsync(c => c.UserId == id);
 
                 if (customer == null)
                 {

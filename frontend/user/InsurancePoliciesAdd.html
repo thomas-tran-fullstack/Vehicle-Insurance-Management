@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap"
         rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -293,14 +294,32 @@
             formData.append('addressProof', file);
             formData.append('actorUserId', user.userId);
 
-            const response = await fetch('/api/PolicyManagement/from-estimate', {
+            const response = await fetch('/api/policies/from-estimate', {
                 method: 'POST',
                 body: formData
             });
 
-            const data = await response.json();
+            if (!response.ok) {
+                const errorText = await response.text();
+                showPopMessage('Error: ' + (errorText || response.statusText), 'error');
+                return;
+            }
+
+            let data;
+            try {
+                const text = await response.text();
+                if (!text) {
+                    showPopMessage('Server returned empty response', 'error');
+                    return;
+                }
+                data = JSON.parse(text);
+            } catch (e) {
+                showPopMessage('Invalid response from server: ' + e.message, 'error');
+                return;
+            }
+
             if (!data.success) {
-                alert(data.message || 'Unable to create policy.');
+                showPopMessage('Error: ' + (data.message || 'Unable to create policy.'), 'error');
                 return;
             }
 
@@ -310,19 +329,19 @@
             document.getElementById('estimateStatusText').textContent = `Policy #${data.data.policyNumber} created. Complete payment before ${dueDate}.`;
             document.getElementById('paymentInfo').textContent = `Policy #${data.data.policyNumber} is WAITING_PAYMENT. Due date: ${dueDate}.`;
             document.getElementById('paymentActions').classList.remove('hidden');
-            alert(`Policy created successfully.\nStatus: ${data.data.status}\nDue: ${dueDate}`);
+            showPopMessage(`Policy created successfully.\nStatus: ${data.data.status}\nDue: ${dueDate}`, 'success');
         });
 
         async function submitPayment() {
             if (!policyState.policyId) {
-                alert('Please create policy first.');
+                showPopMessage('Please create policy first.', 'error');
                 return;
             }
 
             const user = getSessionUser();
             const method = document.getElementById('paymentMethod').value || 'ONLINE';
             const refInput = document.getElementById('transactionRef').value.trim();
-            const response = await fetch(`/api/PolicyManagement/${policyState.policyId}/payment`, {
+            const response = await fetch(`/api/policies/${policyState.policyId}/payment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

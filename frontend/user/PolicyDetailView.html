@@ -228,7 +228,7 @@
                 return;
             }
 
-            const response = await fetch(`/api/PolicyManagement/${policyId}`);
+            const response = await fetch(`/api/policies/${policyId}`);
             const data = await response.json();
             if (!data.success) {
                 showPopMessage(data.message || 'Unable to load policy detail.', 'error');
@@ -251,7 +251,7 @@
             downloadBtn.disabled = status !== 'ACTIVE';
             if (status === 'ACTIVE') {
                 downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                downloadBtn.onclick = () => window.open(`/api/PolicyManagement/${policy.policyId}/policy-pdf`, '_blank');
+                downloadBtn.onclick = () => window.open(`/api/policies/${policy.policyId}/policy-pdf`, '_blank');
             } else {
                 downloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
                 downloadBtn.onclick = () => alert('PDF chỉ có sau khi policy đã ACTIVE.');
@@ -275,7 +275,7 @@
 
             document.getElementById('renewBtn').addEventListener('click', async () => {
                 const user = getSessionUser();
-                const renewResponse = await fetch(`/api/PolicyManagement/${policy.policyId}/renew`, {
+                const renewResponse = await fetch(`/api/policies/${policy.policyId}/renew`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ durationMonths: policy.durationMonths || 12, markPaid: false, actorUserId: user?.userId || null })

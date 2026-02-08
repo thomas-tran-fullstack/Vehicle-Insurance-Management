@@ -120,7 +120,7 @@
         return;
       }
 
-      const response = await fetch(`/api/PolicyManagement/${state.policyId}`);
+      const response = await fetch(`/api/policies/${state.policyId}`);
       const result = await response.json();
       if (!result.success) {
         alert(result.message || 'Unable to load policy.');
@@ -154,7 +154,7 @@
       const method = document.getElementById('paymentMethod').value;
       const ref = document.getElementById('transactionRef').value.trim() || `PAY-${Date.now()}`;
 
-      const response = await fetch(`/api/PolicyManagement/${state.policyId}/payment`, {
+      const response = await fetch(`/api/policies/${state.policyId}/payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

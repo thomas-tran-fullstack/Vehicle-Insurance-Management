@@ -142,19 +142,6 @@ CREATE TABLE Vehicles (
 );
 GO
 
-CREATE TABLE VehicleInspections (
-    InspectionId INT IDENTITY(1,1) PRIMARY KEY,
-    VehicleId INT NOT NULL,
-    AssignedStaffId INT NULL,
-    ScheduledDate DATETIME2 NULL,
-    CompletedDate DATETIME2 NULL,
-    Status NVARCHAR(30) NOT NULL DEFAULT 'NEW',   -- NEW/SCHEDULED/COMPLETED/FAILED
-    Result NVARCHAR(1000) NULL,
-    FOREIGN KEY (VehicleId) REFERENCES Vehicles(VehicleId),
-    FOREIGN KEY (AssignedStaffId) REFERENCES Staff(StaffId)
-);
-GO
-
 /* ---------- ESTIMATE ---------- */
 CREATE TABLE Estimates (
     EstimateId INT IDENTITY(1,1) PRIMARY KEY,
@@ -288,17 +275,50 @@ CREATE TABLE Claims (
     ClaimId INT IDENTITY(1,1) PRIMARY KEY,
     ClaimNumber BIGINT NOT NULL UNIQUE,
     PolicyId INT NOT NULL,
+    CustomerNameSnapshot NVARCHAR(150) NULL,
+    PolicyStartDateSnapshot DATE NULL,
+    PolicyEndDateSnapshot DATE NULL,
     AccidentPlace NVARCHAR(255) NOT NULL,
     AccidentDate DATE NOT NULL,
+    Description NVARCHAR(MAX) NULL,
+    DocumentPath NVARCHAR(255) NULL,
     InsuredAmount DECIMAL(18,2) NOT NULL,
     ClaimableAmount DECIMAL(18,2) NOT NULL,
-    Status NVARCHAR(30) NOT NULL DEFAULT 'SUBMITTED',  -- SUBMITTED/NEED_INFO/APPROVED/REJECTED/PAID
+    Status NVARCHAR(30) NOT NULL DEFAULT 'SUBMITTED',  -- SUBMITTED/UNDER_REVIEW/REQUEST_MORE_INFO/APPROVED/REJECTED/PAID
     SubmittedAt DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
     ReviewedByStaffId INT NULL,
+    ReviewedAt DATETIME2 NULL,
+    ReviewNote NVARCHAR(500) NULL,
+    ApprovedByStaffId INT NULL,
     DecisionAt DATETIME2 NULL,
     DecisionNote NVARCHAR(500) NULL,
+    PaidAt DATETIME2 NULL,
     FOREIGN KEY (PolicyId) REFERENCES Policies(PolicyId),
-    FOREIGN KEY (ReviewedByStaffId) REFERENCES Staff(StaffId)
+    FOREIGN KEY (ReviewedByStaffId) REFERENCES Staff(StaffId),
+    FOREIGN KEY (ApprovedByStaffId) REFERENCES Staff(StaffId)
+);
+GO
+
+/* ---------- VEHICLE INSPECTIONS ---------- */
+CREATE TABLE VehicleInspections (
+    InspectionId INT IDENTITY(1,1) PRIMARY KEY,
+    VehicleId INT NOT NULL,
+    ClaimId INT NULL,
+    AssignedStaffId INT NULL,
+    ScheduledDate DATETIME2 NULL,
+    InspectionLocation NVARCHAR(255) NULL,
+    CompletedDate DATETIME2 NULL,
+    Status NVARCHAR(30) NOT NULL DEFAULT 'NEW',   -- NEW/SCHEDULED/IN_PROGRESS/COMPLETED/VERIFIED/FAILED
+    OverallAssessment NVARCHAR(MAX) NULL,
+    ConfirmedCorrect BIT NULL,
+    DocumentPath NVARCHAR(255) NULL,
+    Result NVARCHAR(1000) NULL,
+    VerifiedByStaffId INT NULL,
+    VerifiedAt DATETIME2 NULL,
+    FOREIGN KEY (VehicleId) REFERENCES Vehicles(VehicleId),
+    FOREIGN KEY (ClaimId) REFERENCES Claims(ClaimId),
+    FOREIGN KEY (AssignedStaffId) REFERENCES Staff(StaffId),
+    FOREIGN KEY (VerifiedByStaffId) REFERENCES Staff(StaffId)
 );
 GO
 

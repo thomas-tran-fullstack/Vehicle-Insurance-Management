@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Inspection Management Admin - AVIMS</title>
+    <title>Inspection Management - AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -24,389 +18,476 @@
                         "background-light": "#f6f7f8",
                         "background-dark": "#101922",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
                 },
             },
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .material-symbols-outlined {
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { 
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
-
-        .active-nav {
-            background-color: #137fec20;
-            color: #137fec;
-            border-right: 4px solid #137fec;
+        .material-symbols-outlined.fill { 
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
+    <script src="../js/popMessage.js"></script>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<body class="bg-background-light dark:bg-background-dark min-h-screen">
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-    <div id="sidebar-container"></div>
-<!-- Main Content Area -->
+        <!-- Admin Sidebar -->
+        <div id="sidebar-container"></div>
+        
+        <!-- Main Content -->
         <main class="flex-1 flex flex-col overflow-y-auto">
-            <!-- Top Navbar -->
-<div class="p-8 space-y-8">
-                <!-- Metrics Section -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div
-                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm">
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pending Requests</p>
-                        <div class="flex items-end justify-between">
-                            <h3 class="text-3xl font-bold">124</h3>
-                            <span class="text-emerald-500 text-sm font-bold flex items-center gap-0.5 mb-1">
-                                <span class="material-symbols-outlined text-sm">trending_up</span> 12%
-                            </span>
+            <!-- Header -->
+            <div class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+                <div class="max-w-[1400px] mx-auto px-8 py-6">
+                    <div class="flex flex-wrap justify-between items-end gap-4">
+                        <div class="flex flex-col gap-1">
+                            <h2 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight">Inspection Dispatch</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm">Create, assign, and verify vehicle inspections</p>
                         </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm">
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Inspections</p>
-                        <div class="flex items-end justify-between">
-                            <h3 class="text-3xl font-bold">45</h3>
-                            <span class="text-emerald-500 text-sm font-bold flex items-center gap-0.5 mb-1">
-                                <span class="material-symbols-outlined text-sm">trending_up</span> 5%
-                            </span>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm">
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Completed (Today)</p>
-                        <div class="flex items-end justify-between">
-                            <h3 class="text-3xl font-bold">89</h3>
-                            <span class="text-rose-500 text-sm font-bold flex items-center gap-0.5 mb-1">
-                                <span class="material-symbols-outlined text-sm">trending_down</span> 2%
-                            </span>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-2">
-                            <span class="flex h-2 w-2 relative">
-                                <span
-                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
-                            </span>
-                        </div>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Delayed/Overdue</p>
-                        <div class="flex items-end justify-between">
-                            <h3 class="text-3xl font-bold text-rose-500">12</h3>
-                            <span class="text-rose-500 text-sm font-bold flex items-center gap-0.5 mb-1">
-                                <span class="material-symbols-outlined text-sm">warning</span> Action
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Chart Area -->
-                    <div
-                        class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <div>
-                                <h4 class="text-lg font-bold">Completion Rate Trend</h4>
-                                <p class="text-sm text-slate-500">Daily performance over last 7 days</p>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-2xl font-bold text-primary">88%</span>
-                                <p class="text-xs text-emerald-500 font-bold">+4.2% Avg</p>
-                            </div>
-                        </div>
-                        <div class="h-48 w-full relative">
-                            <svg class="w-full h-full overflow-visible" viewbox="0 0 500 150">
-                                <defs>
-                                    <lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#137fec;stop-opacity:0.2"></stop>
-                                        <stop offset="100%" style="stop-color:#137fec;stop-opacity:0"></stop>
-                                    </lineargradient>
-                                </defs>
-                                <path d="M0,120 Q50,30 100,80 T200,50 T300,100 T400,20 T500,60 L500,150 L0,150 Z"
-                                    fill="url(#gradient)"></path>
-                                <path d="M0,120 Q50,30 100,80 T200,50 T300,100 T400,20 T500,60" fill="none"
-                                    stroke="#137fec" stroke-linecap="round" stroke-width="3"></path>
-                            </svg>
-                            <div
-                                class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Inspector Availability -->
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
-                        <div
-                            class="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <h4 class="font-bold">Inspector Workload</h4>
-                            <button class="text-xs text-primary font-bold hover:underline">View Map</button>
-                        </div>
-                        <div class="flex-1 overflow-y-auto max-h-64 p-4 space-y-4">
-                            <div class="flex items-center gap-3">
-                                <div class="relative">
-                                    <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
-                                        data-alt="Inspector profile image"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPfZAT_BKhTLWKS80o8TbhkIKoaqg8Re5oitD8Xc0lRbc-42Ck6fHAvs7294OblQRcO6DIfuFGZOQiKXj7cGXjBlN5f0Asj0v-4b6_1U8g9j4ej-YDB9KbcY4ELYVztCGwFDbESS0dv7DuUWeaB-wL9mZl4azV9R79g0yjw9KO4hS2MC4-gXDJAWYO3y6yjmAXHPcuR_WuGaiOkR-4NeKOvRrSUESHncOFSWKAe_9D5nQc61a1HqnIsD2H6vly223X_jjdr5a8E0-8')">
-                                    </div>
-                                    <div
-                                        class="absolute bottom-0 right-0 size-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full">
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-bold">John Doe</p>
-                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1">
-                                        <div class="bg-primary h-full rounded-full" style="width: 80%"></div>
-                                    </div>
-                                </div>
-                                <span class="text-xs font-bold text-slate-500">8/10</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="relative">
-                                    <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
-                                        data-alt="Inspector profile image"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnbZPSoWOlvCxs2BuCgwFaT2ojjg4Lfqs2I4GXXmWDtVdOLrYp87xL8ONS7oqAmN_k1iRLfSF0_sWc_oIAb2EnGCgjTlveA_D0joP9CjX8b-ZgIVFm_W9MuOSwWxM6afGdhdJJV0C-GgxVyp6M4ydD1oUXfrwM2hKucKcFBgOVe3qQ_Q-VGofU3WwRtbW-hIjnY84-1bP32ccA9V02CRKeHwPlI1P3OF_aBZwCxsaw-2DfRLyUiNJxKIUbfOycO3Cq_4fp5Mn9ZNVc')">
-                                    </div>
-                                    <div
-                                        class="absolute bottom-0 right-0 size-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full">
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-bold">Alex Smith</p>
-                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1">
-                                        <div class="bg-primary h-full rounded-full" style="width: 30%"></div>
-                                    </div>
-                                </div>
-                                <span class="text-xs font-bold text-slate-500">3/10</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="relative">
-                                    <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
-                                        data-alt="Inspector profile image"
-                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCxbkhrtliXw98qgeX73kJ0SE2U9ijY8NI9NZkJs7Cwe4xFX2QM9aXDhv7_xdck4NQE8EkeVhT4q8OsMHscAZJeRtkzqMfU81aDWqK2-Yog-_TTa4EamlEQyoYQsh3-T542Hm_OUutj04Qomr5Z_EzQuXpbz8O0yl87BAcISnmtbWwiH9dIc5xVtL2fldpf06YCAqS4EqMjBiYS_Roid3SpJqz7al9ql-XFw9otEBn9uKbvlnpKDJTwAa_k64jICghvh-1MEXUR1ldx')">
-                                    </div>
-                                    <div
-                                        class="absolute bottom-0 right-0 size-3 bg-amber-500 border-2 border-white dark:border-slate-900 rounded-full">
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-bold">Elena Rodriguez</p>
-                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1">
-                                        <div class="bg-primary h-full rounded-full" style="width: 100%"></div>
-                                    </div>
-                                </div>
-                                <span class="text-xs font-bold text-rose-500">10/10</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Dispatch Queue Table -->
-                <div
-                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                    <div
-                        class="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-primary">view_list</span>
-                            <h4 class="text-lg font-bold">Dispatch Queue</h4>
-                            <span class="px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-bold">24 Active
-                                Requests</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button
-                                class="flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
-                                <span class="material-symbols-outlined text-sm">filter_list</span> Filter
-                            </button>
-                            <button
-                                class="flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:opacity-90 transition-opacity shadow-md shadow-primary/20">
-                                <span class="material-symbols-outlined text-sm">add</span> New Request
-                            </button>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr
-                                    class="bg-slate-50 dark:bg-slate-800/50 text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
-                                    <th class="px-6 py-4">Case ID</th>
-                                    <th class="px-6 py-4">Vehicle &amp; Location</th>
-                                    <th class="px-6 py-4">Requested</th>
-                                    <th class="px-6 py-4">SLA Timer</th>
-                                    <th class="px-6 py-4">Inspector</th>
-                                    <th class="px-6 py-4">Status</th>
-                                    <th class="px-6 py-4 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-primary">#INS-9921</td>
-                                    <td class="px-6 py-4">
-                                        <p class="font-medium">Toyota Camry (2022)</p>
-                                        <p class="text-xs text-slate-500">Downtown, Dubai</p>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">10:45 AM</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2 text-rose-500 font-bold">
-                                            <span class="material-symbols-outlined text-sm">timer</span>
-                                            <span>0h 15m left</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                data-alt="Inspector avatar"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzdvvsmTykLaMB1pAMeQbn7CYlrzMEortp6Fu1ng1D7wrMINX9rpzf5ewYqqwNEjGDoHppikImKQO7-zGhwWIXSZVMgnyJzdwKJyoSAuw_flDePlUmHvThHOx7I9R9GIae1u2AIMPlFM60iFRd0Qe_RYpKTUh0Z8Zcgn-dsTaqmL4VFO_CBEXWvxB6-9bMnq0XRZZzWEMo_bb0lPvXzT6XtaWOGBbMFIM0moc7I7LG3JjaHOYoFDfVmvJ4kAiF6PzKYbr7IfvM1tKX')">
-                                            </div>
-                                            <span class="text-xs">Alex Smith</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">In
-                                            Progress</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">more_vert</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-primary">#INS-9918</td>
-                                    <td class="px-6 py-4">
-                                        <p class="font-medium">Tesla Model 3 (2023)</p>
-                                        <p class="text-xs text-slate-500">Business Bay, Dubai</p>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">09:30 AM</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2 text-slate-400 font-bold">
-                                            <span class="material-symbols-outlined text-sm">check_circle</span>
-                                            <span>Completed</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                data-alt="Inspector avatar"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxiNRI5d8Ny6UoPNae4efukAscQQrMUXBPGZIlUmO0GG_vjmYdY5JnsZddbbUeOi18KtOFm4gXnLJPASMiZ_7c1VhIMYAEuaXad4MLBgbz7aRVjXsWAgnUSfQVyKyk2l2Npjw9_d2CDyMkuQ1KtM5AY6TwWG2vWCMsxSTKvcV3IIyL7ljZTOhYBRdZM0SNooH4F1zVFLL7etOumN1JuMtHCd_rBqHY1p0PLup2itElAcwAKmjExgga8CjzZGngSOxC-PwkmEoOCPtk')">
-                                            </div>
-                                            <span class="text-xs">Elena Rodriguez</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wide">Completed</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">more_vert</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-primary">#INS-9905</td>
-                                    <td class="px-6 py-4">
-                                        <p class="font-medium">Ford F-150 (2021)</p>
-                                        <p class="text-xs text-slate-500">Palm Jumeirah</p>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">08:15 AM</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2 text-rose-600 font-bold animate-pulse">
-                                            <span class="material-symbols-outlined text-sm">priority_high</span>
-                                            <span>Overdue by 2h</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-[10px] font-bold text-slate-400 italic">Unassigned</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 text-[10px] font-bold uppercase tracking-wide">Pending</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded hover:bg-primary/90 transition-all">Assign</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-primary">#INS-9899</td>
-                                    <td class="px-6 py-4">
-                                        <p class="font-medium">Mercedes S-Class (2024)</p>
-                                        <p class="text-xs text-slate-500">Jumeirah Beach</p>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">07:50 AM</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2 text-amber-500 font-bold">
-                                            <span class="material-symbols-outlined text-sm">timer</span>
-                                            <span>1h 40m left</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                data-alt="Inspector avatar"
-                                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHvk4aYlpiv_sicsJVSZsSKx6qbEfr_0Deo4Yr3HhoHCBBa2YgcplusxxSU_P0J4QvKGbO5b3Ol_ktI8ZtOy9X2EhypMCKxvzEwWinJFS44sKRCOJJJCirLQusm7IG_MiAaygWhFSgD97eV6rNRzBCCmu9ZdKqpWWaZtcWtagbLTU8CTvYORj3JaLgGiXa7UfaKPQTWHKhaFPSw2daCg1PWSzfea4EXQk1WU37TouhFLzl0aA2DFpkHzlUby42DWWjS6vWQMgQIMFs')">
-                                            </div>
-                                            <span class="text-xs">John Doe</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wide">In
-                                            Progress</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <button
-                                            class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">more_vert</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <p class="text-xs text-slate-500">Showing 1 to 4 of 24 entries</p>
-                        <div class="flex gap-1">
-                            <button
-                                class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800">Prev</button>
-                            <button class="px-3 py-1.5 rounded-md bg-primary text-white text-xs font-bold">1</button>
-                            <button
-                                class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800">2</button>
-                            <button
-                                class="px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800">Next</button>
-                        </div>
+                        <button id="createInspectionBtn" class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:opacity-90 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-xl">add</span>
+                            <span>New Inspection</span>
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- Footer / Info Bar -->
-</main>
+
+            <!-- Content Area -->
+            <div class="max-w-[1400px] mx-auto px-8 py-8 w-full space-y-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Total Inspections</p>
+                        <p class="text-3xl font-bold text-slate-900 dark:text-white" id="totalInspections">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Pending Assignment</p>
+                        <p class="text-3xl font-bold text-orange-600" id="pendingInspections">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">In Progress</p>
+                        <p class="text-3xl font-bold text-blue-600" id="inProgressInspections">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Verified</p>
+                        <p class="text-3xl font-bold text-green-600" id="verifiedInspections">0</p>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex gap-4 flex-wrap">
+                    <select id="statusFilter" class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm">
+                        <option value="">All Status</option>
+                        <option value="NEW">New</option>
+                        <option value="SCHEDULED">Scheduled</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="VERIFIED">Verified</option>
+                    </select>
+                    <input id="searchInput" type="text" placeholder="Search by Inspection # or Vehicle" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm" />
+                </div>
+
+                <!-- Inspections Table -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Inspection #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Claim #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Vehicle</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Assigned Staff</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Location</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Status</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Created</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inspectionsTable" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="8" class="px-6 py-8 text-center text-slate-500">Loading inspections...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
+
+    <!-- Create Inspection Modal -->
+    <div id="createModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" style="display: none !important;">
+        <div class="bg-white dark:bg-slate-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Create Inspection</h2>
+                <button onclick="closeCreateModal()" class="text-slate-500 hover:text-slate-700"><span class="material-symbols-outlined">close</span></button>
+            </div>
+
+            <form id="createForm" class="space-y-4">
+                <div>
+                    <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Select Approved Claim</label>
+                    <select id="claimSelect" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+                        <option value="">-- Choose Claim --</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Scheduled Date</label>
+                    <input type="date" id="scheduledDate" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Inspection Location</label>
+                    <input type="text" id="location" required placeholder="e.g., 123 Main St, Downtown Branch" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Assign to Staff</label>
+                    <select id="staffSelect" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+                        <option value="">-- Select Staff --</option>
+                    </select>
+                </div>
+                <div class="flex gap-3 justify-end mt-8">
+                    <button type="button" onclick="closeCreateModal()" class="px-6 py-2 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-lg font-semibold hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+                    <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:opacity-90">Create Inspection</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Verify Modal -->
+    <div id="verifyModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" style="display: none !important;">
+        <div class="bg-white dark:bg-slate-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Verify Inspection</h2>
+                <button onclick="closeVerifyModal()" class="text-slate-500 hover:text-slate-700"><span class="material-symbols-outlined">close</span></button>
+            </div>
+
+            <div id="verifyDetails" class="space-y-4 mb-6">
+                <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Inspection #</label><p id="verifyInspNum" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Status</label><p id="verifyStatus" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Assessment</label><p id="verifyAssessment" class="text-slate-600 dark:text-slate-400 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg"></p></div>
+            </div>
+
+            <div class="flex gap-3 justify-end">
+                <button onclick="closeVerifyModal()" class="px-6 py-2 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-lg font-semibold hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+                <button onclick="confirmVerify()" class="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700">Mark as Verified</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/admin-sidebar.js"></script>
     <script>
-        // Load admin sidebar dynamically
-        fetch('../templates/admin-sidebar.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.getElementById('sidebar-container');
-                if (container) {
-                    container.innerHTML = html;
+        let allInspections = [];
+        let approvedClaims = [];
+        let staffList = [];
+        let selectedInspection = null;
+
+        // Load admin sidebar with enhanced error handling
+        function loadAdminSidebar() {
+            fetch('../templates/admin-sidebar.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('sidebar-container').innerHTML = html;
+                    // Initialize sidebar after HTML is injected
                     if (typeof initializeAdminSidebar === 'function') {
                         initializeAdminSidebar();
                     }
+                })
+                .catch(error => console.error('Error loading sidebar:', error));
+        }
+        
+        // Call sidebar loader
+        loadAdminSidebar();
+
+        async function loadInspections() {
+            try {
+                const response = await fetch('/api/inspections/pending/all');
+                if (!response.ok) {
+                    console.error('Failed to load inspections: HTTP', response.status);
+                    return;
                 }
-            })
-            .catch(error => console.error('Error loading sidebar:', error));
+                const text = await response.text();
+                if (!text) {
+                    console.error('Empty response from API');
+                    return;
+                }
+                const result = JSON.parse(text);
+                if (result.success) {
+                    allInspections = result.data || [];
+                    displayInspections(allInspections);
+                    updateStats();
+                } else {
+                    console.error('Failed to load inspections:', result.message);
+                }
+            } catch (error) {
+                console.error('Error loading inspections:', error);
+            }
+        }
+
+        async function loadApprovedClaims() {
+            try {
+                const response = await fetch('/api/claims/pending/all');
+                if (!response.ok) {
+                    console.error('Failed to load claims: HTTP', response.status);
+                    return;
+                }
+                const text = await response.text();
+                if (!text) {
+                    console.error('Empty response from API');
+                    return;
+                }
+                const result = JSON.parse(text);
+                if (result.success) {
+                    approvedClaims = (result.data || []).filter(c => c.status === 'APPROVED');
+                    const claimSelect = document.getElementById('claimSelect');
+                    claimSelect.innerHTML = '<option value="">-- Choose Claim --</option>';
+                    approvedClaims.forEach(claim => {
+                        const option = document.createElement('option');
+                        option.value = claim.claimId;
+                        option.textContent = `Claim #${claim.claimNumber} - Policy #${claim.policyId}`;
+                        claimSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Failed to load claims:', result.message);
+                }
+            } catch (error) {
+                console.error('Error loading claims:', error);
+            }
+        }
+
+        async function loadStaff() {
+            try {
+                const response = await fetch('/api/agentStaffManagement/staff');
+                if (!response.ok) {
+                    console.error('Failed to load staff: HTTP', response.status);
+                    const staffSelect = document.getElementById('staffSelect');
+                    if (staffSelect) staffSelect.innerHTML = '<option value="">-- Select Staff --</option>';
+                    return;
+                }
+                const text = await response.text();
+                if (!text) {
+                    console.error('Empty response from API');
+                    return;
+                }
+                const result = JSON.parse(text);
+                if (result.success) {
+                    staffList = result.data || [];
+                    const staffSelect = document.getElementById('staffSelect');
+                    staffSelect.innerHTML = '<option value="">-- Select Staff --</option>';
+                    staffList.forEach(staff => {
+                        const option = document.createElement('option');
+                        option.value = staff.staffId;
+                        option.textContent = staff.fullName || staff.name;
+                        staffSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Failed to load staff:', result.message);
+                }
+            } catch (error) {
+                console.error('Error loading staff:', error);
+            }
+        }
+
+        function displayInspections(inspections) {
+            const table = document.getElementById('inspectionsTable');
+            if (inspections.length === 0) {
+                table.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-slate-500">No inspections found</td></tr>';
+                return;
+            }
+
+            table.innerHTML = inspections.map(insp => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">#${insp.inspectionId}</td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">#${insp.claimId || 'N/A'}</td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">${insp.vehicleName || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${insp.staffName || 'Unassigned'}</td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${insp.inspectionLocation || 'N/A'}</td>
+                    <td class="px-6 py-4"><span class="${getStatusBadgeClass(insp.status)}">${getStatusLabel(insp.status)}</span></td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${formatDate(insp.createdAt)}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="openVerifyModal(${insp.inspectionId})" class="text-primary font-semibold text-sm hover:underline">View →</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const pending = allInspections.filter(i => i.status === 'NEW' || i.status === 'SCHEDULED').length;
+            const inProgress = allInspections.filter(i => i.status === 'IN_PROGRESS').length;
+            const verified = allInspections.filter(i => i.status === 'VERIFIED').length;
+
+            document.getElementById('totalInspections').textContent = allInspections.length;
+            document.getElementById('pendingInspections').textContent = pending;
+            document.getElementById('inProgressInspections').textContent = inProgress;
+            document.getElementById('verifiedInspections').textContent = verified;
+        }
+
+        document.getElementById('createInspectionBtn').addEventListener('click', () => {
+            document.getElementById('createModal').style.display = 'flex';
+            loadApprovedClaims();
+            loadStaff();
+        });
+
+        function closeCreateModal() {
+            document.getElementById('createModal').style.display = 'none';
+            document.getElementById('createForm').reset();
+        }
+
+        function closeVerifyModal() {
+            document.getElementById('verifyModal').style.display = 'none';
+        }
+
+        document.getElementById('createForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const claimId = document.getElementById('claimSelect').value;
+            const scheduledDate = document.getElementById('scheduledDate').value;
+            const location = document.getElementById('location').value;
+            const staffId = document.getElementById('staffSelect').value;
+
+            // Find the selected claim to get vehicleId
+            const selectedClaim = approvedClaims.find(c => c.claimId == claimId);
+            if (!selectedClaim || !selectedClaim.vehicleId) {
+                showPopMessage('Invalid claim or vehicle not found', 'error');
+                return;
+            }
+
+            try {
+                console.log('Creating inspection:', { vehicleId: selectedClaim.vehicleId, claimId, scheduledDate, location, staffId });
+                const response = await fetch('/api/inspections/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        vehicleId: selectedClaim.vehicleId,
+                        claimId: parseInt(claimId), 
+                        scheduledDate: scheduledDate + 'T09:00:00',
+                        inspectionLocation: location, 
+                        assignedStaffId: parseInt(staffId) 
+                    })
+                });
+
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    let errorMessage = 'Failed to create inspection';
+                    try {
+                        const responseText = await response.text();
+                        console.log('Response body:', responseText);
+                        if (responseText) {
+                            const errorData = JSON.parse(responseText);
+                            errorMessage = errorData.message || errorMessage;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing response:', e);
+                    }
+                    console.error('Inspection creation error:', errorMessage);
+                    showPopMessage(errorMessage, 'error');
+                    return;
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    showPopMessage('Inspection created successfully', 'success');
+                    closeCreateModal();
+                    loadInspections();
+                } else {
+                    showPopMessage(result.message || 'Failed to create inspection', 'error');
+                }
+            } catch (error) {
+                console.error('Inspection creation error:', error);
+                showPopMessage('Error: ' + error.message, 'error');
+            }
+        });
+
+        function openVerifyModal(inspectionId) {
+            selectedInspection = allInspections.find(i => i.inspectionId === inspectionId);
+            if (!selectedInspection) return;
+
+            document.getElementById('verifyInspNum').textContent = '#' + selectedInspection.inspectionId;
+            document.getElementById('verifyStatus').textContent = getStatusLabel(selectedInspection.status);
+            document.getElementById('verifyAssessment').textContent = selectedInspection.overallAssessment || 'No assessment provided';
+            document.getElementById('verifyModal').style.display = 'flex';
+        }
+
+        async function confirmVerify() {
+            try {
+                const response = await fetch(`/api/inspections/${selectedInspection.inspectionId}/verify`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ verifiedByStaffId: 1 })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    showPopMessage('Inspection verified successfully', 'success');
+                    closeVerifyModal();
+                    loadInspections();
+                } else {
+                    showPopMessage(result.message || 'Failed to verify inspection', 'error');
+                }
+            } catch (error) {
+                showPopMessage('Error: ' + error.message, 'error');
+            }
+        }
+
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'NEW': 'px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300',
+                'SCHEDULED': 'px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+                'IN_PROGRESS': 'px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+                'COMPLETED': 'px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
+                'VERIFIED': 'px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+            };
+            return classes[status] || classes['NEW'];
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'NEW': 'New',
+                'SCHEDULED': 'Scheduled',
+                'IN_PROGRESS': 'In Progress',
+                'COMPLETED': 'Completed',
+                'VERIFIED': 'Verified'
+            };
+            return labels[status] || status;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        document.getElementById('statusFilter').addEventListener('change', (e) => {
+            const status = e.target.value;
+            const filtered = status ? allInspections.filter(i => i.status === status) : allInspections;
+            displayInspections(filtered);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allInspections.filter(i =>
+                i.inspectionId.toString().includes(query) ||
+                (i.vehicleName || '').toLowerCase().includes(query)
+            );
+            displayInspections(filtered);
+        });
+
+        loadInspections();
+        loadApprovedClaims();
+        loadStaff();
     </script>
     <script src="../js/pageLoader.js"></script>
-
 </body>
 
 </html>
-

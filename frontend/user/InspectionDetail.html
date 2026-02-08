@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Inspection Status - AVIMS</title>
+    <title>Inspection Details - AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -25,196 +19,250 @@
                         "background-light": "#f6f7f8",
                         "background-dark": "#101922",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-200 min-h-screen">
-    <!-- Header from template -->
-    <div id="header-container"></div>
-    <main class="max-w-[960px] mx-auto px-4 pb-8 pt-8 ">
-        <!-- Page Heading -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-            <div class="flex flex-col gap-1">
-                <h1 class="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-tight">Track My
-                    Inspection</h1>
-                <p class="text-[#4c739a] dark:text-slate-400 text-lg font-normal">Real-time status of your vehicle
-                    insurance inspection</p>
-            </div>
-            <div class="flex gap-3">
-                <button
-                    class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">Reschedule</button>
-                <button
-                    class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">Contact
-                    Support</button>
-            </div>
+<body class="bg-background-light dark:bg-background-dark min-h-screen">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+        <main class="flex-1 max-w-[900px] mx-auto px-4 py-8 pt-8 w-full">
+        <button onclick="window.history.back()" class="flex items-center gap-2 text-primary font-semibold mb-6 hover:opacity-70">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back to Inspections
+        </button>
+
+        <div id="loadingMsg" class="text-center py-12 text-slate-500">
+            <span class="material-symbols-outlined text-4xl opacity-50 block mb-4 animate-spin">hourglass_empty</span>
+            <p>Loading inspection details...</p>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Column: Timeline and Info -->
-            <div class="lg:col-span-2 space-y-8">
-                <!-- Status Progress Card -->
-                <div
-                    class="bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
-                    <div class="flex items-center justify-between mb-8">
-                        <h3 class="font-bold text-lg">Current Progress</h3>
-                        <span
-                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">Awaiting
-                            Inspector Arrival</span>
+
+        <div id="contentArea" class="hidden">
+            <!-- Header Card -->
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Inspection <span id="inspectionId"></span></h1>
+                        <p id="vehicleName" class="text-slate-600 dark:text-slate-400"></p>
                     </div>
-                    <div class="grid grid-cols-[48px_1fr] gap-x-4">
-                        <!-- Pending -->
-                        <div class="flex flex-col items-center">
-                            <div class="size-10 rounded-full bg-green-500 text-white flex items-center justify-center">
-                                <span class="material-symbols-outlined">check</span>
-                            </div>
-                            <div class="w-[2px] bg-green-500 h-16"></div>
-                        </div>
-                        <div class="pb-8">
-                            <p class="text-[#0d141b] dark:text-white text-base font-bold">Pending</p>
-                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Awaiting assignment and scheduling</p>
-                            <p class="text-xs text-green-600 font-medium mt-1">Completed on Oct 22</p>
-                        </div>
-                        <!-- In Progress -->
-                        <div class="flex flex-col items-center">
-                            <div
-                                class="size-10 rounded-full bg-primary text-white flex items-center justify-center ring-4 ring-primary/20">
-                                <span class="material-symbols-outlined">directions_car</span>
-                            </div>
-                            <div class="w-[2px] bg-slate-200 dark:bg-slate-700 h-16"></div>
-                        </div>
-                        <div class="pb-8">
-                            <p class="text-[#0d141b] dark:text-white text-base font-bold">In Progress</p>
-                            <p class="text-[#4c739a] dark:text-slate-400 text-sm">Inspector is en route to your location
-                            </p>
-                            <div class="mt-3 flex items-center gap-2 text-primary font-medium text-sm">
-                                <span class="material-symbols-outlined text-sm">schedule</span>
-                                Est. Arrival: 10:15 AM
-                            </div>
-                        </div>
-                        <!-- Completed -->
-                        <div class="flex flex-col items-center">
-                            <div
-                                class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center">
-                                <span class="material-symbols-outlined">description</span>
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-slate-400 dark:text-slate-500 text-base font-bold">Completed</p>
-                            <p class="text-slate-400 dark:text-slate-600 text-sm">Report being generated and reviewed
-                            </p>
-                        </div>
-                    </div>
+                    <span id="statusBadge" class="px-4 py-2 rounded-full text-sm font-semibold"></span>
                 </div>
-                <!-- Next Steps Info -->
-                <div class="bg-primary/5 border border-primary/10 rounded-xl p-6">
-                    <div class="flex gap-4">
-                        <span class="material-symbols-outlined text-primary text-3xl">info</span>
-                        <div>
-                            <h4 class="font-bold text-[#0d141b] dark:text-white mb-1">What happens next?</h4>
-                            <p class="text-[#4c739a] dark:text-slate-400 text-sm leading-relaxed">
-                                Once the inspector finishes the assessment, your digital report will be generated within
-                                2-4 business hours. You will receive an SMS and email notification to view the final
-                                report and proceed with your policy issuance.
-                            </p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                    <div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Scheduled Date</p>
+                        <p id="scheduledDate" class="font-semibold text-slate-900 dark:text-white"></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Inspector</p>
+                        <p id="inspectorName" class="font-semibold text-slate-900 dark:text-white"></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Location</p>
+                        <p id="location" class="font-semibold text-slate-900 dark:text-white"></p>
                     </div>
                 </div>
             </div>
-            <!-- Right Column: Inspector and Schedule -->
-            <div class="space-y-6">
-                <!-- Inspector Card -->
-                <div
-                    class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
-                    <div class="p-6">
-                        <p
-                            class="text-[#4c739a] dark:text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-4">
-                            Assigned Inspector</p>
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="size-16 rounded-lg bg-slate-100 bg-cover bg-center"
-                                data-alt="Portrait of a professional vehicle inspector"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA2yZJJgHt9TKjAyWD_mINj1Ve_r2WkaMIUsyMlISo9LTnXfLRHbitNT3_kLJThN1lsVpSjTShv2deGpaHt9Wh79EVRwbT71aFUcbBpJRkDvHQR5oWwnaK8Z34T3FYvBHdF0fStYQ4dol5hrBknRC4dNUUD8kDk_n02iv6hZs-qksTOxJKB0yvoir-TKJTd14DzS1NiptCmRHEHHpfrFPhEHhpAhQ1Co0JvmoM6Ly6yJ1s7oppd1VHQzRufUZh9qxgS1KT6jfXpHzSS");'>
-                            </div>
-                            <div>
-                                <p class="text-[#0d141b] dark:text-white text-lg font-bold leading-tight">John Doe</p>
-                                <p class="text-[#4c739a] dark:text-slate-400 text-sm">Certified Professional</p>
-                                <div class="flex mt-1 text-yellow-500">
-                                    <span class="material-symbols-outlined text-xs">star</span>
-                                    <span class="material-symbols-outlined text-xs">star</span>
-                                    <span class="material-symbols-outlined text-xs">star</span>
-                                    <span class="material-symbols-outlined text-xs">star</span>
-                                    <span class="material-symbols-outlined text-xs">star_half</span>
-                                    <span class="text-xs text-slate-400 ml-1">(4.8)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button
-                            class="w-full flex items-center justify-center gap-2 bg-primary text-white py-2.5 rounded-lg font-semibold hover:bg-primary/90 transition-all">
-                            <span class="material-symbols-outlined text-sm">call</span>
-                            Contact Inspector
-                        </button>
+
+            <!-- Vehicle Information -->
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-6">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Vehicle Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Vehicle Name</p>
+                        <p id="vehicleInfo" class="font-semibold text-slate-900 dark:text-white"></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Owner</p>
+                        <p id="ownerInfo" class="font-semibold text-slate-900 dark:text-white"></p>
                     </div>
                 </div>
-                <!-- Schedule Card -->
-                <div
-                    class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800">
-                    <p class="text-[#4c739a] dark:text-slate-400 text-[10px] font-bold tracking-widest uppercase mb-4">
-                        Appointment Details</p>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-primary mt-0.5">calendar_today</span>
-                            <div>
-                                <p class="text-xs text-slate-400">Date</p>
-                                <p class="text-sm font-bold">Tuesday, October 24, 2023</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-primary mt-0.5">schedule</span>
-                            <div>
-                                <p class="text-xs text-slate-400">Time Slot</p>
-                                <p class="text-sm font-bold">10:00 AM - 12:00 PM</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
-                            <div>
-                                <p class="text-xs text-slate-400">Location</p>
-                                <p class="text-sm font-bold">123 Business Bay, Downtown, Dubai</p>
-                            </div>
-                        </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-6">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Inspection Timeline</h2>
+                <div id="timeline" class="space-y-6"></div>
+            </div>
+
+            <!-- Inspection Report (if completed) -->
+            <div id="reportSection" class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-6 hidden">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Inspection Report</h2>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900 dark:text-white mb-2">Overall Assessment</p>
+                        <p id="assessment" class="text-slate-600 dark:text-slate-400 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg"></p>
                     </div>
-                    <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
-                        <div class="aspect-video w-full bg-slate-100 rounded-lg overflow-hidden relative"
-                            data-alt="Map showing the inspection location">
-                            <div class="absolute inset-0 bg-slate-200 flex items-center justify-center"
-                                data-location="Dubai, UAE"
-                                style="https://lh3.googleusercontent.com/aida-public/AB6AXuBlgejCjFcWH0gQbF6QOh2IJghFhUehxwG90ka8dXMrj3kfYwrEVRXUvClmad-hwgSve-PpleSSrDD7Q1iZp2ssrWk7Z2kM-qf_5_Z8IDC-rWXg61OVCbZfkL1hSEryDsWgvYh3lKtLvjeuYwCAUXYWJ7_A5oUbBwscLbTBJ7feU7Gss9Nr0LYZvF3w3pnQ5WasQEWw11eLZ5Z_HvM9UV3m6tsZmmn4pLXcDfPFHYNAnnlnb_R_XtdHrTXjMks6wRCW6buGaXeG1CEw">
-                                <span class="material-symbols-outlined text-4xl text-primary/40">map</span>
-                            </div>
-                            <!-- Static map placeholder indicator -->
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary">
-                                <span class="material-symbols-outlined text-3xl">location_on</span>
-                            </div>
-                        </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900 dark:text-white mb-2">Status Confirmation</p>
+                        <p id="confirmation" class="text-slate-600 dark:text-slate-400"></p>
+                    </div>
+                    <div id="documentsSection">
+                        <p class="text-sm font-semibold text-slate-900 dark:text-white mb-2">Supporting Documents</p>
+                        <a id="docLink" href="#" class="text-primary font-semibold hover:underline flex items-center gap-2">
+                            <span class="material-symbols-outlined">download</span>
+                            <span>View Report Documents</span>
+                        </a>
                     </div>
                 </div>
+            </div>
+
+            <!-- Verification Status (if verified) -->
+            <div id="verificationSection" class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-6 hidden">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Verification Status</h2>
+                <div class="space-y-3">
+                    <p class="text-sm"><strong>Verified By:</strong> <span id="verifiedBy" class="text-slate-600 dark:text-slate-400"></span></p>
+                    <p class="text-sm"><strong>Verification Date:</strong> <span id="verifiedDate" class="text-slate-600 dark:text-slate-400"></span></p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4">
+                <button onclick="window.history.back()" class="flex-1 px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold rounded-lg hover:opacity-90">
+                    Back
+                </button>
+                <button id="downloadBtn" onclick="downloadReport()" class="flex-1 px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">download</span>
+                    <span>Download Report</span>
+                </button>
             </div>
         </div>
     </main>
+
+    <script>
+        let inspection = null;
+
+        async function loadInspection() {
+            const params = new URLSearchParams(window.location.search);
+            const inspectionId = params.get('id');
+
+            if (!inspectionId) {
+                document.getElementById('loadingMsg').innerHTML = '<p class="text-red-500">No inspection ID provided</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/inspections/${inspectionId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    inspection = result.data;
+                    displayInspection();
+                } else {
+                    document.getElementById('loadingMsg').innerHTML = '<p class="text-red-500">Inspection not found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading inspection:', error);
+                document.getElementById('loadingMsg').innerHTML = '<p class="text-red-500">Error loading inspection details</p>';
+            }
+        }
+
+        function displayInspection() {
+            document.getElementById('loadingMsg').classList.add('hidden');
+            document.getElementById('contentArea').classList.remove('hidden');
+
+            // Header
+            document.getElementById('inspectionId').textContent = '#INS-' + inspection.inspectionId;
+            document.getElementById('vehicleName').textContent = inspection.vehicle?.vehicleName || 'N/A';
+            
+            const statusClasses = {
+                'SCHEDULED': 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+                'IN_PROGRESS': 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300',
+                'COMPLETED': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300',
+                'VERIFIED': 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+            };
+            const statusLabels = {
+                'SCHEDULED': 'Scheduled',
+                'IN_PROGRESS': 'In Progress',
+                'COMPLETED': 'Completed',
+                'VERIFIED': 'Verified'
+            };
+            
+            const badge = document.getElementById('statusBadge');
+            badge.className = 'px-4 py-2 rounded-full text-sm font-semibold ' + (statusClasses[inspection.status] || statusClasses['SCHEDULED']);
+            badge.textContent = statusLabels[inspection.status] || inspection.status;
+
+            document.getElementById('scheduledDate').textContent = formatDate(inspection.scheduledDate);
+            document.getElementById('inspectorName').textContent = inspection.staff?.fullName || 'Not Assigned';
+            document.getElementById('location').textContent = inspection.inspectionLocation || 'TBD';
+
+            // Vehicle Info
+            document.getElementById('vehicleInfo').textContent = inspection.vehicle?.vehicleName + ' (' + inspection.vehicle?.vehicleNumber + ')';
+            document.getElementById('ownerInfo').textContent = inspection.vehicle?.customerName || 'N/A';
+
+            // Timeline
+            buildTimeline();
+
+            // Report Section (if completed)
+            if (inspection.status !== 'SCHEDULED' && inspection.status !== 'NEW') {
+                document.getElementById('reportSection').classList.remove('hidden');
+                document.getElementById('assessment').textContent = inspection.overallAssessment || 'No assessment provided';
+                const confirmed = inspection.confirmedCorrect;
+                document.getElementById('confirmation').innerHTML = `
+                    <span class="${confirmed ? 'text-green-600' : 'text-red-600'} font-semibold">
+                        ${confirmed ? '✓ Status Confirmed Correct' : '✗ Status Discrepancies Found'}
+                    </span>
+                `;
+            }
+
+            // Verification Section (if verified)
+            if (inspection.status === 'VERIFIED') {
+                document.getElementById('verificationSection').classList.remove('hidden');
+                document.getElementById('verifiedBy').textContent = inspection.verifiedByStaff?.fullName || 'N/A';
+                document.getElementById('verifiedDate').textContent = formatDate(inspection.verifiedAt);
+            }
+        }
+
+        function buildTimeline() {
+            const timeline = document.getElementById('timeline');
+            const statuses = [
+                { label: 'Scheduled', icon: 'event', date: inspection.scheduledDate, done: true },
+                { label: 'In Progress', icon: 'sync', date: null, done: inspection.status !== 'SCHEDULED' },
+                { label: 'Completed', icon: 'done_all', date: inspection.completedDate, done: inspection.status === 'COMPLETED' || inspection.status === 'VERIFIED' },
+                { label: 'Verified', icon: 'verified', date: inspection.verifiedAt, done: inspection.status === 'VERIFIED' }
+            ];
+
+            timeline.innerHTML = statuses.map((status, idx) => `
+                <div class="flex gap-4">
+                    <div class="flex flex-col items-center">
+                        <div class="size-10 rounded-full flex items-center justify-center text-white font-bold ${status.done ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-700'}">
+                            <span class="material-symbols-outlined text-lg">${status.icon}</span>
+                        </div>
+                        ${idx < statuses.length - 1 ? '<div class="w-1 h-8 bg-slate-200 dark:bg-slate-700 mt-2"></div>' : ''}
+                    </div>
+                    <div class="pb-8">
+                        <p class="font-semibold text-slate-900 dark:text-white">${status.label}</p>
+                        ${status.date ? '<p class="text-sm text-slate-500 dark:text-slate-400">' + formatDate(status.date) + '</p>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'Pending';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function downloadReport() {
+            if (inspection.documentPath) {
+                window.open(inspection.documentPath, '_blank');
+            } else {
+                showPopMessage('No document available for download', 'error');
+            }
+        }
+
+        loadInspection();
+    </script>
+
+    </main>
+    </div>
+
     <!-- Footer from template -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
@@ -231,14 +279,7 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
 
         if (footerFrame) {
             footerFrame.onload = function () {
@@ -246,34 +287,24 @@
             };
         }
 
-        // Resize on window resize
         window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
             if (footerFrame) resizeIframe(footerFrame);
         });
     </script>
+
     <script>
         // Load header fragment
         fetch('../templates/header.html')
-            .then(response => {
-                console.log('Header fetch response:', response.status);
-                return response.text();
-            })
+            .then(response => response.text())
             .then(html => {
-                console.log('Header HTML loaded, inserting into DOM');
                 document.getElementById('header-container').innerHTML = html;
-                
-                // Load header.js script file
                 const script = document.createElement('script');
                 script.src = '../js/header.js';
                 script.onload = () => {
-                    console.log('header.js loaded successfully');
-                    // Now check for initializeHeader
                     let retries = 0;
                     const checkAndInitialize = () => {
                         retries++;
-                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
-                            console.log('Calling window.initializeHeader()');
+                        if (window.headerScriptLoaded && typeof window.initializeHeader === 'function') {
                             window.initializeHeader();
                         } else if (retries < 10) {
                             setTimeout(checkAndInitialize, 100);
@@ -281,16 +312,12 @@
                     };
                     checkAndInitialize();
                 };
-                script.onerror = () => {
-                    console.error('Failed to load header.js');
-                };
                 document.head.appendChild(script);
-            })
-            .catch(error => console.error('Error loading header:', error));
+            });
     </script>
-    <script src="../js/pageLoader.js"></script>
 
+    <script src="../js/pageLoader.js"></script>
 </body>
 
 </html>
-
+        

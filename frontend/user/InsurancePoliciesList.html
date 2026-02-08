@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap"
         rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -192,7 +193,7 @@
             document.querySelectorAll('.downloadPolicyBtn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const policyId = btn.getAttribute('data-policy');
-                    window.open(`/api/PolicyManagement/${policyId}/policy-pdf`, '_blank');
+                    window.open(`/api/policies/${policyId}/policy-pdf`, '_blank');
                 });
             });
 
@@ -208,7 +209,7 @@
                     }
 
                     const user = getSessionUser();
-                    const response = await fetch(`/api/PolicyManagement/${policyId}/renew`, {
+                    const response = await fetch(`/api/policies/${policyId}/renew`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ durationMonths, createBill: true, actorUserId: user?.userId || null })
@@ -240,15 +241,39 @@
             }
 
             const customerRes = await fetch(`/api/customerinformation/${user.userId}`);
-            const customerData = await customerRes.json();
+            if (!customerRes.ok) {
+                showPopMessage('Failed to load customer profile', 'error');
+                return;
+            }
+            
+            let customerData;
+            try {
+                customerData = await customerRes.json();
+            } catch (e) {
+                showPopMessage('Invalid response from server', 'error');
+                return;
+            }
+            
             if (!customerData.success) {
                 showPopMessage('Unable to load customer profile.', 'error');
                 return;
             }
 
             const customerId = customerData.data.customerId;
-            const response = await fetch(`/api/PolicyManagement?customerId=${customerId}`);
-            const data = await response.json();
+            const response = await fetch(`/api/policies?customerId=${customerId}`);
+            if (!response.ok) {
+                showPopMessage('Failed to load policies', 'error');
+                return;
+            }
+            
+            let data;
+            try {
+                data = await response.json();
+            } catch (e) {
+                showPopMessage('Invalid response from server', 'error');
+                return;
+            }
+            
             policyState.policies = data.data || [];
             renderPolicyStats();
             renderPolicies();

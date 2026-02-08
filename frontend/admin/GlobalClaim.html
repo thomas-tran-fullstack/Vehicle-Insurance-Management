@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -24,370 +23,399 @@
                         "background-light": "#f6f7f8",
                         "background-dark": "#101922",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        .material-symbols-outlined {
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { 
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
-
-        .active-nav {
-            background-color: #e7edf3;
-        }
-
-        .dark .active-nav {
-            background-color: #1e293b;
+        .material-symbols-outlined.fill { 
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
+    <script src="../js/popMessage.js"></script>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-[#0d141b] dark:text-slate-200 transition-colors duration-200">
+<body class="bg-background-light dark:bg-background-dark min-h-screen">
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar Navigation -->
-    <div id="sidebar-container"></div>
-<!-- Main Content Area -->
+        <!-- Admin Sidebar -->
+        <div id="sidebar-container"></div>
+        
+        <!-- Main Content -->
         <main class="flex-1 flex flex-col overflow-y-auto">
-            <!-- Top Navigation Bar -->
-<div class="p-8 max-w-7xl mx-auto w-full">
-                <!-- Breadcrumbs -->
-                <div class="flex items-center gap-2 mb-6">
-                    <a class="text-[#4c739a] text-sm font-medium flex items-center gap-1" href="#"><span
-                            class="material-symbols-outlined text-base">home</span> Admin</a>
-                    <span class="text-[#4c739a] text-sm font-medium">/</span>
-                    <span class="text-primary text-sm font-bold">Claim Management (Module 9)</span>
-                </div>
-                <!-- Stats Overview -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div
-                        class="bg-white dark:bg-[#16222e] rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-[#4c739a] text-sm font-medium">Total Active Claims</p>
-                            <span
-                                class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg text-lg">description</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-2xl font-bold">1,284</p>
-                        <div class="flex items-center gap-1 mt-2">
-                            <span class="text-[#078838] text-xs font-bold flex items-center"><span
-                                    class="material-symbols-outlined text-xs">trending_up</span> +12%</span>
-                            <span class="text-[#4c739a] text-[10px]">vs last month</span>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-[#16222e] rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-[#4c739a] text-sm font-medium">Awaiting Audit</p>
-                            <span
-                                class="material-symbols-outlined text-orange-500 bg-orange-500/10 p-1.5 rounded-lg text-lg">priority_high</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-2xl font-bold">42</p>
-                        <div class="flex items-center gap-1 mt-2">
-                            <span class="text-[#e73908] text-xs font-bold flex items-center"><span
-                                    class="material-symbols-outlined text-xs">trending_down</span> -5%</span>
-                            <span class="text-[#4c739a] text-[10px]">efficiency gain</span>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-[#16222e] rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-[#4c739a] text-sm font-medium">Total Payout (MTD)</p>
-                            <span
-                                class="material-symbols-outlined text-emerald-500 bg-emerald-500/10 p-1.5 rounded-lg text-lg">payments</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-2xl font-bold">$4.2M</p>
-                        <div class="flex items-center gap-1 mt-2">
-                            <span class="text-[#078838] text-xs font-bold flex items-center"><span
-                                    class="material-symbols-outlined text-xs">trending_up</span> +8%</span>
-                            <span class="text-[#4c739a] text-[10px]">budget within range</span>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-[#16222e] rounded-xl p-6 border border-[#cfdbe7] dark:border-slate-800 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-[#4c739a] text-sm font-medium">Avg. Processing Time</p>
-                            <span
-                                class="material-symbols-outlined text-purple-500 bg-purple-500/10 p-1.5 rounded-lg text-lg">timer</span>
-                        </div>
-                        <p class="text-[#0d141b] dark:text-white text-2xl font-bold">5.2 Days</p>
-                        <div class="flex items-center gap-1 mt-2">
-                            <span class="text-[#e73908] text-xs font-bold flex items-center"><span
-                                    class="material-symbols-outlined text-xs">trending_down</span> -1.5%</span>
-                            <span class="text-[#4c739a] text-[10px]">faster than target</span>
+            <!-- Header -->
+            <div class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+                <div class="max-w-[1400px] mx-auto px-8 py-6">
+                    <div class="flex flex-wrap justify-between items-end gap-4">
+                        <div class="flex flex-col gap-1">
+                            <h2 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight">Claim Management</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm">Review, approve, and process customer insurance claims</p>
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- High-Value Claims Table -->
-                    <div
-                        class="lg:col-span-2 bg-white dark:bg-[#16222e] rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm">
-                        <div
-                            class="p-5 border-b border-[#cfdbe7] dark:border-slate-800 flex justify-between items-center">
-                            <div>
-                                <h3 class="text-base font-bold dark:text-white">High-Value Priority Monitor</h3>
-                                <p class="text-xs text-[#4c739a]">Claims exceeding $10,000 requiring immediate review
-                                </p>
-                            </div>
-                            <button class="text-primary text-xs font-bold hover:underline">View All</button>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead class="bg-background-light dark:bg-slate-800/50">
-                                    <tr>
-                                        <th class="px-5 py-3 text-xs font-semibold text-[#4c739a] uppercase">Claim ID
-                                        </th>
-                                        <th class="px-5 py-3 text-xs font-semibold text-[#4c739a] uppercase">
-                                            Policyholder</th>
-                                        <th class="px-5 py-3 text-xs font-semibold text-[#4c739a] uppercase">Est. Loss
-                                        </th>
-                                        <th class="px-5 py-3 text-xs font-semibold text-[#4c739a] uppercase">Risk</th>
-                                        <th class="px-5 py-3 text-xs font-semibold text-[#4c739a] uppercase">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm font-bold dark:text-white">#CLM-98231</p>
-                                            <p class="text-[10px] text-[#4c739a]">2024 Tesla Model 3</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm dark:text-slate-300">Jonathan Miller</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm font-bold text-[#0d141b] dark:text-white">$24,500.00</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">CRITICAL</span>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <button
-                                                class="text-primary text-sm font-bold border border-primary/20 hover:bg-primary hover:text-white px-3 py-1 rounded transition-all">Review</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm font-bold dark:text-white">#CLM-98245</p>
-                                            <p class="text-[10px] text-[#4c739a]">2022 Ford F-150</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm dark:text-slate-300">Sarah Jenkins</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm font-bold text-[#0d141b] dark:text-white">$12,800.00</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">ELEVATED</span>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <button
-                                                class="text-primary text-sm font-bold border border-primary/20 hover:bg-primary hover:text-white px-3 py-1 rounded transition-all">Review</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm font-bold dark:text-white">#CLM-98259</p>
-                                            <p class="text-[10px] text-[#4c739a]">2023 Mercedes GLE</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm dark:text-slate-300">Global Logistics Ltd</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <p class="text-sm font-bold text-[#0d141b] dark:text-white">$45,200.00</p>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">CRITICAL</span>
-                                        </td>
-                                        <td class="px-5 py-4">
-                                            <button
-                                                class="text-primary text-sm font-bold border border-primary/20 hover:bg-primary hover:text-white px-3 py-1 rounded transition-all">Review</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="max-w-[1400px] mx-auto px-8 py-8 w-full space-y-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Total Claims</p>
+                        <p class="text-3xl font-bold text-slate-900 dark:text-white" id="totalClaims">0</p>
                     </div>
-                    <!-- Staff Audit Queue -->
-                    <div
-                        class="bg-white dark:bg-[#16222e] rounded-xl border border-[#cfdbe7] dark:border-slate-800 overflow-hidden shadow-sm">
-                        <div
-                            class="p-5 border-b border-[#cfdbe7] dark:border-slate-800 flex justify-between items-center">
-                            <h3 class="text-base font-bold dark:text-white">Staff Audit Log</h3>
-                            <span class="bg-primary/10 text-primary text-[10px] px-2 py-1 rounded-full font-bold">8
-                                PENDING</span>
-                        </div>
-                        <div class="p-2">
-                            <div class="space-y-1">
-                                <div
-                                    class="p-3 hover:bg-background-light dark:hover:bg-slate-800 rounded-lg cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-8 rounded-full bg-cover bg-center"
-                                            data-alt="Staff profile photo"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA5o8AGhNnu8JjkeHxa7ir1yE4yetljuERKKTCDHHiqSZUmRoIr2tyA9edNf9hkLMhGHWZxvUmwP9DcXKsiB2LENRZVAOsMxOTwY40_mIWxRMPhbX8cwc0azz5faSAcbp1Y2XcYD-GKh8emosQMkATuSPz-oOCXj6RXfyy2JcVFkeoOMCPJBTfR3CuXiCsjL6N8bm008L-3cBXcn1KLBgKv9TGB0MByPWyBvQq1TvdBAMQBowC5cX-5J2iCRIWelIo01lVdWACsOei4");'>
-                                        </div>
-                                        <div class="flex-1 overflow-hidden">
-                                            <div class="flex justify-between items-start">
-                                                <p class="text-xs font-bold dark:text-white truncate">Elena Rodriquez
-                                                </p>
-                                                <p class="text-[10px] text-[#4c739a]">10m ago</p>
-                                            </div>
-                                            <p class="text-[10px] text-[#4c739a]">Approved claim #CLM-9821</p>
-                                            <div class="mt-2 flex gap-2">
-                                                <button
-                                                    class="text-[10px] font-bold px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 rounded">Verify</button>
-                                                <button
-                                                    class="text-[10px] font-bold px-2 py-1 bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 rounded">Details</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="p-3 hover:bg-background-light dark:hover:bg-slate-800 rounded-lg cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-8 rounded-full bg-cover bg-center"
-                                            data-alt="Staff profile photo"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2mcPdrYyyai41Eic8ynbaSW0QzKvPntfn08TAK_NKj248dxIoaNRDDoQgp8xpWzp2rmcN5eo0QbpvyCBiiTdOyePH3hiYOvs5YJf9G-x1VtWndWlkaxSZyfxKQ6uNosjndWATRdWd09WI9q8Kw5BPI4QvqHqgomIuo8XkZV-XHptMEPtJHL8iAuyAjE2oxSGKj0lVFjMViHAAranABInVIqZeITxwYrJwK1qowFzHPfpJUbRZXQBSZZq23k13oHV1DbRltsv6t7on");'>
-                                        </div>
-                                        <div class="flex-1 overflow-hidden">
-                                            <div class="flex justify-between items-start">
-                                                <p class="text-xs font-bold dark:text-white truncate">Marcus Chen</p>
-                                                <p class="text-[10px] text-[#4c739a]">45m ago</p>
-                                            </div>
-                                            <p class="text-[10px] text-[#4c739a]">Flagged claim #CLM-9804</p>
-                                            <div class="mt-2 flex gap-2">
-                                                <button
-                                                    class="text-[10px] font-bold px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 rounded">Verify</button>
-                                                <button
-                                                    class="text-[10px] font-bold px-2 py-1 bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 rounded">Details</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="p-3 hover:bg-background-light dark:hover:bg-slate-800 rounded-lg cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-8 rounded-full bg-cover bg-center"
-                                            data-alt="Staff profile photo"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLO_z1Q5TIGQMJMDwl6507TgiZJdOSny693iHRwDGddcT5i_8MRTnFzfsRy9bfH8JBUsEx4MJrozV2D5GbrsgcBPX06CPkHcf0c1U_RZRJEl0ESxU3D-0entn8rjslgIpFEP0ZDxNoR2f8gpbwFGKCYR_IXHmjiF8RdHcdcbWfEjckOYEZS9F6tjF-0Cc-mqVD2Eoa-Ddev7D9KYZ4rG-CxVtt5lq8gLliwbKPZZhALjN9bx6w173dYie31eVXvdXbYrxkWsKUtnDh");'>
-                                        </div>
-                                        <div class="flex-1 overflow-hidden">
-                                            <div class="flex justify-between items-start">
-                                                <p class="text-xs font-bold dark:text-white truncate">Jessica Wong</p>
-                                                <p class="text-[10px] text-[#4c739a]">1h ago</p>
-                                            </div>
-                                            <p class="text-[10px] text-[#4c739a]">Adjusted payout for #CLM-9799</p>
-                                            <div class="mt-2 flex gap-2">
-                                                <button
-                                                    class="text-[10px] font-bold px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 rounded">Verify</button>
-                                                <button
-                                                    class="text-[10px] font-bold px-2 py-1 bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 rounded">Details</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Pending Review</p>
+                        <p class="text-3xl font-bold text-orange-600" id="pendingClaims">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Approved</p>
+                        <p class="text-3xl font-bold text-green-600" id="approvedClaims">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Total Payouts (Processed)</p>
+                        <p class="text-3xl font-bold text-slate-900 dark:text-white" id="totalPayout">$0</p>
                     </div>
                 </div>
-                <!-- Efficiency Trends -->
-                <div class="mt-8">
-                    <h2
-                        class="text-[#0d141b] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">
-                        Operational Efficiency Trends</h2>
-                    <div
-                        class="bg-white dark:bg-[#16222e] rounded-xl border border-[#cfdbe7] dark:border-slate-800 p-6 shadow-sm">
-                        <div class="flex items-center justify-between mb-8">
-                            <div class="flex gap-4">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-3 h-3 rounded-full bg-primary"></div>
-                                    <span class="text-xs font-medium dark:text-slate-300">Volume</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                                    <span class="text-xs font-medium dark:text-slate-300">Resolution Rate</span>
-                                </div>
-                            </div>
-                            <select
-                                class="bg-background-light dark:bg-slate-800 border-none rounded-lg text-xs font-bold py-1.5 px-3 focus:ring-1 focus:ring-primary dark:text-white">
-                                <option>Last 30 Days</option>
-                                <option>Last 6 Months</option>
-                                <option>This Year</option>
-                            </select>
-                        </div>
-                        <div class="h-48 flex items-end justify-between gap-2 px-2">
-                            <!-- Mock Chart Bars -->
-                            <div class="flex flex-col items-center gap-2 flex-1">
-                                <div
-                                    class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm h-32 relative overflow-hidden">
-                                    <div class="absolute bottom-0 w-full bg-primary/20 h-1/2"></div>
-                                    <div class="absolute bottom-0 w-full bg-primary h-1/3"></div>
-                                </div>
-                                <span class="text-[10px] text-[#4c739a] font-bold">WK 1</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 flex-1">
-                                <div
-                                    class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm h-40 relative overflow-hidden">
-                                    <div class="absolute bottom-0 w-full bg-primary/20 h-3/4"></div>
-                                    <div class="absolute bottom-0 w-full bg-primary h-2/4"></div>
-                                </div>
-                                <span class="text-[10px] text-[#4c739a] font-bold">WK 2</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 flex-1">
-                                <div
-                                    class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm h-28 relative overflow-hidden">
-                                    <div class="absolute bottom-0 w-full bg-primary/20 h-2/3"></div>
-                                    <div class="absolute bottom-0 w-full bg-primary h-1/3"></div>
-                                </div>
-                                <span class="text-[10px] text-[#4c739a] font-bold">WK 3</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 flex-1">
-                                <div
-                                    class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm h-44 relative overflow-hidden">
-                                    <div class="absolute bottom-0 w-full bg-primary/20 h-4/5"></div>
-                                    <div class="absolute bottom-0 w-full bg-primary h-3/5"></div>
-                                </div>
-                                <span class="text-[10px] text-[#4c739a] font-bold">WK 4</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 flex-1">
-                                <div
-                                    class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm h-36 relative overflow-hidden">
-                                    <div class="absolute bottom-0 w-full bg-primary/20 h-2/3"></div>
-                                    <div class="absolute bottom-0 w-full bg-primary h-1/2"></div>
-                                </div>
-                                <span class="text-[10px] text-[#4c739a] font-bold">WK 5</span>
-                            </div>
-                        </div>
+
+                <!-- Filters -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex gap-4 flex-wrap">
+                    <select id="statusFilter" class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm">
+                        <option value="">All Status</option>
+                        <option value="SUBMITTED">Submitted</option>
+                        <option value="UNDER_REVIEW">Under Review</option>
+                        <option value="REQUEST_MORE_INFO">Request More Info</option>
+                        <option value="APPROVED">Approved</option>
+                        <option value="REJECTED">Rejected</option>
+                        <option value="PAID">Paid</option>
+                    </select>
+                    <input id="searchInput" type="text" placeholder="Search by Claim #, Policy #, or Customer" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm" />
+                </div>
+
+                <!-- Claims Table -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Claim #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Policy #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Customer</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Accident</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Amount</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Status</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Submitted</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="claimsTable" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="8" class="px-6 py-8 text-center text-slate-500">Loading claims...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Modal for Claim Details & Actions -->
+    <div id="claimModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" style="display: none !important;">
+        <div class="bg-white dark:bg-slate-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Claim <span id="modalClaimNum"></span></h2>
+                <button onclick="closeModal()" class="text-slate-500 hover:text-slate-700"><span class="material-symbols-outlined">close</span></button>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Policy #</label><p id="modalPolicy" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Customer</label><p id="modalCustomer" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Accident Place</label><p id="modalPlace" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Accident Date</label><p id="modalDate" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Insured Amount</label><p id="modalInsured" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Current Claimable</label><p id="modalClaimable" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                </div>
+                <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Description</label><p id="modalDesc" class="text-slate-600 dark:text-slate-400 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg"></p></div>
+            </div>
+
+            <!-- Action Buttons based on Status -->
+            <div id="actionButtons" class="flex gap-3 mb-6"></div>
+
+            <!-- Review Note -->
+            <div id="noteSection" class="mb-6 hidden">
+                <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Review Note / Decision Note</label>
+                <textarea id="reviewNote" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" rows="3"></textarea>
+            </div>
+
+            <!-- Claimable Amount Editor -->
+            <div id="amountSection" class="mb-6 hidden">
+                <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Proposed Claimable Amount</label>
+                <input id="proposedAmount" type="number" step="0.01" min="0" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
+            </div>
+
+            <div id="footerButtons" class="flex gap-3 justify-end"></div>
+        </div>
+    </div>
+
     <script src="../js/admin-sidebar.js"></script>
     <script>
-        // Load admin sidebar dynamically
-        fetch('../templates/admin-sidebar.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.getElementById('sidebar-container');
-                if (container) {
-                    container.innerHTML = html;
+        let allClaims = [];
+        let selectedClaim = null;
+
+        // Load admin sidebar with enhanced error handling
+        function loadAdminSidebar() {
+            fetch('../templates/admin-sidebar.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('sidebar-container').innerHTML = html;
+                    // Initialize sidebar after HTML is injected
                     if (typeof initializeAdminSidebar === 'function') {
                         initializeAdminSidebar();
                     }
+                })
+                .catch(error => console.error('Error loading sidebar:', error));
+        }
+        
+        // Call sidebar loader
+        loadAdminSidebar();
+
+        async function loadClaims() {
+            try {
+                const response = await fetch('/api/claims/pending/all');
+                if (!response.ok) {
+                    console.error('Failed to load claims: HTTP', response.status);
+                    return;
                 }
-            })
-            .catch(error => console.error('Error loading sidebar:', error));
+                const text = await response.text();
+                if (!text) {
+                    console.error('Empty response from API');
+                    return;
+                }
+                const result = JSON.parse(text);
+                if (result.success) {
+                    allClaims = result.data || [];
+                    displayClaims(allClaims);
+                    updateStats();
+                } else {
+                    console.error('Failed to load claims:', result.message);
+                }
+            } catch (error) {
+                console.error('Error loading claims:', error);
+            }
+        }
+
+        function displayClaims(claims) {
+            const table = document.getElementById('claimsTable');
+            if (claims.length === 0) {
+                table.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-slate-500">No claims found</td></tr>';
+                return;
+            }
+
+            table.innerHTML = claims.map(claim => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">#${claim.claimNumber}</td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">#${claim.policyId || 'N/A'}</td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">${claim.customerNameSnapshot || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${claim.accidentPlace}</td>
+                    <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">$${parseFloat(claim.claimableAmount || 0).toFixed(0)}</td>
+                    <td class="px-6 py-4"><span class="${getStatusBadgeClass(claim.status)}">${getStatusLabel(claim.status)}</span></td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${formatDate(claim.submittedAt)}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="openClaimModal(${claim.claimId})" class="text-primary font-semibold text-sm hover:underline">Manage →</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const submitted = allClaims.filter(c => c.status === 'SUBMITTED' || c.status === 'UNDER_REVIEW' || c.status === 'REQUEST_MORE_INFO').length;
+            const approved = allClaims.filter(c => c.status === 'APPROVED').length;
+            const paid = allClaims.filter(c => c.status === 'PAID').length;
+            const totalPayout = allClaims.filter(c => c.status === 'PAID').reduce((sum, c) => sum + (parseFloat(c.claimableAmount) || 0), 0);
+
+            document.getElementById('totalClaims').textContent = allClaims.length;
+            document.getElementById('pendingClaims').textContent = submitted;
+            document.getElementById('approvedClaims').textContent = approved;
+            document.getElementById('totalPayout').textContent = '$' + totalPayout.toFixed(0);
+        }
+
+        function openClaimModal(claimId) {
+            selectedClaim = allClaims.find(c => c.claimId === claimId);
+            if (!selectedClaim) return;
+
+            document.getElementById('modalClaimNum').textContent = '#' + selectedClaim.claimNumber;
+            document.getElementById('modalPolicy').textContent = '#' + (selectedClaim.policyId || 'N/A');
+            document.getElementById('modalCustomer').textContent = selectedClaim.customerNameSnapshot || 'N/A';
+            document.getElementById('modalPlace').textContent = selectedClaim.accidentPlace;
+            document.getElementById('modalDate').textContent = formatDate(selectedClaim.accidentDate);
+            document.getElementById('modalInsured').textContent = '$' + parseFloat(selectedClaim.insuredAmount || 0).toFixed(0);
+            document.getElementById('modalClaimable').textContent = '$' + parseFloat(selectedClaim.claimableAmount || 0).toFixed(0);
+            document.getElementById('modalDesc').textContent = selectedClaim.description || 'No description';
+            document.getElementById('proposedAmount').value = selectedClaim.claimableAmount || 0;
+
+            const actionsBtn = document.getElementById('actionButtons');
+            const footerBtn = document.getElementById('footerButtons');
+            actionsBtn.innerHTML = '';
+            footerBtn.innerHTML = '';
+
+            document.getElementById('noteSection').classList.add('hidden');
+            document.getElementById('amountSection').classList.add('hidden');
+
+            if (selectedClaim.status === 'SUBMITTED') {
+                actionsBtn.innerHTML = `
+                    <button onclick="markUnderReview()" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">Mark Under Review</button>
+                    <button onclick="requestMoreInfo()" class="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-semibold">Request More Info</button>
+                `;
+            } else if (selectedClaim.status === 'UNDER_REVIEW') {
+                document.getElementById('noteSection').classList.remove('hidden');
+                document.getElementById('amountSection').classList.remove('hidden');
+                footerBtn.innerHTML = `
+                    <button onclick="approveClaim()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold">Approve</button>
+                    <button onclick="rejectClaim()" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">Reject</button>
+                `;
+            } else if (selectedClaim.status === 'REQUEST_MORE_INFO') {
+                actionsBtn.innerHTML = `<button onclick="markUnderReview()" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">Continue Review</button>`;
+            } else if (selectedClaim.status === 'APPROVED') {
+                document.getElementById('noteSection').classList.remove('hidden');
+                footerBtn.innerHTML = `<button onclick="payClaim()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold">Mark as Paid</button>`;
+            }
+
+            document.getElementById('claimModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('claimModal').style.display = 'none';
+        }
+
+        async function markUnderReview() {
+            try {
+                const response = await fetch(`/api/claims/${selectedClaim.claimId}/review`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reviewedByStaffId: 1, reviewNote: document.getElementById('reviewNote').value || '' })
+                });
+                const result = await response.json();
+                if (result.success) { showPopMessage('Claim moved to Under Review', 'success'); closeModal(); loadClaims(); }
+                else showPopMessage(result.message || 'Failed to move claim', 'error');
+            } catch (error) { showPopMessage('Error: ' + error.message, 'error'); }
+        }
+
+        async function requestMoreInfo() {
+            const message = prompt('Enter request message:');
+            if (!message) return;
+            try {
+                const response = await fetch(`/api/claims/${selectedClaim.claimId}/request-info`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const result = await response.json();
+                if (result.success) { showPopMessage('Request sent to customer', 'success'); closeModal(); loadClaims(); }
+                else showPopMessage(result.message || 'Failed to send request', 'error');
+            } catch (error) { showPopMessage('Error: ' + error.message, 'error'); }
+        }
+
+        async function approveClaim() {
+            try {
+                const response = await fetch(`/api/claims/${selectedClaim.claimId}/approve`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        approvedByStaffId: 1,
+                        decisionNote: document.getElementById('reviewNote').value || '',
+                        claimableAmount: parseFloat(document.getElementById('proposedAmount').value) || selectedClaim.claimableAmount
+                    })
+                });
+                const result = await response.json();
+                if (result.success) { showPopMessage('Claim approved successfully', 'success'); closeModal(); loadClaims(); }
+                else showPopMessage(result.message || 'Failed to approve claim', 'error');
+            } catch (error) { showPopMessage('Error: ' + error.message, 'error'); }
+        }
+
+        async function rejectClaim() {
+            try {
+                const response = await fetch(`/api/claims/${selectedClaim.claimId}/reject`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ approvedByStaffId: 1, decisionNote: document.getElementById('reviewNote').value || 'Claim rejected' })
+                });
+                const result = await response.json();
+                if (result.success) { showPopMessage('Claim rejected', 'success'); closeModal(); loadClaims(); }
+                else showPopMessage(result.message || 'Failed to reject claim', 'error');
+            } catch (error) { showPopMessage('Error: ' + error.message, 'error'); }
+        }
+
+        async function payClaim() {
+            try {
+                const response = await fetch(`/api/claims/${selectedClaim.claimId}/pay`, { method: 'PUT' });
+                const result = await response.json();
+                if (result.success) { showPopMessage('Claim marked as paid', 'success'); closeModal(); loadClaims(); }
+                else showPopMessage(result.message || 'Failed to mark claim as paid', 'error');
+            } catch (error) { showPopMessage('Error: ' + error.message, 'error'); }
+        }
+
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'SUBMITTED': 'px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300',
+                'UNDER_REVIEW': 'px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+                'REQUEST_MORE_INFO': 'px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+                'APPROVED': 'px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
+                'REJECTED': 'px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+                'PAID': 'px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+            };
+            return classes[status] || classes['SUBMITTED'];
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'SUBMITTED': 'Submitted',
+                'UNDER_REVIEW': 'Under Review',
+                'REQUEST_MORE_INFO': 'Need More Info',
+                'APPROVED': 'Approved',
+                'REJECTED': 'Rejected',
+                'PAID': 'Paid'
+            };
+            return labels[status] || status;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        document.getElementById('statusFilter').addEventListener('change', (e) => {
+            const status = e.target.value;
+            const filtered = status ? allClaims.filter(c => c.status === status) : allClaims;
+            displayClaims(filtered);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allClaims.filter(c =>
+                c.claimNumber.toString().includes(query) ||
+                (c.customerNameSnapshot || '').toLowerCase().includes(query)
+            );
+            displayClaims(filtered);
+        });
+
+        loadClaims();
     </script>
     <script src="../js/pageLoader.js"></script>
-
 </body>
 
 </html>
-
+    

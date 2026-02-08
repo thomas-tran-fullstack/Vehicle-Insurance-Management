@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -7,12 +6,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Report a New Claim | AVIMS</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -39,228 +35,283 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display min-h-screen">
-    <!-- Header from template -->
-    <div id="header-container"></div>
-    <main class="max-w-[960px] mx-auto pb-8 px-4 sm:px-6 pt-8">
-        <!-- Page Heading -->
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div id="header-container"></div>
+        <main class="flex-1 max-w-[960px] mx-auto pb-8 px-4 sm:px-6 pt-8 w-full">
         <div class="mb-8">
-            <h2 class="text-[#0d141b] dark:text-white text-3xl font-black leading-tight tracking-tight mb-2">Report a
-                New Claim</h2>
-            <p class="text-slate-500 dark:text-slate-400 text-base">Please provide the details of the incident below.
-                Our agents will process your claim as soon as possible.</p>
+            <h2 class="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-tight mb-2">Report a New Claim</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-base">Provide incident details below. Your claim will be processed quickly.</p>
         </div>
-        <!-- Progress Bar -->
-        <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 mb-8">
-            <div class="flex flex-col gap-3">
-                <div class="flex justify-between items-center">
-                    <p class="text-[#0d141b] dark:text-white text-base font-semibold">Step 1: Incident Details</p>
-                    <p class="text-primary text-sm font-bold">25% Complete</p>
-                </div>
-                <div class="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                    <div class="h-full bg-primary" style="width: 25%;"></div>
-                </div>
-                <p class="text-slate-500 dark:text-slate-400 text-xs">Remaining: Photos (50%), Statement (75%), Review
-                    (100%)</p>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Column: Form Details -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Incident Location & Time Section -->
-                <div
-                    class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-                    <div class="flex items-center gap-2 mb-6 text-primary">
-                        <span class="material-symbols-outlined">info</span>
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-white">General Information</h3>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Form Column -->
+            <div class="lg:col-span-2">
+                <form id="claimForm" class="flex flex-col gap-6">
+                    <!-- Step 1: Select Policy -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="size-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Select Your Policy</h3>
+                        </div>
+                        <select id="policySelect" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+                            <option value="">-- Choose an Active Policy --</option>
+                        </select>
+                        <div id="policyDetails" class="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg hidden">
+                            <p class="text-sm text-slate-600 dark:text-slate-400"><strong>Policy Period:</strong> <span id="policyPeriod"></span></p>
+                        </div>
                     </div>
-                    <div class="space-y-4">
-                        <div class="flex flex-col gap-2">
-                            <label class="text-[#0d141b] dark:text-slate-300 text-sm font-semibold">Incident
-                                Location</label>
-                            <div class="relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
-                                <input
-                                    class="w-full pl-12 pr-4 h-12 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    placeholder="Enter city or street address" type="text" value="" />
+
+                    <!-- Step 2: Incident Details -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="size-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">2</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Incident Details</h3>
+                        </div>
+                        
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Place of Accident *</label>
+                                <input id="accidentPlace" type="text" required placeholder="e.g., District 1, HCMC" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Date of Accident *</label>
+                                <input id="accidentDate" type="date" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
+                                <p class="text-xs text-slate-500 mt-1">Must be within your policy period and not in the future</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Description *</label>
+                                <textarea id="description" required placeholder="Describe what happened..." rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="text-[#0d141b] dark:text-slate-300 text-sm font-semibold">Description of
-                                Incident</label>
-                            <textarea
-                                class="w-full p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
-                                placeholder="Explain what happened in detail..." rows="4"></textarea>
-                        </div>
                     </div>
-                </div>
-                <!-- Evidence Upload Section -->
-                <div
-                    class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-                    <div class="flex items-center gap-2 mb-6 text-primary">
-                        <span class="material-symbols-outlined">add_a_photo</span>
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-white">Evidence &amp; Photos</h3>
+
+                    <!-- Step 3: Supporting Documents -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="size-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">3</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Supporting Documents (Optional)</h3>
+                        </div>
+
+                        <div id="fileUploadArea" class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-8 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors">
+                            <span class="material-symbols-outlined text-4xl text-slate-400 block mb-2">cloud_upload</span>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Click to upload or drag files</p>
+                            <p class="text-xs text-slate-500">Photos, reports, or supporting documents (Max 10MB)</p>
+                            <input id="documentFile" type="file" accept="image/*,.pdf,.doc,.docx" style="display: none;" />
+                        </div>
+                        <div id="fileList" class="mt-4"></div>
                     </div>
-                    <div
-                        class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-10 flex flex-col items-center justify-center text-center hover:border-primary transition-colors cursor-pointer group">
-                        <div
-                            class="bg-primary/10 rounded-full p-4 mb-4 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-3xl">upload_file</span>
+
+                    <!-- Estimated Claim Amount -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <label class="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Estimated Claim Amount (Optional)</label>
+                        <div class="flex items-center">
+                            <span class="text-slate-600 dark:text-slate-400 mr-2">$</span>
+                            <input id="claimableAmount" type="number" step="0.01" min="0" placeholder="0.00" class="flex-1 px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
                         </div>
-                        <p class="text-slate-800 dark:text-white font-bold text-lg">Click to upload or drag and drop</p>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">PNG, JPG or PDF (max. 10MB per file)
-                        </p>
-                        <button
-                            class="mt-6 px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-all"
-                            type="button">Select Files</button>
+                        <p class="text-xs text-slate-500 mt-2">This will be reviewed and verified by our claims team</p>
                     </div>
-                    <div class="grid grid-cols-3 gap-4 mt-6">
-                        <div
-                            class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center relative overflow-hidden group">
-                            <img alt="Thumbnail preview" class="object-cover w-full h-full opacity-60"
-                                data-alt="A photo showing a dent on a silver car door"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLEPMkCl85X0fKviwKOdKZqRFgJ1dtltJx8ioxvFOUmjvnE7Wxrl2MwRG6FMu4kTOkedQcfVSFt4jfRhw8ulCVnNerAAZ-2_0836Bvt5qZMURU1P2w7-1mk5rVXiAEmRInXhIwv3fMw9nrVAmfbwA7MTSO0or7SkCqowEN0oVMaPDozvi-IzvAksmFnN8P0ZKf3gArzqRuOzxIrTdB720oi9M2mi1vdiYTQSQPnlEu_O4xixE3xSMhNnK0OpqQsMifgW4aEd-da64m" />
-                            <button
-                                class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="material-symbols-outlined text-xs">close</span>
-                            </button>
-                        </div>
-                        <div
-                            class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 border-dashed">
-                            <span class="material-symbols-outlined">image</span>
-                        </div>
-                        <div
-                            class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 border-dashed">
-                            <span class="material-symbols-outlined">image</span>
-                        </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex gap-4">
+                        <button type="button" onclick="window.history.back()" class="flex-1 px-6 py-3 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold transition-colors hover:bg-slate-300 dark:hover:bg-slate-700">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 px-6 py-3 rounded-lg bg-primary text-white font-bold transition-opacity hover:opacity-90">
+                            Submit Claim
+                        </button>
                     </div>
-                </div>
-                <!-- Final Checklist -->
-                <div
-                    class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-                    <label class="flex items-start gap-3 cursor-pointer">
-                        <input
-                            class="mt-1 w-5 h-5 rounded text-primary border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary"
-                            type="checkbox" />
-                        <span class="text-slate-600 dark:text-slate-300 text-sm">I certify that the information provided
-                            is accurate and truthful to the best of my knowledge. I understand that fraudulent claims
-                            may lead to policy cancellation or legal action.</span>
-                    </label>
-                </div>
-                <div class="flex justify-end gap-4 py-4">
-                    <button
-                        class="px-8 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">Save
-                        Draft</button>
-                    <button
-                        class="px-8 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">Submit
-                        Claim</button>
-                </div>
+                </form>
             </div>
-            <!-- Right Column: Calendar & Policy Info -->
-            <div class="space-y-6">
-                <!-- Date Picker Section -->
-                <div
-                    class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-                    <p class="text-slate-800 dark:text-white font-bold mb-4">Date of Incident</p>
-                    <div class="flex flex-col gap-0.5">
-                        <div class="flex items-center p-1 justify-between mb-2">
-                            <button class="text-slate-500 hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </button>
-                            <p class="text-slate-800 dark:text-white text-sm font-bold">October 2024</p>
-                            <button class="text-slate-500 hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-7 text-center">
-                            <p class="text-slate-400 text-xs font-bold py-2">S</p>
-                            <p class="text-slate-400 text-xs font-bold py-2">M</p>
-                            <p class="text-slate-400 text-xs font-bold py-2">T</p>
-                            <p class="text-slate-400 text-xs font-bold py-2">W</p>
-                            <p class="text-slate-400 text-xs font-bold py-2">T</p>
-                            <p class="text-slate-400 text-xs font-bold py-2">F</p>
-                            <p class="text-slate-400 text-xs font-bold py-2">S</p>
-                            <!-- Simple Calendar Days Mockup -->
-                            <button class="py-2 text-slate-400 text-xs">29</button>
-                            <button class="py-2 text-slate-400 text-xs">30</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">1</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">2</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">3</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">4</button>
-                            <button class="py-2 text-white bg-primary text-xs rounded-lg font-bold">5</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">6</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">7</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">8</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">9</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">10</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">11</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">12</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">13</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">14</button>
-                            <button
-                                class="py-2 text-slate-800 dark:text-slate-300 text-xs hover:bg-primary/10 rounded-lg">15</button>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                        <label class="text-[#0d141b] dark:text-slate-300 text-sm font-semibold mb-2 block">Time of
-                            Incident</label>
-                        <input
-                            class="w-full h-10 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 focus:ring-primary outline-none transition-all"
-                            type="time" />
-                    </div>
-                </div>
-                <!-- Assistance Card -->
-                <div class="bg-primary p-6 rounded-xl shadow-lg shadow-primary/20 text-white">
-                    <span class="material-symbols-outlined text-4xl mb-4">support_agent</span>
-                    <h4 class="text-xl font-bold mb-2">Need Help?</h4>
-                    <p class="text-primary-foreground/80 text-sm mb-6 leading-relaxed">If you're in an emergency or need
-                        immediate roadside assistance, call our 24/7 hotline.</p>
-                    <a class="block w-full text-center bg-white text-primary py-3 rounded-lg font-bold hover:bg-slate-50 transition-colors"
-                        href="tel:1800-AVIMS-HELP">
-                        Call 1-800-AVIMS
-                    </a>
-                </div>
-                <!-- Policy Context Card -->
-                <div
-                    class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-                    <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-4">Current Policy</p>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
-                            <span class="material-symbols-outlined text-primary">directions_car</span>
-                        </div>
-                        <div>
-                            <p class="text-slate-800 dark:text-white font-bold">Tesla Model 3</p>
-                            <p class="text-slate-500 text-xs">Policy: #AV-98234-L</p>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Deductible:</span>
-                            <span class="text-slate-800 dark:text-slate-300 font-medium">$500.00</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500">Coverage:</span>
-                            <span class="text-slate-800 dark:text-slate-300 font-medium">Full Comprehensive</span>
-                        </div>
-                    </div>
+
+            <!-- Info Column -->
+            <div class="lg:col-span-1">
+                <div class="bg-primary/10 border border-primary/20 rounded-xl p-6 sticky top-6">
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-4">Claim Guidelines</h4>
+                    <ul class="flex flex-col gap-3 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex gap-2">
+                            <span class="text-primary font-bold">✓</span>
+                            <span>Your policy must be ACTIVE</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-primary font-bold">✓</span>
+                            <span>Accident must occur within policy dates</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-primary font-bold">✓</span>
+                            <span>Provide accurate incident details</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-primary font-bold">✓</span>
+                            <span>Supporting documents speed up processing</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        let userId = null;
+        let activePolicies = [];
+        let selectedPolicy = null;
+
+        async function loadActivePolicies() {
+            try {
+                const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+                if (!userStr) {
+                    console.log('User not authenticated');
+                    return;
+                }
+                const user = JSON.parse(userStr);
+                userId = user.userId;
+                
+                // Load active policies directly using userId
+                const response = await fetch(`/api/policies/by-user/${userId}?status=ACTIVE`);
+                const result = await response.json();
+                if (result.success) {
+                    activePolicies = result.data || [];
+                    populatePolicySelect();
+                } else {
+                    console.error('Failed to load policies:', result.message);
+                }
+            } catch (error) {
+                console.error('Error loading policies:', error);
+            }
+        }
+
+        function populatePolicySelect() {
+            const select = document.getElementById('policySelect');
+            select.innerHTML = '<option value="">-- Choose an Active Policy --</option>';
+            activePolicies.forEach(policy => {
+                const option = document.createElement('option');
+                option.value = policy.policyId;
+                option.textContent = `Policy ${policy.policyNumber} - ${policy.vehicleName}`;
+                select.appendChild(option);
+            });
+        }
+
+        document.getElementById('policySelect').addEventListener('change', (e) => {
+            const policyId = e.target.value;
+            if (policyId) {
+                selectedPolicy = activePolicies.find(p => p.policyId == policyId);
+                const details = document.getElementById('policyDetails');
+                if (selectedPolicy) {
+                    document.getElementById('policyPeriod').textContent = `${selectedPolicy.policyStartDate} to ${selectedPolicy.policyEndDate}`;
+                    details.classList.remove('hidden');
+                    // Set max date to today and min to 5 days ago
+                    const today = new Date();
+                    const fiveDaysAgo = new Date(today.getTime() - 5 * 24 * 60 * 60 * 1000);
+                    document.getElementById('accidentDate').max = today.toISOString().split('T')[0];
+                    document.getElementById('accidentDate').min = fiveDaysAgo.toISOString().split('T')[0];
+                }
+            }
+        });
+
+        // File upload
+        document.getElementById('fileUploadArea').addEventListener('click', () => {
+            document.getElementById('documentFile').click();
+        });
+
+        document.getElementById('documentFile').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = `<div class="flex items-center gap-2 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                    <span class="material-symbols-outlined text-slate-400">attach_file</span>
+                    <span class="text-sm text-slate-700 dark:text-slate-300 flex-1">${file.name}</span>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold">Remove</button>
+                </div>`;
+            }
+        });
+
+        // Form submission
+        document.getElementById('claimForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!selectedPolicy) {
+                showPopMessage('Please select a policy', 'error');
+                return;
+            }
+
+            const accidentDate = new Date(document.getElementById('accidentDate').value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (accidentDate > today) {
+                showPopMessage('Accident date cannot be in the future', 'error');
+                return;
+            }
+
+            const policyStart = new Date(selectedPolicy.policyStartDate);
+            const policyEnd = new Date(selectedPolicy.policyEndDate);
+            
+            if (accidentDate < policyStart || accidentDate > policyEnd) {
+                showPopMessage('Accident date must be within policy period', 'error');
+                return;
+            }
+
+            // Format date as YYYY-MM-DD with time 00:00:00 to create a proper DateTime
+            const dateValue = document.getElementById('accidentDate').value;
+            const claimData = {
+                PolicyId: parseInt(selectedPolicy.policyId),
+                AccidentPlace: document.getElementById('accidentPlace').value,
+                AccidentDate: dateValue + "T00:00:00",
+                Description: document.getElementById('description').value,
+                ClaimableAmount: parseFloat(document.getElementById('claimableAmount').value) || 0,
+                DocumentPath: null  // In real app, upload file first
+            };
+
+            try {
+                console.log('Submitting claim:', claimData);
+                const response = await fetch('/api/claims/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(claimData),
+                    credentials: 'include'
+                });
+
+                console.log('Response status:', response.status, response.statusText);
+
+                if (!response.ok) {
+                    let errorMessage = 'Failed to submit claim';
+                    try {
+                        const responseText = await response.text();
+                        console.log('Response body:', responseText);
+                        if (responseText) {
+                            const errorData = JSON.parse(responseText);
+                            errorMessage = errorData.message || errorMessage;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing response:', e, 'status:', response.status);
+                    }
+                    console.error('Claim submission error:', errorMessage);
+                    showPopMessage(errorMessage, 'error');
+                    return;
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    showPopMessage('Claim submitted successfully! Claim #' + result.data.claimNumber, 'success');
+                    setTimeout(() => {
+                        window.location.href = 'ClaimList.html';
+                    }, 1500);
+                } else {
+                    showPopMessage('Error: ' + result.message, 'error');
+                }
+            } catch (error) {
+                showPopMessage('Error submitting claim: ' + error.message, 'error');
+            }
+        });
+
+        // Load data
+        loadActivePolicies();
+    </script>
+
+    </main>
+    </div>
+
     <!-- Footer from template -->
     <iframe id="footer-frame" src="../templates/footer.html"
         style="border: none; width: 100%; margin: 0; padding: 0; display: block; overflow: hidden;"
@@ -277,14 +328,7 @@
             }
         }
 
-        const headerFrame = document.getElementById('header-frame');
         const footerFrame = document.getElementById('footer-frame');
-
-        if (headerFrame) {
-            headerFrame.onload = function () {
-                resizeIframe(headerFrame);
-            };
-        }
 
         if (footerFrame) {
             footerFrame.onload = function () {
@@ -292,34 +336,24 @@
             };
         }
 
-        // Resize on window resize
         window.addEventListener('resize', function () {
-            if (headerFrame) resizeIframe(headerFrame);
             if (footerFrame) resizeIframe(footerFrame);
         });
     </script>
+
     <script>
         // Load header fragment
         fetch('../templates/header.html')
-            .then(response => {
-                console.log('Header fetch response:', response.status);
-                return response.text();
-            })
+            .then(response => response.text())
             .then(html => {
-                console.log('Header HTML loaded, inserting into DOM');
                 document.getElementById('header-container').innerHTML = html;
-                
-                // Load header.js script file
                 const script = document.createElement('script');
                 script.src = '../js/header.js';
                 script.onload = () => {
-                    console.log('header.js loaded successfully');
-                    // Now check for initializeHeader
                     let retries = 0;
                     const checkAndInitialize = () => {
                         retries++;
-                        if (window.headerScriptLoaded && window.initializeHeader && typeof window.initializeHeader === 'function') {
-                            console.log('Calling window.initializeHeader()');
+                        if (window.headerScriptLoaded && typeof window.initializeHeader === 'function') {
                             window.initializeHeader();
                         } else if (retries < 10) {
                             setTimeout(checkAndInitialize, 100);
@@ -327,16 +361,12 @@
                     };
                     checkAndInitialize();
                 };
-                script.onerror = () => {
-                    console.error('Failed to load header.js');
-                };
                 document.head.appendChild(script);
-            })
-            .catch(error => console.error('Error loading header:', error));
+            });
     </script>
-    <script src="../js/pageLoader.js"></script>
 
+    <script src="../js/pageLoader.js"></script>
 </body>
 
 </html>
-
+        

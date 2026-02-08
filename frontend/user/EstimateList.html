@@ -12,9 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -426,7 +424,19 @@
             }
 
             const customerRes = await fetch(`/api/customerinformation/${user.userId}`);
-            const customerData = await customerRes.json();
+            if (!customerRes.ok) {
+                showPopMessage('Failed to load customer profile', 'error');
+                return;
+            }
+            
+            let customerData;
+            try {
+                customerData = await customerRes.json();
+            } catch (e) {
+                showPopMessage('Invalid response from server', 'error');
+                return;
+            }
+            
             if (!customerData.success) {
                 showPopMessage('Unable to load customer profile.', 'error');
                 return;
@@ -434,7 +444,19 @@
 
             const customerId = customerData.data.customerId;
             const response = await fetch(`/api/InsuranceEstimate?customerId=${customerId}`);
-            const data = await response.json();
+            if (!response.ok) {
+                showPopMessage('Failed to load estimates', 'error');
+                return;
+            }
+            
+            let data;
+            try {
+                data = await response.json();
+            } catch (e) {
+                showPopMessage('Invalid response from server', 'error');
+                return;
+            }
+            
             estimateState.estimates = data.data || [];
             renderEstimates();
         }

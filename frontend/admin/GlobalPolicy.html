@@ -237,7 +237,7 @@
             const user = getSessionUser();
 
             if (action === 'markPaid') {
-                const response = await fetch(`/api/PolicyManagement/${policyId}/payment`, {
+                const response = await fetch(`/api/policies/${policyId}/payment`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ success: true, method: 'ONLINE', transactionRef: `ADMIN-${Date.now()}`, actorUserId: user?.userId || null })
@@ -277,7 +277,7 @@
                 alert('Invalid duration.');
                 return;
             }
-            const response = await fetch(`/api/PolicyManagement/${pendingRenewalPolicyId}/renew`, {
+            const response = await fetch(`/api/policies/${pendingRenewalPolicyId}/renew`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ durationMonths, createBill: true, actorUserId: user?.userId || null })
@@ -304,7 +304,7 @@
                 cancelDate: dateInput ? `${dateInput}T00:00:00` : null,
                 actorUserId: user?.userId || null
             };
-            const response = await fetch(`/api/PolicyManagement/${pendingCancelPolicyId}/cancel`, {
+            const response = await fetch(`/api/policies/${pendingCancelPolicyId}/cancel`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -349,7 +349,7 @@
         }
 
         async function loadPolicies() {
-            const response = await fetch('/api/PolicyManagement');
+            const response = await fetch('/api/policies');
             const data = await response.json();
             policyState.policies = data.data || [];
             renderPolicies();
@@ -366,10 +366,10 @@
         });
 
         document.getElementById('runReminderBtn').addEventListener('click', () => {
-            runMaintenance('/api/PolicyManagement/maintenance/reminders');
+            runMaintenance('/api/policies/maintenance/reminders');
         });
         document.getElementById('runLifecycleBtn').addEventListener('click', () => {
-            runMaintenance('/api/PolicyManagement/maintenance/lifecycle');
+            runMaintenance('/api/policies/maintenance/lifecycle');
         });
 
         // Renew Modal event listeners

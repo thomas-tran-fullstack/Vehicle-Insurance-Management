@@ -1,346 +1,339 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Inspection Task List - AVIMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#137fec",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#101922",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
+                    colors: { "primary": "#137fec", "background-light": "#f6f7f8", "background-dark": "#101922" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
     </style>
+    <script src="../js/popMessage.js"></script>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<body class="bg-background-light dark:bg-background-dark font-display transition-colors duration-200">
     <div class="flex min-h-screen">
         <!-- Employee Sidebar -->
         <div id="sidebar-container"></div>
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col min-w-0 pt-8">
-            <!-- PageHeading -->
-            <div class="px-8 pb-6 border-b border-slate-200 dark:border-slate-800">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex flex-col gap-1">
-                        <h2 class="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight">Inspection
-                            Task List</h2>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm">Manage and track your assigned vehicle
-                            inspection appointments.</p>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto pt-8">
+            <div class="max-w-5xl mx-auto px-8 py-10">
+                <!-- Page Heading -->
+                <div class="mb-8">
+                    <h1 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight mb-2">Inspection Tasks</h1>
+                    <p class="text-slate-600 dark:text-slate-400 text-base">Manage and process inspections assigned to you</p>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Assigned Inspections</p>
+                        <p class="text-3xl font-bold text-slate-900 dark:text-white" id="assignedInspections">0</p>
                     </div>
-                    <button
-                        class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">add</span>
-                        New Inspection Task
-                    </button>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">In Progress</p>
+                        <p class="text-3xl font-bold text-blue-600" id="inProgressInspections">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Completed</p>
+                        <p class="text-3xl font-bold text-green-600" id="completedInspections">0</p>
+                    </div>
                 </div>
-            </div>
-            <!-- Filters & Search -->
-            <div class="px-8 py-6 flex flex-col lg:flex-row gap-4">
-                <!-- SearchBar -->
-                <div class="flex-1">
-                    <label class="relative flex items-center group">
-                        <div class="absolute left-3 text-slate-400 group-focus-within:text-primary transition-colors">
-                            <span class="material-symbols-outlined">search</span>
-                        </div>
-                        <input
-                            class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-400"
-                            placeholder="Search by Task ID, Customer Name, or Vehicle..." type="text" />
-                    </label>
+
+                <!-- Filters -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 mb-6 flex gap-4 flex-wrap">
+                    <select id="statusFilter" class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm">
+                        <option value="">All Status</option>
+                        <option value="SCHEDULED">Scheduled</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Completed</option>
+                    </select>
+                    <input id="searchInput" type="text" placeholder="Search by Inspection # or Vehicle" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm" />
                 </div>
-                <!-- Chips / Status Filters -->
-                <div class="flex gap-2 flex-wrap items-center">
-                    <span class="text-sm font-semibold text-slate-500 mr-1">Filter:</span>
-                    <button
-                        class="flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold border border-primary/20">
-                        All Tasks
-                    </button>
-                    <button
-                        class="flex items-center gap-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 py-1.5 text-xs font-bold border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-colors">
-                        Assigned
-                        <span class="material-symbols-outlined text-[16px]">expand_more</span>
-                    </button>
-                    <button
-                        class="flex items-center gap-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 py-1.5 text-xs font-bold border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-colors">
-                        In Progress
-                        <span class="material-symbols-outlined text-[16px]">expand_more</span>
-                    </button>
-                    <button
-                        class="flex items-center gap-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 py-1.5 text-xs font-bold border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-colors">
-                        Date Range
-                        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                    </button>
-                </div>
-            </div>
-            <!-- Task List Table -->
-            <div class="px-8 pb-8 flex-1">
-                <div
-                    class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+
+                <!-- Inspections Table -->
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
-                            <thead
-                                class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
-                                <tr>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Task
-                                        ID</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Customer Name</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Vehicle Model</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Location</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Appointment Time</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Status</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Actions</th>
+                            <thead>
+                                <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Inspection #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Claim #</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Vehicle</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Location</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">Status</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                <!-- Row 1 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm font-bold text-primary">#INS-8842</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-semibold text-slate-900 dark:text-white">Sarah
-                                                Jenkins</span>
-                                            <span class="text-[10px] text-slate-500">+1 (555) 012-3456</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm text-slate-700 dark:text-slate-300">2022 Toyota
-                                            Camry</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                                            <span class="text-sm">Brooklyn, NY</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">Today,
-                                                10:30 AM</span>
-                                            <span class="text-[10px] text-red-500 font-bold uppercase">In 15 mins</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                                            In Progress
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button
-                                            class="bg-primary text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/90 transition-colors">
-                                            Resume Inspection
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Row 2 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm font-bold text-primary">#INS-8843</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-semibold text-slate-900 dark:text-white">Michael
-                                                Chen</span>
-                                            <span class="text-[10px] text-slate-500">+1 (555) 987-6543</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm text-slate-700 dark:text-slate-300">2023 Tesla Model
-                                            3</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                                            <span class="text-sm">Queens, NY</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">Today,
-                                                01:45 PM</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">
-                                            Assigned
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button
-                                            class="bg-primary/10 text-primary px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">
-                                            Start Inspection
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Row 3 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm font-bold text-primary">#INS-8844</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-semibold text-slate-900 dark:text-white">Elena
-                                                Rodriguez</span>
-                                            <span class="text-[10px] text-slate-500">+1 (555) 246-8101</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm text-slate-700 dark:text-slate-300">2019 Ford F-150</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                                            <span class="text-sm">Manhattan, NY</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">Tomorrow,
-                                                09:00 AM</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">
-                                            Assigned
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button
-                                            class="bg-primary/10 text-primary px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">
-                                            Start Inspection
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Row 4 -->
-                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm font-bold text-primary">#INS-8845</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-semibold text-slate-900 dark:text-white">David
-                                                Miller</span>
-                                            <span class="text-[10px] text-slate-500">+1 (555) 369-1215</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="text-sm text-slate-700 dark:text-slate-300">2021 Honda CR-V</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                                            <span class="text-sm">Staten Island, NY</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">Tomorrow,
-                                                11:15 AM</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">
-                                            Assigned
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button
-                                            class="bg-primary/10 text-primary px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">
-                                            Start Inspection
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tbody id="inspectionsTable" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">Loading inspections...</td></tr>
                             </tbody>
                         </table>
-                    </div>
-                    <!-- Pagination -->
-                    <div
-                        class="px-6 py-4 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                        <p class="text-xs font-medium text-slate-500">Showing 1 to 4 of 24 results</p>
-                        <div class="flex gap-2">
-                            <button
-                                class="p-1 rounded-md border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-primary transition-colors disabled:opacity-50"
-                                disabled="">
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </button>
-                            <button class="size-8 rounded-md bg-primary text-white text-xs font-bold">1</button>
-                            <button
-                                class="size-8 rounded-md text-slate-600 dark:text-slate-400 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-800">2</button>
-                            <button
-                                class="size-8 rounded-md text-slate-600 dark:text-slate-400 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-800">3</button>
-                            <button
-                                class="p-1 rounded-md border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Modal for Inspection Details -->
+    <div id="inspectionModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" style="display: none !important;">
+        <div class="bg-white dark:bg-slate-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Inspection <span id="modalInspNum"></span></h2>
+                <button onclick="closeModal()" class="text-slate-500 hover:text-slate-700"><span class="material-symbols-outlined">close</span></button>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Claim #</label><p id="modalClaimId" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Vehicle</label><p id="modalVehicle" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Location</label><p id="modalLocation" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                    <div><label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Status</label><p id="modalStatus" class="font-semibold text-slate-900 dark:text-white"></p></div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 justify-end">
+                <button onclick="closeModal()" class="px-6 py-2 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-lg font-semibold hover:bg-slate-50 dark:hover:bg-slate-800">Close</button>
+                <button onclick="startInspection()" id="startBtn" class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:opacity-90">Start Inspection</button>
+                <button onclick="goToReport()" id="reportBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:opacity-90 hidden">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/employee-sidebar.js"></script>
     <script>
-        // Load employee sidebar
-        fetch('../templates/employee-sidebar.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.getElementById('sidebar-container');
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const aside = doc.querySelector('aside');
-                if (aside) {
-                    container.appendChild(aside);
-                    if (typeof initializeStaffSidebar === 'function') {
-                        initializeStaffSidebar();
+        let allInspections = [];
+        let selectedInspection = null;
+
+        // Load employee sidebar with better error handling
+        function loadSidebar() {
+            const container = document.getElementById('sidebar-container');
+            if (!container) {
+                console.error('Sidebar container not found in DOM');
+                return;
+            }
+
+            fetch('../templates/employee-sidebar.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch sidebar: HTTP ' + response.status);
                     }
+                    return response.text();
+                })
+                .then(html => {
+                    if (!html || html.trim() === '') {
+                        console.error('Sidebar HTML is empty');
+                        return;
+                    }
+                    
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Check for parse errors
+                    if (doc.body.textContent.includes('parse error') || doc.querySelector('parsererror')) {
+                        console.error('Failed to parse sidebar HTML');
+                        return;
+                    }
+                    
+                    const aside = doc.querySelector('aside');
+                    if (aside) {
+                        container.appendChild(aside);
+                        console.log('Sidebar loaded successfully');
+                        
+                        if (typeof initializeStaffSidebar === 'function') {
+                            initializeStaffSidebar();
+                        }
+                    } else {
+                        console.error('No <aside> element found in sidebar template');
+                        container.innerHTML = '<div class="w-64 bg-slate-900 text-white p-4">Sidebar Failed to Load</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading sidebar:', error);
+                    const container = document.getElementById('sidebar-container');
+                    if (container) {
+                        container.innerHTML = '<div class="w-64 bg-red-900 text-white p-4">Error: ' + error.message + '</div>';
+                    }
+                });
+        }
+
+        // Call loadSidebar immediately
+        loadSidebar();
+
+        async function loadInspections() {
+            try {
+                const response = await fetch('/api/inspections/pending/all');
+                const result = await response.json();
+                if (result.success) {
+                    allInspections = result.data || [];
+                    displayInspections(allInspections);
+                    updateStats();
                 }
-            });
+            } catch (error) {
+                console.error('Error loading inspections:', error);
+            }
+        }
+
+        function displayInspections(inspections) {
+            const table = document.getElementById('inspectionsTable');
+            if (inspections.length === 0) {
+                table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No inspections found</td></tr>';
+                return;
+            }
+
+            table.innerHTML = inspections.map(insp => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">#${insp.inspectionId}</td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">#${insp.claimId || 'N/A'}</td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-400">${insp.vehicleName || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${insp.inspectionLocation || 'N/A'}</td>
+                    <td class="px-6 py-4"><span class="${getStatusBadgeClass(insp.status)}">${getStatusLabel(insp.status)}</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="openModal(${insp.inspectionId})" class="text-primary font-semibold text-sm hover:underline">View →</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const inProgress = allInspections.filter(i => i.status === 'IN_PROGRESS').length;
+            const completed = allInspections.filter(i => i.status === 'COMPLETED').length;
+
+            document.getElementById('assignedInspections').textContent = allInspections.length;
+            document.getElementById('inProgressInspections').textContent = inProgress;
+            document.getElementById('completedInspections').textContent = completed;
+        }
+
+        function openModal(inspectionId) {
+            selectedInspection = allInspections.find(i => i.inspectionId === inspectionId);
+            if (!selectedInspection) return;
+
+            document.getElementById('modalInspNum').textContent = '#' + selectedInspection.inspectionId;
+            document.getElementById('modalClaimId').textContent = '#' + (selectedInspection.claimId || 'N/A');
+            document.getElementById('modalVehicle').textContent = selectedInspection.vehicleName || 'N/A';
+            document.getElementById('modalLocation').textContent = selectedInspection.inspectionLocation || 'N/A';
+            document.getElementById('modalStatus').textContent = getStatusLabel(selectedInspection.status);
+
+            const startBtn = document.getElementById('startBtn');
+            const reportBtn = document.getElementById('reportBtn');
+
+            if (selectedInspection.status === 'SCHEDULED') {
+                startBtn.classList.remove('hidden');
+                reportBtn.classList.add('hidden');
+            } else if (selectedInspection.status === 'IN_PROGRESS') {
+                startBtn.classList.add('hidden');
+                reportBtn.classList.remove('hidden');
+            } else {
+                startBtn.classList.add('hidden');
+                reportBtn.classList.add('hidden');
+            }
+
+            document.getElementById('inspectionModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('inspectionModal').style.display = 'none';
+        }
+
+        async function startInspection() {
+            if (!selectedInspection) return;
+            try {
+                const response = await fetch(`/api/inspections/${selectedInspection.inspectionId}/start`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                const result = await response.json();
+                if (result.success) {
+                    showPopMessage('Inspection started', 'success');
+                    closeModal();
+                    loadInspections();
+                } else {
+                    showPopMessage(result.message || 'Failed to start inspection', 'error');
+                }
+            } catch (error) {
+                showPopMessage('Error: ' + error.message, 'error');
+            }
+        }
+
+        function goToReport() {
+            console.log('goToReport called');
+            console.log('selectedInspection:', selectedInspection);
+            
+            if (!selectedInspection) {
+                console.error('No inspection selected');
+                showPopMessage('Please select an inspection first', 'error');
+                return;
+            }
+            
+            const inspectionId = selectedInspection.inspectionId;
+            console.log('Navigating to report with inspectionId:', inspectionId);
+            
+            const url = `InspectionReport.html?inspectionId=${inspectionId}`;
+            console.log('Navigation URL:', url);
+            
+            window.location.href = url;
+        }
+
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'SCHEDULED': 'px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+                'IN_PROGRESS': 'px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+                'COMPLETED': 'px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
+            };
+            return classes[status] || classes['SCHEDULED'];
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'SCHEDULED': 'Scheduled',
+                'IN_PROGRESS': 'In Progress',
+                'COMPLETED': 'Completed',
+            };
+            return labels[status] || status;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        document.getElementById('statusFilter').addEventListener('change', (e) => {
+            const status = e.target.value;
+            const filtered = status ? allInspections.filter(i => i.status === status) : allInspections;
+            displayInspections(filtered);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allInspections.filter(i =>
+                i.inspectionId.toString().includes(query) ||
+                (i.vehicleName || '').toLowerCase().includes(query)
+            );
+            displayInspections(filtered);
+        });
+
+        loadInspections();
     </script>
     <script src="../js/pageLoader.js"></script>
-
 </body>
 
 </html>
-

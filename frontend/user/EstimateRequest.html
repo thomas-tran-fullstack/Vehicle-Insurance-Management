@@ -12,9 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <script src="../js/popMessage.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -379,8 +377,27 @@
                 fetch('/api/InsuranceEstimate/insurance-types')
             ]);
 
-            const vehiclesData = await vehiclesRes.json();
-            const typesData = await typesRes.json();
+            if (!vehiclesRes.ok || !typesRes.ok) {
+                showPopMessage('Failed to load form data', 'error');
+                return;
+            }
+
+            let vehiclesData, typesData;
+            try {
+                const vehiclesText = await vehiclesRes.text();
+                const typesText = await typesRes.text();
+                
+                if (!vehiclesText || !typesText) {
+                    showPopMessage('Server returned empty response', 'error');
+                    return;
+                }
+                
+                vehiclesData = JSON.parse(vehiclesText);
+                typesData = JSON.parse(typesText);
+            } catch (e) {
+                showPopMessage('Invalid response from server: ' + e.message, 'error');
+                return;
+            }
             state.vehicles = vehiclesData.data || [];
             state.insuranceTypes = typesData.data || [];
 
@@ -393,7 +410,7 @@
             });
 
             if (!state.vehicles.length) {
-                alert('No vehicles found. Please add a vehicle first.');
+                showPopMessage('No vehicles found. Please add a vehicle first.', 'error');
             }
 
             const insuranceSelect = document.getElementById('insuranceTypeSelect');
@@ -405,7 +422,7 @@
             });
 
             if (!state.insuranceTypes.length) {
-                alert('No insurance types available.');
+                showPopMessage('No insurance types available.', 'error');
             }
 
             updatePremiumPreview();
@@ -419,7 +436,7 @@
             const notes = document.getElementById('estimateNotes').value.trim();
 
             if (!vehicleId || !insuranceTypeId) {
-                alert('Please select a vehicle and insurance type.');
+                showPopMessage('Please select a vehicle and insurance type.', 'error');
                 return;
             }
 
@@ -454,14 +471,14 @@
             }
 
             if (!response.ok || !data || !data.success) {
-                alert(data?.message || rawText || 'Unable to submit estimate.');
+                showPopMessage(data?.message || rawText || 'Unable to submit estimate.', 'error');
                 return;
             }
 
             const validUntil = data?.data?.validUntil
                 ? new Date(data.data.validUntil).toLocaleString()
                 : 'N/A';
-            alert(`Estimate saved successfully.\nStatus: ${data?.data?.status || '-'}\nValid Until: ${validUntil}`);
+            showPopMessage(`Estimate saved successfully. Status: ${data?.data?.status || '-'} Valid Until: ${validUntil}`, 'success');
             window.location.href = './EstimateList.html';
         }
 

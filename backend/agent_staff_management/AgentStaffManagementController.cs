@@ -67,7 +67,7 @@ namespace VehicleInsuranceAPI.Backend.AgentStaffManagement
                 })
                 .ToListAsync();
 
-            return Ok(staff);
+            return Ok(new { success = true, data = staff });
         }
 
         // GET: api/AgentStaffManagement/staff/5

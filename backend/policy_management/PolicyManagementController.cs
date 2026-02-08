@@ -6,7 +6,7 @@ using VehicleInsuranceAPI.Models;
 namespace VehicleInsuranceAPI.Backend.PolicyManagement
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/policies")]
     public class PolicyManagementController : ControllerBase
     {
         private const int WaitingPaymentDays = 7;
@@ -43,6 +43,49 @@ namespace VehicleInsuranceAPI.Backend.PolicyManagement
                 .ToListAsync();
 
             return Ok(new { success = true, data = types });
+        }
+
+        [HttpGet("by-user/{userId:int}")]
+        public async Task<IActionResult> GetPoliciesByUser(int userId, [FromQuery] string? status)
+        {
+            await RunLifecycleUpdateAsync();
+
+            var query = _context.Policies
+                .AsNoTracking()
+                .Where(p => p.Customer.UserId == userId && (p.IsHidden == null || p.IsHidden == false))
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                var s = status.Trim().ToUpperInvariant();
+                query = query.Where(p => p.Status != null && p.Status.ToUpper() == s);
+            }
+
+            var policies = await query
+                .OrderByDescending(p => p.PolicyStartDate)
+                .Select(p => new
+                {
+                    p.PolicyId,
+                    p.PolicyNumber,
+                    p.CustomerId,
+                    CustomerName = p.CustomerNameSnapshot,
+                    CustomerPhone = p.CustomerPhoneSnapshot,
+                    CustomerAddress = p.CustomerAddressSnapshot,
+                    p.VehicleId,
+                    VehicleName = p.VehicleNameSnapshot,
+                    VehicleNumber = p.VehicleNumberSnapshot,
+                    VehicleModel = p.VehicleModelSnapshot,
+                    VehicleVersion = p.VehicleVersionSnapshot,
+                    p.PolicyStartDate,
+                    p.PolicyEndDate,
+                    p.Status,
+                    p.PremiumAmount,
+                    p.Warranty,
+                    p.AddressProofPath
+                })
+                .ToListAsync();
+
+            return Ok(new { success = true, data = policies });
         }
 
         [HttpGet]

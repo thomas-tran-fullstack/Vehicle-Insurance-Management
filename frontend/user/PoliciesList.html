@@ -174,7 +174,7 @@
             
             try {
                 // Load all policies
-                const response = await fetch('/api/PolicyManagement');
+                const response = await fetch('/api/policies');
                 if (!response.ok) throw new Error(`Failed to load policies: ${response.status}`);
                 
                 const data = await response.json();
@@ -320,7 +320,7 @@
 
         function downloadCertificate(policyId) {
             // Download PDF from API endpoint
-            fetch(`/api/PolicyManagement/${policyId}/policy-pdf`)
+            fetch(`/api/policies/${policyId}/policy-pdf`)
                 .then(response => {
                     if (!response.ok) throw new Error('Failed to download certificate');
                     return response.blob();
