@@ -177,7 +177,7 @@ namespace VehicleInsuranceAPI.Backend.VehicleInspectionDispatch
                 if (vehicle == null)
                     return BadRequest(new { success = false, message = "Vehicle not found" });
 
-                // Validate claim exists and is approved
+                // Validate claim exists and is under review
                 Claim claim = null;
                 if (dto.ClaimId.HasValue)
                 {
@@ -185,8 +185,8 @@ namespace VehicleInsuranceAPI.Backend.VehicleInspectionDispatch
                     if (claim == null)
                         return BadRequest(new { success = false, message = "Claim not found" });
 
-                    if (claim.Status != "APPROVED")
-                        return BadRequest(new { success = false, message = "Can only create inspection for approved claims" });
+                    if (claim.Status != "UNDER_REVIEW")
+                        return BadRequest(new { success = false, message = "Can only create inspection for claims under review" });
                 }
 
                 // Validate assigned staff exists
@@ -260,7 +260,12 @@ namespace VehicleInsuranceAPI.Backend.VehicleInspectionDispatch
         {
             try
             {
-                var inspection = await _context.VehicleInspections.FindAsync(id);
+                var inspection = await _context.VehicleInspections
+                    .Include(i => i.Claim)
+                    .Include(i => i.Claim.Policy)
+                    .Include(i => i.Claim.Policy.Customer)
+                    .FirstOrDefaultAsync(i => i.InspectionId == id);
+                
                 if (inspection == null)
                     return NotFound(new { success = false, message = "Inspection not found" });
 
@@ -270,6 +275,31 @@ namespace VehicleInsuranceAPI.Backend.VehicleInspectionDispatch
                 inspection.ConfirmedCorrect = dto.ConfirmedCorrect;
                 inspection.DocumentPath = dto.DocumentPath;
                 inspection.Result = dto.Result;
+
+                // Update associated Claim with ClaimableAmount if provided
+                if (inspection.ClaimId.HasValue && dto.ClaimableAmount.HasValue && dto.ClaimableAmount.Value > 0)
+                {
+                    if (inspection.Claim != null)
+                    {
+                        inspection.Claim.ClaimableAmount = dto.ClaimableAmount.Value;
+                        _context.Claims.Update(inspection.Claim);
+                        
+                        // Send notification to customer about claim amount and inspection completion
+                        if (inspection.Claim.Policy?.Customer != null)
+                        {
+                            var notification = new Notification
+                            {
+                                UserId = inspection.Claim.Policy.Customer.UserId,
+                                Title = "Inspection Completed - Claim Amount Set",
+                                Message = $"Your claim inspection has been completed. The claimed amount is ${dto.ClaimableAmount:F2}. If you have any questions or disagree with this amount, please submit a support ticket.",
+                                Type = "INSPECTION",
+                                CreatedDate = DateTime.Now,
+                                IsRead = false
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+                    }
+                }
 
                 _context.VehicleInspections.Update(inspection);
                 await _context.SaveChangesAsync();
@@ -408,6 +438,7 @@ namespace VehicleInsuranceAPI.Backend.VehicleInspectionDispatch
         public bool? ConfirmedCorrect { get; set; }
         public string DocumentPath { get; set; }
         public string Result { get; set; }
+        public decimal? ClaimableAmount { get; set; } // Staff enters the claim amount here
     }
 
     public class InspectionVerifyDto

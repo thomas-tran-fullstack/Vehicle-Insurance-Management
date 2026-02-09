@@ -182,7 +182,7 @@ namespace VehicleInsuranceAPI.Backend.ClaimManagement
                     Description = dto.Description,
                     DocumentPath = dto.DocumentPath,
                     InsuredAmount = policy.PremiumAmount ?? 0, // Use premium as insured amount
-                    ClaimableAmount = dto.ClaimableAmount ?? 0,
+                    ClaimableAmount = 0, // Customer cannot enter claim amount - will be set by staff during inspection
                     Status = "SUBMITTED",
                     SubmittedAt = DateTime.Now
                 };
@@ -272,15 +272,18 @@ namespace VehicleInsuranceAPI.Backend.ClaimManagement
                 if (claim == null)
                     return NotFound(new { success = false, message = "Claim not found" });
 
-                // Validate claimable amount
-                if (dto.ClaimableAmount > claim.InsuredAmount)
-                    return BadRequest(new { success = false, message = "Claimable amount cannot exceed insured amount" });
+                // IMPORTANT: Check if ClaimableAmount is set by staff after inspection
+                if (!claim.ClaimableAmount.HasValue || claim.ClaimableAmount <= 0)
+                    return BadRequest(new { success = false, message = "Claim cannot be approved before staff has entered the claim amount during inspection" });
+
+                // Validate claim amount
+                if (claim.ClaimableAmount > claim.InsuredAmount)
+                    return BadRequest(new { success = false, message = "Claim amount cannot exceed insured amount" });
 
                 claim.Status = "APPROVED";
                 claim.ApprovedByStaffId = dto.ApprovedByStaffId;
                 claim.DecisionAt = DateTime.Now;
                 claim.DecisionNote = dto.DecisionNote;
-                claim.ClaimableAmount = dto.ClaimableAmount;
 
                 _context.Claims.Update(claim);
                 await _context.SaveChangesAsync();
@@ -312,6 +315,34 @@ namespace VehicleInsuranceAPI.Backend.ClaimManagement
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Claim rejected", data = claim });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        // PUT /api/claims/{id}/update-description - Customer updates description when REQUEST_MORE_INFO
+        [HttpPut("{id}/update-description")]
+        public async Task<IActionResult> UpdateClaimDescription(int id, [FromBody] ClaimUpdateDescriptionDto dto)
+        {
+            try
+            {
+                var claim = await _context.Claims.FindAsync(id);
+                if (claim == null)
+                    return NotFound(new { success = false, message = "Claim not found" });
+
+                // Only allow update if status is REQUEST_MORE_INFO
+                if (claim.Status != "REQUEST_MORE_INFO")
+                    return BadRequest(new { success = false, message = "Claim description can only be updated when status is 'Request More Info'" });
+
+                // Update description
+                claim.Description = dto.Description;
+
+                _context.Claims.Update(claim);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Claim description updated successfully", data = claim });
             }
             catch (Exception ex)
             {
@@ -426,6 +457,11 @@ namespace VehicleInsuranceAPI.Backend.ClaimManagement
     public class ClaimRequestInfoDto
     {
         public string Message { get; set; }
+    }
+
+    public class ClaimUpdateDescriptionDto
+    {
+        public string Description { get; set; }
     }
 
     public class ClaimDecisionDto

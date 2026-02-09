@@ -17,7 +17,7 @@ public partial class Claim
 
     public decimal? InsuredAmount { get; set; }
 
-    public decimal? ClaimableAmount { get; set; }
+    public decimal? ClaimableAmount { get; set; } // Will be populated by staff during inspection, initially null
 
     public string? Status { get; set; }
 

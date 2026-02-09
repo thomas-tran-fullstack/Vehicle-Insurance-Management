@@ -331,19 +331,30 @@
 
         async function approveClaim() {
             try {
+                // Check if ClaimAmount has been set by staff
+                if (!selectedClaim.claimableAmount || selectedClaim.claimableAmount <= 0) {
+                    showPopMessage('Claim cannot be approved yet. The staff must first complete the inspection and enter the claim amount during the inspection report. Once the staff submits the inspection report with the claim amount, you will be able to approve this claim.', 'error');
+                    return;
+                }
+
                 const response = await fetch(`/api/claims/${selectedClaim.claimId}/approve`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         approvedByStaffId: 1,
-                        decisionNote: document.getElementById('reviewNote').value || '',
-                        claimableAmount: parseFloat(document.getElementById('proposedAmount').value) || selectedClaim.claimableAmount
+                        decisionNote: document.getElementById('reviewNote').value || ''
                     })
                 });
                 const result = await response.json();
-                if (result.success) { showPopMessage('Claim approved successfully', 'success'); closeModal(); loadClaims(); }
+                if (result.success) { 
+                    showPopMessage('Claim approved successfully! Customer notification sent.', 'success'); 
+                    closeModal(); 
+                    loadClaims(); 
+                }
                 else showPopMessage(result.message || 'Failed to approve claim', 'error');
-            } catch (error) { showPopMessage('Error: ' + error.message, 'error'); }
+            } catch (error) { 
+                showPopMessage('Error: ' + error.message, 'error'); 
+            }
         }
 
         async function rejectClaim() {

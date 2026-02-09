@@ -90,6 +90,16 @@
                         </div>
                     </div>
 
+                    <!-- Claim Amount -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                        <label class="text-sm font-semibold text-slate-900 dark:text-white block mb-3">Claim Amount *</label>
+                        <p class="text-xs text-slate-500 mb-3">Please enter the estimated claim amount based on your inspection findings</p>
+                        <div class="flex items-center">
+                            <span class="text-slate-600 dark:text-slate-400 mr-2 font-semibold">$</span>
+                            <input id="claimAmount" type="number" step="0.01" min="0" required placeholder="0.00" class="flex-1 px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" />
+                        </div>
+                    </div>
+
                     <!-- Confirmation -->
                     <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
                         <label class="text-sm font-semibold text-slate-900 dark:text-white block mb-4">Status Confirmation</label>
@@ -189,6 +199,7 @@
             e.preventDefault();
 
             const assessment = document.getElementById('assessment').value;
+            const claimAmount = parseFloat(document.getElementById('claimAmount').value);
             const confirmedRadio = document.querySelector('input[name="confirmed"]:checked');
             const confirmed = confirmedRadio ? confirmedRadio.value === 'true' : false;
             const photoUpload = document.getElementById('photoUpload');
@@ -208,21 +219,27 @@
                 return;
             }
 
+            if (!claimAmount || claimAmount < 0) {
+                showPopMessage('Please enter a valid claim amount', 'error');
+                return;
+            }
+
             try {
                 const response = await fetch(`/api/inspections/${inspectionId}/complete`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         overallAssessment: assessment,
+                        result: resultSummary,
                         confirmedCorrect: confirmed,
                         documentPath: documentPath,
-                        result: resultSummary
+                        claimableAmount: claimAmount
                     })
                 });
 
                 const result = await response.json();
                 if (result.success) {
-                    showPopMessage('Inspection report submitted successfully', 'success');
+                    showPopMessage('Inspection report submitted successfully. Notification sent to customer.', 'success');
                     setTimeout(() => goBack(), 1500);
                 } else {
                     showPopMessage(result.message || 'Failed to submit report', 'error');

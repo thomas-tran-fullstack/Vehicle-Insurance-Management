@@ -5805,11 +5805,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\Project3\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Documents\\Vehicle-Insurance-Management\\Code\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
       "projectName": "VehicleInsuranceAPI",
-      "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\Project3\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
+      "projectPath": "C:\\Users\\Admin\\Documents\\Vehicle-Insurance-Management\\Code\\Vehicle-Insurance-Management\\VehicleInsuranceAPI.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\Project3\\Vehicle-Insurance-Management\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Documents\\Vehicle-Insurance-Management\\Code\\Vehicle-Insurance-Management\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

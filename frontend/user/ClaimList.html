@@ -156,6 +156,13 @@
                             <p class="text-sm text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 p-3 rounded-lg" id="detailDescription">--</p>
                         </div>
 
+                        <!-- Edit Description Section (only when REQUEST_MORE_INFO) -->
+                        <div id="editDescriptionSection" style="display: none;" class="md:col-span-2">
+                            <p class="text-xs text-slate-500 font-medium mb-2">UPDATE DESCRIPTION *</p>
+                            <textarea id="editDescriptionField" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm" rows="4" placeholder="Update your description here..."></textarea>
+                            <p class="text-xs text-slate-500 mt-2">The admin team requested more information about your claim. Please update the description with the additional details.</p>
+                        </div>
+
                         <!-- Claim Amount -->
                         <div>
                             <p class="text-xs text-slate-500 font-medium mb-2">CLAIMABLE AMOUNT</p>
@@ -192,6 +199,15 @@
 
                 <!-- Modal Footer -->
                 <div class="bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-end gap-3">
+                    <button id="editBtn" onclick="enableEditMode()" style="display: none;" class="px-4 py-2 rounded-lg bg-primary text-white font-medium hover:opacity-90 text-sm">
+                        Edit Description
+                    </button>
+                    <button id="saveBtn" onclick="saveClaimDescription()" style="display: none;" class="px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 text-sm">
+                        Save Changes
+                    </button>
+                    <button id="cancelEditBtn" onclick="disableEditMode()" style="display: none;" class="px-4 py-2 rounded-lg bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-white font-medium hover:bg-slate-400 text-sm">
+                        Cancel
+                    </button>
                     <button onclick="closeClaimDetailModal()" class="px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white font-medium hover:bg-slate-300 dark:hover:bg-slate-600 text-sm">
                         Close
                     </button>
@@ -324,6 +340,10 @@
             const claim = allClaims.find(c => c.claimId === claimId);
             if (!claim) return;
             
+            // Store current claim for editing
+            window.currentClaimId = claimId;
+            window.currentClaimData = claim;
+            
             // Populate modal with claim data
             document.getElementById('detailClaimNumber').textContent = '#' + claim.claimNumber;
             document.getElementById('detailClaimStatus').textContent = getStatusLabel(claim.status);
@@ -335,8 +355,14 @@
             document.getElementById('detailSubmittedDate').textContent = formatDate(claim.submittedAt);
             document.getElementById('timelineSubmitted').textContent = formatDate(claim.submittedAt);
             
-            // Show/hide review section
+            // Set edit field with current description
+            document.getElementById('editDescriptionField').value = claim.description || '';
+            
+            // Show/hide review section and edit button
             const reviewSection = document.getElementById('reviewSection');
+            const editBtn = document.getElementById('editBtn');
+            const editDescSection = document.getElementById('editDescriptionSection');
+            
             if (claim.reviewNote) {
                 reviewSection.style.display = 'block';
                 document.getElementById('detailReviewNote').textContent = claim.reviewNote;
@@ -344,8 +370,76 @@
                 reviewSection.style.display = 'none';
             }
             
+            // Show edit button only if status is REQUEST_MORE_INFO
+            if (claim.status === 'REQUEST_MORE_INFO') {
+                editBtn.style.display = 'block';
+                editDescSection.style.display = 'block';
+            } else {
+                editBtn.style.display = 'none';
+                editDescSection.style.display = 'none';
+                disableEditMode();
+            }
+            
             // Open modal
             openClaimDetailModal();
+        }
+
+        function enableEditMode() {
+            document.getElementById('editDescriptionField').removeAttribute('disabled');
+            document.getElementById('editDescriptionField').classList.remove('bg-slate-100', 'dark:bg-slate-700');
+            document.getElementById('editBtn').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'block';
+            document.getElementById('cancelEditBtn').style.display = 'block';
+        }
+
+        function disableEditMode() {
+            document.getElementById('editDescriptionField').setAttribute('disabled', 'true');
+            document.getElementById('editDescriptionField').classList.add('bg-slate-100', 'dark:bg-slate-700');
+            document.getElementById('editBtn').style.display = 'block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            // Reset field to original value
+            if (window.currentClaimData) {
+                document.getElementById('editDescriptionField').value = window.currentClaimData.description || '';
+            }
+        }
+
+        async function saveClaimDescription() {
+            const claimId = window.currentClaimId;
+            const newDescription = document.getElementById('editDescriptionField').value.trim();
+            
+            if (!newDescription) {
+                showPopMessage('Please enter a description', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/claims/${claimId}/update-description`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ description: newDescription }),
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    // Update local data
+                    const claimIndex = allClaims.findIndex(c => c.claimId === claimId);
+                    if (claimIndex >= 0) {
+                        allClaims[claimIndex].description = newDescription;
+                        window.currentClaimData.description = newDescription;
+                        document.getElementById('detailDescription').textContent = newDescription;
+                    }
+                    
+                    showPopMessage('Claim description updated successfully', 'success');
+                    disableEditMode();
+                } else {
+                    showPopMessage(result.message || 'Failed to update description', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating claim:', error);
+                showPopMessage('Error updating claim: ' + error.message, 'error');
+            }
         }
 
         function openClaimDetailModal() {

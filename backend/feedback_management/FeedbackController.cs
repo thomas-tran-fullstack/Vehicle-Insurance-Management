@@ -73,6 +73,21 @@ namespace VehicleInsuranceAPI.Backend.FeedbackManagement
                 _context.Feedbacks.Add(feedback);
                 await _context.SaveChangesAsync();
 
+                // AUTO-CREATE TESTIMONIAL IF RATING >= 4
+                if (dto.Rating >= 4)
+                {
+                    var testimonial = new Testimonial
+                    {
+                        CustomerId = dto.CustomerId,
+                        Content = dto.Content,
+                        Rating = dto.Rating,
+                        Status = "Pending", // Will be reviewed by admin/staff
+                        CreatedDate = DateTime.Now
+                    };
+                    _context.Testimonials.Add(testimonial);
+                    await _context.SaveChangesAsync();
+                }
+
                 return Ok(new { message = "Feedback submitted successfully", feedbackId = feedback.FeedbackId });
             }
             catch (Exception ex)

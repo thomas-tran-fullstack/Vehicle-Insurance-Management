@@ -140,7 +140,7 @@
 
             <form id="createForm" class="space-y-4">
                 <div>
-                    <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Select Approved Claim</label>
+                    <label class="text-sm font-semibold text-slate-600 dark:text-slate-400 block mb-2">Select Claim for Inspection (Under Review)</label>
                     <select id="claimSelect" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                         <option value="">-- Choose Claim --</option>
                     </select>
@@ -191,7 +191,7 @@
     <script src="../js/admin-sidebar.js"></script>
     <script>
         let allInspections = [];
-        let approvedClaims = [];
+        let underReviewClaims = [];
         let staffList = [];
         let selectedInspection = null;
 
@@ -237,7 +237,7 @@
             }
         }
 
-        async function loadApprovedClaims() {
+        async function loadUnderReviewClaims() {
             try {
                 const response = await fetch('/api/claims/pending/all');
                 if (!response.ok) {
@@ -251,10 +251,10 @@
                 }
                 const result = JSON.parse(text);
                 if (result.success) {
-                    approvedClaims = (result.data || []).filter(c => c.status === 'APPROVED');
+                    underReviewClaims = (result.data || []).filter(c => c.status === 'UNDER_REVIEW');
                     const claimSelect = document.getElementById('claimSelect');
                     claimSelect.innerHTML = '<option value="">-- Choose Claim --</option>';
-                    approvedClaims.forEach(claim => {
+                    underReviewClaims.forEach(claim => {
                         const option = document.createElement('option');
                         option.value = claim.claimId;
                         option.textContent = `Claim #${claim.claimNumber} - Policy #${claim.policyId}`;
@@ -337,7 +337,7 @@
 
         document.getElementById('createInspectionBtn').addEventListener('click', () => {
             document.getElementById('createModal').style.display = 'flex';
-            loadApprovedClaims();
+            loadUnderReviewClaims();
             loadStaff();
         });
 
@@ -358,7 +358,7 @@
             const staffId = document.getElementById('staffSelect').value;
 
             // Find the selected claim to get vehicleId
-            const selectedClaim = approvedClaims.find(c => c.claimId == claimId);
+            const selectedClaim = underReviewClaims.find(c => c.claimId == claimId);
             if (!selectedClaim || !selectedClaim.vehicleId) {
                 showPopMessage('Invalid claim or vehicle not found', 'error');
                 return;
@@ -484,7 +484,7 @@
         });
 
         loadInspections();
-        loadApprovedClaims();
+        loadUnderReviewClaims();
         loadStaff();
     </script>
     <script src="../js/pageLoader.js"></script>
